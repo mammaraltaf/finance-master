@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,9 +15,23 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
-Auth::routes();
+Route::get('/company', function () {
+    $companies = Company::all();
+    return view('super-admin.pages.company', compact('companies'));
+});
+
+Route::post('/company', [App\Http\Controllers\SuperAdminController::class, 'company'])->name('super-admin.company');
+Route::post('/company', [App\Http\Controllers\SuperAdminController::class, 'companyPost'])->name('super-admin.companyPost');
+
+Auth::routes(
+    [
+        'register' => false,
+        'reset' => false,
+        'verify' => false,
+    ]
+);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

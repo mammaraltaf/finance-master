@@ -4,7 +4,7 @@
         <!--begin::Copyright-->
         <div class="text-dark order-2 order-md-1">
             <span class="text-muted fw-bold me-1">2022©</span>
-            <a href="#" target="_blank" class="text-gray-800 text-hover-primary">Ustad Here</a>
+            <a href="#" target="_blank" class="text-gray-800 text-hover-primary">Finance</a>
         </div>
         <!--end::Copyright-->
     </div>

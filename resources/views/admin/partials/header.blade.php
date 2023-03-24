@@ -3,8 +3,8 @@
     <div class="header-brand">
         <!--begin::Logo-->
         <a href="#">
-            <img style="align-items: center; width:150px; height:20px;" alt="Ustadhere" src="{{asset('assets/logo/logo.png')}}"  />
-{{--            <h2 style="color: white;">Ustad Here</h2>--}}
+{{--            <img style="align-items: center; width:150px; height:20px;" alt="Finance" src="{{asset('assets/logo/logo.png')}}"  />--}}
+            <h2 style="color: white;">Finance</h2>
         </a>
         <!--end::Logo-->
         <!--begin::Aside minimize-->
