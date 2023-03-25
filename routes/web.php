@@ -2,7 +2,7 @@
 
 use App\Models\Company;
 use Illuminate\Support\Facades\Route;
-
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -35,3 +35,11 @@ Auth::routes(
 );
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+//user routes
+Route::get('/users',[App\Http\Controllers\SuperAdminController::class,'all_users']);
+Route::post('/users', [App\Http\Controllers\SuperAdminController::class, 'adduser'])->name('super-admin.adduser');
+// Route::post('/users', [App\Http\Controllers\SuperAdminController::class, 'deleteuser'])->name('super-admin.deleteuser');
+
+

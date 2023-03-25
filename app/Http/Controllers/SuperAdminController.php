@@ -6,7 +6,8 @@ use App\Models\Company;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 class SuperAdminController extends Controller
 {
 
@@ -107,5 +108,45 @@ class SuperAdminController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function all_users()
+    {
+        $users = User::all();
+        return view('super-admin.pages.users', compact('users'));
+    }
+
+    public function adduser(Request $request){
+        try {
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'name' => 'required',
+                'email' => 'required | unique:users,email',
+                'type' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $users = User::create([
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'password' => Hash::make('system_default'),
+                'user_type' => $input['type']
+            ]);
+
+            if ($users) {
+                return redirect()->back()->with('success', 'User registered successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+    public function deleteuser(Request $request){
+        echo $request->id;
+
     }
 }
