@@ -12,6 +12,7 @@ class SuperAdminController extends Controller
 
     public function dashboard()
     {
+//        $this->authorize('super-admin');
         return view('super-admin.pages.dashboard');
     }
 
@@ -41,7 +42,7 @@ class SuperAdminController extends Controller
             $company = Company::create([
                 'id_software' => $input['id_software'],
                 'tax_id' => $input['tax_id'],
-                'company_name' => $input['company_name'],
+                'name' => $input['company_name'],
                 'threshold_amount' => $input['threshold_amount'],
                 'legal_address' => $input['legal_address'],
                 'user_id' => auth()->user()->id ?? 1,
@@ -60,10 +61,10 @@ class SuperAdminController extends Controller
     public function editCompany($id)
     {
         $company = Company::find($id);
-        return view('super-admin.pages.edit-company', compact('company'));
+        return response()->json($company);
     }
 
-    public function updateCompany(Request $request, $id)
+    public function editCompanyPost(Request $request, $id)
     {
         try {
             $input = $request->all();
@@ -82,7 +83,7 @@ class SuperAdminController extends Controller
             $company = Company::find($id);
             $company->id_software = $input['id_software'];
             $company->tax_id = $input['tax_id'];
-            $company->company_name = $input['company_name'];
+            $company->name = $input['company_name'];
             $company->threshold_amount = $input['threshold_amount'];
             $company->legal_address = $input['legal_address'];
             $company->user_id = auth()->user()->id ?? 1;
@@ -98,12 +99,11 @@ class SuperAdminController extends Controller
         }
     }
 
-    public function deleteCompany($id)
+    public function deleteCompany(Request $request)
     {
         try {
-            $company = Company::find($id);
-            $company->delete();
-            return redirect()->back()->with('success', 'Company deleted successfully');
+            Company::where('id',$request->id)->delete();
+            return redirect()->back()->with('success','Company deleted Successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }

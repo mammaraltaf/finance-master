@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Classes\Enums\UserTypesEnum;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,6 +26,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        //If super admin then allow all permissions
+        Gate::before(function ($user, $ability) {
+            return $user->hasRole(UserTypesEnum::SuperAdmin) ? true : null;
+        });
     }
 }

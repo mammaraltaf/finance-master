@@ -65,7 +65,7 @@
 
                                 <label class="control-label">Legal Address</label>
                                 <div>
-                                    <textarea name="legal_address" id="legal_address" cols="30" rows="10" class="form-control"></textarea>
+                                    <textarea name="legal_address" cols="30" rows="10" class="form-control"></textarea>
                                 </div>
 
                             </div>
@@ -88,17 +88,46 @@
                         <h1 class="modal-title">Edit Company Name</h1>
                     </div>
                     <div class="modal-body">
-                        <form id="categoryFormEdit" method="POST" action=""
+                        <form id="companyFormEdit" method="POST" action=""
                               enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="category_id" id="category_id">
+                            <input type="hidden" name="company_id" id="company_id">
                             <div class="form-group">
-                                <label class="control-label">Enter Company Name</label>
+                                <label class="control-label">ID / Software (Must be Unique)</label>
                                 <div>
-                                    <input type="text" name="category" id="category" placeholder="Enter Category Name"
+                                    <input type="text" name="id_software" id="id_software" placeholder="Enter ID / Software"
                                            class="form-control input-lg" required>
                                 </div>
+                                <br>
+
+                                <label class="control-label">Tax ID</label>
+                                <div>
+                                    <input type="text" name="tax_id" id="tax_id" placeholder="Enter Tax ID"
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
+
+                                <label class="control-label">Company Name</label>
+                                <div>
+                                    <input type="text" name="company_name" id="company_name" placeholder="Enter Company Name"
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
+
+                                <label class="control-label">Threshold Amount</label>
+                                <div>
+                                    <input type="number" name="threshold_amount" id="threshold_amount" placeholder="Enter Threshold Amount"
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
+
+                                <label class="control-label">Legal Address</label>
+                                <div>
+                                    <textarea name="legal_address" id="legal_address" cols="30" rows="10" class="form-control"></textarea>
+                                </div>
+
                             </div>
+
 
                             <div class="form-group">
                                 <div>
@@ -113,7 +142,7 @@
         <div class="tab-content">
 
             {{--All Datatable--}}
-            <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%">
+            <table id="companyTable" name="companyTable" class="ui celled table allTable" style="width:100%">
                 <thead>
                 <tr>
                     <th>ID / Software</th>
@@ -133,7 +162,7 @@
                         <td>{{$company->threshold_amount}}</td>
                         <td>{{$company->legal_address}}</td>
 
-                        <td><a href="" class="btn btn-primary btn-sm" id="categoryEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$company->id}}">Edit</a>
+                        <td><a href="" class="btn btn-primary btn-sm" id="companyEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$company->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$company->id}}"
                                class="btn btn-danger delete_btn btn-sm">Delete</a></td>
                     </tr>
@@ -160,8 +189,7 @@
 {{--                  'method' => 'post',--}}
 {{--                  'role' => 'form' )) !!}--}}
 
-{{--                <form method="post" action="{{route('admin.destroyCategory')}}">--}}
-                <form method="post" action="">
+                <form method="post" action="{{route('super-admin.delete-company')}}">
                     @csrf
                 <div class="modal-header" style="text-align: center;">
 {{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span--}}
@@ -197,16 +225,21 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#categoryTable').DataTable();
+            $('#companyTable').DataTable();
         });
-        $('body').on('click', '#categoryEdit', function () {
-            var category_id = $(this).data('id');
+        $('body').on('click', '#companyEdit', function () {
+            var company_id = $(this).data('id');
             $.ajax({
                 type: "GET",
-                url: "{{url('/admin/edit-category/')}}"+'/'+category_id,
+                url: "{{url('/super-admin/edit-company/')}}"+'/'+company_id,
                 success:function (response){
-                    $('#category').val(response.category_name);
-                    $('#categoryFormEdit').attr('action',"{{url('/admin/edit-category/')}}"+'/'+category_id);
+                    console.log(response);
+                    $('#id_software').val(response.id_software);
+                    $('#tax_id').val(response.tax_id);
+                    $('#company_name').val(response.name);
+                    $('#threshold_amount').val(response.threshold_amount);
+                    $('#legal_address').val(response.legal_address);
+                    $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
                 }
 
             });

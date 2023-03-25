@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Classes\Enums\UserTypesEnum;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -20,14 +21,14 @@ class LoginController extends Controller
     |
     */
 
-    use AuthenticatesUsers;
+//    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = RouteServiceProvider::DASHBOARD;
 
     /**
      * Create a new controller instance.
@@ -41,17 +42,29 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $this->validateLogin($request);
+        $input = $request->all();
+        $request->validate([
+            'email' => ['required','email'],
+            'password' => ['required'],
+        ]);
 
-        if ($this->attemptLogin($request)) {
-            $user = $this->guard()->user();
-            $user->generateToken();
-
-            return response()->json([
-                'data' => $user->toArray(),
-            ]);
+        if(auth()->attempt(array('email' => $input['email'], 'password' => ($input['password']))))
+        {
+            $authRole = auth()->user()->getRoleNames()->first();
+            switch ($authRole) {
+                case UserTypesEnum::SuperAdmin:
+                    return redirect()->route('super-admin.dashboard');
+                case UserTypesEnum::User:
+                    return redirect()->route('user.dashboard');
+                default:
+                    return redirect()->route('login')
+                        ->withErrors(['error'=>'Incorrect username or password'])
+                        ->withInput($request->session()->put('data', $request->input()));
+            }
+        }else{
+            return redirect()->route('login')
+                ->withErrors(['error'=>'Incorrect username or password'])
+                ->withInput($request->session()->put('data', $request->input()));
         }
-
-        return $this->sendFailedLoginResponse($request);
     }
 }

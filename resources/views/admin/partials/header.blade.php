@@ -61,7 +61,8 @@
                 <a class="btn btn-danger btn-sm" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                    document.getElementById('logout-form').submit();" style="color: white;">
-                    <img style="width: 18px; height: 18px; margin-right: 5px;" src="{{asset('assets/logo/logout.png')}}"> {{ __('Logout') }}
+                    Logout
+{{--                    <img style="width: 18px; height: 18px; margin-right: 5px;" src="{{asset('assets/logo/logout.png')}}"> {{ __('Logout') }}--}}
                 </a>
             </div>
 

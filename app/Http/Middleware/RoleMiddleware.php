@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class redirectToDashboard
+class RoleMiddleware
 {
     /**
      * Handle an incoming request.
@@ -14,8 +14,12 @@ class redirectToDashboard
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, $role)
     {
+        $role = explode(',', $role);
+        if (! $request->user() || ! in_array($request->user()->user_type, $role)) {
+            abort(403, 'Unauthorized action.');
+        }
         return $next($request);
     }
 }

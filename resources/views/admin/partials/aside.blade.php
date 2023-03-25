@@ -40,16 +40,16 @@
             <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true">
                 <div class="menu-item">
                     <div class="menu-item">
-                        <a class="menu-link" href="" >
+                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.dashboard') ? 'active' : '' }}" href="{{ route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.dashboard')}}" >
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </div>
 
-{{--                    <div class="menu-item">--}}
-{{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.users') ? 'active' : '' }}" href="{{route('admin.users')}}" >--}}
-{{--                            <span class="menu-title">Manage Users</span>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.company') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.company')}}" >
+                            <span class="menu-title">Manage Companies</span>
+                        </a>
+                    </div>
 
 {{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.appointment') ? 'active' : '' }}" href="{{route('admin.appointment')}}" >--}}
