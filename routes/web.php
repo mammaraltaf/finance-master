@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\SuperAdminController;
 use App\Models\User;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -48,6 +49,21 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/edit-department/{id}', [SuperAdminController::class, 'editDepartment'])->name('edit-department');
         Route::post('/edit-department/{id}', [SuperAdminController::class, 'editDepartmentPost'])->name('edit-department-post');
         Route::post('/delete-department', [SuperAdminController::class, 'deleteDepartment'])->name('delete-department');
+    });
+
+});
+
+
+Route::group(['middleware'=>'auth'],function (){
+    /*User Routes*/
+    Route::group([
+        'middleware' => ['role:'.UserTypesEnum::User],
+        'prefix' => UserTypesEnum::User,
+        'as' => UserTypesEnum::User.'.',
+    ], function () {
+        Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+        Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
+        Route::post('/addsupplier', [SuperAdminController::class, 'addsupplier'])->name('addsupplier');
     });
 
 });
