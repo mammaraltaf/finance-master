@@ -48,6 +48,16 @@
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
+                                <br>
+                                <label class="control-label">Select Admin</label>
+                                <div>
+                                    <select name="user_id" class="form-control">
+                                        <option value="">Select User</option>
+                                        @foreach($users as $user)
+                                            <option value="{{$user->id}}">{{$user->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
                             </div>
 
