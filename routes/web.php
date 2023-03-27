@@ -60,17 +60,26 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/delete-department', [SuperAdminController::class, 'deleteDepartment'])->name('delete-department');
     });
 
+});
+
+
+Route::group(['middleware'=>'auth'],function (){
     /*User Routes*/
     Route::group([
         'middleware' => ['role:'.UserTypesEnum::User],
         'prefix' => UserTypesEnum::User,
         'as' => UserTypesEnum::User.'.',
     ], function () {
-        Route::get('/dashboard', [\App\Http\Controllers\UserController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+        Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
+        Route::post('/addsupplier', [SuperAdminController::class, 'addsupplier'])->name('addsupplier');
     });
 
 });
 
+Route::get('/', function () {
+    return view('auth.login');
+});
 
 Auth::routes(
     [
