@@ -1,6 +1,6 @@
 @extends('admin.admin.app')
 @section('pageTitle')
-    Company
+    Type Of Expanse
 @endsection
 @section('content')
     <!--begin::Header-->
@@ -8,7 +8,7 @@
     <div class="card-header pt-5">
 
         <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1">Manage Company</span>
+            <span class="card-label fw-bolder fs-3 mb-1">Manage Type of Expanse</span>
         </h3>
 
 
@@ -20,7 +20,7 @@
     <div class="card-body py-3">
         <div class="row">
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalLoginForm">
-                Add Company
+                Add Type of Expanse
             </button>
         </div>
         <!-- Modal HTML Markup -->
@@ -28,10 +28,10 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title">Add Company Name</h1>
+                        <h1 class="modal-title">Add Type of Expanse</h1>
                     </div>
                     <div class="modal-body">
-                        <form id="categoryForm" method="POST" action="{{route('super-admin.companyPost')}}"
+                        <form id="categoryForm" method="POST" action="{{route('super-admin.type-of-expense-post')}}"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
@@ -42,37 +42,24 @@
                                 </div>
                                 <br>
 
-                                <label class="control-label">Tax ID</label>
+                                <label class="control-label">Name</label>
                                 <div>
-                                    <input type="text" name="tax_id" placeholder="Enter Tax ID"
+                                    <input type="text" name="name" placeholder="Enter Name"
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
 
-                                <label class="control-label">Company Name</label>
+                                <label class="control-label">Accounting ID</label>
                                 <div>
-                                    <input type="text" name="company_name" placeholder="Enter Company Name"
+                                    <input type="text" name="accounting_id" placeholder="Enter Accounting ID"
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
-
-                                <label class="control-label">Threshold Amount</label>
-                                <div>
-                                    <input type="number" name="threshold_amount" placeholder="Enter Threshold Amount"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
-
-                                <label class="control-label">Legal Address</label>
-                                <div>
-                                    <textarea name="legal_address" cols="30" rows="10" class="form-control"></textarea>
-                                </div>
-
                             </div>
 
                             <div class="form-group">
                                 <div>
-                                    <button type="submit" class="btn btn-success">Add Company</button>
+                                    <button type="submit" class="btn btn-success">Add Type Of Expanse</button>
                                 </div>
                             </div>
                         </form>
@@ -85,7 +72,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title">Edit Company Name</h1>
+                        <h1 class="modal-title">Edit Type Of Expanse</h1>
                     </div>
                     <div class="modal-body">
                         <form id="companyFormEdit" method="POST" action=""
@@ -100,38 +87,26 @@
                                 </div>
                                 <br>
 
-                                <label class="control-label">Tax ID</label>
+                                <label class="control-label">Name</label>
                                 <div>
-                                    <input type="text" name="tax_id" id="tax_id" placeholder="Enter Tax ID"
+                                    <input type="text" name="name" id="name" placeholder="Enter Name"
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
 
-                                <label class="control-label">Company Name</label>
+                                <label class="control-label">Accounting ID</label>
                                 <div>
-                                    <input type="text" name="company_name" id="company_name" placeholder="Enter Company Name"
+                                    <input type="text" name="accounting_id" id="accounting_id" placeholder="Enter Accounting ID"
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
-
-                                <label class="control-label">Threshold Amount</label>
-                                <div>
-                                    <input type="number" name="threshold_amount" id="threshold_amount" placeholder="Enter Threshold Amount"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
-
-                                <label class="control-label">Legal Address</label>
-                                <div>
-                                    <textarea name="legal_address" id="legal_address" cols="30" rows="10" class="form-control"></textarea>
-                                </div>
 
                             </div>
 
 
                             <div class="form-group">
                                 <div>
-                                    <button type="submit" class="btn btn-success">Update Company</button>
+                                    <button type="submit" class="btn btn-success">Update Type Of Expanse</button>
                                 </div>
                             </div>
                         </form>
@@ -142,28 +117,24 @@
         <div class="tab-content">
 
             {{--All Datatable--}}
-            <table id="companyTable" name="companyTable" class="ui celled table allTable" style="width:100%">
+            <table id="typeOfExpenseTable" name="typeOfExpenseTable" class="ui celled table allTable" style="width:100%">
                 <thead>
                 <tr>
                     <th>ID / Software</th>
-                    <th>Tax ID</th>
-                    <th>Company Name</th>
-                    <th>Threshold Amount</th>
-                    <th>Legal Address</th>
+                    <th>Name</th>
+                    <th>Accounting ID</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($companies as $company)
+                @foreach($typeOfExpenses as $typeOfExpense)
                     <tr>
-                        <td>{{$company->id_software}}</td>
-                        <td>{{$company->tax_id}}</td>
-                        <td>{{$company->name}}</td>
-                        <td>{{$company->threshold_amount}}</td>
-                        <td>{{$company->legal_address}}</td>
+                        <td>{{$typeOfExpense->id_software}}</td>
+                        <td>{{$typeOfExpense->name}}</td>
+                        <td>{{$typeOfExpense->accounting_id}}</td>
 
-                        <td><a href="" class="btn btn-primary btn-sm" id="companyEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$company->id}}">Edit</a>
-                            <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$company->id}}"
+                        <td><a href="" class="btn btn-primary btn-sm" id="typeOfExpenseEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$typeOfExpense->id}}">Edit</a>
+                            <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$typeOfExpense->id}}"
                                class="btn btn-danger delete_btn btn-sm">Delete</a></td>
                     </tr>
                 @endforeach
@@ -171,10 +142,8 @@
                 <tfoot>
                 <tr>
                     <th>ID / Software</th>
-                    <th>Tax ID</th>
-                    <th>Company Name</th>
-                    <th>Threshold Amount</th>
-                    <th>Legal Address</th>
+                    <th>Name</th>
+                    <th>Accounting ID</th>
                     <th>Action</th>
                 </tr>
                 </tfoot>
@@ -189,7 +158,7 @@
 {{--                  'method' => 'post',--}}
 {{--                  'role' => 'form' )) !!}--}}
 
-                <form method="post" action="{{route('super-admin.delete-company')}}">
+                <form method="post" action="{{route('super-admin.delete-type-of-expense')}}">
                     @csrf
                 <div class="modal-header" style="text-align: center;">
 {{--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span--}}
@@ -225,23 +194,20 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#companyTable').DataTable();
+            $('#typeOfExpenseTable').DataTable();
         });
-        $('body').on('click', '#companyEdit', function () {
-            var company_id = $(this).data('id');
+        $('body').on('click', '#typeOfExpenseEdit', function () {
+            var typeOfExpanse_id = $(this).data('id');
             $.ajax({
                 type: "GET",
-                url: "{{url('/super-admin/edit-company/')}}"+'/'+company_id,
+                url: "{{url('/super-admin/edit-type-of-expense/')}}"+'/'+typeOfExpanse_id,
                 success:function (response){
                     console.log(response);
                     $('#id_software').val(response.id_software);
-                    $('#tax_id').val(response.tax_id);
-                    $('#company_name').val(response.name);
-                    $('#threshold_amount').val(response.threshold_amount);
-                    $('#legal_address').val(response.legal_address);
-                    $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
+                    $('#name').val(response.name);
+                    $('#accounting_id').val(response.accounting_id);
+                    $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-type-of-expense/')}}"+'/'+typeOfExpanse_id);
                 }
-
             });
         });
 

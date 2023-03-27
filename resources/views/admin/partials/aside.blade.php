@@ -45,23 +45,24 @@
                         </a>
                     </div>
 
+
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.company') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.company')}}" >
                             <span class="menu-title">Manage Companies</span>
                         </a>
                     </div>
 
-{{--                    <div class="menu-item">--}}
-{{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.appointment') ? 'active' : '' }}" href="{{route('admin.appointment')}}" >--}}
-{{--                            <span class="menu-title">Manage Appointments</span>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.type-of-expense') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.type-of-expense')}}" >
+                            <span class="menu-title">Manage Type Of Expanses</span>
+                        </a>
+                    </div>
 
-{{--                    <div class="menu-item">--}}
-{{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.category') ? 'active' : '' }}" href="{{route('admin.category')}}" >--}}
-{{--                            <span class="menu-title">Manage Category</span>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.department') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.department')}}" >
+                            <span class="menu-title">Manage Departments</span>
+                        </a>
+                    </div>
 
 {{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.services') ? 'active' : '' }}" href="{{route('admin.services')}}" >--}}

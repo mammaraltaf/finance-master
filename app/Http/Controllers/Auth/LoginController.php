@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -21,7 +22,7 @@ class LoginController extends Controller
     |
     */
 
-//    use AuthenticatesUsers;
+    use AuthenticatesUsers;
 
     /**
      * Where to redirect users after login.
@@ -40,6 +41,8 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
+
+
     public function login(Request $request)
     {
         $input = $request->all();
@@ -48,23 +51,29 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        if(auth()->attempt(array('email' => $input['email'], 'password' => ($input['password']))))
-        {
-            $authRole = auth()->user()->getRoleNames()->first();
-            switch ($authRole) {
-                case UserTypesEnum::SuperAdmin:
-                    return redirect()->route('super-admin.dashboard');
-                case UserTypesEnum::User:
-                    return redirect()->route('user.dashboard');
-                default:
-                    return redirect()->route('login')
-                        ->withErrors(['error'=>'Incorrect username or password'])
-                        ->withInput($request->session()->put('data', $request->input()));
+        if(auth()->attempt(array('email' => $input['email'], 'password' => ($input['password'])))) {
+            $user = Auth::user();
+            if ($user->hasRole(UserTypesEnum::SuperAdmin)) {
+                return redirect()->route('super-admin.dashboard');
+            } elseif ($user->hasRole(UserTypesEnum::User)) {
+                return redirect()->route('user.dashboard');
+            } else {
+                return redirect()->route('login')
+                    ->withErrors(['error' => 'Incorrect username or password'])
+                    ->withInput($request->session()->put('data', $request->input()));
             }
-        }else{
-            return redirect()->route('login')
-                ->withErrors(['error'=>'Incorrect username or password'])
-                ->withInput($request->session()->put('data', $request->input()));
         }
+        return back()->withErrors([
+            'email' => 'The provided credentials do not match our records.',
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        return $this->loggedOut($request) ?: redirect('login');
     }
 }
