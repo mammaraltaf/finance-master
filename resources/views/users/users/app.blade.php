@@ -58,6 +58,7 @@
                 </div>
             </div>
 {{--            @include('admin.partials.footer')--}}
+
         </div>
         <!--end::Wrapper-->
     </div>
