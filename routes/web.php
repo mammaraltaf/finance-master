@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\SuperAdminController;
 use App\Models\User;
-use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,6 +18,9 @@ use App\Http\Controllers\UserController;
 |
 */
 
+Route::get('/', function () {
+    return view('auth.login');
+})->name('mainpage');
 
 Route::group(['middleware'=>'auth'],function (){
     /*Super Admin Routes*/
@@ -28,6 +30,13 @@ Route::group(['middleware'=>'auth'],function (){
         'as' => UserTypesEnum::SuperAdmin.'.',
     ], function () {
         Route::get('/dashboard', [SuperAdminController::class, 'dashboard'])->name('dashboard');
+
+        /*Manage Users*/
+        Route::get('/users', [SuperAdminController::class, 'users'])->name('users');
+        Route::post('/add-user', [SuperAdminController::class, 'userPost'])->name('add-user-post');
+        Route::get('/edit-user/{id}', [SuperAdminController::class, 'editUser'])->name('edit-user');
+        Route::post('/edit-user/{id}', [SuperAdminController::class, 'editUserPost'])->name('edit-user-post');
+        Route::post('/delete-user', [SuperAdminController::class, 'deleteUser'])->name('delete-user');
 
         /*Manage Company*/
         Route::get('/company', [SuperAdminController::class, 'company'])->name('company');

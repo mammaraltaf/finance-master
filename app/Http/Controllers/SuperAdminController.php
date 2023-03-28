@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Classes\Enums\UserTypesEnum;
+use Spatie\Permission\Models\Role;
+
 class SuperAdminController extends Controller
 {
     public function __construct()
@@ -20,14 +22,106 @@ class SuperAdminController extends Controller
 
     public function dashboard()
     {
-        $this->authorize('super-admin');
         return view('super-admin.pages.dashboard');
     }
+
+    /*-------------Users-------------*/
+    public function users()
+    {
+        $users = User::where('user_type','!=',UserTypesEnum::SuperAdmin)->get();
+        $roles = Role::whereIn('name',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
+        return view('super-admin.pages.users', compact('users','roles'));
+    }
+
+    public function userPost(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'name' => 'required',
+                'email' => 'required | unique:users,email',
+                'type' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $users = User::create([
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'password' => Hash::make('system_default'),
+                'user_type' => $input['type']
+            ]);
+
+            $users->assignRole($input['type']);
+
+            if ($users) {
+                return redirect()->back()->with('success', 'User registered successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function editUser($id)
+    {
+        $this->authorize('edit user');
+        $user = User::find($id);
+        return response()->json($user);
+    }
+
+    public function editUserPost(Request $request, $id){
+        try{
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'name' => 'required',
+                'email' => 'required | unique:users,email,'.$id,
+                'type' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $user = User::find($id);
+            $user->name = $input['name'];
+            $user->email = $input['email'];
+            $user->user_type = $input['type'];
+            $user->save();
+
+            $user->syncRoles($input['type']);
+
+            if($user){
+                return redirect()->back()->with('success', 'User updated successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
+        catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function deleteUser(Request $request)
+    {
+//        $this->authorize('delete user');
+        $user = User::where('id', $request->id)->first();
+        $user->delete();
+        $user->syncRoles([]);
+        return redirect()->back()->with('success', 'User deleted successfully');
+    }
+
+
+
 
     public function company()
     {
         $companies = Company::all();
-        return view('super-admin.pages.company', compact('companies'));
+        $admins = User::where('user_type', UserTypesEnum::Admin)->get();
+        return view('super-admin.pages.company', compact('companies','admins'));
     }
 
 
@@ -42,6 +136,7 @@ class SuperAdminController extends Controller
                 'company_name' => 'required',
                 'threshold_amount' => 'required',
                 'legal_address' => 'required',
+                'user_id' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -54,7 +149,7 @@ class SuperAdminController extends Controller
                 'name' => $input['company_name'],
                 'threshold_amount' => $input['threshold_amount'],
                 'legal_address' => $input['legal_address'],
-                'user_id' => auth()->user()->id ?? 1,
+                'user_id' => $input['user_id'],
             ]);
 
             if ($company) {
@@ -84,6 +179,7 @@ class SuperAdminController extends Controller
                 'company_name' => 'required',
                 'threshold_amount' => 'required',
                 'legal_address' => 'required',
+                'user_id' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -96,7 +192,7 @@ class SuperAdminController extends Controller
             $company->name = $input['company_name'];
             $company->threshold_amount = $input['threshold_amount'];
             $company->legal_address = $input['legal_address'];
-            $company->user_id = auth()->user()->id ?? 1;
+            $company->user_id = $input['user_id'];
             $company->save();
 
             if ($company) {
@@ -207,7 +303,9 @@ class SuperAdminController extends Controller
     public function departments()
     {
         $departments = Department::all();
-        return view('super-admin.pages.department', compact('departments'));
+//        $users = User::whereIn('user_type',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
+        $users = User::where('user_type',UserTypesEnum::User)->get();
+        return view('super-admin.pages.department', compact('departments','users'));
     }
 
     public function departmentsPost(Request $request)
@@ -282,43 +380,4 @@ class SuperAdminController extends Controller
         }
     }
 
-    public function all_users()
-    {
-        $users = User::all();
-        return view('super-admin.pages.users', compact('users'));
-    }
-
-    public function adduser(Request $request){
-        try {
-            $input = $request->all();
-            $validator = Validator::make($input, [
-                'name' => 'required',
-                'email' => 'required | unique:users,email',
-                'type' => 'required'
-            ]);
-
-            if ($validator->fails()) {
-                return redirect()->back()->withErrors($validator)->withInput();
-            }
-
-            $users = User::create([
-                'name' => $input['name'],
-                'email' => $input['email'],
-                'password' => Hash::make('system_default'),
-                'user_type' => $input['type']
-            ]);
-
-            if ($users) {
-                return redirect()->back()->with('success', 'User registered successfully');
-            }
-
-            return redirect()->back()->with('error', 'Something went wrong');
-        } catch (Exception $e) {
-            return redirect()->back()->with('error', $e->getMessage());
-        }
-    }
-    public function deleteuser(Request $request){
-        echo $request->id;
-
-    }
 }

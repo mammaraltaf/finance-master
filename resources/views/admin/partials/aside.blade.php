@@ -45,6 +45,11 @@
                         </a>
                     </div>
 
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.users') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.users')}}" >
+                            <span class="menu-title">Manage Users</span>
+                        </a>
+                    </div>
 
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.company') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.company')}}" >

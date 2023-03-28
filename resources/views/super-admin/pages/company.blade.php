@@ -56,7 +56,7 @@
                                 </div>
                                 <br>
 
-                                <label class="control-label">Threshold Amount</label>
+                                <label class="control-label">Threshold Amount (GEL)</label>
                                 <div>
                                     <input type="number" name="threshold_amount" placeholder="Enter Threshold Amount"
                                            class="form-control input-lg" required>
@@ -68,6 +68,16 @@
                                     <textarea name="legal_address" cols="30" rows="10" class="form-control"></textarea>
                                 </div>
 
+                                <br>
+                                <label class="control-label">Select Admin</label>
+                                <div>
+                                    <select name="user_id" class="form-control">
+                                        <option value="">Select Admin</option>
+                                        @foreach($admins as $admin)
+                                            <option value="{{$admin->id}}">{{$admin->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
 
                             <div class="form-group">
@@ -114,7 +124,7 @@
                                 </div>
                                 <br>
 
-                                <label class="control-label">Threshold Amount</label>
+                                <label class="control-label">Threshold Amount (GEL)</label>
                                 <div>
                                     <input type="number" name="threshold_amount" id="threshold_amount" placeholder="Enter Threshold Amount"
                                            class="form-control input-lg" required>
@@ -124,6 +134,17 @@
                                 <label class="control-label">Legal Address</label>
                                 <div>
                                     <textarea name="legal_address" id="legal_address" cols="30" rows="10" class="form-control"></textarea>
+                                </div>
+
+                                <br>
+                                <label class="control-label">Select Admin</label>
+                                <div>
+                                    <select name="user_id" id="user_id" class="form-control">
+                                        <option value="">Select Admin</option>
+                                        @foreach($admins as $admin)
+                                            <option value="{{$admin->id}}">{{$admin->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                             </div>
@@ -150,6 +171,7 @@
                     <th>Company Name</th>
                     <th>Threshold Amount</th>
                     <th>Legal Address</th>
+                    <th>Assigned To</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -161,6 +183,7 @@
                         <td>{{$company->name}}</td>
                         <td>{{$company->threshold_amount}}</td>
                         <td>{{$company->legal_address}}</td>
+                        <td>{{$company->user->name}}</td>
 
                         <td><a href="" class="btn btn-primary btn-sm" id="companyEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$company->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$company->id}}"
@@ -175,6 +198,7 @@
                     <th>Company Name</th>
                     <th>Threshold Amount</th>
                     <th>Legal Address</th>
+                    <th>Assigned To</th>
                     <th>Action</th>
                 </tr>
                 </tfoot>
@@ -239,6 +263,7 @@
                     $('#company_name').val(response.name);
                     $('#threshold_amount').val(response.threshold_amount);
                     $('#legal_address').val(response.legal_address);
+                    $('#user_id').val(response.user_id);
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
                 }
 
