@@ -17,6 +17,7 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public function run()
     {
+        /*------------------------------------------------------------------*/
         /*Create Roles*/
         $superadmin = Role::create(['name' => UserTypesEnum::SuperAdmin]);
         $admin = Role::create(['name' => UserTypesEnum::Admin]);
@@ -26,6 +27,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $manager = Role::create(['name' => UserTypesEnum::Manager]);
         $director = Role::create(['name' => UserTypesEnum::Director]);
 
+        /*------------------------------------------------------------------*/
         /*Company Permissions*/
         $viewCompany = Permission::create(['name' => 'view-company']);
         $createCompany = Permission::create(['name' => 'create-company']);
@@ -56,6 +58,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $editSupplier = Permission::create(['name' => 'edit-supplier']);
         $deleteSupplier = Permission::create(['name' => 'delete-supplier']);
 
+        /*------------------------------------------------------------------*/
 
         /*Assign Permission to Roles*/
         /*Super Admin*/
@@ -68,7 +71,6 @@ class RolesAndPermissionsSeeder extends Seeder
             $viewSupplier, $editSupplier, $deleteSupplier,
         ]);
 
-
         $user->syncPermissions([
             $viewSupplier,$createsupplier
         ]);
@@ -77,11 +79,16 @@ class RolesAndPermissionsSeeder extends Seeder
             $viewSupplier, $editSupplier
         ]);
 
+        /*------------------------------------------------------------------*/
 
         /*Assign Role*/
         User::find(1)->assignRole($superadmin);
-        User::find(2)->assignRole($user);
-        User::find(3)->assignRole($accounting);
+        User::find(2)->assignRole($admin);
+        User::find(3)->assignRole($user);
+        User::find(4)->assignRole($accounting);
+        User::find(5)->assignRole($finance);
+        User::find(6)->assignRole($manager);
+        User::find(7)->assignRole($director);
 
     }
 }
