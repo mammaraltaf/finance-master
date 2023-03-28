@@ -59,6 +59,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/edit-department/{id}', [SuperAdminController::class, 'editDepartment'])->name('edit-department');
         Route::post('/edit-department/{id}', [SuperAdminController::class, 'editDepartmentPost'])->name('edit-department-post');
         Route::post('/delete-department', [SuperAdminController::class, 'deleteDepartment'])->name('delete-department');
+
+        /*Manage Supplier*/
+        Route::get('/supplier', [SuperAdminController::class, 'supplier'])->name('supplier');
     });
 
     /*User Routes*/

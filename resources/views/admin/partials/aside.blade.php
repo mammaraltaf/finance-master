@@ -45,6 +45,7 @@
                         </a>
                     </div>
 
+                    @role(\App\Classes\Enums\UserTypesEnum::SuperAdmin)
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.users') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.users')}}" >
                             <span class="menu-title">Manage Users</span>
@@ -68,6 +69,15 @@
                             <span class="menu-title">Manage Departments</span>
                         </a>
                     </div>
+                    @endrole
+
+                    @hasanyrole('super-admin|accounting|user')
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.supplier') ? 'active' : '' }}" href="{{route(auth()->user()->user_type.'.supplier')}}" >
+                            <span class="menu-title">Manage Suppliers</span>
+                        </a>
+                    </div>
+                    @endhasanyrole
 
 {{--                    <div class="menu-item">--}}
 {{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.services') ? 'active' : '' }}" href="{{route('admin.services')}}" >--}}

@@ -101,9 +101,16 @@
 {{--                                <span class="badge badge-danger">New User</span>--}}
 {{--                            @endif--}}
 {{--                        <td>--}}
+                        @if(($user->user_type == \App\Classes\Enums\UserTypesEnum::Admin) || ($user->user_type == \App\Classes\Enums\UserTypesEnum::User))
+
                         <td><a href="" class="btn btn-primary btn-sm" id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$user->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
                                class="btn btn-danger delete_btn btn-sm">Delete</a></td>
+                            @else
+                            <td>
+                                -
+                            </td>
+                        @endif
 
                     </tr>
                 @endforeach
