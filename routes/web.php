@@ -6,6 +6,7 @@ use App\Classes\Enums\UserTypesEnum;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\UserController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -60,10 +61,6 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/delete-department', [SuperAdminController::class, 'deleteDepartment'])->name('delete-department');
     });
 
-});
-
-
-Route::group(['middleware'=>'auth'],function (){
     /*User Routes*/
     Route::group([
         'middleware' => ['role:'.UserTypesEnum::User],
@@ -72,10 +69,11 @@ Route::group(['middleware'=>'auth'],function (){
     ], function () {
         Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
         Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
-        Route::post('/addsupplier', [SuperAdminController::class, 'addsupplier'])->name('addsupplier');
+        Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
     });
 
 });
+
 
 Route::get('/', function () {
     return view('auth.login');

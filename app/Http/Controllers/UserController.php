@@ -27,9 +27,10 @@ class UserController extends Controller
 
     public function supplier()
     {
-        $suppliers=Supplier::rightJoin('supplier_bank','supplier_bank.supplier_id','=','suppliers.id')
-          ->select('suppliers.*','supplier_bank.*')
-         ->get()->toArray();
+        $suppliers = Supplier::all();
+//        $suppliers=Supplier::rightJoin('supplier_bank','supplier_bank.supplier_id','=','suppliers.id')
+//          ->select('suppliers.*','supplier_bank.*')
+//         ->get()->toArray();
         return view('user.pages.supplier', compact('suppliers'));
     }
 
@@ -38,6 +39,7 @@ class UserController extends Controller
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
+                'id_software' => 'required | unique:suppliers,id_software',
                 'tax_id' => 'required | unique:suppliers,tax_id',
                 'name' => 'required ',
                 'bank_id' => 'required',
@@ -52,22 +54,18 @@ class UserController extends Controller
             }
 
             $supplier_data = Supplier::create([
+                'id_software' => $input['id_software'],
                 'tax_id' => $input['tax_id'],
-                'supplier_name' => $input['name']
+                'supplier_name' => $input['name'],
+                'bank_id' => $input['bank_id'],
+                'bank_name' => $input['bank_name'],
+                'bank_account' => $input['bank_account'],
+                'bank_swift' => $input['bank_swift'],
+                'accounting_id' => $input['accounting_id'],
+                'user_id' => auth()->user()->id,
             ]);
-$supplier_id=$supplier_data->id();
 
-$supplier_bank = supplier_bank::create([
-    'supplier_id' => $supplier_id,
-    'bank_id' => $input['bank_id'],
-    'bank_name' => $input['bank_name'],
-    'bank_account' => $input['bank_account'],
-    'bank_swift' => $input['bank_swift'],
-    'accounting_id' => $input['accounting_id'],
-
-]);
-            if ($supplier_data && $supplier_bank) {
-
+            if ($supplier_data) {
                 return redirect()->back()->with('success', 'Supplier created successfully');
             }
 

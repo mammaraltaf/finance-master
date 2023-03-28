@@ -15,8 +15,15 @@ class CreateSuppliersTable extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
-            $table->string('tax_id');
-            $table->string('supplier_name');
+            $table->string('id_software')->unique();
+            $table->string('tax_id')->nullable();
+            $table->string('supplier_name')->nullable();
+            $table->integer('bank_id')->nullable();
+            $table->string('bank_name')->nullable();
+            $table->string('bank_account')->nullable();
+            $table->string('bank_swift')->nullable();
+            $table->string('accounting_id')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
