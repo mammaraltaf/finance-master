@@ -35,9 +35,24 @@ class UserSeeder extends Seeder
         /*User*/
         User::firstOrCreate(
             [
-                'email' => 'user@finance.com',
+                'email' => 'admin@finance.com',
             ],[
             'id'    => 2,
+            'name' => UserTypesEnum::Admin,
+            'email' => 'admin@finance.com',
+            'password' => Hash::make('12345678'),
+            'email_verified_at' => Carbon::now(),
+            'user_type' => UserTypesEnum::Admin,
+            'created_at'    => Carbon::now(),
+            'updated_at'    => Carbon::now(),
+            ]);
+
+        /*User*/
+        User::firstOrCreate(
+            [
+                'email' => 'user@finance.com',
+            ],[
+            'id'    => 3,
             'name' => UserTypesEnum::User,
             'email' => 'user@finance.com',
             'password' => Hash::make('12345678'),
@@ -45,6 +60,67 @@ class UserSeeder extends Seeder
             'user_type' => UserTypesEnum::User,
             'created_at'    => Carbon::now(),
             'updated_at'    => Carbon::now(),
-            ]);
+        ]);
+
+        /*User*/
+        User::firstOrCreate(
+            [
+                'email' => 'accounting@finance.com',
+            ],[
+            'id'    => 4,
+            'name' => UserTypesEnum::Accounting,
+            'email' => 'accounting@finance.com',
+            'password' => Hash::make('12345678'),
+            'email_verified_at' => Carbon::now(),
+            'user_type' => UserTypesEnum::Accounting,
+            'created_at'    => Carbon::now(),
+            'updated_at'    => Carbon::now(),
+        ]);
+
+        /*User*/
+        User::firstOrCreate(
+            [
+                'email' => 'finance@finance.com',
+            ],[
+            'id'    => 5,
+            'name' => UserTypesEnum::Finance,
+            'email' => 'finance@finance.com',
+            'password' => Hash::make('12345678'),
+            'email_verified_at' => Carbon::now(),
+            'user_type' => UserTypesEnum::Finance,
+            'created_at'    => Carbon::now(),
+            'updated_at'    => Carbon::now(),
+        ]);
+
+        /*User*/
+        User::firstOrCreate(
+            [
+                'email' => 'manager@finance.com',
+            ],[
+            'id'    => 6,
+            'name' => UserTypesEnum::Manager,
+            'email' => 'manager@finance.com',
+            'password' => Hash::make('12345678'),
+            'email_verified_at' => Carbon::now(),
+            'user_type' => UserTypesEnum::Manager,
+            'created_at'    => Carbon::now(),
+            'updated_at'    => Carbon::now(),
+        ]);
+
+        /*User*/
+        User::firstOrCreate(
+            [
+                'email' => 'director@finance.com',
+            ],[
+            'id'    => 7,
+            'name' => UserTypesEnum::Director,
+            'email' => 'director@finance.com',
+            'password' => Hash::make('12345678'),
+            'email_verified_at' => Carbon::now(),
+            'user_type' => UserTypesEnum::Director,
+            'created_at'    => Carbon::now(),
+            'updated_at'    => Carbon::now(),
+        ]);
+
     }
 }

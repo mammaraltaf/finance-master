@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Company;
 use App\Models\Department;
+use App\Models\Supplier;
 use App\Models\TypeOfExpanse;
 use Exception;
 use Illuminate\Http\Request;
@@ -28,9 +29,14 @@ class SuperAdminController extends Controller
     /*-------------Users-------------*/
     public function users()
     {
-        $users = User::where('user_type','!=',UserTypesEnum::SuperAdmin)->get();
-        $roles = Role::whereIn('name',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
-        return view('super-admin.pages.users', compact('users','roles'));
+        try{
+            $users = User::where('user_type','!=',UserTypesEnum::SuperAdmin)->get();
+            $roles = Role::whereIn('name',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
+            return view('super-admin.pages.users', compact('users','roles'));
+        }
+        catch(Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function userPost(Request $request)
@@ -324,6 +330,7 @@ class SuperAdminController extends Controller
             $department = Department::create([
                 'id_software' => $input['id_software'],
                 'name' => $input['name'],
+                'user_id' => auth()->user()->id,
             ]);
 
             if ($department) {
@@ -378,6 +385,12 @@ class SuperAdminController extends Controller
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function supplier()
+    {
+        $suppliers = Supplier::all();
+        return view('super-admin.pages.supplier', compact('suppliers'));
     }
 
 }

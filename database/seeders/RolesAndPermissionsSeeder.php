@@ -17,6 +17,7 @@ class RolesAndPermissionsSeeder extends Seeder
      */
     public function run()
     {
+        /*------------------------------------------------------------------*/
         /*Create Roles*/
         $superadmin = Role::create(['name' => UserTypesEnum::SuperAdmin]);
         $admin = Role::create(['name' => UserTypesEnum::Admin]);
@@ -26,43 +27,64 @@ class RolesAndPermissionsSeeder extends Seeder
         $manager = Role::create(['name' => UserTypesEnum::Manager]);
         $director = Role::create(['name' => UserTypesEnum::Director]);
 
-        /*Create Permissions*/
-        $createCompany = Permission::create(['name' => 'create company']);
-        $editCompany = Permission::create(['name' => 'edit company']);
-        $viewCompany = Permission::create(['name' => 'view company']);
-        $deleteCompany = Permission::create(['name' => 'delete company']);
+        /*------------------------------------------------------------------*/
+        /*Company Permissions*/
+        $viewCompany = Permission::create(['name' => 'view-company']);
+        $createCompany = Permission::create(['name' => 'create-company']);
+        $editCompany = Permission::create(['name' => 'edit-company']);
+        $deleteCompany = Permission::create(['name' => 'delete-company']);
 
-        $createUser = Permission::create(['name' => 'create user']);
-        $editUser = Permission::create(['name' => 'edit user']);
-        $viewUser = Permission::create(['name' => 'view user']);
-        $deleteUser = Permission::create(['name' => 'delete user']);
+        /*User Permissions*/
+        $viewUser = Permission::create(['name' => 'view-user']);
+        $createUser = Permission::create(['name' => 'create-user']);
+        $editUser = Permission::create(['name' => 'edit-user']);
+        $deleteUser = Permission::create(['name' => 'delete-user']);
 
+        /*Type Of Expense Permissions*/
+        $viewTypeOfExpense = Permission::create(['name' => 'view-type-of-expense']);
+        $createTypeOfExpense = Permission::create(['name' => 'create-type-of-expense']);
+        $editTypeOfExpense = Permission::create(['name' => 'edit-type-of-expense']);
+        $deleteTypeOfExpense = Permission::create(['name' => 'delete-type-of-expense']);
+
+        /*Departments Permissions*/
+        $viewDepartments = Permission::create(['name' => 'view-departments']);
+        $createDepartments = Permission::create(['name' => 'create-departments']);
+        $editDepartments = Permission::create(['name' => 'edit-departments']);
+        $deleteDepartments = Permission::create(['name' => 'delete-departments']);
+
+        /*Supplier Permissions*/
+        $viewSupplier = Permission::create(['name' => 'view-supplier']);
+        $createsupplier = Permission::create(['name' => 'create-supplier']);
+        $editSupplier = Permission::create(['name' => 'edit-supplier']);
+        $deleteSupplier = Permission::create(['name' => 'delete-supplier']);
 
         $createsupplier = Permission::create(['name' => 'create supplier']);
-        $editsupplier = Permission::create(['name' => 'edit supplier']);
+
         /*Assign Permission to Roles*/
         /*Super Admin*/
         $superadmin->syncPermissions([
-            $createCompany,
-            $editCompany,
-            $viewCompany,
-            $deleteCompany,
-            $createUser,
-            $editUser,
-            $viewUser,
-            $deleteUser,
+            /*company permissions*/
+            $viewCompany, $createCompany, $editCompany, $deleteCompany,
+            $createUser, $editUser, $viewUser, $deleteUser,
+            $viewTypeOfExpense, $createTypeOfExpense, $editTypeOfExpense, $deleteTypeOfExpense,
+            $viewDepartments, $createDepartments, $editDepartments, $deleteDepartments,
+            $viewSupplier, $editSupplier, $deleteSupplier,
         ]);
-
 
         $user->syncPermissions([
-            $createsupplier,
-            $editsupplier
+            $createsupplier
         ]);
 
+        /*------------------------------------------------------------------*/
 
         /*Assign Role*/
         User::find(1)->assignRole($superadmin);
-        User::find(2)->assignRole($user);
+        User::find(2)->assignRole($admin);
+        User::find(3)->assignRole($user);
+        User::find(4)->assignRole($accounting);
+        User::find(5)->assignRole($finance);
+        User::find(6)->assignRole($manager);
+        User::find(7)->assignRole($director);
 
     }
 }

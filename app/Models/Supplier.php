@@ -11,4 +11,5 @@ class Supplier extends Model
 
     protected $guarded = ['id'];
 
+
 }
