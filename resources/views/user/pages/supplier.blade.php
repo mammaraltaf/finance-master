@@ -1,3 +1,4 @@
+
 @extends('users.users.app')
 @section('pageTitle')
     Suppliers
@@ -102,69 +103,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-        {{--Edit Modal--}}
-        <div id="ModalEdit" class="modal fade">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title">Edit Company Name</h1>
-                    </div>
-                    <div class="modal-body">
-                        <form id="companyFormEdit" method="POST" action=""
-                              enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="company_id" id="company_id">
-                            <div class="form-group">
-                                <label class="control-label">ID / Software (Must be Unique)</label>
-                                <div>
-                                    <input type="text" name="id_software" id="id_software"
-                                           placeholder="Enter ID / Software"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
 
-                                <label class="control-label">Tax ID</label>
-                                <div>
-                                    <input type="text" name="tax_id" id="tax_id" placeholder="Enter Tax ID"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
-
-                                <label class="control-label">Company Name</label>
-                                <div>
-                                    <input type="text" name="company_name" id="company_name"
-                                           placeholder="Enter Company Name"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
-
-                                <label class="control-label">Threshold Amount</label>
-                                <div>
-                                    <input type="number" name="threshold_amount" id="threshold_amount"
-                                           placeholder="Enter Threshold Amount"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
-
-                                <label class="control-label">Legal Address</label>
-                                <div>
-                                    <textarea name="legal_address" id="legal_address" cols="30" rows="10"
-                                              class="form-control"></textarea>
-                                </div>
-
-                            </div>
-
-
-                            <div class="form-group">
-                                <div>
-                                    <button type="submit" class="btn btn-success">Update Company</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
         <div class="tab-content">
 
             {{--All Datatable--}}
@@ -179,6 +118,7 @@
                     <th>Bank Account</th>
                     <th>Bank Swift</th>
                     <th>Accounting ID</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -192,6 +132,7 @@
                         <td>{{$supplier['bank_account']}}</td>
                         <td>{{$supplier['bank_swift']}}</td>
                         <td>{{$supplier['accounting_id']}}</td>
+                        <td><a href="" class="btn btn-primary btn-sm" id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a></td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -205,65 +146,124 @@
                     <th>Bank Account</th>
                     <th>Bank Swift</th>
                     <th>Accounting ID</th>
+                    <th>Action</th>
                 </tr>
                 </tfoot>
             </table>
         </div>
     </div>
-    <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
+    <div id="ModalEdit" class="modal fade">
+        <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form method="post" action="{{route('super-admin.delete-company')}}">
-                    @csrf
-                    <div class="modal-header" style="text-align: center;">
-                        <h2 class="modal-title" id="myModalLabel">Delete</h2>
-                    </div>
-                    <div class="modal-body" style="text-align: center;">
+                <div class="modal-header">
+                    <h1 class="modal-title">Edit Supplier</h1>
+                </div>
+                <div class="modal-body">
+                    <form id="userFormEdit" method="POST" action=""
+                          enctype="multipart/form-data">
+                        @csrf
+                        <input type="hidden" name="supplier_id" id="supplier_id">
+                        <div class="form-group">
+                           
+            
+                            <label class="control-label">ID / Software</label>
+                                <div>
+                                    <input type="text" name="id_software" id="id_software" placeholder="Enter tax ID "
+                                           class="form-control input-lg" required>
+                                </div> 
+                                <br>
+                                <label class="control-label">Tax ID</label>
+                                <div>
+                                    <input type="text" name="tax_id" id="tax_id" placeholder="Enter tax ID "
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
+                                <label class="control-label"> Supplier Name</label>
+                            <div>
+                                <input type="text" name="name" id="name" placeholder="Enter full name"
+                                       class="form-control input-lg" required>
+                            </div>
+                            <br>
+                            <label class="control-label">Bank ID</label>
+                                <div>
+                                    <input type="text" name="bank_id" id="bank_id" placeholder="Enter  Bank ID"
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
 
-                        Are you sure you want to delete ?
-                        <input type="hidden" name="id" class="user-delete" value=""/>
-                    </div>
-                    <div class="modal-footer" style="text-align: center;">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+                                <label class="control-label">Bank Name</label>
+                                <div>
+                                    <input type="text" name="bank_name" id="bank_name" placeholder="Enter  Bank name"
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
+
+                                <label class="control-label">Bank Account</label>
+                                <div>
+                                    <input type="text" name="bank_account" id="bank_account" placeholder="Enter Bank Account"
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
+
+                                <label class="control-label">Bank Swift</label>
+                                <div>
+                                    <input type="text" name="bank_swift" id="bank_swift" placeholder="Enter Bank Swift"
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
+                                <label class="control-label"> Accounting ID</label>
+                                <div>
+                                    <input type="text" name="accounting_id" id="accounting_id" placeholder="Enter  Accounting ID"
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <div>
+                                <button type="submit" class="btn btn-success">Update Supplier</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     <!--end::Body-->
 @endsection
 @section('script')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
-    <script type="text/javascript">
-        $('.delete_btn').click(function () {
-            var a = $(this).data('id');
-            $('.user-delete').val(a);
-        });
-    </script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+            <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+         
     <script type="text/javascript">
         $(document).ready(function () {
             $('#suppliertable').DataTable();
         });
-        $('body').on('click', '#companyEdit', function () {
-            var company_id = $(this).data('id');
-            $.ajax({
-                type: "GET",
-                url: "{{url('/super-admin/edit-company/')}}" + '/' + company_id,
-                success: function (response) {
-                    console.log(response);
-                    $('#id_software').val(response.id_software);
-                    $('#tax_id').val(response.tax_id);
-                    $('#company_name').val(response.name);
-                    $('#threshold_amount').val(response.threshold_amount);
-                    $('#legal_address').val(response.legal_address);
-                    $('#companyFormEdit').attr('action', "{{url('/super-admin/edit-company/')}}" + '/' + company_id);
-                }
+        $('body').on('click', '#userEdit', function () {
+                     var supplier_id = $(this).data('id');
+                     console.log(supplier_id);
+                     $.ajax({
+                         type: "GET",
+                         url: "{{url('/user/edit-supplier/')}}"+'/'+supplier_id,
+                         success:function (response){
+                             console.log(response);
+                             $('#id_software').val(response.id_software);
+                             $('#name').val(response.supplier_name);
+                             $('#tax_id').val(response.tax_id);
+                             $('#name').val(response.supplier_name);
+                             $('#bank_id').val(response.bank_id);
+                             $('#bank_name').val(response.bank_name);
+                             $('#bank_account').val(response.bank_account);
+                             $('#bank_swift').val(response.bank_swift);
+                             $('#accounting_id').val(response.accounting_id);
+                             $('#userFormEdit').attr('action',"{{url('/user/edit-supplier/')}}"+'/'+supplier_id);
+                         }
 
-            });
-        });
+                     });
+                 });
 
     </script>
 @endsection

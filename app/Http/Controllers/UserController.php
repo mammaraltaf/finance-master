@@ -35,7 +35,7 @@ class UserController extends Controller
     }
 
     public function addsupplier(Request $request){
-       // $this->authorize('create supplier');
+        $this->authorize('create supplier');
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
@@ -74,5 +74,15 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
 
+    }
+
+    public function editsupplier($id)
+    {
+        $user = Supplier::find($id);
+        return response()->json($user);
+    }
+
+    public function request(){
+        return view('user.pages.request');
     }
 }
