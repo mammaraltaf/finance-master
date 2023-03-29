@@ -35,7 +35,7 @@ class UserController extends Controller
     }
 
     public function addsupplier(Request $request){
-       // $this->authorize('create supplier');
+        $this->authorize('create supplier');
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
@@ -74,9 +74,55 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+    public function editsupplier($id)
+    {
+        $user = Supplier::find($id);
+        return response()->json($user);
+    }
+
     public function request(){
         $suppliers = Supplier::all();
         return view('user.pages.request',compact('suppliers'));
-        // return view('user.pages.request');
+    }
+    public function updatesupplier(Request $request, $id){
+        try{
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'id_software' => 'required | unique:suppliers,id_software,'. $id,
+                'tax_id' => 'required | unique:suppliers,tax_id,'. $id,
+                'name' => 'required ',
+                'bank_id' => 'required',
+                'bank_name' => 'required',
+                'bank_account' => 'required',
+                'bank_swift' => 'required',
+                'accounting_id' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $supplier = Supplier::find($id);
+            $supplier->id_software = $input['id_software'];
+            $supplier->tax_id = $input['tax_id'];
+            $supplier->supplier_name = $input['name'];
+            $supplier->bank_id = $input['bank_id'];
+            $supplier->bank_name = $input['bank_name'];
+            $supplier->bank_account = $input['bank_account'];
+            $supplier->bank_swift = $input['bank_swift'];
+            $supplier->accounting_id = $input['accounting_id'];
+           
+            $supplier->save();
+
+            if($supplier){
+                return redirect()->back()->with('success', 'Supplier updated successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
+        catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

@@ -58,7 +58,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $editSupplier = Permission::create(['name' => 'edit-supplier']);
         $deleteSupplier = Permission::create(['name' => 'delete-supplier']);
 
-        /*------------------------------------------------------------------*/
+        $createsupplier = Permission::create(['name' => 'create supplier']);
 
         /*Assign Permission to Roles*/
         /*Super Admin*/
@@ -72,11 +72,7 @@ class RolesAndPermissionsSeeder extends Seeder
         ]);
 
         $user->syncPermissions([
-            $viewSupplier,$createsupplier
-        ]);
-
-        $accounting->syncPermissions([
-            $viewSupplier, $editSupplier
+            $createsupplier
         ]);
 
         /*------------------------------------------------------------------*/
