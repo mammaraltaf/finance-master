@@ -71,7 +71,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
         Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
         Route::get('/edit-supplier/{id}', [UserController::class, 'editsupplier'])->name('edit-supplier');
-        // Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-user-post');
+        Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');
         Route::get('/request', [UserController::class, 'request'])->name('request');
     });
 
