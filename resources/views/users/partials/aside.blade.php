@@ -52,6 +52,12 @@
                         </a>
                     </div>
 
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::User.'.supplier') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::User.'.request')}}" >
+                            <span class="menu-title">Manage Request</span>
+                        </a>
+                    </div>
+
                    
 
 {{--                    <div class="menu-item">--}}

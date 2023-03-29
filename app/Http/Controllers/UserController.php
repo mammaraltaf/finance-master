@@ -74,4 +74,9 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+    public function request(){
+        $suppliers = Supplier::all();
+        return view('user.pages.request',compact('suppliers'));
+        // return view('user.pages.request');
+    }
 }

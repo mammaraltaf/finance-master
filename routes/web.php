@@ -73,6 +73,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
         Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
         Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
+        Route::get('/request', [UserController::class, 'request'])->name('request');
     });
 
 });
