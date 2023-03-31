@@ -60,6 +60,8 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $createsupplier = Permission::create(['name' => 'create supplier']);
 
+        $createrequest = Permission::create(['name' => 'create request']);
+
         /*Assign Permission to Roles*/
         /*Super Admin*/
         $superadmin->syncPermissions([
@@ -72,7 +74,8 @@ class RolesAndPermissionsSeeder extends Seeder
         ]);
 
         $user->syncPermissions([
-            $createsupplier
+            $createsupplier,
+            $createrequest,
         ]);
 
         /*------------------------------------------------------------------*/

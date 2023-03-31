@@ -11,7 +11,12 @@ use Illuminate\Support\Facades\Hash;
 use App\Classes\Enums\UserTypesEnum;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use App\Models\RequestFlow;
 use App\Models\supplier_bank;
+use App\Models\Company;
+use App\Models\Department;
+use App\Models\TypeOfExpanse;
+use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function __construct()
@@ -82,8 +87,13 @@ class UserController extends Controller
     }
 
     public function request(){
-        $suppliers = Supplier::all();
-        return view('user.pages.request',compact('suppliers'));
+        $user = Auth::user();
+        $requests = RequestFlow::all();
+        $companies = Company::all(['id', 'name','user_id']);
+        $departments = Department::all(['id', 'name','user_id']);
+        $suppliers = supplier::all();
+        $expenses = TypeOfExpanse::all();
+        return view('user.pages.request',compact('requests','user','companies','departments','suppliers','expenses'));
     }
     public function updatesupplier(Request $request, $id){
         try{
@@ -125,4 +135,70 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
+
+    public function addrequest(Request $request){
+        // $this->authorize('create request');
+        try {
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'initiator_id' => 'required',
+                'company' => 'required',
+                'department' => 'required',
+                'supplier' => 'required',
+                'expense_type' => 'required',
+                'currency' => 'required',
+                'amount' => 'required',
+                'description' => 'required',
+                'basis' => 'required',
+                'due-date-payment' => 'required',
+                'due-date' => 'required'
+            ]);
+             if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            $files = [];
+        if($request->hasfile('basis'))
+         {
+            foreach($request->file('basis') as $file)
+            {
+                $name = time().rand(1,50).'.'.$file->extension();
+                $file->move(public_path('basis'), $name);  
+                $files[] = $name;  
+            }
+         }
+         $basis=implode(',',$files);
+            if(isset($_POST['button'])){
+                $status=$_POST['button'];
+            }
+            $supplier_data = RequestFlow::create([
+                'initiator' => $input['initiator_id'],
+                'company' => $input['company'],
+                'department' => $input['department'],
+                'supplier' => $input['supplier'],
+                'expense_type' => $input['expense_type'],
+                'currency' => $input['currency'],
+                'amount' => $input['amount'],
+                'description' => $input['description'],
+                'basis' => $basis,   
+                'payment_date' => $input['due-date-payment'],
+                'submission_date' => $input['due-date'],
+                'status' => $status,
+                'user_id' => auth()->user()->id
+            ]);
+
+            if ($supplier_data) {
+                return redirect()->back()->with('success', 'Request successfull');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+    public function viewrequest($id){
+dd($id);
+    }
+  
+
 }

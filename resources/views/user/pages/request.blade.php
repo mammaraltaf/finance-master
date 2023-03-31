@@ -80,52 +80,49 @@
                         <h1 class="modal-title">Add Supplier</h1>
                     </div>
                     <div class="modal-body">
-                        <form id="categoryForm" method="POST" action="{{route('user.addsupplier')}}"
-                              enctype="multipart/form-data">
+                        <form id="categoryForm" method="POST" action="{{route('user.addrequest')}}"
+                        enctype='multipart/form-data'>
                             @csrf     
                             <div class="form-group">
                                 <label for="initiator">Initiator</label>
-                                <input type="text" class="form-control" id="initiator" value="John Doe" readonly>
+                                <input type="text" class="form-control" id="initiator" value="<?php echo $user->name;  ?>" readonly>
+                                <input type="hidden"  name="initiator_id" value="<?php echo $user->id;  ?>">
                             </div>
                             <div class="form-group">
                                 <label for="company">Company</label>
-                                <select class="form-control" id="company" required>
-                                <option value="">Select a company</option>
-                                <option value="Company A">Company A</option>
-                                <option value="Company B">Company B</option>
-                                <option value="Company C">Company C</option>
+                                <select class="form-control" id="company" name="company" required>
+                      <?php          foreach($companies as $company){ ?>
+        <option value="{{$company->id}}"  {{ $company->user_id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
+   <?php  } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="department">Department</label>
-                                <select class="form-control" id="department" required>
-                                <option value="">Select a department</option>
-                                <option value="Department A">Department A</option>
-                                <option value="Department B">Department B</option>
-                                <option value="Department C">Department C</option>
+                                <select class="form-control" id="department" name="department" required>
+                                <?php          foreach($departments as $department){ ?>
+        <option value="{{$department->id}}"  {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
+   <?php  } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="supplier">Supplier</label>
-                                <select class="form-control" id="supplier" required>
-                                <option value="">Select a supplier</option>
-                                <option value="Supplier A">Supplier A</option>
-                                <option value="Supplier B">Supplier B</option>
-                                <option value="Supplier C">Supplier C</option>
+                                <select class="form-control" id="supplier" name="supplier" required placeholder="select a supplier">
+                                <?php          foreach($suppliers as $supplier){ ?>
+        <option value="{{$supplier->id}}"  >{{$supplier->supplier_name}}</option>
+   <?php  } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="expense-type">Type of Expense</label>
-                                <select class="form-control" id="expense-type" required>
-                                <option value="">Select a type of expense</option>
-                                <option value="Expense A">Expense A</option>
-                                <option value="Expense B">Expense B</option>
-                                <option value="Expense C">Expense C</option>
+                                <select class="form-control" id="expense_type" name="expense_type" required>
+                                <?php          foreach($expenses as $expense){ ?>
+        <option value="{{$expense->id}}"  >{{$expense->name}}</option>
+   <?php  } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="currency">Currency</label>
-                                <select class="form-control" id="currency" required>
+                                <select class="form-control" id="currency" name="currency" required>
                                 <option value="">Select a currency</option>
                                 <option value="USD">USD</option>
                                 <option value="EUR">EUR</option>
@@ -134,37 +131,32 @@
                             </div>
                             <div class="form-group">
                                 <label for="amount">Amount</label>
-                                <input type="number" class="form-control" id="amount" required>
+                                <input type="number" class="form-control" id="amount" name="amount" required>
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea class="form-control" id="description" rows="3" required></textarea>
+                                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
-                                <input type="file" class="form-control" id="basis" required>
+                                <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
                             </div>
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
-                                <input type="date" class="form-control" id="due-date-payment" required>
+                                <input type="date" class="form-control" id="due-date-payment" name="due-date-payment" required>
                             </div>
                             <div class="form-group">
                                 <label for="due-date" class="form-label">Due Date</label>
                                 <input type="date" class="form-control" id="due-date" name="due-date" required>
                             </div>
-                            <div class="form-group">
-                                <label for="status" class="form-label">Status</label>
-                                <select class="form-select" id="status" name="status" required>
-                                <option value="">Choose Status</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Completed">Completed</option>
-                                <option value="On Hold">On Hold</option>
-                                </select>
-                            </div>
+                          
 
-                            <div class="form-group">
-                                <div>
-                                    <button type="submit" class="btn btn-success">Manage Request</button>
+                            <div class="form-group d-flex gx-5">
+                                <div class='p-2'>
+                                    <button type="submit" value="add" name="button" class="btn btn-primary">Save</button>
+                                </div>
+                                <div class='p-2'>
+                                    <button type="submit" value="submit" name="button" class="btn btn-success">Submit</button>
                                 </div>
                             </div>
                         </form>
@@ -254,23 +246,31 @@
                             <th>Due Date of Payment</th>
                             <th>Due Date</th>
                             <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($suppliers as $supplier)
+                        @foreach($requests as $request)
                         <tr>
-                            <td>{{$supplier['initiator']}}</td>
-                            <td>{{$supplier['company']}}</td>
-                            <td>{{$supplier['department']}}</td>
-                            <td>{{$supplier['supplier_name']}}</td>
-                            <td>{{$supplier['type_of_expense']}}</td>
-                            <td>{{$supplier['currency']}}</td>
-                            <td>{{$supplier['amount']}}</td>
-                            <td>{{$supplier['description']}}</td>
-                            <td>{{$supplier['basis']}}</td>
-                            <td>{{$supplier['due_date_of_payment']}}</td>
-                            <td>{{$supplier['due_date']}}</td>
-                            <td>{{$supplier['status']}}</td>
+                            <td>{{$request['initiator']}}</td>
+                            <td>{{$request['company']}}</td>
+                            <td>{{$request['department']}}</td>
+                            <td>{{$request['supplier']}}</td>
+                            <td>{{$request['expense_type']}}</td>
+                            <td>{{$request['currency']}}</td>
+                            <td>{{$request['amount']}}</td>
+                            <td>{{$request['description']}}</td>
+                            <td>{{$request['basis']}}</td>
+                            <td>{{$request['payment_date']}}</td>
+                            <td>{{$request['submission_date']}}</td>
+                            <td>{{$request['status']}}</td>
+                          <?php  if($request['status'] == "add") { ?>
+                            <td>
+<a href="">Edit</a>
+
+                            <?php  } else{ ?>
+                               
+                                <?php }?>
                         </tr>
                         @endforeach
                     </tbody>

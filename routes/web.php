@@ -64,7 +64,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/supplier', [SuperAdminController::class, 'supplier'])->name('supplier');
     });
 
-    /*User Routes*/
+    /*User Routes*/  
     Route::group([
         'middleware' => ['role:'.UserTypesEnum::User],
         'prefix' => UserTypesEnum::User,
@@ -76,6 +76,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/edit-supplier/{id}', [UserController::class, 'editsupplier'])->name('edit-supplier');
         Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');
         Route::get('/request', [UserController::class, 'request'])->name('request');
+        Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
+
     });
 
 });
