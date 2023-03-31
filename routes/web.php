@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FinanceController;
+use App\Http\Controllers\ManagerController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -64,7 +66,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/supplier', [SuperAdminController::class, 'supplier'])->name('supplier');
     });
 
-    /*User Routes*/  
+    /*User Routes*/
     Route::group([
         'middleware' => ['role:'.UserTypesEnum::User],
         'prefix' => UserTypesEnum::User,
@@ -77,9 +79,34 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');
         Route::get('/request', [UserController::class, 'request'])->name('request');
         Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
-
     });
 
+    /*Finance Routes*/
+    Route::group([
+        'middleware' => ['role:'.UserTypesEnum::Finance],
+        'prefix' => UserTypesEnum::Finance,
+        'as' => UserTypesEnum::Finance.'.',
+    ],function (){
+        Route::get('/dashboard', [FinanceController::class, 'dashboard'])->name('dashboard');
+        Route::get('/get-new-requests', [FinanceController::class, 'getNewRequests'])->name('get-new-requests');
+        Route::get('/get-request-detail/{id}', [FinanceController::class, 'getRequestDetail'])->name('get-request-detail');
+        Route::post('/approve-request', [FinanceController::class, 'approveRequest'])->name('approve-request');
+        Route::post('/reject-request', [FinanceController::class, 'rejectRequest'])->name('reject-request');
+    });
+
+
+    /*Manager Routes*/
+    Route::group([
+        'middleware' => ['role:'.UserTypesEnum::Manager],
+        'prefix' => UserTypesEnum::Manager,
+        'as' => UserTypesEnum::Manager.'.',
+    ],function (){
+        Route::get('/dashboard', [ManagerController::class, 'dashboard'])->name('dashboard');
+        Route::get('/get-new-requests', [ManagerController::class, 'getNewRequests'])->name('get-new-requests');
+        Route::get('/get-request-detail/{id}', [ManagerController::class, 'getRequestDetail'])->name('get-request-detail');
+        Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
+        Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
+    });
 });
 
 Route::get('/', function () {
