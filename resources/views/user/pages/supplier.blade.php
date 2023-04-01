@@ -1,5 +1,4 @@
-
-@extends('users.users.app')
+@extends('admin.admin.app')
 @section('pageTitle')
     Suppliers
 @endsection
@@ -132,7 +131,8 @@
                         <td>{{$supplier['bank_account']}}</td>
                         <td>{{$supplier['bank_swift']}}</td>
                         <td>{{$supplier['accounting_id']}}</td>
-                        <td><a href="" class="btn btn-primary btn-sm" id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a></td>
+                        <td><a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
+                               data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a></td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -164,59 +164,61 @@
                         @csrf
                         <input type="hidden" name="supplier_id" id="supplier_id">
                         <div class="form-group">
-                           
-            
+
+
                             <label class="control-label">ID / Software</label>
-                                <div>
-                                    <input type="text" name="id_software" id="id_software" placeholder="Enter tax ID "
-                                           class="form-control input-lg" required>
-                                </div> 
-                                <br>
-                                <label class="control-label">Tax ID</label>
-                                <div>
-                                    <input type="text" name="tax_id" id="tax_id" placeholder="Enter tax ID "
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
-                                <label class="control-label"> Supplier Name</label>
+                            <div>
+                                <input type="text" name="id_software" id="id_software" placeholder="Enter tax ID "
+                                       class="form-control input-lg" required>
+                            </div>
+                            <br>
+                            <label class="control-label">Tax ID</label>
+                            <div>
+                                <input type="text" name="tax_id" id="tax_id" placeholder="Enter tax ID "
+                                       class="form-control input-lg" required>
+                            </div>
+                            <br>
+                            <label class="control-label"> Supplier Name</label>
                             <div>
                                 <input type="text" name="name" id="name" placeholder="Enter full name"
                                        class="form-control input-lg" required>
                             </div>
                             <br>
                             <label class="control-label">Bank ID</label>
-                                <div>
-                                    <input type="text" name="bank_id" id="bank_id" placeholder="Enter  Bank ID"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
+                            <div>
+                                <input type="text" name="bank_id" id="bank_id" placeholder="Enter  Bank ID"
+                                       class="form-control input-lg" required>
+                            </div>
+                            <br>
 
-                                <label class="control-label">Bank Name</label>
-                                <div>
-                                    <input type="text" name="bank_name" id="bank_name" placeholder="Enter  Bank name"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
+                            <label class="control-label">Bank Name</label>
+                            <div>
+                                <input type="text" name="bank_name" id="bank_name" placeholder="Enter  Bank name"
+                                       class="form-control input-lg" required>
+                            </div>
+                            <br>
 
-                                <label class="control-label">Bank Account</label>
-                                <div>
-                                    <input type="text" name="bank_account" id="bank_account" placeholder="Enter Bank Account"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
+                            <label class="control-label">Bank Account</label>
+                            <div>
+                                <input type="text" name="bank_account" id="bank_account"
+                                       placeholder="Enter Bank Account"
+                                       class="form-control input-lg" required>
+                            </div>
+                            <br>
 
-                                <label class="control-label">Bank Swift</label>
-                                <div>
-                                    <input type="text" name="bank_swift" id="bank_swift" placeholder="Enter Bank Swift"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
-                                <label class="control-label"> Accounting ID</label>
-                                <div>
-                                    <input type="text" name="accounting_id" id="accounting_id" placeholder="Enter  Accounting ID"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
+                            <label class="control-label">Bank Swift</label>
+                            <div>
+                                <input type="text" name="bank_swift" id="bank_swift" placeholder="Enter Bank Swift"
+                                       class="form-control input-lg" required>
+                            </div>
+                            <br>
+                            <label class="control-label"> Accounting ID</label>
+                            <div>
+                                <input type="text" name="accounting_id" id="accounting_id"
+                                       placeholder="Enter  Accounting ID"
+                                       class="form-control input-lg" required>
+                            </div>
+                            <br>
 
                         </div>
 
@@ -235,35 +237,35 @@
     <!--end::Body-->
 @endsection
 @section('script')
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-            <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
-         
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+
     <script type="text/javascript">
         $(document).ready(function () {
             $('#suppliertable').DataTable();
         });
         $('body').on('click', '#userEdit', function () {
-                     var supplier_id = $(this).data('id');
-                     console.log(supplier_id);
-                     $.ajax({
-                         type: "GET",
-                         url: "{{url('/user/edit-supplier/')}}"+'/'+supplier_id,
-                         success:function (response){
-                             console.log(response);
-                             $('#id_software').val(response.id_software);
-                             $('#name').val(response.supplier_name);
-                             $('#tax_id').val(response.tax_id);
-                             $('#name').val(response.supplier_name);
-                             $('#bank_id').val(response.bank_id);
-                             $('#bank_name').val(response.bank_name);
-                             $('#bank_account').val(response.bank_account);
-                             $('#bank_swift').val(response.bank_swift);
-                             $('#accounting_id').val(response.accounting_id);
-                             $('#userFormEdit').attr('action',"{{url('/user/edit-supplier/')}}"+'/'+supplier_id);
-                         }
+            var supplier_id = $(this).data('id');
+            console.log(supplier_id);
+            $.ajax({
+                type: "GET",
+                url: "{{url('/user/edit-supplier/')}}" + '/' + supplier_id,
+                success: function (response) {
+                    console.log(response);
+                    $('#id_software').val(response.id_software);
+                    $('#name').val(response.supplier_name);
+                    $('#tax_id').val(response.tax_id);
+                    $('#name').val(response.supplier_name);
+                    $('#bank_id').val(response.bank_id);
+                    $('#bank_name').val(response.bank_name);
+                    $('#bank_account').val(response.bank_account);
+                    $('#bank_swift').val(response.bank_swift);
+                    $('#accounting_id').val(response.accounting_id);
+                    $('#userFormEdit').attr('action', "{{url('/user/edit-supplier/')}}" + '/' + supplier_id);
+                }
 
-                     });
-                 });
+            });
+        });
 
     </script>
 @endsection

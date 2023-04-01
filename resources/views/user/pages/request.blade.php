@@ -1,4 +1,4 @@
-@extends('users.users.app')
+@extends('admin.admin.app')
 @section('pageTitle')
     Requests
 @endsection
@@ -6,14 +6,14 @@
 
     <!--begin::Header-->
     <br>
-    
+
     <div class="card-header pt-5">
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Manage Requests</span>
         </h3>
     </div>
-    
-   
+
+
     <div class="btn-group">
         <button class="btn btn-info active" data-filter="all">All</button>
         <button class="btn btn-info" data-filter="new">New</button>
@@ -23,9 +23,9 @@
         <button class="btn btn-info" data-filter="confirmed">Confirmed</button>
         <button class="btn btn-info" data-filter="paid">Paid</button>
     </div>
-  
 
- 
+
+
     <!--end::Header-->
     <!--begin::Body-->
     <div class="card-body py-3">
@@ -43,52 +43,56 @@
                     </div>
                     <div class="modal-body">
                         <form id="categoryForm" method="POST" action="{{route('user.addrequest')}}"
-                        enctype='multipart/form-data'>
-                            @csrf     
+                              enctype='multipart/form-data'>
+                            @csrf
                             <div class="form-group">
                                 <label for="initiator">Initiator</label>
-                                <input type="text" class="form-control" id="initiator" value="<?php echo $user->name;  ?>" readonly>
-                                <input type="hidden"  name="initiator_id" value="<?php echo $user->name;  ?>">
+                                <input type="text" class="form-control" id="initiator"
+                                       value="<?php echo $user->name;  ?>" readonly>
+                                <input type="hidden" name="initiator_id" value="<?php echo $user->name;  ?>">
                             </div>
                             <div class="form-group">
                                 <label for="company">Company</label>
                                 <select class="form-control" id="company" name="company" required>
-                      <?php          foreach($companies as $company){ ?>
-        <option value="{{$company->name}}"  {{ $company->user_id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
-   <?php  } ?>
+                                    <?php foreach ($companies as $company){ ?>
+                                    <option
+                                        value="{{$company->name}}" {{ $company->user_id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="department">Department</label>
                                 <select class="form-control" id="department" name="department" required>
-                                <?php          foreach($departments as $department){ ?>
-        <option value="{{$department->name}}"  {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
-   <?php  } ?>
+                                    <?php foreach ($departments as $department){ ?>
+                                    <option
+                                        value="{{$department->name}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="supplier">Supplier</label>
-                                <select class="form-control" id="supplier" name="supplier" required placeholder="select a supplier">
-                                <?php          foreach($suppliers as $supplier){ ?>
-        <option value="{{$supplier->supplier_name}}"  >{{$supplier->supplier_name}}</option>
-   <?php  } ?>
+                                <select class="form-control" id="supplier" name="supplier" required
+                                        placeholder="select a supplier">
+                                    <?php foreach ($suppliers as $supplier){ ?>
+                                    <option value="{{$supplier->supplier_name}}">{{$supplier->supplier_name}}</option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="expense-type">Type of Expense</label>
                                 <select class="form-control" id="expense_type" name="expense_type" required>
-                                <?php          foreach($expenses as $expense){ ?>
-        <option value="{{$expense->name}}"  >{{$expense->name}}</option>
-   <?php  } ?>
+                                    <?php foreach ($expenses as $expense){ ?>
+                                    <option value="{{$expense->name}}">{{$expense->name}}</option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="currency">Currency</label>
                                 <select class="form-control" id="currency" name="currency" required>
-                                <option value="">Select a currency</option>
-                                <option value="USD">USD</option>
-                                <option value="EUR">EUR</option>
-                                <option value="GEL">GEL</option>
+                                    <option value="">Select a currency</option>
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="GEL">GEL</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -97,28 +101,35 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                                <textarea class="form-control" id="description" name="description" rows="3"
+                                          required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
-                                <input type="file" class="form-control" id="basis" name="basis[]" onchange="previewFile()" required>
+                                <input type="file" class="form-control" id="basis" name="basis[]"
+                                       onchange="previewFile()" required>
                                 <div id="preview"></div>
                             </div>
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
-                                <input type="date" class="form-control" id="due-date-payment" name="due-date-payment" min="<?php echo date('Y-m-d');?>" required>
+                                <input type="date" class="form-control" id="due-date-payment" name="due-date-payment"
+                                       min="<?php echo date('Y-m-d');?>" required>
                             </div>
                             <div class="form-group">
                                 <label for="due-date" class="form-label">Due Date</label>
-                                <input type="date" class="form-control" id="due-date" name="due-date" min="<?php echo date('Y-m-d');?>" required>
+                                <input type="date" class="form-control" id="due-date" name="due-date"
+                                       min="<?php echo date('Y-m-d');?>" required>
                             </div>
                             <div class="form-group d-flex gx-5">
                                 <div class='p-2'>
-                                    
-                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button" class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>
+
+                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button"
+                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>
                                 </div>
                                 <div class='p-2'>
-                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}" name="button" class="btn btn-success">{{App\Classes\Enums\StatusEnum::SubmittedForReview}}</button>
+                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
+                                            name="button"
+                                            class="btn btn-success">{{App\Classes\Enums\StatusEnum::SubmittedForReview}}</button>
                                 </div>
                             </div>
                         </form>
@@ -136,52 +147,55 @@
                     <div class="modal-body">
                         <form id="requestFormEdit" method="POST" action=""
                               enctype="multipart/form-data">
-                            @csrf   
-                           
-                            <input type="hidden" name="reqid" id="reqid">   
+                            @csrf
+
+                            <input type="hidden" name="reqid" id="reqid">
                             <div class="form-group">
                                 <label for="initiator">Initiator</label>
-                                <input type="text" class="form-control" id="initiator" name="initiator" value="<?php echo $user->name;  ?>" readonly>
+                                <input type="text" class="form-control" id="initiator" name="initiator"
+                                       value="<?php echo $user->name;  ?>" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="company">Company</label>
                                 <select class="form-control" id="company" name="company" required>
-                                <?php          foreach($companies as $company){ ?>
-        <option value="{{$company->name}}"  {{ $company->id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
-   <?php  } ?>
+                                    <?php foreach ($companies as $company){ ?>
+                                    <option
+                                        value="{{$company->name}}" {{ $company->id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="department">Department</label>
                                 <select class="form-control" id="department" name="department" required>
-                                <?php          foreach($departments as $department){ ?>
-        <option value="{{$department->name}}"  {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
-   <?php  } ?>
+                                    <?php foreach ($departments as $department){ ?>
+                                    <option
+                                        value="{{$department->name}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="supplier">Supplier</label>
                                 <select class="form-control" id="supplier" name="supplier" required>
-                                <?php          foreach($suppliers as $supplier){ ?>
-        <option value="{{$supplier->supplier_name}}"  >{{$supplier->supplier_name}}</option>
-   <?php  } ?>
+                                    <?php foreach ($suppliers as $supplier){ ?>
+                                    <option value="{{$supplier->supplier_name}}">{{$supplier->supplier_name}}</option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="expense-type">Type of Expense</label>
                                 <select class="form-control" id="expense-type" name="expense-type" required>
-                                
-                                <?php          foreach($expenses as $expense){ ?>
-        <option value="{{$expense->name}}"  >{{$expense->name}}</option>
-   <?php  } ?>
+
+                                    <?php foreach ($expenses as $expense){ ?>
+                                    <option value="{{$expense->name}}">{{$expense->name}}</option>
+                                    <?php } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="currency">Currency</label>
                                 <select class="form-control" id="currency" name="currency" required>
-                                <option value="USD">USD</option>
-                                <option value="EUR">EUR</option>
-                                <option value="GEL">GEL</option>
+                                    <option value="USD">USD</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="GEL">GEL</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -190,7 +204,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
-                                <textarea class="form-control" id="description2" rows="3" name="description" required></textarea>
+                                <textarea class="form-control" id="description2" rows="3" name="description"
+                                          required></textarea>
                             </div>
                             <!-- <div class="form-group">
                                 <label for="basis">Basis</label>
@@ -201,11 +216,13 @@
                             </div> -->
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
-                                <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2" min ='<?php echo date('Y-m-d');?>' required>
+                                <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2"
+                                       min='<?php echo date('Y-m-d');?>' required>
                             </div>
                             <div class="form-group">
                                 <label for="due-date" class="form-label">Due Date</label>
-                                <input type="date" class="form-control" id="due-date2" name="due-date2" min ='<?php echo date('Y-m-d');?>' required>
+                                <input type="date" class="form-control" id="due-date2" name="due-date2"
+                                       min='<?php echo date('Y-m-d');?>' required>
                             </div>
                             <div class="form-group">
                                 <div>
@@ -223,24 +240,24 @@
             <div class="overflow-auto">
                 <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%">
                     <thead>
-                        <tr>
-                            <th>Initiator</th>
-                            <th>Company</th>
-                            <th>Department</th>
-                            <th>Supplier</th>
-                            <th>Type of Expense</th>
-                            <th>Currency</th>
-                            <th>Amount</th>
-                            <th>Description</th>
-                            <th>Basis</th>
-                            <th>Due Date of Payment</th>
-                            <th>Due Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
+                    <tr>
+                        <th>Initiator</th>
+                        <th>Company</th>
+                        <th>Department</th>
+                        <th>Supplier</th>
+                        <th>Type of Expense</th>
+                        <th>Currency</th>
+                        <th>Amount</th>
+                        <th>Description</th>
+                        <th>Basis</th>
+                        <th>Due Date of Payment</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach($requests as $request)
+                    @foreach($requests as $request)
                         <tr data-status="{{$request['status']}}">
                             <td>{{$request['initiator']}}</td>
                             <td>{{$request['company']}}</td>
@@ -254,20 +271,20 @@
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
-                          <?php  if($request['status'] == "new") { ?>
+                                <?php if ($request['status'] == "new") { ?>
                             <td>
-<a href="" class="btn btn-primary btn-sm" id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}">Edit</a>
-<a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
-                               class="btn btn-danger delete_btn btn-sm">Delete</a></td>
-<?php  }
-elseif ($request['status'] =="submitted-for-review}}") {
-  
-}
-else{ ?>
-                               
-                                <?php }?>
+                                <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
+                                   data-target="#ModalEdit" data-id="{{$request->id}}">Edit</a>
+                                <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
+                                   class="btn btn-danger delete_btn btn-sm">Delete</a></td>
+                            <?php }
+                            elseif ($request['status'] == "submitted-for-review}}") {
+
+                            } else { ?>
+
+                            <?php } ?>
                         </tr>
-                        @endforeach
+                    @endforeach
                     </tbody>
                 </table>
             </div>
@@ -320,47 +337,48 @@ else{ ?>
             reader.addEventListener("load", function () {
                 const fileType = file.type.split('/')[0];
                 if (fileType === 'image') {
-                preview.innerHTML = `<img src="${reader.result}" class="img-thumbnail">`;
+                    preview.innerHTML = `<img src="${reader.result}" class="img-thumbnail">`;
                 } else if (fileType === 'application' && file.type === 'application/pdf') {
-                preview.innerHTML = `<div class="d-flex"></i><embed class="p-2" src="${reader.result}" type="application/pdf" width="100%"></div>`;
+                    preview.innerHTML = `<div class="d-flex"></i><embed class="p-2" src="${reader.result}" type="application/pdf" width="100%"></div>`;
                 } else if (fileType === 'application' && file.type === 'application/msword') {
-                preview.innerHTML = `<div class="d-flex align-items-center justify-content-center"><i class="far fa-file-word text-primary" style="font-size: 24px; width: 100%;"></i><embed src="${reader.result}" type="application/msword" width="100%"></div>`;
+                    preview.innerHTML = `<div class="d-flex align-items-center justify-content-center"><i class="far fa-file-word text-primary" style="font-size: 24px; width: 100%;"></i><embed src="${reader.result}" type="application/msword" width="100%"></div>`;
                 } else {
-                preview.innerHTML = `<p>${file.name} - ${file.size} bytes</p>`;
+                    preview.innerHTML = `<p>${file.name} - ${file.size} bytes</p>`;
                 }
             }, false);
             if (file) {
                 reader.readAsDataURL(file);
             }
         }
+
         // Preview End
 
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
-                     console.log(request_id);
+            console.log(request_id);
             $.ajax({
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
                     console.log(response);
-                   $('#reqid').val(response.id);
-                   $('#amount2').val(response.amount);
-                   $('#description2').val(response.description);
-                $('#due-date-payment2').val(response.payment_date);
-                $('#due-date2').val(response.submission_date);
+                    $('#reqid').val(response.id);
+                    $('#amount2').val(response.amount);
+                    $('#description2').val(response.description);
+                    $('#due-date-payment2').val(response.payment_date);
+                    $('#due-date2').val(response.submission_date);
                     $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
                 }
 
             });
         });
         // Data Filter Start
-        $(document).ready(function(){
-            $(".btn-group button").click(function(){
+        $(document).ready(function () {
+            $(".btn-group button").click(function () {
                 var filterValue = $(this).attr('data-filter');
                 console.log("filterValue", filterValue)
                 $("#suppliertable tbody tr").hide();
                 $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
-                if(filterValue === "all") {
+                if (filterValue === "all") {
                     $("#suppliertable tbody tr").show();
                 } else {
                     $("#suppliertable tbody tr").hide();

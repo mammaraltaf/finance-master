@@ -80,6 +80,14 @@
                     </div>
                     @endhasanyrole
 
+                    @role(\App\Classes\Enums\UserTypesEnum::User)
+                    <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::User.'.request') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::User.'.request')}}" >
+                            <span class="menu-title">Manage Requests</span>
+                        </a>
+                    </div>
+                    @endrole
+
             </div>
             <!--end::Menu-->
         </div>

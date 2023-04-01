@@ -89,7 +89,7 @@
                     <h5 class="modal-title" id="acceptConfirmationModalLabel">Accept Request</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{route(UserTypesEnum::Finance.'.approve-request')}}" method="POST">
+                <form action="{{route(UserTypesEnum::Manager.'.approve-request')}}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <p>Are you sure you want to accept this request?</p>
@@ -118,7 +118,7 @@
                     <h5 class="modal-title" id="rejectConfirmationModalLabel">Reject Request</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{route(UserTypesEnum::Finance.'.reject-request')}}" method="POST">
+                <form action="{{route(UserTypesEnum::Manager.'.reject-request')}}" method="POST">
                     @csrf
                 <div class="modal-body">
                     <p>Are you sure you want to reject this request?</p>

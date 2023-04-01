@@ -15,4 +15,9 @@ class Company extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function requestFlows()
+    {
+        return $this->hasMany(RequestFlow::class);
+    }
 }

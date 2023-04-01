@@ -8,7 +8,7 @@ class StatusEnum
     public const SubmittedForReview = 'submitted-for-review';
     public const Rejected = 'rejected';
     public const FinanceOk = 'finance-ok';
-    public const Confirmed = 'confirmed';
+    public const Confirmed = 'confirmed';       //when manager accept it
 
     public const Paid = 'paid';
 
