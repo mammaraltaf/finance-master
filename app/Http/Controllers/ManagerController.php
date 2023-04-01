@@ -17,4 +17,10 @@ class ManagerController extends Controller
     {
         return view('manager.pages.dashboard');
     }
+
+    public function getNewRequests()
+    {
+        $requests = RequestFlow::whereStatus(StatusEnum::New)->get();
+        return view('manager.pages.new_requests', compact('requests'));
+    }
 }

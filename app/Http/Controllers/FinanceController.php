@@ -18,18 +18,24 @@ class FinanceController extends Controller
     public function dashboard()
     {
         // $this->authorize('finance');
-        return view('finance.pages.dashboard');
+        $requests = RequestFlow::whereStatus(StatusEnum::SubmittedForReview)->get();
+        return view('finance.pages.dashboard', compact('requests'));
     }
 
-    public function getNewRequests()
-    {
-        $requests = RequestFlow::whereStatus(StatusEnum::New)->get();
-        return view('finance.pages.new_requests', compact('requests'));
-    }
+//    public function getNewRequests()
+//    {
+//        $requests = RequestFlow::whereStatus(StatusEnum::SubmittedForReview)->get();
+//        return view('finance.pages.new_requests', compact('requests'));
+//    }
 
     public function getRequestDetail($id){
-        $request = RequestFlow::find($id);
-        return response()->json($request);
+        try{
+            $request = RequestFlow::find($id);
+            return response()->json($request);
+        }
+        catch (Exception $e){
+            return redirect()->back()->withErrors($e->getMessage());
+        }
     }
 
     public function approveRequest(Request $request)
@@ -39,7 +45,7 @@ class FinanceController extends Controller
             $requestFlow->status = StatusEnum::FinanceOk;
             $requestFlow->comment = $request->comment ?? null ;
             $requestFlow->save();
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Request Approved Successfully');
         }
         catch (Exception $e){
             return redirect()->back()->withErrors($e->getMessage());
@@ -59,9 +65,9 @@ class FinanceController extends Controller
 
             $requestFlow = RequestFlow::find($request->id);
             $requestFlow->status = StatusEnum::Rejected;
-            $requestFlow->comment = $request->comment ?? null ;
+            $requestFlow->comment = $request->comment;
             $requestFlow->save();
-            return redirect()->back();
+            return redirect()->back()->with('success', 'Request Rejected Successfully');
         }
         catch (Exception $e){
             return redirect()->back()->withErrors($e->getMessage());
