@@ -1,8 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-
-    <!-- <div class="container">
+<!-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
@@ -75,10 +74,11 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card p-4 shadow-lg">
-                <div class="card-header bg-primary text-white">{{ __('Login') }}</div>
-                    <div class="card-body">
+                <div class="card-header bg-primary text-white">{{ __('Login') }}</div>            
+<div class="card-body">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
+
                     <div class="form-floating mb-3">
                         <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
                         <label for="email">{{ __('Email Address') }}</label>
@@ -101,16 +101,12 @@
                         @enderror
                     </div>
 
-{{--                    <div class="form-check mb-3">--}}
-{{--                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>--}}
-
-{{--                        <label class="form-check-label" for="remember">--}}
-{{--                            {{ __('Remember Me') }}--}}
-{{--                        </label>--}}
-{{--                    </div>--}}
                     <div class="form-check mb-3">
-                        <div class="g-recaptcha" data-sitekey="{{env('RECAPTCHA_SITE_KEY')}}"></div>
-                        <br/>
+                        <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+
+                        <label class="form-check-label" for="remember">
+                            {{ __('Remember Me') }}
+                        </label>
                     </div>
 
                     <div class="d-grid mb-3">
@@ -159,7 +155,7 @@
         text-transform: uppercase;
         font-weight: bold;
     }
-</style>
+</style> 
 
 
 @endsection
