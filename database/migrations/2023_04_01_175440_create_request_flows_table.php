@@ -26,6 +26,7 @@ class CreateRequestFlowsTable extends Migration
             $table->string('basis')->nullable(false);
             $table->date('payment_date')->nullable(false);
             $table->date('submission_date')->nullable(false);
+            $table->text('comment')->nullable();
             $table->string('status')->nullable(false);
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
