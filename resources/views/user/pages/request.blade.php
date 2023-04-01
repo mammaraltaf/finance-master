@@ -13,9 +13,8 @@
         </h3>
     </div>
     
-    <div class="card-toolbar">
-        <div class="container">
-        <div class="btn-group">
+   
+    <div class="btn-group">
         <button class="btn btn-info active" data-filter="all">All</button>
         <button class="btn btn-info" data-filter="new">New</button>
         <button class="btn btn-info" data-filter="submitted-for-review">Submitted for review</button>
@@ -25,9 +24,8 @@
         <button class="btn btn-info" data-filter="paid">Paid</button>
     </div>
   
-    </div>
 
-    </div>
+ 
     <!--end::Header-->
     <!--begin::Body-->
     <div class="card-body py-3">
@@ -103,7 +101,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
-                                <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
+                                <input type="file" class="form-control" id="basis" name="basis[]" onchange="previewFile()" required>
+                                <div id="preview"></div>
                             </div>
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
@@ -113,8 +112,6 @@
                                 <label for="due-date" class="form-label">Due Date</label>
                                 <input type="date" class="form-control" id="due-date" name="due-date" min="<?php echo date('Y-m-d');?>" required>
                             </div>
-                          
-
                             <div class="form-group d-flex gx-5">
                                 <div class='p-2'>
                                     
@@ -272,22 +269,6 @@ else{ ?>
                         </tr>
                         @endforeach
                     </tbody>
-                    <!-- <tfoot>
-                        <tr>
-                            <th>Initiator</th>
-                            <th>Company</th>
-                            <th>Department</th>
-                            <th>Supplier</th>
-                            <th>Type of Expense</th>
-                            <th>Currency</th>
-                            <th>Amount</th>
-                            <th>Description</th>
-                            <th>Basis (file attachment title)</th>
-                            <th>Due Date of Payment</th>
-                            <th>Due Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </tfoot> -->
                 </table>
             </div>
         </div>
@@ -329,6 +310,31 @@ else{ ?>
         $(document).ready(function () {
             $('#suppliertable').DataTable();
         });
+
+        // Preview Start
+        function previewFile() {
+            // <i class="p-2 far fa-file-pdf text-danger" style="font-size: 50px; width: 100%;">
+            const preview = document.querySelector('#preview');
+            const file = document.querySelector('#basis').files[0];
+            const reader = new FileReader();
+            reader.addEventListener("load", function () {
+                const fileType = file.type.split('/')[0];
+                if (fileType === 'image') {
+                preview.innerHTML = `<img src="${reader.result}" class="img-thumbnail">`;
+                } else if (fileType === 'application' && file.type === 'application/pdf') {
+                preview.innerHTML = `<div class="d-flex"></i><embed class="p-2" src="${reader.result}" type="application/pdf" width="100%"></div>`;
+                } else if (fileType === 'application' && file.type === 'application/msword') {
+                preview.innerHTML = `<div class="d-flex align-items-center justify-content-center"><i class="far fa-file-word text-primary" style="font-size: 24px; width: 100%;"></i><embed src="${reader.result}" type="application/msword" width="100%"></div>`;
+                } else {
+                preview.innerHTML = `<p>${file.name} - ${file.size} bytes</p>`;
+                }
+            }, false);
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+        // Preview End
+
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
                      console.log(request_id);
@@ -347,6 +353,7 @@ else{ ?>
 
             });
         });
+        // Data Filter Start
         $(document).ready(function(){
             $(".btn-group button").click(function(){
                 var filterValue = $(this).attr('data-filter');
@@ -354,13 +361,13 @@ else{ ?>
                 $("#suppliertable tbody tr").hide();
                 $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
                 if(filterValue === "all") {
-      $("#suppliertable tbody tr").show();
-    } else {
-      $("#suppliertable tbody tr").hide();
-      $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
-    }
-    $(".btn-group button").removeClass("active");
-    $(this).addClass("active");
+                    $("#suppliertable tbody tr").show();
+                } else {
+                    $("#suppliertable tbody tr").hide();
+                    $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
+                }
+                $(".btn-group button").removeClass("active");
+                $(this).addClass("active");
             });
         });
     </script>
