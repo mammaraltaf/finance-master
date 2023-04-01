@@ -16,18 +16,36 @@
         <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%">
             <thead>
                 <tr>
-                    <th>Date</th>
+                    <th>Initiator</th>
+                    <th>Company</th>
+                    <th>Department</th>
+                    <th>Supplier</th>
+                    <th>Type of Expense</th>
+                    <th>Currency</th>
                     <th>Amount</th>
                     <th>Description</th>
+                    <th>Basis</th>
+                    <th>Due Date of Payment</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                
+
                 <tr>
-                    <td>Date</td>
+                    <td>Initiator</td>
+                    <td>Company</td>
+                    <td>Department</td>
+                    <td>Supplier</td>
+                    <td>Type of Expense</td>
+                    <td>Currency</td>
                     <td>Amount</td>
                     <td>Description</td>
+                    <td>Basis</td>
+                    <td>Due Date of Payment</td>
+                    <td>Due Date</td>
+                    <td>Status</td>
                     <td>
                         <div class="d-flex">
                             <button class="mr-2 btn btn-success" id="acceptBtn">Accept</button>
@@ -37,7 +55,25 @@
 
                 </tr>
             </tbody>
-           
+<tfoot>
+     <tr>
+         <th>Initiator</th>
+         <th>Company</th>
+         <th>Department</th>
+         <th>Supplier</th>
+         <th>Type of Expense</th>
+         <th>Currency</th>
+         <th>Amount</th>
+         <th>Description</th>
+         <th>Basis (file attachment title)</th>
+         <th>Due Date of Payment</th>
+         <th>Due Date</th>
+         <th>Status</th>
+         <th>Actions</th>
+
+     </tr>
+ </tfoot>
+
         </table>
     </div>
 
@@ -65,7 +101,7 @@
       </div>
     </div>
   </div>
-  
+
   <!-- Rejection Modal -->
   <div class="modal fade" id="rejectConfirmationModal" tabindex="-1" aria-labelledby="rejectConfirmationModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -91,7 +127,7 @@
     </div>
   </div>
     </div>
-    
+
 @endsection
 @section('script')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
@@ -99,7 +135,10 @@
 
     <script>
         $(document).ready(function() {
-  
+    $('#suppliertable').DataTable({
+
+    });
+
   $('#acceptBtn').click(function() {
     $('#acceptConfirmationModal').modal('show');
   });
@@ -117,5 +156,5 @@
 });
 
     </script>
-   
+
 @endsection
