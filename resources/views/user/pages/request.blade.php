@@ -1,6 +1,6 @@
 @extends('users.users.app')
 @section('pageTitle')
-    Suppliers
+    Request
 @endsection
 @section('content')
     <!--begin::Header-->
@@ -8,62 +8,21 @@
     
     <div class="card-header pt-5">
         <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1">Manage Suppliers</span>
+            <span class="card-label fw-bolder fs-3 mb-1">Manage Reuqest</span>
         </h3>
     </div>
-    
-    <div class="card-toolbar">
-        <div class="container">
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#new">New</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#submitted">Submitted for review</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#rejected">Rejected</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#finance">Finance ok</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#confirmed">Confirmed</a>
-                </li>
-                <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#paid">Paid</a>
-                </li>
-            </ul>
-  
-        <div class="tab-content">
-            <div id="new" class="tab-pane fade show active">
-                <h3>New - Request creating</h3>
-                <p>Content for the New tab goes here.</p>
-            </div>
-            <div id="submitted" class="tab-pane fade">
-                <h3>Submitted for review - Finish and send</h3>
-                <p>Content for the Submitted for review tab goes here.</p>
-            </div>
-            <div id="rejected" class="tab-pane fade">
-                <h3>Rejected</h3>
-                <p>Content for the Rejected tab goes here.</p>
-            </div>
-            <div id="finance" class="tab-pane fade">
-                <h3>Finance ok - Finance approved</h3>
-                <p>Content for the Finance ok tab goes here.</p>
-            </div>
-            <div id="confirmed" class="tab-pane fade">
-            <h3>Confirmed</h3>
-            <p>Content for the Confirmed tab goes here.</p>
-            </div>
-            <div id="paid" class="tab-pane fade">
-            <h3>Paid</h3>
-            <p>Content for the Paid tab goes here.</p>
-            </div>
-        </div>
-    </div>
 
+
+    <div class="btn-group">
+        <button class="btn btn-info active" data-filter="all">All</button>
+        <button class="btn btn-info" data-filter="new">New</button>
+        <button class="btn btn-info" data-filter="submitted">Submitted for review</button>
+        <button class="btn btn-info" data-filter="rejected">Rejected</button>
+        <button class="btn btn-info" data-filter="finance">Finance ok</button>
+        <button class="btn btn-info" data-filter="confirmed">Confirmed</button>
+        <button class="btn btn-info" data-filter="paid">Paid</button>
     </div>
+        
     <!--end::Header-->
     <!--begin::Body-->
     <div class="card-body py-3">
@@ -91,33 +50,33 @@
                             <div class="form-group">
                                 <label for="company">Company</label>
                                 <select class="form-control" id="company" name="company" required>
-                      <?php          foreach($companies as $company){ ?>
-        <option value="{{$company->id}}"  {{ $company->user_id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
-   <?php  } ?>
+                                <?php foreach($companies as $company){ ?>
+                                    <option value="{{$company->id}}"  {{ $company->user_id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
+                                    <?php  } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="department">Department</label>
                                 <select class="form-control" id="department" name="department" required>
-                                <?php          foreach($departments as $department){ ?>
-        <option value="{{$department->id}}"  {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
-   <?php  } ?>
+                                <?php foreach($departments as $department){ ?>
+                                <option value="{{$department->id}}"  {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
+                                    <?php  } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="supplier">Supplier</label>
                                 <select class="form-control" id="supplier" name="supplier" required placeholder="select a supplier">
                                 <?php          foreach($suppliers as $supplier){ ?>
-        <option value="{{$supplier->id}}"  >{{$supplier->supplier_name}}</option>
-   <?php  } ?>
+                                <option value="{{$supplier->id}}"  >{{$supplier->supplier_name}}</option>
+                                <?php  } ?>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="expense-type">Type of Expense</label>
                                 <select class="form-control" id="expense_type" name="expense_type" required>
-                                <?php          foreach($expenses as $expense){ ?>
-        <option value="{{$expense->id}}"  >{{$expense->name}}</option>
-   <?php  } ?>
+                                <?php  foreach($expenses as $expense){ ?>
+                                <option value="{{$expense->id}}"  >{{$expense->name}}</option>
+                                <?php  } ?>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -139,7 +98,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
-                                <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
+                                <input type="file" class="form-control" id="basis" name="basis[]" onchange="previewFile()" required>
+                                <div id="preview"></div>
                             </div>
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
@@ -148,6 +108,8 @@
                             <div class="form-group">
                                 <label for="due-date" class="form-label">Due Date</label>
                                 <input type="date" class="form-control" id="due-date" name="due-date" required>
+                                <div id="fileList">
+                                </div>
                             </div>
                           
 
@@ -251,7 +213,7 @@
                     </thead>
                     <tbody>
                         @foreach($requests as $request)
-                        <tr>
+                        <tr data-status="{{$request['status']}}">
                             <td>{{$request['initiator']}}</td>
                             <td>{{$request['company']}}</td>
                             <td>{{$request['department']}}</td>
@@ -260,13 +222,21 @@
                             <td>{{$request['currency']}}</td>
                             <td>{{$request['amount']}}</td>
                             <td>{{$request['description']}}</td>
-                            <td>{{$request['basis']}}</td>
+                            <td>
+                                @if(is_array($request['basis']))
+                                    @foreach($request['basis'] as $link)
+                                        <a href="{{$link}}">{{$link}}</a><br>
+                                    @endforeach
+                                @else
+                                    <a href="{{$request['basis']}}">{{$request['basis']}}</a>
+                                @endif
+                            </td>
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
                           <?php  if($request['status'] == "add") { ?>
                             <td>
-<a href="">Edit</a>
+                            <a href="">Edit</a>
 
                             <?php  } else{ ?>
                                
@@ -274,22 +244,6 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    <!-- <tfoot>
-                        <tr>
-                            <th>Initiator</th>
-                            <th>Company</th>
-                            <th>Department</th>
-                            <th>Supplier</th>
-                            <th>Type of Expense</th>
-                            <th>Currency</th>
-                            <th>Amount</th>
-                            <th>Description</th>
-                            <th>Basis (file attachment title)</th>
-                            <th>Due Date of Payment</th>
-                            <th>Due Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </tfoot> -->
                 </table>
             </div>
         </div>
@@ -316,6 +270,8 @@
         </div>
     </div>
 
+      
+
     <!--end::Body-->
 @endsection
 @section('script')
@@ -327,10 +283,59 @@
             $('.user-delete').val(a);
         });
     </script>
+    
     <script type="text/javascript">
         $(document).ready(function () {
             $('#suppliertable').DataTable();
         });
+        // file preview start
+        function previewFile() {
+            // <i class="p-2 far fa-file-pdf text-danger" style="font-size: 50px; width: 100%;">
+            const preview = document.querySelector('#preview');
+            const file = document.querySelector('#basis').files[0];
+            const reader = new FileReader();
+
+            reader.addEventListener("load", function () {
+                const fileType = file.type.split('/')[0];
+
+                if (fileType === 'image') {
+                preview.innerHTML = `<img src="${reader.result}" class="img-thumbnail">`;
+                } else if (fileType === 'application' && file.type === 'application/pdf') {
+                preview.innerHTML = `<div class="d-flex"></i><embed class="p-2" src="${reader.result}" type="application/pdf" width="100%"></div>`;
+                } else if (fileType === 'application' && file.type === 'application/msword') {
+                preview.innerHTML = `<div class="d-flex align-items-center justify-content-center"><i class="far fa-file-word text-primary" style="font-size: 24px; width: 100%;"></i><embed src="${reader.result}" type="application/msword" width="100%"></div>`;
+                } else {
+                preview.innerHTML = `<p>${file.name} - ${file.size} bytes</p>`;
+                }
+            }, false);
+
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+        // file preview end
+        //=========================
+        // Table Filter Start
+        //=========================
+        $(document).ready(function(){
+            $(".btn-group button").click(function(){
+                var filterValue = $(this).attr('data-filter');
+                if(filterValue === "all")
+                {
+                    console.log(filterValue);
+                    $("#suppliertable tbody tr").show();
+                }else{
+                    console.log(filterValue);
+                    $("#suppliertable tbody tr").hide();
+                    $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
+                }
+                $(".btn-group button").removeClass("active");
+                $(this).addClass("active");
+            });
+        });
+        //=========================
+            // Table Filter End
+        //=========================
         $('body').on('click', '#companyEdit', function () {
             var company_id = $(this).data('id');
             $.ajax({
