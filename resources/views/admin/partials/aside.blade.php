@@ -40,11 +40,12 @@
             <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true">
                 <div class="menu-item">
                     <div class="menu-item">
-                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.dashboard') ? 'active' : '' }}" href="{{ route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.dashboard')}}" >
+                        <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.dashboard') ? 'active' : '' }}" href="{{ route(auth()->user()->user_type.'.dashboard')}}" >
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </div>
 
+                    {{--SUPER ADMIN--}}
                     @role(\App\Classes\Enums\UserTypesEnum::SuperAdmin)
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.users') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.users')}}" >
@@ -78,7 +79,7 @@
                         </a>
                     </div>
                     @endhasanyrole
-                    
+
             </div>
             <!--end::Menu-->
         </div>
