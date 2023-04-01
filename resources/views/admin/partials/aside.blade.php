@@ -78,32 +78,7 @@
                         </a>
                     </div>
                     @endhasanyrole
-
-{{--                    <div class="menu-item">--}}
-{{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.services') ? 'active' : '' }}" href="{{route('admin.services')}}" >--}}
-{{--                            <span class="menu-title">Manage Services</span>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
-
-{{--                    <div class="menu-item">--}}
-{{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.reviews') ? 'active' : '' }}" href="{{route('admin.reviews')}}" >--}}
-{{--                            <span class="menu-title">Manage Reviews</span>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
-
-{{--                    <div class="menu-item">--}}
-{{--                        <a class="menu-link {{ Route::currentRouteNamed('admin.contact') ? 'active' : '' }}" href="{{route('admin.contact')}}" >--}}
-{{--                            <span class="menu-title">Contact Form Data</span>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
-
-{{--                        <div class="menu-item">--}}
-{{--                            <a class="menu-link {{ Route::currentRouteNamed('user.index') ? 'active' : '' }}" href="{{route('user.index')}}" >--}}
-{{--                                <span class="menu-title">Dashboard</span>--}}
-{{--                            </a>--}}
-{{--                        </div>--}}
-
-
+                    
             </div>
             <!--end::Menu-->
         </div>
