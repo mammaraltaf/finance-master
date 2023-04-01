@@ -17,6 +17,7 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\TypeOfExpanse;
 use Illuminate\Support\Facades\Auth;
+use File;
 class UserController extends Controller
 {
     public function __construct()
@@ -171,7 +172,7 @@ class UserController extends Controller
             if(isset($_POST['button'])){
                 $status=$_POST['button'];
             }
-            $supplier_data = RequestFlow::create([
+            $request_data = RequestFlow::create([
                 'initiator' => $input['initiator_id'],
                 'company' => $input['company'],
                 'department' => $input['department'],
@@ -187,7 +188,7 @@ class UserController extends Controller
                 'user_id' => auth()->user()->id
             ]);
 
-            if ($supplier_data) {
+            if ($request_data) {
                 return redirect()->back()->with('success', 'Request successfull');
             }
 
@@ -196,9 +197,70 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function viewrequest($id){
-dd($id);
+    public function deleterequest(Request $request){
+        try {
+            $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
+            $files=explode(',',$all_files);
+            foreach($files as $file){
+                if(\File::exists(public_path('basis/'.$file))){
+                    \File::delete(public_path('basis/'.$file));
+                    }
+            }
+            
+            RequestFlow::where('id',$request->id)->delete();
+            return redirect()->back()->with('success','Request deleted Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
-  
+
+    
+    public function editrequest($id)
+    {
+        $requested = RequestFlow::find($id);
+        return response()->json($requested);
+    }
+
+    public function updaterequest(Request $request, $id){
+        try{
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'company' => 'required',
+                'department' => 'required',
+                'supplier' => 'required',
+                'expense-type' => 'required',
+                'currency' => 'required',
+                'amount' => 'required',
+                'description' => 'required',
+                // 'basis' => 'required',
+                'due-date-payment2' => 'required',
+                'due-date2' => 'required'
+            ]);
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+            $request = RequestFlow::find($id);
+           
+            $request->company = $input['company'];
+            $request->department = $input['department'];
+            $request->supplier = $input['supplier'];
+            $request->expense_type = $input['expense-type'];
+            $request->currency = $input['currency'];
+            $request->amount = $input['amount'];
+            $request->description = $input['description'];
+            $request->payment_date = $input['due-date-payment2'];
+            $request->submission_date = $input['due-date2'];
+            $request->save();
+
+            if($request){
+                return redirect()->back()->with('success', 'Request updated successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
+        catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 
 }

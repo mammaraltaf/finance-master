@@ -68,7 +68,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::group([
         'middleware' => ['role:'.UserTypesEnum::User],
         'prefix' => UserTypesEnum::User,
-        'as' => UserTypesEnum::User.'.',
+        'as' => UserTypesEnum::User.'.',  
     ], function () {
         Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
         Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
@@ -77,7 +77,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');
         Route::get('/request', [UserController::class, 'request'])->name('request');
         Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
-
+        Route::post('/delete-request', [UserController::class, 'deleterequest'])->name('delete-request');
+        Route::get('/edit-request/{id}', [UserController::class, 'editrequest'])->name('edit-request');
+        Route::post('/edit-request/{id}', [UserController::class, 'updaterequest'])->name('edit-request-post');
     });
 
 });

@@ -15,10 +15,10 @@ class CreateRequestFlowsTable extends Migration
     {
         Schema::create('request_flows', function (Blueprint $table) {
             $table->id();
-            $table->integer('initiator')->nullable(false);
-            $table->integer('company')->nullable(false);
-            $table->integer('department')->nullable(false);
-            $table->integer('supplier')->nullable(false);
+            $table->string('initiator')->nullable(false);
+            $table->string('company')->nullable(false);
+            $table->string('department')->nullable(false);
+            $table->string('supplier')->nullable(false);
             $table->string('expense_type')->nullable(false);
             $table->string('currency')->nullable(false);
             $table->string('amount')->nullable(false);
