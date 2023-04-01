@@ -27,7 +27,17 @@
   
     </div>
 
+
+    <div class="btn-group">
+        <button class="btn btn-info active" data-filter="all">All</button>
+        <button class="btn btn-info" data-filter="new">New</button>
+        <button class="btn btn-info" data-filter="submitted">Submitted for review</button>
+        <button class="btn btn-info" data-filter="rejected">Rejected</button>
+        <button class="btn btn-info" data-filter="finance">Finance ok</button>
+        <button class="btn btn-info" data-filter="confirmed">Confirmed</button>
+        <button class="btn btn-info" data-filter="paid">Paid</button>
     </div>
+        
     <!--end::Header-->
     <!--begin::Body-->
     <div class="card-body py-3">
@@ -103,7 +113,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
-                                <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
+                                <input type="file" class="form-control" id="basis" name="basis[]" onchange="previewFile()" required>
+                                <div id="preview"></div>
                             </div>
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
@@ -253,7 +264,15 @@
                             <td>{{$request['currency']}}</td>
                             <td>{{$request['amount']}}</td>
                             <td>{{$request['description']}}</td>
-                            <td>{{$request['basis']}}</td>
+                            <td>
+                                @if(is_array($request['basis']))
+                                    @foreach($request['basis'] as $link)
+                                        <a href="{{$link}}">{{$link}}</a><br>
+                                    @endforeach
+                                @else
+                                    <a href="{{$request['basis']}}">{{$request['basis']}}</a>
+                                @endif
+                            </td>
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
@@ -272,22 +291,6 @@ else{ ?>
                         </tr>
                         @endforeach
                     </tbody>
-                    <!-- <tfoot>
-                        <tr>
-                            <th>Initiator</th>
-                            <th>Company</th>
-                            <th>Department</th>
-                            <th>Supplier</th>
-                            <th>Type of Expense</th>
-                            <th>Currency</th>
-                            <th>Amount</th>
-                            <th>Description</th>
-                            <th>Basis (file attachment title)</th>
-                            <th>Due Date of Payment</th>
-                            <th>Due Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </tfoot> -->
                 </table>
             </div>
         </div>
@@ -314,6 +317,8 @@ else{ ?>
         </div>
     </div>
 
+      
+
     <!--end::Body-->
 @endsection
 @section('script')
@@ -325,6 +330,7 @@ else{ ?>
             $('.user-delete').val(a);
         });
     </script>
+    
     <script type="text/javascript">
         $(document).ready(function () {
             $('#suppliertable').DataTable();

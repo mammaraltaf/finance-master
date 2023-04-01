@@ -41,7 +41,7 @@ class UserController extends Controller
     }
 
     public function addsupplier(Request $request){
-        $this->authorize('create supplier');
+//        $this->authorize('create supplier');
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
@@ -123,7 +123,7 @@ class UserController extends Controller
             $supplier->bank_account = $input['bank_account'];
             $supplier->bank_swift = $input['bank_swift'];
             $supplier->accounting_id = $input['accounting_id'];
-           
+
             $supplier->save();
 
             if($supplier){
@@ -136,7 +136,6 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
 
     public function addrequest(Request $request){
         // $this->authorize('create request');
@@ -164,8 +163,8 @@ class UserController extends Controller
             foreach($request->file('basis') as $file)
             {
                 $name = time().rand(1,50).'.'.$file->extension();
-                $file->move(public_path('basis'), $name);  
-                $files[] = $name;  
+                $file->move(public_path('basis'), $name);
+                $files[] = $name;
             }
          }
          $basis=implode(',',$files);
@@ -181,7 +180,7 @@ class UserController extends Controller
                 'currency' => $input['currency'],
                 'amount' => $input['amount'],
                 'description' => $input['description'],
-                'basis' => $basis,   
+                'basis' => $basis,
                 'payment_date' => $input['due-date-payment'],
                 'submission_date' => $input['due-date'],
                 'status' => $status,
