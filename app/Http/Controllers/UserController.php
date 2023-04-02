@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Classes\Enums\StatusEnum;
+use App\Jobs\AcceptOrRejectRequest;
 use Exception;
 
 use Illuminate\Support\Facades\Validator;
@@ -123,7 +125,7 @@ class UserController extends Controller
             $supplier->bank_account = $input['bank_account'];
             $supplier->bank_swift = $input['bank_swift'];
             $supplier->accounting_id = $input['accounting_id'];
-           
+
             $supplier->save();
 
             if($supplier){
@@ -164,8 +166,8 @@ class UserController extends Controller
             foreach($request->file('basis') as $file)
             {
                 $name = time().rand(1,50).'.'.$file->extension();
-                $file->move(public_path('basis'), $name);  
-                $files[] = $name;  
+                $file->move(public_path('basis'), $name);
+                $files[] = $name;
             }
          }
          $basis=implode(',',$files);
@@ -181,7 +183,7 @@ class UserController extends Controller
                 'currency' => $input['currency'],
                 'amount' => $input['amount'],
                 'description' => $input['description'],
-                'basis' => $basis,   
+                'basis' => $basis,
                 'payment_date' => $input['due-date-payment'],
                 'submission_date' => $input['due-date'],
                 'status' => $status,
@@ -189,6 +191,9 @@ class UserController extends Controller
             ]);
 
             if ($request_data) {
+                if ($status == StatusEnum::SubmittedForReview){
+                    AcceptOrRejectRequest::dispatch($request_data);
+                }
                 return redirect()->back()->with('success', 'Request successfull');
             }
 
@@ -206,7 +211,7 @@ class UserController extends Controller
                     \File::delete(public_path('basis/'.$file));
                     }
             }
-            
+
             RequestFlow::where('id',$request->id)->delete();
             return redirect()->back()->with('success','Request deleted Successfully');
         } catch (Exception $e) {
@@ -214,7 +219,7 @@ class UserController extends Controller
         }
     }
 
-    
+
     public function editrequest($id)
     {
         $requested = RequestFlow::find($id);
@@ -240,7 +245,7 @@ class UserController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
             $request = RequestFlow::find($id);
-           
+
             $request->company = $input['company'];
             $request->department = $input['department'];
             $request->supplier = $input['supplier'];
