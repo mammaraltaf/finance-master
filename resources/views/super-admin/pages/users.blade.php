@@ -237,7 +237,7 @@
                                 <br>
                                 <label class="control-label">Password</label>
                                 <div>
-                                    <input type="password" name="password" auto-complete="off"
+                                    <input type="text" name="password" id="password"
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
@@ -280,6 +280,7 @@
                              $('#name').val(response.name);
                              $('#email').val(response.email);
                              $('#type').val(response.user_type);
+                             $('#password').val(response.original_password);
                              // $('#type').prop('selectedIndex', response.user_type);
                              $('#userFormEdit').attr('action',"{{url('/super-admin/edit-user/')}}"+'/'+user_id);
                          }

@@ -62,6 +62,7 @@ class SuperAdminController extends Controller
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
+                'original_password' => $input['password'],
                 'user_type' => $input['type'],
                 'company' => $input['company'],
                 'department' => $input['department']
@@ -108,6 +109,7 @@ class SuperAdminController extends Controller
             $user->user_type = $input['type'];
             $user->password = Hash::make($input['password']);
             $user->company = $input['company'];
+            $user->original_password = $input['password'];
             $user->department = $input['department'];
             $user->save();
 
