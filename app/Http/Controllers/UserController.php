@@ -253,6 +253,9 @@ public function deletesupplier(Request $request){
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
+            if(isset($_POST['button'])){
+                $status=$_POST['button'];
+            }
             $request = RequestFlow::find($id);
 
             $request->company = $input['company'];
@@ -264,10 +267,14 @@ public function deletesupplier(Request $request){
             $request->description = $input['description'];
             $request->payment_date = $input['due-date-payment2'];
             $request->submission_date = $input['due-date2'];
+            $request->status = $status;
             $request->save();
 
             if($request){
-                return redirect()->back()->with('success', 'Request updated successfully');
+                if ($status == StatusEnum::SubmittedForReview){
+                    AcceptOrRejectRequest::dispatch($request);
+                }
+                return redirect()->back()->with('success', 'Request Updated successfully');
             }
 
             return redirect()->back()->with('error', 'Something went wrong');

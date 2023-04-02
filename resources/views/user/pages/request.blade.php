@@ -226,9 +226,16 @@
                                 <input type="date" class="form-control" id="due-date2" name="due-date2"
                                        min='<?php echo date('Y-m-d');?>' required>
                             </div>
-                            <div class="form-group">
-                                <div>
-                                    <button type="submit" class="btn btn-success">Update Request</button>
+                            <div class="form-group d-flex gx-5">
+                                <div class='p-2'>
+
+                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button"
+                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>
+                                </div>
+                                <div class='p-2'>
+                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
+                                            name="button"
+                                            class="btn btn-success">{{App\Classes\Enums\StatusEnum::SubmittedForReview}}</button>
                                 </div>
                             </div>
                         </form>
