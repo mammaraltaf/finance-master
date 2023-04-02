@@ -252,7 +252,9 @@
                         <th>Due Date of Payment</th>
                         <th>Due Date</th>
                         <th>Status</th>
+                        @hasanyrole('super-admin|accounting')
                         <th>Actions</th>
+                        @endhasanyrole
                     </tr>
                     </thead>
                     <tbody>
@@ -270,7 +272,8 @@
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
-                                <?php if ($request['status'] == "new") { ?>
+                            @hasanyrole('super-admin|accounting')
+                            <?php if ($request['status'] == "new") { ?>
                             <td>
                                 <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
                                    data-target="#ModalEdit" data-id="{{$request->id}}">Edit</a>
@@ -282,6 +285,8 @@
                             } else { ?>
 
                             <?php } ?>
+                            @endhasanyrole
+
                         </tr>
                     @endforeach
                     </tbody>
@@ -311,7 +316,7 @@
         </div>
     </div>
 
-   
+
     <!--end::Body-->
 @endsection
 @section('script')
