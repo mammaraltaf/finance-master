@@ -267,7 +267,16 @@
                             <td>{{$request['currency']}}</td>
                             <td>{{$request['amount']}}</td>
                             <td>{{$request['description']}}</td>
-                            <td>{{$request['basis']}}</td>
+                            <td><?php
+                            if(isset($request['basis'])){ 
+                                $files=explode(',',$request['basis']);
+                                foreach($files as $file){ ?>
+<a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+
+                        <?php  }   }else{
+                               echo "No document available";
+                            }
+                            ?></td>
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
@@ -360,7 +369,8 @@
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
-                    console.log(response);
+                    var responseObject = JSON.parse(response.basis);
+                    console.log(responseObject);
                     $('#reqid').val(response.id);
                     $('#amount2').val(response.amount);
                     $('#description2').val(response.description);
