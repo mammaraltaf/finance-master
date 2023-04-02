@@ -19,6 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
+            $table->string('original_password')->nullable();
             $table->string('company')->nullable();
             $table->string('department')->nullable();
             $table->string('user_type')->default(\App\Classes\Enums\UserTypesEnum::User);

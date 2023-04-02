@@ -209,6 +209,7 @@
                             <div class="form-group">
                                 <label for="basis">Basis</label>
                                 <input type="file" class="form-control" multiple id="basis2" name="basis[]">
+                                <input type="hidden" id="basis3" name="basis3">
                                 <div class="text-danger" id="fileList"></div>
                                 <div id="previousFiles">
                                   <!-- Show previously uploaded files here -->
@@ -225,9 +226,16 @@
                                 <input type="date" class="form-control" id="due-date2" name="due-date2"
                                        min='<?php echo date('Y-m-d');?>' required>
                             </div>
-                            <div class="form-group">
-                                <div>
-                                    <button type="submit" class="btn btn-success">Update Request</button>
+                            <div class="form-group d-flex gx-5">
+                                <div class='p-2'>
+
+                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button"
+                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>
+                                </div>
+                                <div class='p-2'>
+                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
+                                            name="button"
+                                            class="btn btn-success">{{App\Classes\Enums\StatusEnum::SubmittedForReview}}</button>
                                 </div>
                             </div>
                         </form>
@@ -392,14 +400,16 @@
                 $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
                     // Show previously uploaded files
                     if (response.basis) {
+                        var docs2 = [];
                         var files = response.basis.split(',');
                         var fileHtml = '';
                         for (var i = 0; i < files.length; i++) {
                         var fileName = files[i];
-                        fileHtml += '<div><a href="{{asset('basis')}}' +'/'+ fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
-                        }
+                      fileHtml += '<div><a href="{{asset('basis')}}' +'/'+ fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
+                      docs2.push(fileName);
+                    }  
                         $('#previousFiles').html(fileHtml);
-                        $('#basis2').val(response.basis);
+                        $('#basis3').val(docs2);
                     }
                 }
             });
