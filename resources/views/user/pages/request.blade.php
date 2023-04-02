@@ -206,13 +206,15 @@
                                 <textarea class="form-control" id="description2" rows="3" name="description"
                                           required></textarea>
                             </div>
-                            <!-- <div class="form-group">
+                            <div class="form-group">
                                 <label for="basis">Basis</label>
-                                <input type="file" class="form-control" multiple id="basis2" name="basis" required>
-                                <div class="text-danger" id="fileList">
-                                    <img src="" alt="">
+                                <input type="file" class="form-control" multiple id="basis2" name="basis[]">
+                                <div class="text-danger" id="fileList"></div>
+                                <div id="previousFiles">
+                                  <!-- Show previously uploaded files here -->
                                 </div>
-                            </div> -->
+                              </div>
+                              
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
                                 <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2"
@@ -360,30 +362,61 @@
                 }
             });
         });
-
-
-
         // Preview End
 
+        //=============================
+        // Edit Document Preview Start
+        //=============================
 
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
-            console.log(request_id);
             $.ajax({
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
-                    console.log(response);
-                    $('#reqid').val(response.id);
-                    $('#amount2').val(response.amount);
-                    $('#description2').val(response.description);
-                    $('#due-date-payment2').val(response.payment_date);
-                    $('#due-date2').val(response.submission_date);
-                    $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+                console.log(response);
+                $('#reqid').val(response.id);
+                $('#amount2').val(response.amount);
+                $('#description2').val(response.description);
+                $('#due-date-payment2').val(response.payment_date);
+                $('#due-date2').val(response.submission_date);
+                $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+                    // Show previously uploaded files
+                    if (response.basis) {
+                        var files = response.basis.split(',');
+                        var fileHtml = '';
+                        for (var i = 0; i < files.length; i++) {
+                        var fileName = files[i];
+                        fileHtml += '<div><a href="' + fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">Remove</div></div>';
+                        }
+                        $('#previousFiles').html(fileHtml);
+                    }
                 }
-
             });
         });
+
+            // Bind a click event to the "Remove" button
+            $('body').on('click', '.remove-file', function() {
+            var fileName = $(this).data('file');
+            $(this).parent().remove(); 
+            });
+        //=============================
+        // Edit Document Preview End
+        //=============================
+
+        //=============================
+        // Edit Document Preview Start
+        //=============================
+        
+
+
+
+// Remove file event
+$('body').on('click', '.remove-btn', function () {
+    $(this).siblings('input.remove-file').prop('checked', true);
+    $(this).parent().hide();
+});
+
         // Data Filter Start
         $(document).ready(function () {
             $(".btn-group button").click(function () {
