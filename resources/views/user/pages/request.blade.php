@@ -392,8 +392,8 @@
 
             // Bind a click event to the "Remove" button
             $('body').on('click', '.remove-file', function() {
-            var fileName = $(this).data('file');
-            $(this).parent().remove(); 
+                var fileName = $(this).data('file');
+                $(this).parent().remove(); 
             });
         //=============================
         // Edit Document Preview End

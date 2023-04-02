@@ -4,6 +4,16 @@
 @endsection
 @section('content')
     <!--begin::Header-->
+    <style>
+        .avatar label {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+    </style>
     <br>
     <div class="card-header pt-5">
 
@@ -34,6 +44,13 @@
                         <form id="categoryForm" method="POST" action="{{route('super-admin.companyPost')}}"
                               enctype="multipart/form-data">
                             @csrf
+                            <div class="avatar">
+                                <label for="avatar-upload">
+                                  <img src="https://picsum.photos/200/300" class="w-30 h-20 img-fluid rounded-circle" alt="Avatar">
+                                </label>
+                                <input type="file" class="d-none" id="avatar-upload" accept="image/*">
+                            </div>
+                              
                             <div class="form-group">
                                 <label class="control-label">ID / Software (Must be Unique)</label>
                                 <div>
@@ -236,6 +253,8 @@
         </div>
     </div>
 
+    
+
     <!--end::Body-->
 @endsection
 @section('script')
@@ -269,6 +288,24 @@
 
             });
         });
+        //====================
+        // Avatar upload
+        //====================
+        const avatarUpload = document.getElementById("avatar-upload");
+const avatarImage = document.querySelector(".avatar img");
+
+avatarUpload.addEventListener("change", () => {
+  const file = avatarUpload.files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener("load", () => {
+    avatarImage.src = reader.result;
+  });
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+});
 
     </script>
 @endsection
