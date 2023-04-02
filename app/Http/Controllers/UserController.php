@@ -233,6 +233,7 @@ public function deletesupplier(Request $request){
     public function updaterequest(Request $request, $id){
         try{
             $input = $request->all();
+            dd($input['basis']);
             $validator = Validator::make($input, [
                 'company' => 'required',
                 'department' => 'required',
