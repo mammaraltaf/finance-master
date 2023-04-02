@@ -206,13 +206,12 @@
                                 <textarea class="form-control" id="description2" rows="3" name="description"
                                           required></textarea>
                             </div>
-                            <!-- <div class="form-group">
+                            <div class="form-group">
                                 <label for="basis">Basis</label>
                                 <input type="file" class="form-control" multiple id="basis2" name="basis" required>
                                 <div class="text-danger" id="fileList">
-                                    <img src="" alt="">
                                 </div>
-                            </div> -->
+                            </div>
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
                                 <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2"
@@ -377,8 +376,9 @@
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
-                    var responseObject = JSON.parse(response.basis);
-                    console.log(responseObject);
+                    $string=response.basis;
+                    $array=$string.split(',');
+                    console.log($array);
                     $('#reqid').val(response.id);
                     $('#amount2').val(response.amount);
                     $('#description2').val(response.description);

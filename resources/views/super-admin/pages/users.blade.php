@@ -49,6 +49,13 @@
                                 </div>
                                 <br>
 
+                                <label class="control-label">Password</label>
+                                <div>
+                                    <input type="password" name="password" auto-complete="off"
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
+
                                 <label class="control-label">User Type</label>
                                 <div>
                                    <select name="type" class="form-control" aria-placeholder="Select User Type" required>
@@ -59,7 +66,28 @@
                                 </select>
                                 </div>
                                 <br>
-
+            
+                                <label class="control-label">Company</label>
+                                <div>
+                                <select name="company" class="form-control" aria-placeholder="Select company" required>
+                                    <option value="" >Select Company</option>
+                                       @foreach($companies as $company)
+                                             <option value="{{$company->name}}">{{$company->name}}</option>
+                                       @endforeach
+                                </select>
+                                </div>
+                                <br>
+                                
+                                <label class="control-label">Department</label>
+                                <div>
+                                <select name="department" class="form-control" aria-placeholder="Select department" required>
+                                    <option value="" >Select Department</option>
+                                       @foreach($departments as $department)
+                                             <option value="{{$department->name}}">{{$department->name}}</option>
+                                       @endforeach
+                                </select>
+                                </div>
+                                <br>
 
                             </div>
 
@@ -186,7 +214,33 @@
                                 </select>
                             </div>
                             <br>
-
+                            <label class="control-label">Company</label>
+                                <div>
+                                <select name="company" class="form-control" aria-placeholder="Select company" required>
+                                    <option value="" >Select Company</option>
+                                       @foreach($companies as $company)
+                                             <option value="{{$company->name}}" {{ $company->name == $user->company? 'selected' : '' }}>{{$company->name}}</option>
+                                       @endforeach
+                                </select>
+                                </div>
+                                <br>
+                                
+                                <label class="control-label">Department</label>
+                                <div>
+                                <select name="department" class="form-control" aria-placeholder="Select department" required>
+                                    <option value="" >Select Department</option>
+                                       @foreach($departments as $department)
+                                             <option value="{{$department->name}}" {{ $department->name == $user->department? 'selected' : '' }}>{{$department->name}}</option>
+                                       @endforeach
+                                </select>
+                                </div>
+                                <br>
+                                <label class="control-label">Password</label>
+                                <div>
+                                    <input type="password" name="password" auto-complete="off"
+                                           class="form-control input-lg" required>
+                                </div>
+                                <br>
 
                         </div>
 
