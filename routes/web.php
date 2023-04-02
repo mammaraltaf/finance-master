@@ -9,6 +9,7 @@ use App\Http\Controllers\SuperAdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ManagerController;
+use App\Http\Controllers\DirectorController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -113,6 +114,17 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/get-request-detail/{id}', [ManagerController::class, 'getRequestDetail'])->name('get-request-detail');
         Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
+    });
+
+
+    /*Manager Routes*/
+    Route::group([
+        'middleware' => ['role:'.UserTypesEnum::Director],
+        'prefix' => UserTypesEnum::Director,
+        'as' => UserTypesEnum::Director.'.',
+    ],function (){
+        Route::get('/dashboard', [DirectorController::class, 'dashboard'])->name('dashboard');
+
     });
 });
 

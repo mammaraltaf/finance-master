@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Classes\Enums\StatusEnum;
+use App\Jobs\AcceptOrRejectRequest;
 use Exception;
 
 use Illuminate\Support\Facades\Validator;
@@ -123,7 +125,7 @@ class UserController extends Controller
             // $supplier->bank_account = $input['bank_account'];
             // $supplier->bank_swift = $input['bank_swift'];
             // $supplier->accounting_id = $input['accounting_id'];
-           
+
             $supplier->save();
 
             if($supplier){
@@ -173,8 +175,8 @@ public function deletesupplier(Request $request){
             foreach($request->file('basis') as $file)
             {
                 $name = time().rand(1,50).'.'.$file->extension();
-                $file->move(public_path('basis'), $name);  
-                $files[] = $name;  
+                $file->move(public_path('basis'), $name);
+                $files[] = $name;
             }
          }
          $basis=implode(',',$files);
@@ -190,7 +192,7 @@ public function deletesupplier(Request $request){
                 'currency' => $input['currency'],
                 'amount' => $input['amount'],
                 'description' => $input['description'],
-                'basis' => $basis,   
+                'basis' => $basis,
                 'payment_date' => $input['due-date-payment'],
                 'submission_date' => $input['due-date'],
                 'status' => $status,
@@ -198,6 +200,9 @@ public function deletesupplier(Request $request){
             ]);
 
             if ($request_data) {
+                if ($status == StatusEnum::SubmittedForReview){
+                    AcceptOrRejectRequest::dispatch($request_data);
+                }
                 return redirect()->back()->with('success', 'Request successfull');
             }
 
@@ -215,7 +220,7 @@ public function deletesupplier(Request $request){
                     \File::delete(public_path('basis/'.$file));
                     }
             }
-            
+
             RequestFlow::where('id',$request->id)->delete();
             return redirect()->back()->with('success','Request deleted Successfully');
         } catch (Exception $e) {
@@ -223,7 +228,7 @@ public function deletesupplier(Request $request){
         }
     }
 
-    
+
     public function editrequest($id)
     {
         $requested = RequestFlow::find($id);
@@ -249,7 +254,7 @@ public function deletesupplier(Request $request){
                 return redirect()->back()->withErrors($validator)->withInput();
             }
             $request = RequestFlow::find($id);
-           
+
             $request->company = $input['company'];
             $request->department = $input['department'];
             $request->supplier = $input['supplier'];
