@@ -32,7 +32,9 @@ class SuperAdminController extends Controller
         try{
             $users = User::where('user_type','!=',UserTypesEnum::SuperAdmin)->get();
             $roles = Role::whereIn('name',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
-            return view('super-admin.pages.users', compact('users','roles'));
+            $companies = Company::all(['id', 'name','user_id']);
+            $departments = Department::all(['id', 'name','user_id']);
+            return view('super-admin.pages.users', compact('users','roles','companies','departments'));
         }
         catch(Exception $e){
             return redirect()->back()->with('error', $e->getMessage());
@@ -46,7 +48,10 @@ class SuperAdminController extends Controller
             $validator = Validator::make($input, [
                 'name' => 'required',
                 'email' => 'required | unique:users,email',
-                'type' => 'required'
+                'type' => 'required',
+                'company' => 'required',
+                'department' => 'required',
+                'password' => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -56,8 +61,10 @@ class SuperAdminController extends Controller
             $users = User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
-                'password' => Hash::make('system_default'),
-                'user_type' => $input['type']
+                'password' => Hash::make($input['password']),
+                'user_type' => $input['type'],
+                'company' => $input['company'],
+                'department' => $input['department']
             ]);
 
             $users->assignRole($input['type']);
@@ -85,7 +92,10 @@ class SuperAdminController extends Controller
             $validator = Validator::make($input, [
                 'name' => 'required',
                 'email' => 'required | unique:users,email,'.$id,
-                'type' => 'required'
+                'type' => 'required',
+                'company' => 'required',
+                'department' => 'required',
+                'password' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -96,6 +106,9 @@ class SuperAdminController extends Controller
             $user->name = $input['name'];
             $user->email = $input['email'];
             $user->user_type = $input['type'];
+            $user->password = Hash::make($input['password']);
+            $user->company = $input['company'];
+            $user->department = $input['department'];
             $user->save();
 
             $user->syncRoles($input['type']);
@@ -391,6 +404,64 @@ class SuperAdminController extends Controller
     {
         $suppliers = Supplier::all();
         return view('super-admin.pages.supplier', compact('suppliers'));
+    }
+    public function editsupplier($id)
+    {
+        $user = Supplier::find($id);
+        return response()->json($user);
+    }
+
+    public function updatesupplier(Request $request, $id){
+        try{
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'id_software' => 'required | unique:suppliers,id_software,'. $id,
+                'tax_id' => 'required | unique:suppliers,tax_id,'. $id,
+                'name' => 'required ',
+                // 'bank_id' => 'required',
+                // 'bank_name' => 'required',
+                // 'bank_account' => 'required',
+                // 'bank_swift' => 'required',
+                // 'accounting_id' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $supplier = Supplier::find($id);
+            $supplier->id_software = $input['id_software'];
+            $supplier->tax_id = $input['tax_id'];
+            $supplier->supplier_name = $input['name'];
+          if(isset($input['bank_id'])){
+            $supplier->bank_id = $input['bank_id'];
+          }
+          if(isset($input['bank_name'])){
+            $supplier->bank_name = $input['bank_name']; }
+            if(isset($input['bank_account'])){   $supplier->bank_account = $input['bank_account']; }
+                if(isset($input['bank_swift'])){    $supplier->bank_swift = $input['bank_swift'];}
+                    if(isset($input['accounting_id'])){    $supplier->accounting_id = $input['accounting_id'];}
+           
+            $supplier->save();
+
+            if($supplier){
+                return redirect()->back()->with('success', 'Supplier updated successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        }
+        catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function deletesupplier(Request $request){
+        try {
+      supplier::where('id',$request->id)->delete();
+            return redirect()->back()->with('success','Supplier deleted Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
 }

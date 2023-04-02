@@ -23,6 +23,29 @@
                 Add Supplier
             </button>
         </div>
+        <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <form method="post" action="{{route('user.delete-supplier')}}">
+                    @csrf
+                    <div class="modal-header" style="text-align: center;">
+                        <h2 class="modal-title" id="myModalLabel">Delete</h2>
+                    </div>
+                    <div class="modal-body" style="text-align: center;">
+
+                        Are you sure you want to delete ?
+                        <input type="hidden" name="id" class="user-delete" value=""/>
+                    </div>
+                    <div class="modal-footer" style="text-align: center;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
         <!-- Modal HTML Markup -->
         <div id="ModalLoginForm" class="modal fade">
             <div class="modal-dialog" role="document">
@@ -59,34 +82,34 @@
                                 <label class="control-label">Bank ID</label>
                                 <div>
                                     <input type="text" name="bank_id" placeholder="Enter  Bank ID"
-                                           class="form-control input-lg" required>
+                                           class="form-control input-lg" disabled>
                                 </div>
                                 <br>
 
                                 <label class="control-label">Bank Name</label>
                                 <div>
                                     <input type="text" name="bank_name" placeholder="Enter  Bank name"
-                                           class="form-control input-lg" required>
+                                           class="form-control input-lg" disabled>
                                 </div>
                                 <br>
 
                                 <label class="control-label">Bank Account</label>
                                 <div>
                                     <input type="text" name="bank_account" placeholder="Enter Bank Account"
-                                           class="form-control input-lg" required>
+                                           class="form-control input-lg" disabled>
                                 </div>
                                 <br>
 
                                 <label class="control-label">Bank Swift</label>
                                 <div>
                                     <input type="text" name="bank_swift" placeholder="Enter Bank Swift"
-                                           class="form-control input-lg" required>
+                                           class="form-control input-lg" disabled>
                                 </div>
                                 <br>
                                 <label class="control-label"> Accounting ID</label>
                                 <div>
                                     <input type="text" name="accounting_id" placeholder="Enter  Accounting ID"
-                                           class="form-control input-lg" required>
+                                           class="form-control input-lg" disabled>
                                 </div>
                                 <br>
 
@@ -132,8 +155,10 @@
                         <td>{{$supplier['bank_swift']}}</td>
                         <td>{{$supplier['accounting_id']}}</td>
                         <td><a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
-                               data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a></td>
-                    </tr>
+                               data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a>
+                               <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$supplier->id}}"
+                                   class="btn btn-danger delete_btn btn-sm">Delete</a></td>
+                            </tr>
                 @endforeach
                 </tbody>
                 <tfoot>
@@ -187,14 +212,14 @@
                             <label class="control-label">Bank ID</label>
                             <div>
                                 <input type="text" name="bank_id" id="bank_id" placeholder="Enter  Bank ID"
-                                       class="form-control input-lg" required>
+                                       class="form-control input-lg" disabled>
                             </div>
                             <br>
 
                             <label class="control-label">Bank Name</label>
                             <div>
                                 <input type="text" name="bank_name" id="bank_name" placeholder="Enter  Bank name"
-                                       class="form-control input-lg" required>
+                                       class="form-control input-lg" disabled>
                             </div>
                             <br>
 
@@ -202,21 +227,21 @@
                             <div>
                                 <input type="text" name="bank_account" id="bank_account"
                                        placeholder="Enter Bank Account"
-                                       class="form-control input-lg" required>
+                                       class="form-control input-lg" disabled>
                             </div>
                             <br>
 
                             <label class="control-label">Bank Swift</label>
                             <div>
                                 <input type="text" name="bank_swift" id="bank_swift" placeholder="Enter Bank Swift"
-                                       class="form-control input-lg" required>
+                                       class="form-control input-lg" disabled>
                             </div>
                             <br>
                             <label class="control-label"> Accounting ID</label>
                             <div>
                                 <input type="text" name="accounting_id" id="accounting_id"
                                        placeholder="Enter  Accounting ID"
-                                       class="form-control input-lg" required>
+                                       class="form-control input-lg" disabled>
                             </div>
                             <br>
 
@@ -241,6 +266,10 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
     <script type="text/javascript">
+          $('.delete_btn').click(function () {
+            var a = $(this).data('id');
+            $('.user-delete').val(a);
+        });
         $(document).ready(function () {
             $('#suppliertable').DataTable();
         });

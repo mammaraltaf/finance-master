@@ -254,7 +254,7 @@
                         <th>Due Date of Payment</th>
                         <th>Due Date</th>
                         <th>Status</th>
-                        @hasanyrole('super-admin|accounting')
+                        @hasanyrole('super-admin|accounting|user')
                         <th>Actions</th>
                         @endhasanyrole
                     </tr>
@@ -270,11 +270,20 @@
                             <td>{{$request['currency']}}</td>
                             <td>{{$request['amount']}}</td>
                             <td>{{$request['description']}}</td>
-                            <td>{{$request['basis']}}</td>
+                            <td><?php
+                            if(isset($request['basis'])){ 
+                                $files=explode(',',$request['basis']);
+                                foreach($files as $file){ ?>
+<a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+
+                        <?php  }   }else{
+                               echo "No document available";
+                            }
+                            ?></td>
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
-                            @hasanyrole('super-admin|accounting')
+                            @hasanyrole('super-admin|accounting|user')
                             <?php if ($request['status'] == "new") { ?>
                             <td>
                                 <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
@@ -387,9 +396,10 @@
                         var fileHtml = '';
                         for (var i = 0; i < files.length; i++) {
                         var fileName = files[i];
-                        fileHtml += '<div><a href="' + fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">Remove</div></div>';
+                        fileHtml += '<div><a href="{{asset('basis')}}' +'/'+ fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
                         }
                         $('#previousFiles').html(fileHtml);
+                        $('#basis2').val(response.basis);
                     }
                 }
             });

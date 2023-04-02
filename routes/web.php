@@ -65,8 +65,10 @@ Route::group(['middleware'=>'auth'],function (){
 
         /*Manage Supplier*/
         Route::get('/supplier', [SuperAdminController::class, 'supplier'])->name('supplier');
+        Route::get('/edit-supplier/{id}', [SuperAdminController::class, 'editsupplier'])->name('edit-supplier');
+        Route::post('/edit-supplier/{id}', [SuperAdminController::class, 'updatesupplier'])->name('edit-supplier-post');
+     Route::post('/delete-supplier', [SuperAdminController::class, 'deletesupplier'])->name('delete-supplier');
     });
-
     /*User Routes*/
     Route::group([
         'middleware' => ['role:'.UserTypesEnum::User],
@@ -78,6 +80,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
         Route::get('/edit-supplier/{id}', [UserController::class, 'editsupplier'])->name('edit-supplier');
         Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');
+        Route::post('/delete-supplier', [UserController::class, 'deletesupplier'])->name('delete-supplier');
         Route::get('/request', [UserController::class, 'request'])->name('request');
         Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
         Route::post('/delete-request', [UserController::class, 'deleterequest'])->name('delete-request');

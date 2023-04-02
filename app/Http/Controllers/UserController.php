@@ -50,11 +50,11 @@ class UserController extends Controller
                 'id_software' => 'required | unique:suppliers,id_software',
                 'tax_id' => 'required | unique:suppliers,tax_id',
                 'name' => 'required ',
-                'bank_id' => 'required',
-                'bank_name' => 'required',
-                'bank_account' => 'required',
-                'bank_swift' => 'required',
-                'accounting_id' => 'required',
+                // 'bank_id' => 'required',
+                // 'bank_name' => 'required',
+                // 'bank_account' => 'required',
+                // 'bank_swift' => 'required',
+                // 'accounting_id' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -65,11 +65,11 @@ class UserController extends Controller
                 'id_software' => $input['id_software'],
                 'tax_id' => $input['tax_id'],
                 'supplier_name' => $input['name'],
-                'bank_id' => $input['bank_id'],
-                'bank_name' => $input['bank_name'],
-                'bank_account' => $input['bank_account'],
-                'bank_swift' => $input['bank_swift'],
-                'accounting_id' => $input['accounting_id'],
+                // 'bank_id' => $input['bank_id'],
+                // 'bank_name' => $input['bank_name'],
+                // 'bank_account' => $input['bank_account'],
+                // 'bank_swift' => $input['bank_swift'],
+                // 'accounting_id' => $input['accounting_id'],
                 'user_id' => auth()->user()->id,
             ]);
 
@@ -105,11 +105,11 @@ class UserController extends Controller
                 'id_software' => 'required | unique:suppliers,id_software,'. $id,
                 'tax_id' => 'required | unique:suppliers,tax_id,'. $id,
                 'name' => 'required ',
-                'bank_id' => 'required',
-                'bank_name' => 'required',
-                'bank_account' => 'required',
-                'bank_swift' => 'required',
-                'accounting_id' => 'required',
+                // 'bank_id' => 'required',
+                // 'bank_name' => 'required',
+                // 'bank_account' => 'required',
+                // 'bank_swift' => 'required',
+                // 'accounting_id' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -120,11 +120,11 @@ class UserController extends Controller
             $supplier->id_software = $input['id_software'];
             $supplier->tax_id = $input['tax_id'];
             $supplier->supplier_name = $input['name'];
-            $supplier->bank_id = $input['bank_id'];
-            $supplier->bank_name = $input['bank_name'];
-            $supplier->bank_account = $input['bank_account'];
-            $supplier->bank_swift = $input['bank_swift'];
-            $supplier->accounting_id = $input['accounting_id'];
+            // $supplier->bank_id = $input['bank_id'];
+            // $supplier->bank_name = $input['bank_name'];
+            // $supplier->bank_account = $input['bank_account'];
+            // $supplier->bank_swift = $input['bank_swift'];
+            // $supplier->accounting_id = $input['accounting_id'];
 
             $supplier->save();
 
@@ -138,6 +138,15 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+public function deletesupplier(Request $request){
+    try {
+  supplier::where('id',$request->id)->delete();
+        return redirect()->back()->with('success','Supplier deleted Successfully');
+    } catch (Exception $e) {
+        return redirect()->back()->with('error', $e->getMessage());
+    }
+}
+
 
 
     public function addrequest(Request $request){
