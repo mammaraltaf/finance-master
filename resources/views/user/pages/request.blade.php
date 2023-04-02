@@ -106,9 +106,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
-                                <input type="file" class="form-control" id="basis" name="basis[]"
-                                       onchange="previewFile()" required>
-                                <div id="preview"></div>
+                                <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
+                                <div class="d-flex justify-content-between align-items-center" id="preview"></div>
                             </div>
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
@@ -312,6 +311,7 @@
         </div>
     </div>
 
+   
     <!--end::Body-->
 @endsection
 @section('script')
@@ -329,29 +329,37 @@
         });
 
         // Preview Start
-        function previewFile() {
-            // <i class="p-2 far fa-file-pdf text-danger" style="font-size: 50px; width: 100%;">
-            const preview = document.querySelector('#preview');
-            const file = document.querySelector('#basis').files[0];
-            const reader = new FileReader();
-            reader.addEventListener("load", function () {
-                const fileType = file.type.split('/')[0];
-                if (fileType === 'image') {
-                    preview.innerHTML = `<img src="${reader.result}" class="img-thumbnail">`;
-                } else if (fileType === 'application' && file.type === 'application/pdf') {
-                    preview.innerHTML = `<div class="d-flex"></i><embed class="p-2" src="${reader.result}" type="application/pdf" width="100%"></div>`;
-                } else if (fileType === 'application' && file.type === 'application/msword') {
-                    preview.innerHTML = `<div class="d-flex align-items-center justify-content-center"><i class="far fa-file-word text-primary" style="font-size: 24px; width: 100%;"></i><embed src="${reader.result}" type="application/msword" width="100%"></div>`;
-                } else {
-                    preview.innerHTML = `<p>${file.name} - ${file.size} bytes</p>`;
+        $(document).ready(function() {
+            $("#basis").change(function() {
+                $("#preview").empty(); // Clear the preview div
+                if(this.files && this.files.length > 0) {
+                    for(let i = 0; i < this.files.length; i++) {
+                        let file = this.files[i];
+                        let reader = new FileReader();
+                        reader.onload = function(e) {
+                        let fileType = file.type.split('/')[0];
+                        let previewItem = '';
+                        if (fileType === 'image') {
+                            previewItem = '<div class="w-100"><img src="' + e.target.result + '" class="img-thumbnail" width="100%"></div>';
+                        } else if (fileType === 'application' && file.type === 'application/pdf') {
+                            previewItem = '<div class=""><embed class="p-2" src="' + e.target.result + '" type="application/pdf" width="100%"></div>';
+                        } else if (fileType === 'application' && file.type === 'application/msword') {
+                            previewItem = '<div><i class="far fa-file-word text-primary" style="font-size: 24px; width: 100%;"></i><embed src="' + e.target.result + '" type="application/msword" width="100%"></div>';
+                        } else {
+                            previewItem = '<p>' + file.name + ' - ' + file.size + ' bytes</p>';
+                        }
+                        $("#preview").append(previewItem);
+                        };
+                        reader.readAsDataURL(file);
+                    }
                 }
-            }, false);
-            if (file) {
-                reader.readAsDataURL(file);
-            }
-        }
+            });
+        });
+
+
 
         // Preview End
+
 
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
