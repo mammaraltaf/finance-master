@@ -208,10 +208,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
-                                <input type="file" class="form-control" multiple id="basis2" name="basis" required>
-                                <div class="text-danger" id="fileList">
+                                <input type="file" class="form-control" multiple id="basis2" name="basis[]">
+                                <div class="text-danger" id="fileList"></div>
+                                <div id="previousFiles">
+                                  <!-- Show previously uploaded files here -->
                                 </div>
-                            </div>
+                              </div>
+                              
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
                                 <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2"
@@ -251,7 +254,9 @@
                         <th>Due Date of Payment</th>
                         <th>Due Date</th>
                         <th>Status</th>
+                        @hasanyrole('super-admin|accounting')
                         <th>Actions</th>
+                        @endhasanyrole
                     </tr>
                     </thead>
                     <tbody>
@@ -278,7 +283,8 @@
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
-                                <?php if ($request['status'] == "new") { ?>
+                            @hasanyrole('super-admin|accounting')
+                            <?php if ($request['status'] == "new") { ?>
                             <td>
                                 <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
                                    data-target="#ModalEdit" data-id="{{$request->id}}">Edit</a>
@@ -290,6 +296,8 @@
                             } else { ?>
 
                             <?php } ?>
+                            @endhasanyrole
+
                         </tr>
                     @endforeach
                     </tbody>
@@ -319,7 +327,7 @@
         </div>
     </div>
 
-   
+
     <!--end::Body-->
 @endsection
 @section('script')
@@ -363,32 +371,61 @@
                 }
             });
         });
-
-
-
         // Preview End
 
+        //=============================
+        // Edit Document Preview Start
+        //=============================
 
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
-            console.log(request_id);
             $.ajax({
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
-                    $string=response.basis;
-                    $array=$string.split(',');
-                    console.log($array);
-                    $('#reqid').val(response.id);
-                    $('#amount2').val(response.amount);
-                    $('#description2').val(response.description);
-                    $('#due-date-payment2').val(response.payment_date);
-                    $('#due-date2').val(response.submission_date);
-                    $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+                console.log(response);
+                $('#reqid').val(response.id);
+                $('#amount2').val(response.amount);
+                $('#description2').val(response.description);
+                $('#due-date-payment2').val(response.payment_date);
+                $('#due-date2').val(response.submission_date);
+                $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+                    // Show previously uploaded files
+                    if (response.basis) {
+                        var files = response.basis.split(',');
+                        var fileHtml = '';
+                        for (var i = 0; i < files.length; i++) {
+                        var fileName = files[i];
+                        fileHtml += '<div><a href="' + fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">Remove</div></div>';
+                        }
+                        $('#previousFiles').html(fileHtml);
+                    }
                 }
-
             });
         });
+
+            // Bind a click event to the "Remove" button
+            $('body').on('click', '.remove-file', function() {
+            var fileName = $(this).data('file');
+            $(this).parent().remove(); 
+            });
+        //=============================
+        // Edit Document Preview End
+        //=============================
+
+        //=============================
+        // Edit Document Preview Start
+        //=============================
+        
+
+
+
+// Remove file event
+$('body').on('click', '.remove-btn', function () {
+    $(this).siblings('input.remove-file').prop('checked', true);
+    $(this).parent().hide();
+});
+
         // Data Filter Start
         $(document).ready(function () {
             $(".btn-group button").click(function () {
