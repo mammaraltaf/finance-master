@@ -23,6 +23,20 @@ use App\Models\User;
 */
 
 Route::get('/', function () {
+    if (Auth::check()) {
+        $user = Auth::user();
+        if ($user->hasRole(UserTypesEnum::SuperAdmin)) {
+            return redirect()->route('super-admin.dashboard');
+        } elseif ($user->hasRole(UserTypesEnum::User)) {
+            return redirect()->route('user.dashboard');
+        } elseif ($user->hasRole(UserTypesEnum::Finance)) {
+            return redirect()->route('finance.dashboard');
+        } elseif ($user->hasRole(UserTypesEnum::Manager)) {
+            return redirect()->route('manager.dashboard');
+        } elseif ($user->hasRole(UserTypesEnum::Director)) {
+            return redirect()->route('director.dashboard');
+        }
+    }
     return view('auth.login');
 })->name('mainpage');
 
