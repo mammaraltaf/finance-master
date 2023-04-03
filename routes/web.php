@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\DirectorController;
+use App\Http\Controllers\AccountingController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -120,13 +121,25 @@ Route::group(['middleware'=>'auth'],function (){
     });
 
 
-    /*Manager Routes*/
+    /*Director Routes*/
     Route::group([
         'middleware' => ['role:'.UserTypesEnum::Director],
         'prefix' => UserTypesEnum::Director,
         'as' => UserTypesEnum::Director.'.',
     ],function (){
         Route::get('/dashboard', [DirectorController::class, 'dashboard'])->name('dashboard');
+
+    });
+
+
+    /*Accounting Routes*/
+    Route::group([
+        'middleware' => ['role:'.UserTypesEnum::Accounting],
+        'prefix' => UserTypesEnum::Accounting,
+        'as' => UserTypesEnum::Accounting.'.',
+    ],function (){
+        Route::get('/dashboard', [AccountingController::class, 'dashboard'])->name('dashboard');
+        Route::get('/supplier', [AccountingController::class, 'supplier'])->name('supplier');
 
     });
 });

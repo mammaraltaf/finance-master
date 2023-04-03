@@ -18,11 +18,13 @@
     <!--end::Header-->
     <!--begin::Body-->
     <div class="card-body py-3">
+        @role('user')
         <div class="row">
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalLoginForm">
                 Add Supplier
             </button>
         </div>
+        @endrole
         <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -45,7 +47,7 @@
         </div>
     </div>
 
-
+        @role('user')
         <!-- Modal HTML Markup -->
         <div id="ModalLoginForm" class="modal fade">
             <div class="modal-dialog" role="document">
@@ -125,7 +127,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-
+        @endrole
         <div class="tab-content">
 
             {{--All Datatable--}}
@@ -140,7 +142,9 @@
                     <th>Bank Account</th>
                     <th>Bank Swift</th>
                     <th>Accounting ID</th>
+                    @hasanyrole('super-admin|accounting')
                     <th>Action</th>
+                    @endhasanyrole
                 </tr>
                 </thead>
                 <tbody>
@@ -154,18 +158,17 @@
                         <td>{{$supplier['bank_account']}}</td>
                         <td>{{$supplier['bank_swift']}}</td>
                         <td>{{$supplier['accounting_id']}}</td>
-<<<<<<< Updated upstream
+                        @hasanyrole('super-admin|accounting')
                         <td><a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
                                data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a>
                                <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$supplier->id}}"
                                    class="btn btn-danger delete_btn btn-sm">Delete</a></td>
                             </tr>
-=======
                         <td>
                             <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                         </td>
+                        @endhasanyrole
                     </tr>
->>>>>>> Stashed changes
                 @endforeach
                 </tbody>
                 {{-- <tfoot>
