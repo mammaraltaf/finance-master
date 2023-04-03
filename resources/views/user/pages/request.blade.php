@@ -249,7 +249,7 @@
             <div class="overflow-auto">
                 <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%">
                     <thead>
-                    <tr>
+                    <tr class="text-nowrap text-center">
                         <th>Initiator</th>
                         <th>Company</th>
                         <th>Department</th>
@@ -269,7 +269,7 @@
                     </thead>
                     <tbody>
                     @foreach($requests as $request)
-                        <tr data-status="{{$request['status']}}">
+                        <tr class="text-nowrap text-center" data-status="{{$request['status']}}">
                             <td>{{$request['initiator']}}</td>
                             <td>{{$request['company']}}</td>
                             <td>{{$request['department']}}</td>
@@ -291,6 +291,7 @@
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
+<<<<<<< Updated upstream
                             @hasanyrole('super-admin|accounting|user')
                             <?php if ($request['status'] == "new") { ?>
                             <td>
@@ -298,6 +299,13 @@
                                    data-target="#ModalEdit" data-id="{{$request->id}}">Edit</a>
                                 <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
                                    class="btn btn-danger delete_btn btn-sm">Delete</a></td>
+=======
+                                <?php if ($request['status'] == "new") { ?>
+                            <td class="d-flex align-items-center justify-content-center">
+                                <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                                <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}" class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
+                            </td>
+>>>>>>> Stashed changes
                             <?php }
                             elseif ($request['status'] == "submitted-for-review}}") {
 
@@ -348,6 +356,8 @@
         });
     </script>
     <script type="text/javascript">
+        var basisFiles2 = '';
+        
         $(document).ready(function () {
             $('#suppliertable').DataTable();
         });
@@ -387,11 +397,12 @@
 
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
+            console.log("Edit::::::::::")
             $.ajax({
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
-                console.log(response);
+                console.log("response", response);
                 $('#reqid').val(response.id);
                 $('#amount2').val(response.amount);
                 $('#description2').val(response.description);
@@ -399,15 +410,21 @@
                 $('#due-date2').val(response.submission_date);
                 $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
                     // Show previously uploaded files
+                    basisFiles2 = response.basis;
                     if (response.basis) {
                         var docs2 = [];
                         var files = response.basis.split(',');
                         var fileHtml = '';
                         for (var i = 0; i < files.length; i++) {
                         var fileName = files[i];
+<<<<<<< Updated upstream
                       fileHtml += '<div><a href="{{asset('basis')}}' +'/'+ fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
                       docs2.push(fileName);
                     }  
+=======
+                        fileHtml += '<div class="d-flex align-items-center"><a class="px-2" href="' + fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">Remove</div></div>';
+                        }
+>>>>>>> Stashed changes
                         $('#previousFiles').html(fileHtml);
                         $('#basis3').val(docs2);
                     }
@@ -418,8 +435,19 @@
             // Bind a click event to the "Remove" button
             $('body').on('click', '.remove-file', function() {
                 var fileName = $(this).data('file');
+                console.log("fileName", fileName);
+                
+                // if (basisFiles2) {
+                //     var basisFiles = basisFiles2.split(',');
+                //     var updatedBasis = basisFiles.filter(function(file) {
+                //         return file !== fileName;
+                //     }).join(',');
+                // }
+                // console.log("updatedBasis", updatedBasis);
+                
                 $(this).parent().remove(); 
             });
+            
         //=============================
         // Edit Document Preview End
         //=============================
@@ -431,11 +459,11 @@
 
 
 
-// Remove file event
-$('body').on('click', '.remove-btn', function () {
-    $(this).siblings('input.remove-file').prop('checked', true);
-    $(this).parent().hide();
-});
+        // Remove file event
+        $('body').on('click', '.remove-btn', function () {
+            $(this).siblings('input.remove-file').prop('checked', true);
+            $(this).parent().hide();
+        });
 
         // Data Filter Start
         $(document).ready(function () {
