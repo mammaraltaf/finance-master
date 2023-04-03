@@ -17,28 +17,43 @@
       <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable" style="width:100%">
         <thead>
           <tr>
-            <th>Document ID</th>
-            <th>Description</th>
-            <th>Amount</th>
-            <th>Action</th>
+              <th>Initiator</th>
+              <th>Company</th>
+              <th>Department</th>
+              <th>Supplier</th>
+              <th>Type of Expense</th>
+              <th>Currency</th>
+              <th>Amount</th>
+              <th>Description</th>
+              <th>Basis (file attachment title)</th>
+              <th>Due Date of Payment</th>
+              <th>Due Date</th>
+              <th>Status</th>
+              <th>Action</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>1</td>
-            <td>Document 1 description</td>
-            <td>$5000</td>
-            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#document-modal" data-document-id="1">Review and Approve</button></td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Document 2 description</td>
-            <td>$10000</td>
-            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#document-modal" data-document-id="2">Review and Approve</button></td>
-          </tr>
+          @foreach($requests as $request)
+              <tr>
+                  <td>{{$request->initiator ?? ''}}</td>
+                  <td>{{$request->company ?? ''}}</td>
+                  <td>{{$request->department ?? ''}}</td>
+                  <td>{{$request->supplier ?? ''}}</td>
+                  <td>{{$request->expense_type ?? ''}}</td>
+                  <td>{{$request->currency ?? ''}}</td>
+                  <td>{{$request->amount ?? ''}}</td>
+                  <td>{{$request->description ?? ''}}</td>
+                  <td>{{$request->basis ?? ''}}</td>
+                  <td>{{$request->payment_date ?? ''}}</td>
+                  <td>{{$request->submission_date ?? ''}}</td>
+                  <td>{{$request->status ?? ''}}</td>
+                  <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
+              </tr>
+          @endforeach
         </tbody>
       </table>
-  
+
       <div class="modal fade" id="document-modal" tabindex="-1" role="dialog" aria-labelledby="document-modal-label" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -50,18 +65,18 @@
               </div>
               <div class="modal-body">
                 <form id="document-form">
-                  <div class="form-group">
-                    <label for="document-id">Document ID:</label>
-                    <input type="text" class="form-control" id="document-id" name="document_id" readonly>
-                  </div>
-                  <div class="form-group">
-                    <label for="document-description">Description:</label>
-                    <input type="text" class="form-control" id="document-description" name="document_description" readonly>
-                  </div>
-                  <div class="form-group">
-                    <label for="document-amount">Amount:</label>
-                    <input type="text" class="form-control" id="document-amount" name="document_amount" readonly>
-                  </div>
+{{--                  <div class="form-group">--}}
+{{--                    <label for="document-id">Document ID:</label>--}}
+{{--                    <input type="text" class="form-control" id="document-id" name="document_id" readonly>--}}
+{{--                  </div>--}}
+{{--                  <div class="form-group">--}}
+{{--                    <label for="document-description">Description:</label>--}}
+{{--                    <input type="text" class="form-control" id="document-description" name="document_description" readonly>--}}
+{{--                  </div>--}}
+{{--                  <div class="form-group">--}}
+{{--                    <label for="document-amount">Amount:</label>--}}
+{{--                    <input type="text" class="form-control" id="document-amount" name="document_amount" readonly>--}}
+{{--                  </div>--}}
                   <div class="form-group">
                     <label for="document-comments">Comments:</label>
                     <textarea class="form-control" id="document-comments" name="comments" rows="3"></textarea>
@@ -80,7 +95,7 @@
           </div>
       </div>
   </div>
-  
+
 
 @endsection
 @section('script')
