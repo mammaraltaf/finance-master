@@ -106,7 +106,7 @@
             {{--All Datatable--}}
             <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%">
                 <thead>
-                <tr>
+                <tr class="text-nowrap text-center">
                     <th>Name</th>
                       <th>Email</th>
                     <th>Type</th>
@@ -116,7 +116,7 @@
                 </thead>
                 <tbody>
                 @foreach($users as $user)
-                    <tr>
+                    <tr class="text-nowrap text-center">
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
                         <td>
@@ -131,9 +131,14 @@
 {{--                        <td>--}}
                         @if(($user->user_type == \App\Classes\Enums\UserTypesEnum::Admin) || ($user->user_type == \App\Classes\Enums\UserTypesEnum::User))
 
-                        <td><a href="" class="btn btn-primary btn-sm" id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$user->id}}">Edit</a>
+                        <td>
+                            {{-- <a href="" class="btn btn-primary btn-sm" id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$user->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
-                               class="btn btn-danger delete_btn btn-sm">Delete</a></td>
+                               class="btn btn-danger delete_btn btn-sm">Delete
+                            </a> --}}
+                            <i id="userEdit" id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                            <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}" class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
+                        </td>
                             @else
                             <td>
                                 -
@@ -143,14 +148,14 @@
                     </tr>
                 @endforeach
                 </tbody>
-                <tfoot>
+                {{-- <tfoot>
                 <tr>
                     <th>Name</th>
                     <th>Email</th>
                   <th>Type</th>
                   <th>Action</th>
                 </tr>
-                </tfoot>
+                </tfoot> --}}
             </table>
         </div></div>
            <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">

@@ -116,7 +116,7 @@
             {{--All Datatable--}}
             <table id="departmentTable" name="departmentTable" class="ui celled table allTable" style="width:100%">
                 <thead>
-                <tr>
+                <tr class="text-nowrap text-center">
                     <th>ID / Software</th>
                     <th>Name</th>
                     <th>Action</th>
@@ -124,23 +124,27 @@
                 </thead>
                 <tbody>
                 @foreach($departments as $department)
-                    <tr>
+                    <tr class="text-center">
                         <td>{{$department->id_software}}</td>
                         <td>{{$department->name}}</td>
 
-                        <td><a href="" class="btn btn-primary btn-sm" id="departmentEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$department->id}}">Edit</a>
+                        <td>
+                            {{-- <a href="" class="btn btn-primary btn-sm" id="departmentEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$department->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$department->id}}"
-                               class="btn btn-danger delete_btn btn-sm">Delete</a></td>
+                               class="btn btn-danger delete_btn btn-sm">Delete</a> --}}
+                            <i id="departmentEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$department->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                            <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$department->id}}" class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
-                <tfoot>
-                <tr>
+                {{-- <tfoot>
+                <tr class="text-center">
                     <th>ID / Software</th>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
-                </tfoot>
+                </tfoot> --}}
             </table>
         </div>
     </div>
