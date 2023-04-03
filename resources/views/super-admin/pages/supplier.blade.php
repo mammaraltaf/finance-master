@@ -193,7 +193,7 @@
             {{--All Datatable--}}
             <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%">
                 <thead>
-                <tr>
+                <tr class="text-center">
                     <th>ID Software</th>
                     <th>Tax ID</th>
                     <th>Supplier Name</th>
@@ -209,7 +209,7 @@
                 </thead>
                 <tbody>
                 @foreach($suppliers as $supplier)
-                    <tr>
+                    <tr class="text-center">
                         <td>{{$supplier['id_software']}}</td>
                         <td>{{$supplier['tax_id']}}</td>
                         <td>{{$supplier['supplier_name']}}</td>
@@ -220,18 +220,28 @@
                         <td>{{$supplier['accounting_id']}}</td>
                         @hasanyrole('super-admin|accounting')
                         <td>
+<<<<<<< Updated upstream
                         
      <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
                                data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a> 
                                <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$supplier->id}}"
                                    class="btn btn-danger delete_btn btn-sm">Delete</a></td>
 
+=======
+{{--                            <a href="{{route('super-admin.edit-supplier', $supplier['id'])}}"--}}
+                            
+                               <i  class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                               <i class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
+{{--                            <a href="{{route('super-admin.delete-supplier', $supplier['id'])}}"--}}
+{{--                            <a href="#"--}}
+{{--                               class="btn btn-danger btn-sm">Delete</a>--}}
+>>>>>>> Stashed changes
                         </td>
                         @endhasanyrole
                     </tr>
                 @endforeach
                 </tbody>
-                <tfoot>
+                {{-- <tfoot>
                 <tr>
                     <th>ID Software</th>
                     <th>Tax ID</th>
@@ -245,7 +255,7 @@
                     <th>Action</th>
                     @endhasanyrole
                 </tr>
-                </tfoot>
+                </tfoot> --}}
             </table>
         </div>
     </div>
