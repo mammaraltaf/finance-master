@@ -22,23 +22,12 @@ use App\Models\User;
 |
 */
 
-Route::get('/', function () {
-    if (Auth::check()) {
-        $user = Auth::user();
-        if ($user->hasRole(UserTypesEnum::SuperAdmin)) {
-            return redirect()->route('super-admin.dashboard');
-        } elseif ($user->hasRole(UserTypesEnum::User)) {
-            return redirect()->route('user.dashboard');
-        } elseif ($user->hasRole(UserTypesEnum::Finance)) {
-            return redirect()->route('finance.dashboard');
-        } elseif ($user->hasRole(UserTypesEnum::Manager)) {
-            return redirect()->route('manager.dashboard');
-        } elseif ($user->hasRole(UserTypesEnum::Director)) {
-            return redirect()->route('director.dashboard');
-        }
-    }
-    return view('auth.login');
-})->name('mainpage');
+//Route::get('/', function () {
+//    if(auth()->user()){
+//        return redirect(auth()->user()->user_type.'/dashboard');
+//    }
+//    return view('auth.login');
+//})->name('mainpage');
 
 Route::group(['middleware'=>'auth'],function (){
     /*Super Admin Routes*/
@@ -162,6 +151,7 @@ Route::get('/users',[App\Http\Controllers\SuperAdminController::class,'all_users
 Route::post('/users', [App\Http\Controllers\SuperAdminController::class, 'adduser'])->name('super-admin.adduser');
 // Route::post('/users', [App\Http\Controllers\SuperAdminController::class, 'deleteuser'])->name('super-admin.deleteuser');
 
+Route::redirect('/', '/login');
 
 
 //Route::get('/logout', function () {
