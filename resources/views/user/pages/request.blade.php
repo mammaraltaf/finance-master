@@ -225,11 +225,10 @@
                                     <!-- Show previously uploaded files here -->
                                 </div>
                             </div>
-
+                              
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
-                                <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2"
-                                       min='<?php echo date('Y-m-d');?>' required>
+                                <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2" min='<?php echo date('Y-m-d');?>' required>
                             </div>
                             <div class="form-group">
                                 <label for="due-date" class="form-label">Due Date</label>
@@ -289,40 +288,30 @@
                             <td>{{$request['amount']}}</td>
                             <td>{{$request['description']}}</td>
                             <td><?php
-                                if (isset($request['basis'])){
-                                    $files = explode(',', $request['basis']);
-                                foreach ($files as $file){ ?>
-                                <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
-
-                                <?php }
-                                } else {
-                                    echo "No document available";
+                                if(isset($request['basis'])){ 
+                                    $files=explode(',',$request['basis']);
+                                    foreach($files as $file){ ?>
+    <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+    
+                            <?php  }   }else{
+                                   echo "No document available";
                                 }
-                                    ?></td>
+                                ?></td>
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
-                            @hasanyrole('super-admin|accounting|user')
-                                <?php if ($request['status'] == "new") { ?>
-                            <td>
-                                <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
-                                   data-target="#ModalEdit" data-id="{{$request->id}}">Edit</a>
-                                <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
-                                   class="btn btn-danger delete_btn btn-sm">Delete</a></td>
-                                <?php } if ($request['status'] == "new") { ?>
+                               @if ($request['status'] == "new") 
                             <td class="d-flex align-items-center justify-content-center">
                                 <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"
                                    class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
                                    class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
                             </td>
-                            <?php }
-                            elseif ($request['status'] == "submitted-for-review}}") {
+                            
+                            {{-- @elseif ($request['status'] == "submitted-for-review}}")  --}}
+                            @endif
 
-                            } else { ?>
-
-                            <?php } ?>
-                            @endhasanyrole
+                        {{-- @endhasanyrole --}}
 
                         </tr>
                     @endforeach
@@ -351,6 +340,7 @@
                 </form>
             </div>
         </div>
+
     </div>
 
 
@@ -360,6 +350,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
     <script type="text/javascript">
+  
         $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
@@ -468,6 +459,7 @@
         //=============================
         // Edit Document Preview Start
         //=============================
+        
 
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
@@ -476,13 +468,15 @@
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
-                    // console.log("response", response);
-                    $('#reqid').val(response.id);
-                    $('#amount2').val(response.amount);
-                    $('#description2').val(response.description);
-                    $('#due-date-payment2').val(response.payment_date);
-                    $('#due-date2').val(response.submission_date);
-                    $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+                console.log("response", response);
+                $('#reqid').val(response.id);
+                $('#amount2').val(response.amount);
+                $('#description2').val(response.description);
+                // $("#basis2").val(response.basis);
+                $('#due-date-payment2').val(response.payment_date);
+                $('#due-date2').val(response.submission_date);
+
+                $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
                     // Show previously uploaded files
                     basisFiles2 = response.basis;
                     if (response.basis) {
@@ -490,11 +484,12 @@
                         var files = response.basis.split(',');
                         var fileHtml = '';
                         for (var i = 0; i < files.length; i++) {
-                            var fileName = files[i];
-                            fileHtml += '<div><a href="{{asset('basis')}}' + '/' + fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
-                            docs2.push(fileName);
-                        }
-                        fileHtml += '<div class="d-flex align-items-center"><a class="px-2" href="' + fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">Remove</div></div>';
+                        var fileName = files[i];
+                        fileHtml += '<div><a href="{{asset('basis')}}' +'/'+ fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
+                        docs2.push(fileName);
+                    }  
+                        $('#previousFiles').html(fileHtml);
+                        $('#basis3').val(docs2);
                     }
                     $('#previousFiles').html(fileHtml);
                     $('#basis3').val(docs2);
@@ -520,6 +515,73 @@
             $(this).parent().remove();
         });
 
+        // $(document).on('click', '#userEdit', function () {
+        // var request_id = $(this).data('id');
+        // console.log("Edit::::::::::")
+
+    //     $(document).on('click', '.remove-file', function () {
+    //         var fileToRemove = $(this).data('file');
+    //         // Add filename to an array of removed files
+    //         removedFiles.push(fileToRemove);
+    //         $(this).closest('div').remove();
+    //         });
+
+    //         var formData = new FormData();
+    //         var newFiles = $('#basis2')[0].files;
+    //         for (var i = 0; i < newFiles.length; i++) {
+    //             formData.append('basis[]', newFiles[i]);
+    //         }
+    //     formData.append('basis3', JSON.stringify(removedFiles));
+
+    //     $.ajax({
+    //         type: "GET",
+    //         url: "{{url('/user/edit-request/')}}" + '/' + request_id,
+    //         data: formData,
+    //         processData: false,
+    //         contentType: false,
+    //         success: function (response) {
+    //             console.log("response", response);
+    //             $('#reqid').val(response.id);
+    //             $('#amount2').val(response.amount);
+    //             $('#description2').val(response.description);
+    //             // $("#basis2").val(response.basis);
+    //             $('#due-date-payment2').val(response.payment_date);
+    //             $('#due-date2').val(response.submission_date);
+
+    //             $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+    //             // Show previously uploaded files
+    //             basisFiles2 = response.basis;
+    //             if (response.basis) {
+    //                 var docs2 = [];
+    //                 var files = response.basis.split(',');
+    //                 var fileHtml = '';
+    //                 for (var i = 0; i < files.length; i++) {
+    //                     var fileName = files[i];
+    //                     fileHtml += '<div><a href="{{asset('basis')}}' + '/' + fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
+    //                     docs2.push(fileName);
+    //                 }
+    //                 $('#previousFiles').html(fileHtml);
+    //                 $('#basis3').val(docs2);
+    //             }
+    //         }
+    //     });
+    // });
+
+
+            // Bind a click event to the "Remove" button
+            $('body').on('click', '.remove-file', function() {
+                var fileName = $(this).data('file');
+                console.log("fileName", fileName);
+                
+                $(this).parent().remove(); 
+            });
+            // $(document).on('click', '.remove-file', function () {
+            //     var fileToRemove = $(this).data('file');
+            //     // Add filename to an array of removed files
+            //     removedFiles.push(fileToRemove);
+            //     $(this).closest('div').remove();
+            // });
+            
         //=============================
         // Edit Document Preview End
         //=============================

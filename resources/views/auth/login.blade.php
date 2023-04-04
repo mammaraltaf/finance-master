@@ -118,7 +118,6 @@
 
                     <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-primary btn-block">{{ __('Login') }}</button>
-
                         @if (Route::has('password.request'))
                             <a class="btn btn-link text-primary mt-2" href="{{ route('password.request') }}">
                                 {{ __('Forgot Your Password?') }}
@@ -166,3 +165,4 @@
 
 
 @endsection
+
