@@ -56,7 +56,7 @@
                                 <select class="form-control" id="company" name="company" required>
                                     <?php foreach ($companies as $company){ ?>
                                     <option
-                                        value="{{$company->name}}" {{ $company->user_id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
+                                        value="{{$company->id}}" {{ $company->user_id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -65,7 +65,7 @@
                                 <select class="form-control" id="department" name="department" required>
                                     <?php foreach ($departments as $department){ ?>
                                     <option
-                                        value="{{$department->name}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
+                                        value="{{$department->id}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -74,7 +74,7 @@
                                 <select class="form-control" id="supplier" name="supplier" required
                                         placeholder="select a supplier">
                                     <?php foreach ($suppliers as $supplier){ ?>
-                                    <option value="{{$supplier->supplier_name}}">{{$supplier->supplier_name}}</option>
+                                    <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -82,7 +82,7 @@
                                 <label for="expense-type">Type of Expense</label>
                                 <select class="form-control" id="expense_type" name="expense_type" required>
                                     <?php foreach ($expenses as $expense){ ?>
-                                    <option value="{{$expense->name}}">{{$expense->name}}</option>
+                                    <option value="{{$expense->id}}">{{$expense->name}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -163,7 +163,7 @@
                                 <select class="form-control" id="company" name="company" required>
                                     <?php foreach ($companies as $company){ ?>
                                     <option
-                                        value="{{$company->name}}" {{ $company->id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
+                                        value="{{$company->id}}" {{ $company->id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -172,7 +172,7 @@
                                 <select class="form-control" id="department" name="department" required>
                                     <?php foreach ($departments as $department){ ?>
                                     <option
-                                        value="{{$department->name}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
+                                        value="{{$department->id}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -180,7 +180,7 @@
                                 <label for="supplier">Supplier</label>
                                 <select class="form-control" id="supplier" name="supplier" required>
                                     <?php foreach ($suppliers as $supplier){ ?>
-                                    <option value="{{$supplier->supplier_name}}">{{$supplier->supplier_name}}</option>
+                                    <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -189,7 +189,7 @@
                                 <select class="form-control" id="expense-type" name="expense-type" required>
 
                                     <?php foreach ($expenses as $expense){ ?>
-                                    <option value="{{$expense->name}}">{{$expense->name}}</option>
+                                    <option value="{{$expense->id}}">{{$expense->name}}</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -280,10 +280,10 @@
                     @foreach($requests as $request)
                         <tr class="text-nowrap text-center" data-status="{{$request['status']}}">
                             <td>{{$request['initiator']}}</td>
-                            <td>{{$request['company']}}</td>
-                            <td>{{$request['department']}}</td>
-                            <td>{{$request['supplier']}}</td>
-                            <td>{{$request['expense_type']}}</td>
+                            <td>{{$request['company_id']}}</td>
+                            <td>{{$request['department_id']}}</td>
+                            <td>{{$request['supplier_id']}}</td>
+                            <td>{{$request['expense_type_id']}}</td>
                             <td>{{$request['currency']}}</td>
                             <td>{{$request['amount']}}</td>
                             <td>{{$request['description']}}</td>

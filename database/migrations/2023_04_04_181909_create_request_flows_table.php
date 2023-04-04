@@ -16,10 +16,10 @@ class CreateRequestFlowsTable extends Migration
         Schema::create('request_flows', function (Blueprint $table) {
             $table->id();
             $table->string('initiator')->nullable(false);
-            $table->string('company')->nullable(false);
-            $table->string('department')->nullable(false);
-            $table->string('supplier')->nullable(false);
-            $table->string('expense_type')->nullable(false);
+            $table->foreignId('company_id')->constrained('companies')->onDelete('cascade');
+            $table->foreignId('department_id')->constrained('departments')->onDelete('cascade');
+            $table->foreignId('supplier_id')->constrained('suppliers')->onDelete('cascade');
+            $table->foreignId('expense_type_id')->constrained('type_of_expanses')->onDelete('cascade');
             $table->string('currency')->nullable(false);
             $table->string('amount')->nullable(false);
             $table->string('description')->nullable(false);

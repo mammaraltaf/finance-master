@@ -190,10 +190,10 @@ public function deletesupplier(Request $request){
             }
             $request_data = RequestFlow::create([
                 'initiator' => $input['initiator_id'],
-                'company' => $input['company'],
-                'department' => $input['department'],
-                'supplier' => $input['supplier'],
-                'expense_type' => $input['expense_type'],
+                'company_id' => $input['company'],
+                'department_id' => $input['department'],
+                'supplier_id' => $input['supplier'],
+                'expense_type_id' => $input['expense_type'],
                 'currency' => $input['currency'],
                 'amount' => $input['amount'],
                 'description' => $input['description'],
@@ -264,10 +264,10 @@ public function deletesupplier(Request $request){
             }
             $request = RequestFlow::find($id);
 
-            $request->company = $input['company'];
-            $request->department = $input['department'];
-            $request->supplier = $input['supplier'];
-            $request->expense_type = $input['expense-type'];
+            $request->company_id = $input['company'];
+            $request->department_id = $input['department'];
+            $request->supplier_id = $input['supplier'];
+            $request->expense_type_id = $input['expense-type'];
             $request->currency = $input['currency'];
             $request->amount = $input['amount'];
             $request->description = $input['description'];
