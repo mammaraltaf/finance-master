@@ -154,18 +154,10 @@
                         <td>{{$supplier['bank_account']}}</td>
                         <td>{{$supplier['bank_swift']}}</td>
                         <td>{{$supplier['accounting_id']}}</td>
-<<<<<<< Updated upstream
-                        <td><a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
-                               data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a>
-                               <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$supplier->id}}"
-                                   class="btn btn-danger delete_btn btn-sm">Delete</a></td>
-                            </tr>
-=======
                         <td>
                             <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                         </td>
                     </tr>
->>>>>>> Stashed changes
                 @endforeach
                 </tbody>
                 {{-- <tfoot>
@@ -264,6 +256,7 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
+
     </div><!-- /.modal -->
 
     <!--end::Body-->
@@ -273,6 +266,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
     <script type="text/javascript">
+    
           $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);

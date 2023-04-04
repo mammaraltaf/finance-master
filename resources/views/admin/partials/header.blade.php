@@ -57,13 +57,25 @@
                 <!--end::Title-->
             </div>
 
-            <div class="page-title d-flex justify-content-center flex-column me-5">
-                <a class="btn btn-danger btn-sm" href="{{ route('logout') }}"
-                   onclick="event.preventDefault();
-                   document.getElementById('logout-form').submit();" style="color: white;">
-                    Logout
-{{--                    <img style="width: 18px; height: 18px; margin-right: 5px;" src="{{asset('assets/logo/logout.png')}}"> {{ __('Logout') }}--}}
-                </a>
+            {{-- Company drop down list --}}
+            <div class="d-flex align-items-center">
+                <div class="p-2">
+                    <select class="form-control" id="company-dropdown">
+                        <option value="">--Select Company--</option>
+                        <option value="company1">Company 1</option>
+                        <option value="company2">Company 2</option>
+                        <option value="company3">Company 3</option>
+                        <option value="company4">Company 4</option>
+                    </select>
+                </div>
+                <div class="page-title d-flex justify-content-center flex-column me-5">
+                    <a class="btn btn-danger btn-sm" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();" style="color: white;">
+                        Logout
+                    {{--<img style="width: 18px; height: 18px; margin-right: 5px;" src="{{asset('assets/logo/logout.png')}}"> {{ __('Logout') }}--}}
+                    </a>
+                </div>
             </div>
 
             <!--end::Page title-->
