@@ -18,7 +18,7 @@ class DirectorController extends Controller
     public function dashboard()
     {
         // $this->authorize('director');
-        $requests = RequestFlow::whereStatus(StatusEnum::SubmittedForReview)->get();
+        $requests = RequestFlow::whereStatus(StatusEnum::FinanceOk)->get();
         return view('director.pages.dashboard', compact('requests'));
     }
 

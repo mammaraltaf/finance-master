@@ -405,7 +405,7 @@ class SuperAdminController extends Controller
     public function supplier()
     {
         $suppliers = Supplier::all();
-        return view('super-admin.pages.supplier', compact('suppliers'));
+        return view('user.pages.supplier', compact('suppliers'));
     }
     public function editsupplier($id)
     {
@@ -443,7 +443,7 @@ class SuperAdminController extends Controller
             if(isset($input['bank_account'])){   $supplier->bank_account = $input['bank_account']; }
                 if(isset($input['bank_swift'])){    $supplier->bank_swift = $input['bank_swift'];}
                     if(isset($input['accounting_id'])){    $supplier->accounting_id = $input['accounting_id'];}
-           
+
             $supplier->save();
 
             if($supplier){
