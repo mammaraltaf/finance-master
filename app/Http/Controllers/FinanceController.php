@@ -64,7 +64,7 @@ class FinanceController extends Controller
             }
 
             $requestFlow = RequestFlow::find($request->id);
-            $requestFlow->status = StatusEnum::Rejected;
+            $requestFlow->status = StatusEnum::FinanceRejected;
             $requestFlow->comment = $request->comment;
             $requestFlow->save();
             return redirect()->back()->with('success', 'Request Rejected Successfully');

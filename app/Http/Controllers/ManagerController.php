@@ -25,8 +25,13 @@ class ManagerController extends Controller
     public function approveRequest(Request $request)
     {
         try{
-            $requestFlow = RequestFlow::find($request->id);
-            $requestFlow->status = StatusEnum::Confirmed;
+            $requestFlow = RequestFlow::with('company')->find($request->id);
+            if ($requestFlow->amount > $requestFlow->company->threshold_amount) {
+                $requestFlow->status = StatusEnum::ThresholdExceeded;
+            }
+            else {
+                $requestFlow->status = StatusEnum::ManagerConfirmed;
+            }
             $requestFlow->comment = $request->comment ?? null ;
             $requestFlow->save();
             return redirect()->back()->with('success', 'Request Approved Successfully');
@@ -48,7 +53,7 @@ class ManagerController extends Controller
             }
 
             $requestFlow = RequestFlow::find($request->id);
-            $requestFlow->status = StatusEnum::Rejected;
+            $requestFlow->status = StatusEnum::ManagerRejected;
             $requestFlow->comment = $request->comment;
             $requestFlow->save();
             return redirect()->back()->with('success', 'Request Rejected Successfully');

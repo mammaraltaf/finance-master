@@ -64,7 +64,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form id="document-form">
+                <form id="directorAcceptRejectForm">
 {{--                  <div class="form-group">--}}
 {{--                    <label for="document-id">Document ID:</label>--}}
 {{--                    <input type="text" class="form-control" id="document-id" name="document_id" readonly>--}}
@@ -103,6 +103,11 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
     <script>
+        $(document).ready(function() {
+            $('#reviewDocument').DataTable();
+        } );
+
+
       const commentTextarea = document.getElementById("document-comments");
         const rejectButton = document.getElementById("reject-button");
 

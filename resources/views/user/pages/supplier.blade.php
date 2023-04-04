@@ -84,34 +84,34 @@
                                 <label class="control-label">Bank ID</label>
                                 <div>
                                     <input type="text" name="bank_id" placeholder="Enter  Bank ID"
-                                           class="form-control input-lg" disabled>
+                                           class="form-control input-lg" @role('user') disabled @endrole>
                                 </div>
                                 <br>
 
                                 <label class="control-label">Bank Name</label>
                                 <div>
                                     <input type="text" name="bank_name" placeholder="Enter  Bank name"
-                                           class="form-control input-lg" disabled>
+                                           class="form-control input-lg" @role('user') disabled @endrole>
                                 </div>
                                 <br>
 
                                 <label class="control-label">Bank Account</label>
                                 <div>
                                     <input type="text" name="bank_account" placeholder="Enter Bank Account"
-                                           class="form-control input-lg" disabled>
+                                           class="form-control input-lg" @role('user') disabled @endrole>
                                 </div>
                                 <br>
 
                                 <label class="control-label">Bank Swift</label>
                                 <div>
                                     <input type="text" name="bank_swift" placeholder="Enter Bank Swift"
-                                           class="form-control input-lg" disabled>
+                                           class="form-control input-lg" @role('user') disabled @endrole>
                                 </div>
                                 <br>
                                 <label class="control-label"> Accounting ID</label>
                                 <div>
                                     <input type="text" name="accounting_id" placeholder="Enter  Accounting ID"
-                                           class="form-control input-lg" disabled>
+                                           class="form-control input-lg" @role('user') disabled @endrole>
                                 </div>
                                 <br>
 
@@ -222,14 +222,14 @@
                             <label class="control-label">Bank ID</label>
                             <div>
                                 <input type="text" name="bank_id" id="bank_id" placeholder="Enter  Bank ID"
-                                       class="form-control input-lg" disabled>
+                                       class="form-control input-lg" @role('user') disabled @endrole>
                             </div>
                             <br>
 
                             <label class="control-label">Bank Name</label>
                             <div>
                                 <input type="text" name="bank_name" id="bank_name" placeholder="Enter  Bank name"
-                                       class="form-control input-lg" disabled>
+                                       class="form-control input-lg" @role('user') disabled @endrole>
                             </div>
                             <br>
 
@@ -237,21 +237,21 @@
                             <div>
                                 <input type="text" name="bank_account" id="bank_account"
                                        placeholder="Enter Bank Account"
-                                       class="form-control input-lg" disabled>
+                                       class="form-control input-lg" @role('user') disabled @endrole>
                             </div>
                             <br>
 
                             <label class="control-label">Bank Swift</label>
                             <div>
                                 <input type="text" name="bank_swift" id="bank_swift" placeholder="Enter Bank Swift"
-                                       class="form-control input-lg" disabled>
+                                       class="form-control input-lg" @role('user') disabled @endrole>
                             </div>
                             <br>
                             <label class="control-label"> Accounting ID</label>
                             <div>
                                 <input type="text" name="accounting_id" id="accounting_id"
                                        placeholder="Enter  Accounting ID"
-                                       class="form-control input-lg" disabled>
+                                       class="form-control input-lg" @role('user') disabled @endrole>
                             </div>
                             <br>
 
@@ -277,7 +277,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
     <script type="text/javascript">
-    
+
           $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);

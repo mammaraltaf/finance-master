@@ -59,15 +59,17 @@
 
             {{-- Company drop down list --}}
             <div class="d-flex align-items-center">
+                @role('user')
                 <div class="p-2">
                     <select class="form-control" id="company-dropdown">
-                        <option value="">--Select Company--</option>
+                        <option value="">--Switch Company--</option>
                         <option value="company1">Company 1</option>
                         <option value="company2">Company 2</option>
                         <option value="company3">Company 3</option>
                         <option value="company4">Company 4</option>
                     </select>
                 </div>
+                @endrole
                 <div class="page-title d-flex justify-content-center flex-column me-5">
                     <a class="btn btn-danger btn-sm" href="{{ route('logout') }}"
                     onclick="event.preventDefault();

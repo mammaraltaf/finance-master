@@ -115,8 +115,6 @@ Route::group(['middleware'=>'auth'],function (){
         'as' => UserTypesEnum::Manager.'.',
     ],function (){
         Route::get('/dashboard', [ManagerController::class, 'dashboard'])->name('dashboard');
-        Route::get('/get-new-requests', [ManagerController::class, 'getNewRequests'])->name('get-new-requests');
-        Route::get('/get-request-detail/{id}', [ManagerController::class, 'getRequestDetail'])->name('get-request-detail');
         Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
     });
