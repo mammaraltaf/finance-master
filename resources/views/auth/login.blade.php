@@ -2,7 +2,7 @@
 
 @section('content')
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    
+
 <!-- <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -111,14 +111,13 @@
 {{--                        </label>--}}
 {{--                    </div>--}}
 
-                    <div class="form-check mb-3">
-                        <div class="g-recaptcha" data-sitekey="{{env('RECAPTCHA_SITE_KEY')}}"></div>
-                        <br/>
-                    </div>
+{{--                    <div class="form-check mb-3">--}}
+{{--                        <div class="g-recaptcha" data-sitekey="{{env('RECAPTCHA_SITE_KEY')}}"></div>--}}
+{{--                        <br/>--}}
+{{--                    </div>--}}
 
                     <div class="d-grid mb-3">
                         <button type="submit" class="btn btn-primary btn-block">{{ __('Login') }}</button>
-
                         @if (Route::has('password.request'))
                             <a class="btn btn-link text-primary mt-2" href="{{ route('password.request') }}">
                                 {{ __('Forgot Your Password?') }}
@@ -166,3 +165,4 @@
 
 
 @endsection
+

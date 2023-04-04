@@ -4,14 +4,12 @@
 @endsection
 @section('content')
     <!--begin::Header-->
+  
     <br>
     <div class="card-header pt-5">
-
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Manage Type of Expanse</span>
         </h3>
-
-
     </div>
     <div class="card-toolbar">
     </div>
@@ -119,7 +117,7 @@
             {{--All Datatable--}}
             <table id="typeOfExpenseTable" name="typeOfExpenseTable" class="ui celled table allTable" style="width:100%">
                 <thead>
-                <tr>
+                <tr class="text-center">
                     <th>ID / Software</th>
                     <th>Name</th>
                     <th>Accounting ID</th>
@@ -128,25 +126,29 @@
                 </thead>
                 <tbody>
                 @foreach($typeOfExpenses as $typeOfExpense)
-                    <tr>
+                    <tr class="text-center">
                         <td>{{$typeOfExpense->id_software}}</td>
                         <td>{{$typeOfExpense->name}}</td>
                         <td>{{$typeOfExpense->accounting_id}}</td>
 
-                        <td><a href="" class="btn btn-primary btn-sm" id="typeOfExpenseEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$typeOfExpense->id}}">Edit</a>
+                        <td>
+                            {{-- <a href="" class="btn btn-primary btn-sm" id="typeOfExpenseEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$typeOfExpense->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$typeOfExpense->id}}"
-                               class="btn btn-danger delete_btn btn-sm">Delete</a></td>
+                               class="btn btn-danger delete_btn btn-sm">Delete</a> --}}
+                            <i id="typeOfExpenseEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$typeOfExpense->id}}"  class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                            <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$typeOfExpense->id}}" class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
+                        </td>
                     </tr>
                 @endforeach
                 </tbody>
-                <tfoot>
+                {{-- <tfoot>
                 <tr>
                     <th>ID / Software</th>
                     <th>Name</th>
                     <th>Accounting ID</th>
                     <th>Action</th>
                 </tr>
-                </tfoot>
+                </tfoot> --}}
             </table>
         </div>
     </div>
@@ -180,6 +182,8 @@
             </div>
         </div>
     </div>
+
+    
 
     <!--end::Body-->
 @endsection

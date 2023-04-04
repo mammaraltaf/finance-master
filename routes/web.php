@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\DirectorController;
+use App\Http\Controllers\AccountingController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,12 @@ use App\Models\User;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-})->name('mainpage');
+//Route::get('/', function () {
+//    if(auth()->user()){
+//        return redirect(auth()->user()->user_type.'/dashboard');
+//    }
+//    return view('auth.login');
+//})->name('mainpage');
 
 Route::group(['middleware'=>'auth'],function (){
     /*Super Admin Routes*/
@@ -117,13 +121,25 @@ Route::group(['middleware'=>'auth'],function (){
     });
 
 
-    /*Manager Routes*/
+    /*Director Routes*/
     Route::group([
         'middleware' => ['role:'.UserTypesEnum::Director],
         'prefix' => UserTypesEnum::Director,
         'as' => UserTypesEnum::Director.'.',
     ],function (){
         Route::get('/dashboard', [DirectorController::class, 'dashboard'])->name('dashboard');
+
+    });
+
+
+    /*Accounting Routes*/
+    Route::group([
+        'middleware' => ['role:'.UserTypesEnum::Accounting],
+        'prefix' => UserTypesEnum::Accounting,
+        'as' => UserTypesEnum::Accounting.'.',
+    ],function (){
+        Route::get('/dashboard', [AccountingController::class, 'dashboard'])->name('dashboard');
+        Route::get('/supplier', [AccountingController::class, 'supplier'])->name('supplier');
 
     });
 });
@@ -148,6 +164,7 @@ Route::get('/users',[App\Http\Controllers\SuperAdminController::class,'all_users
 Route::post('/users', [App\Http\Controllers\SuperAdminController::class, 'adduser'])->name('super-admin.adduser');
 // Route::post('/users', [App\Http\Controllers\SuperAdminController::class, 'deleteuser'])->name('super-admin.deleteuser');
 
+Route::redirect('/', '/login');
 
 
 //Route::get('/logout', function () {

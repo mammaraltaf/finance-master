@@ -18,11 +18,13 @@
     <!--end::Header-->
     <!--begin::Body-->
     <div class="card-body py-3">
+        @role('user')
         <div class="row">
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalLoginForm">
                 Add Supplier
             </button>
         </div>
+        @endrole
         <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -45,7 +47,7 @@
         </div>
     </div>
 
-
+        @role('user')
         <!-- Modal HTML Markup -->
         <div id="ModalLoginForm" class="modal fade">
             <div class="modal-dialog" role="document">
@@ -125,13 +127,13 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-
+        @endrole
         <div class="tab-content">
 
             {{--All Datatable--}}
             <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%">
                 <thead>
-                <tr>
+                <tr class="text-nowrap text-center">
                     <th>ID Software</th>
                     <th>Tax ID</th>
                     <th>Supplier Name</th>
@@ -140,12 +142,14 @@
                     <th>Bank Account</th>
                     <th>Bank Swift</th>
                     <th>Accounting ID</th>
+                    @hasanyrole('super-admin|accounting')
                     <th>Action</th>
+                    @endhasanyrole
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($suppliers as $supplier)
-                    <tr>
+                    <tr class="text-nowrap text-center">
                         <td>{{$supplier['id_software']}}</td>
                         <td>{{$supplier['tax_id']}}</td>
                         <td>{{$supplier['supplier_name']}}</td>
@@ -154,14 +158,20 @@
                         <td>{{$supplier['bank_account']}}</td>
                         <td>{{$supplier['bank_swift']}}</td>
                         <td>{{$supplier['accounting_id']}}</td>
+                        @hasanyrole('super-admin|accounting')
                         <td><a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
                                data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a>
                                <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$supplier->id}}"
                                    class="btn btn-danger delete_btn btn-sm">Delete</a></td>
                             </tr>
+                        <td>
+                            <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                        </td>
+                        @endhasanyrole
+                    </tr>
                 @endforeach
                 </tbody>
-                <tfoot>
+                {{-- <tfoot>
                 <tr>
                     <th>ID</th>
                     <th>Tax ID</th>
@@ -173,7 +183,7 @@
                     <th>Accounting ID</th>
                     <th>Action</th>
                 </tr>
-                </tfoot>
+                </tfoot> --}}
             </table>
         </div>
     </div>
@@ -257,6 +267,7 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
+
     </div><!-- /.modal -->
 
     <!--end::Body-->
@@ -266,6 +277,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
     <script type="text/javascript">
+    
           $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
