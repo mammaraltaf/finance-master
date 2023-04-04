@@ -23,6 +23,9 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
+//                if (Auth::user()->user_type == 'user') {
+//                    return redirect()->route('user.select-company');
+//                }
                 return redirect(Auth::user()->user_type.RouteServiceProvider::DASHBOARD);
 //                return redirect()->route('/');
             }

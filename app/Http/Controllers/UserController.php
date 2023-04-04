@@ -27,6 +27,11 @@ class UserController extends Controller
         $this->middleware(['auth', 'role:'.UserTypesEnum::User]);
     }
 
+    public function selectCompany()
+    {
+        $companies = Company::where('user_id', Auth::user()->id)->get();
+        return view('user.pages.companylist', compact('companies'));
+    }
     public function dashboard()
     {
         // $this->authorize('user');
