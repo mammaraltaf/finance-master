@@ -36,10 +36,10 @@
             @foreach($requests as $request)
                 <tr>
                     <td>{{$request->initiator ?? ''}}</td>
-                    <td>{{$request->company ?? ''}}</td>
-                    <td>{{$request->department ?? ''}}</td>
-                    <td>{{$request->supplier ?? ''}}</td>
-                    <td>{{$request->expense_type ?? ''}}</td>
+                    <td>{{$request->company_id ?? ''}}</td>
+                    <td>{{$request->department_id ?? ''}}</td>
+                    <td>{{$request->supplier_id ?? ''}}</td>
+                    <td>{{$request->expense_type_id ?? ''}}</td>
                     <td>{{$request->currency ?? ''}}</td>
                     <td>{{$request->amount ?? ''}}</td>
                     <td>{{$request->description ?? ''}}</td>

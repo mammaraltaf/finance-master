@@ -11,13 +11,17 @@ class Company extends Model
 
     protected $guarded = ['id'];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
 
     public function requestFlows()
     {
         return $this->hasMany(RequestFlow::class);
+    }
+    public function user()
+    {
+        return $this->belongsToMany(User::class);
     }
 }

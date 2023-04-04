@@ -39,8 +39,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    // public function company()
+    // {
+    //     return $this->hasOne(Company::class);
+    // }
     public function company()
     {
-        return $this->hasOne(Company::class);
+        return $this->belongsToMany(Company::class);
     }
 }
