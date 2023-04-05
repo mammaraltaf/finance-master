@@ -18,6 +18,7 @@ class CreateCompaniesTable extends Migration
             $table->string('id_software')->unique();
             $table->string('tax_id')->unique();
             $table->string('name')->nullable();
+            $table->string('slug')->nullable();
             $table->double('threshold_amount', 8, 2)->default(0);
             $table->text('legal_address')->nullable();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->nullable();

@@ -9,6 +9,7 @@ class StatusEnum
     public const FinanceRejected = 'finance-rejected';
     public const ManagerRejected = 'manager-rejected';
     public const DirectorRejected = 'director-rejected';
+
     public const Rejected = 'rejected';
     public const FinanceOk = 'finance-ok';
 

@@ -1,7 +1,7 @@
-
+@extends('layouts.app')
 @section('content')
 <div class="container">
-    <h2>Select your company account:</h2>
+    <h2>Select a company to redirect to the dashboard:</h2>
     <div class="list-group">
       <a href="#" class="list-group-item active">Account 1</a>
       <a href="#" class="list-group-item">Account 2</a>
@@ -17,7 +17,7 @@
     $('.list-group-item').click(function(){
         $('.list-group-item').removeClass('active');
         $(this).addClass('active');
-      }); 
+      });
 
     </script>
 @endsection

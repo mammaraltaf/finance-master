@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use App\Classes\Enums\UserTypesEnum;
+use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 
 class SuperAdminController extends Controller
@@ -168,6 +169,7 @@ class SuperAdminController extends Controller
                 'id_software' => $input['id_software'],
                 'tax_id' => $input['tax_id'],
                 'name' => $input['company_name'],
+                'slug' => Str::slug($input['company_name']),
                 'threshold_amount' => $input['threshold_amount'],
                 'legal_address' => $input['legal_address'],
                 'user_id' => $input['user_id'],
@@ -211,6 +213,7 @@ class SuperAdminController extends Controller
             $company->id_software = $input['id_software'];
             $company->tax_id = $input['tax_id'];
             $company->name = $input['company_name'];
+            $company->slug = Str::slug($input['company_name']);
             $company->threshold_amount = $input['threshold_amount'];
             $company->legal_address = $input['legal_address'];
             $company->user_id = $input['user_id'];
