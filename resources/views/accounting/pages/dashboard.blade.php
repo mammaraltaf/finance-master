@@ -11,6 +11,14 @@
             <span class="card-label fw-bolder fs-3 mb-1">Dashboard</span>
         </h3>
     </div>
+
+    <!--begin::Body-->
+    <div class="btn-group my-4">
+      <button class="btn btn-info active" data-filter="all">All</button>
+      <button class="btn btn-info" data-filter="accepted">Accepted Requested</button>
+      <button class="btn btn-info" data-filter="rejected">Rejected Requests</button>
+  </div>
+
     <div class="container-fluid">
 
       <!-- Filter -->
@@ -116,7 +124,22 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
     <script>
-      
+      $(document).ready(function () {
+            $(".btn-group button").click(function () {
+                var filterValue = $(this).attr('data-filter');
+                console.log("filterValue", filterValue)
+                $("#suppliertable tbody tr").hide();
+                $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
+                if (filterValue === "all") {
+                    $("#suppliertable tbody tr").show();
+                } else {
+                    $("#suppliertable tbody tr").hide();
+                    $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
+                }
+                $(".btn-group button").removeClass("active");
+                $(this).addClass("active");
+            });
+        });
     </script>
 
 @endsection
