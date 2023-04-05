@@ -225,7 +225,7 @@
                                     <!-- Show previously uploaded files here -->
                                 </div>
                             </div>
-                              
+
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
                                 <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2" min='<?php echo date('Y-m-d');?>' required>
@@ -289,11 +289,11 @@
                             <td>{{$request['amount']}}</td>
                             <td>{{$request['description']}}</td>
                             <td><?php
-                                if(isset($request['basis'])){ 
+                                if(isset($request['basis'])){
                                     $files=explode(',',$request['basis']);
                                     foreach($files as $file){ ?>
                                     <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
-    
+
                                 <?php  }   }else{
                                    echo "No document available";
                                 }
@@ -301,14 +301,14 @@
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
-                               @if ($request['status'] == "new") 
+                               @if ($request['status'] == "new")
                             <td class="d-flex align-items-center justify-content-center">
                                 <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"
                                    class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
                                    class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
                             </td>
-                            
+
                             {{-- @elseif ($request['status'] == "submitted-for-review}}")  --}}
                             @endif
 
@@ -352,7 +352,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
     <script type="text/javascript">
-  
+
         $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
@@ -361,8 +361,10 @@
     <script type="text/javascript">
         var basisFiles2 = '';
 
+        // Preview Start
         $(document).ready(function () {
             $('#suppliertable').DataTable();
+
             var d = new Date();
 
             var month = d.getMonth()+1;
@@ -371,10 +373,7 @@
             var currentDate = d.getFullYear() + '/' +
                 ((''+month).length<2 ? '0' : '') + month + '/' +
                 ((''+day).length<2 ? '0' : '') + day;
-        });
 
-        // Preview Start
-        $(document).ready(function () {
             $("#basis").change(function () {
                 $("#preview").empty(); // Clear the preview div
                 if (this.files && this.files.length > 0) {
@@ -461,7 +460,7 @@
         //=============================
         // Edit Document Preview Start
         //=============================
-        
+
 
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
@@ -489,7 +488,7 @@
                         var fileName = files[i];
                         fileHtml += '<div><a href="{{asset('basis')}}' +'/'+ fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
                         docs2.push(fileName);
-                    }  
+                    }
                         $('#previousFiles').html(fileHtml);
                         $('#basis3').val(docs2);
                     }
