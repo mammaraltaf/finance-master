@@ -11,7 +11,6 @@
             <span class="card-label fw-bolder fs-3 mb-1">Dashboard</span>
         </h3>
 
-
     </div>
     <div class="overflow-auto">
         <table id="suppliertable" name="suppliertable" class="ui celled table allTable dt-responsive" cellspacing="0">

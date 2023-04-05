@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Classes\Enums\StatusEnum;
 use App\Jobs\AcceptOrRejectRequest;
+use App\Traits\LogActionTrait;
 use Exception;
 
 use Illuminate\Support\Facades\Validator;
@@ -20,11 +21,14 @@ use App\Models\Department;
 use App\Models\TypeOfExpanse;
 use Illuminate\Support\Facades\Auth;
 use File;
+
 class UserController extends Controller
 {
+    use LogActionTrait;
+
     public function __construct()
     {
-        $this->middleware(['auth', 'role:'.UserTypesEnum::User]);
+        $this->middleware(['auth', 'role:' . UserTypesEnum::User]);
     }
 
     public function selectCompany()
@@ -32,10 +36,11 @@ class UserController extends Controller
         $companies = Company::where('user_id', Auth::user()->id)->get();
         return view('user.pages.companylist', compact('companies'));
     }
+
     public function dashboard()
     {
         // $this->authorize('user');
-         return view('user.pages.dashboard');
+        return view('user.pages.dashboard');
     }
 
     public function supplier()
@@ -47,7 +52,8 @@ class UserController extends Controller
         return view('user.pages.supplier', compact('suppliers'));
     }
 
-    public function addsupplier(Request $request){
+    public function addsupplier(Request $request)
+    {
         $this->authorize('create supplier');
         try {
             $input = $request->all();
@@ -94,21 +100,24 @@ class UserController extends Controller
         return response()->json($user);
     }
 
-    public function request(){
+    public function request()
+    {
         $user = Auth::user();
         $requests = RequestFlow::all();
-        $companies = Company::all(['id', 'name','user_id']);
-        $departments = Department::all(['id', 'name','user_id']);
+        $companies = Company::all(['id', 'name', 'user_id']);
+        $departments = Department::all(['id', 'name', 'user_id']);
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
-        return view('user.pages.request',compact('requests','user','companies','departments','suppliers','expenses'));
+        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses'));
     }
-    public function updatesupplier(Request $request, $id){
-        try{
+
+    public function updatesupplier(Request $request, $id)
+    {
+        try {
             $input = $request->all();
             $validator = Validator::make($input, [
-                'id_software' => 'required | unique:suppliers,id_software,'. $id,
-                'tax_id' => 'required | unique:suppliers,tax_id,'. $id,
+                'id_software' => 'required | unique:suppliers,id_software,' . $id,
+                'tax_id' => 'required | unique:suppliers,tax_id,' . $id,
                 'name' => 'required ',
                 // 'bank_id' => 'required',
                 // 'bank_name' => 'required',
@@ -133,28 +142,29 @@ class UserController extends Controller
 
             $supplier->save();
 
-            if($supplier){
+            if ($supplier) {
                 return redirect()->back()->with('success', 'Supplier updated successfully');
             }
 
             return redirect()->back()->with('error', 'Something went wrong');
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-public function deletesupplier(Request $request){
-    try {
-  supplier::where('id',$request->id)->delete();
-        return redirect()->back()->with('success','Supplier deleted Successfully');
-    } catch (Exception $e) {
-        return redirect()->back()->with('error', $e->getMessage());
+
+    public function deletesupplier(Request $request)
+    {
+        try {
+            supplier::where('id', $request->id)->delete();
+            return redirect()->back()->with('success', 'Supplier deleted Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
-}
 
 
-
-    public function addrequest(Request $request){
+    public function addrequest(Request $request)
+    {
         // $this->authorize('create request');
         try {
             $input = $request->all();
@@ -165,28 +175,27 @@ public function deletesupplier(Request $request){
                 'supplier' => 'required',
                 'expense_type' => 'required',
                 'currency' => 'required',
+                'amount_in_gel' => 'required',
                 'amount' => 'required',
                 'description' => 'required',
                 'basis' => 'required',
                 'due-date-payment' => 'required',
                 'due-date' => 'required'
             ]);
-             if ($validator->fails()) {
+            if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
             $files = [];
-        if($request->hasfile('basis'))
-         {
-            foreach($request->file('basis') as $file)
-            {
-                $name = time().rand(1,50).'.'.$file->extension();
-                $file->move(public_path('basis'), $name);
-                $files[] = $name;
+            if ($request->hasfile('basis')) {
+                foreach ($request->file('basis') as $file) {
+                    $name = time() . rand(1, 50) . '.' . $file->extension();
+                    $file->move(public_path('basis'), $name);
+                    $files[] = $name;
+                }
             }
-         }
-         $basis=implode(',',$files);
-            if(isset($_POST['button'])){
-                $status=$_POST['button'];
+            $basis = implode(',', $files);
+            if (isset($_POST['button'])) {
+                $status = $_POST['button'];
             }
             $request_data = RequestFlow::create([
                 'initiator' => $input['initiator_id'],
@@ -196,6 +205,7 @@ public function deletesupplier(Request $request){
                 'expense_type_id' => $input['expense_type'],
                 'currency' => $input['currency'],
                 'amount' => $input['amount'],
+                'amount_in_gel' => $input['amount_in_gel'],
                 'description' => $input['description'],
                 'basis' => $basis,
                 'payment_date' => $input['due-date-payment'],
@@ -205,7 +215,8 @@ public function deletesupplier(Request $request){
             ]);
 
             if ($request_data) {
-                if ($status == StatusEnum::SubmittedForReview){
+                if ($status == StatusEnum::SubmittedForReview) {
+                    $this->logActionCreate(Auth::id(), $request_data->id,  'User Request created');
                     AcceptOrRejectRequest::dispatch($request_data);
                 }
                 return redirect()->back()->with('success', 'Request successfull');
@@ -216,18 +227,20 @@ public function deletesupplier(Request $request){
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-    public function deleterequest(Request $request){
+
+    public function deleterequest(Request $request)
+    {
         try {
             $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
-            $files=explode(',',$all_files);
-            foreach($files as $file){
-                if(\File::exists(public_path('basis/'.$file))){
-                    \File::delete(public_path('basis/'.$file));
-                    }
+            $files = explode(',', $all_files);
+            foreach ($files as $file) {
+                if (File::exists(public_path('basis/' . $file))) {
+                    File::delete(public_path('basis/' . $file));
+                }
             }
 
-            RequestFlow::where('id',$request->id)->delete();
-            return redirect()->back()->with('success','Request deleted Successfully');
+            RequestFlow::where('id', $request->id)->delete();
+            return redirect()->back()->with('success', 'Request deleted Successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -240,9 +253,10 @@ public function deletesupplier(Request $request){
         return response()->json($requested);
     }
 
-    public function updaterequest(Request $request, $id){
-        
-        try{
+    public function updaterequest(Request $request, $id)
+    {
+
+        try {
             $input = $request->all();
             dd($input);
             $validator = Validator::make($input, [
@@ -260,8 +274,8 @@ public function deletesupplier(Request $request){
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-            if(isset($_POST['button'])){
-                $status=$_POST['button'];
+            if (isset($_POST['button'])) {
+                $status = $_POST['button'];
             }
             $request = RequestFlow::find($id);
 
@@ -271,22 +285,22 @@ public function deletesupplier(Request $request){
             $request->expense_type_id = $input['expense-type'];
             $request->currency = $input['currency'];
             $request->amount = $input['amount'];
+            $request->amount_in_gel = $input['amount_in_gel'];
             $request->description = $input['description'];
             $request->payment_date = $input['due-date-payment2'];
             $request->submission_date = $input['due-date2'];
             $request->status = $status;
             $request->save();
 
-            if($request){
-                if ($status == StatusEnum::SubmittedForReview){
+            if ($request) {
+                if ($status == StatusEnum::SubmittedForReview) {
                     AcceptOrRejectRequest::dispatch($request);
                 }
                 return redirect()->back()->with('success', 'Request Updated successfully');
             }
 
             return redirect()->back()->with('error', 'Something went wrong');
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }

@@ -61,7 +61,7 @@
           </tbody>
         </table>
       </div>
-      
+
       <div class="modal fade" id="document-modal" tabindex="-1" role="dialog" aria-labelledby="document-modal-label" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -104,7 +104,6 @@
       </div>
   </div>
 
-
 @endsection
 @section('script')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
@@ -131,7 +130,7 @@
             }
         });
 
-        // Data Filter 
+        // Data Filter
         $(document).ready(function () {
             $(".btn-group button").click(function () {
                 var filterValue = $(this).attr('data-filter');

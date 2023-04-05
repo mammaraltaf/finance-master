@@ -114,7 +114,6 @@
             </div>
         </div>
     </div>
-
     <!-- Rejection Modal -->
     <div class="modal fade" id="rejectConfirmationModal" tabindex="-1" aria-labelledby="rejectConfirmationModalLabel"
          aria-hidden="true">
@@ -192,7 +191,7 @@
             }
         });
 
-        // Data Filter 
+        // Data Filter
         $(document).ready(function () {
             $(".btn-group button").click(function () {
                 var filterValue = $(this).attr('data-filter');
