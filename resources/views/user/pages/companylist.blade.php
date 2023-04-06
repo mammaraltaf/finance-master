@@ -3,9 +3,15 @@
 <div class="container">
     <h2>Select a company to redirect to the dashboard:</h2>
     <div class="list-group">
-      <a href="#" class="list-group-item active">Account 1</a>
+      <?php
+foreach($companies as $company){ ?>
+  <a href="{{url('company/dashboard/'.$company->id)}}" class="list-group-item active">{{ $company->name}}</a>
+<?php }
+
+?>
+      <!-- <a href="#" class="list-group-item active">Account 1</a>
       <a href="#" class="list-group-item">Account 2</a>
-      <a href="#" class="list-group-item">Account 3</a>
+      <a href="#" class="list-group-item">Account 3</a> -->
     </div>
   </div>
 @endsection

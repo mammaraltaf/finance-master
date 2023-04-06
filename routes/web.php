@@ -80,7 +80,7 @@ Route::group(['middleware'=>'auth'],function (){
         'as' => UserTypesEnum::User.'.',
     ], function () {
         Route::get('/select-company', [UserController::class, 'selectCompany'])->name('select-company');
-        Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+        Route::post('company/dashboard/{id}', [UserController::class, 'dashboard'])->name('company/dashboard');
         Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
         Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
         Route::get('/edit-supplier/{id}', [UserController::class, 'editsupplier'])->name('edit-supplier');

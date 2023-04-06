@@ -174,7 +174,8 @@ class SuperAdminController extends Controller
                 'legal_address' => $input['legal_address'],
                 'user_id' => $input['user_id'],
             ]);
-
+            $user_id=$input['user_id'];
+            $company->user()->attach($user_id);
             if ($company) {
                 return redirect()->back()->with('success', 'Company created successfully');
             }

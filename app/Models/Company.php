@@ -22,6 +22,6 @@ class Company extends Model
     }
     public function user()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class,'companies_users','companies_id','users_id');
     }
 }

@@ -7,7 +7,7 @@
     <div class="card-header pt-5">
 
         <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1">Dashboard</span>
+            <span class="card-label fw-bolder fs-3 mb-1">{{$company_details->name}} Dashboard</span>
         </h3>
 
 

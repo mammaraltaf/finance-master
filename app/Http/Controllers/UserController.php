@@ -32,10 +32,13 @@ class UserController extends Controller
         $companies = Company::where('user_id', Auth::user()->id)->get();
         return view('user.pages.companylist', compact('companies'));
     }
-    public function dashboard()
+    public function dashboard(Request $request)
     {
+        $input = $request->all();
+        $company_id=$input['id'];
+        $company_details=Company::select('*')->where('id',$company_id)->first();
         // $this->authorize('user');
-         return view('user.pages.dashboard');
+         return view('user.pages.dashboard',compact('company_details'));
     }
 
     public function supplier()
