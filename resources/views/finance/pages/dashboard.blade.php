@@ -10,13 +10,19 @@
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Dashboard</span>
         </h3>
-
-
     </div>
-    <div class="overflow-auto">
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div class="btn-group my-4">
+        <button class="btn btn-info active" data-filter="all">All</button>
+        <button class="btn btn-info" data-filter="accepted">Accepted Requested</button>
+        <button class="btn btn-info" data-filter="rejected">Rejected Requests</button>
+    </div>
+
+    <div class="overflow-auto px-2">
         <table id="suppliertable" name="suppliertable" class="ui celled table allTable dt-responsive" cellspacing="0">
             <thead>
-            <tr>
+            <tr class="text-center text-nowrap">
                 <th>Initiator</th>
                 <th>Company</th>
                 <th>Department</th>
@@ -34,7 +40,7 @@
             </thead>
             <tbody>
             @foreach($requests as $request)
-                <tr>
+                <tr class="text-center">
                     <td>{{$request->initiator ?? ''}}</td>
                     <td>{{$request->company_id ?? ''}}</td>
                     <td>{{$request->department_id ?? ''}}</td>
@@ -58,7 +64,7 @@
                 </tr>
             @endforeach
             </tbody>
-            <tfoot>
+            {{-- <tfoot>
             <tr>
                 <th>Initiator</th>
                 <th>Company</th>
@@ -75,7 +81,7 @@
                 <th>Actions</th>
 
             </tr>
-            </tfoot>
+            </tfoot> --}}
 
         </table>
     </div>
@@ -108,7 +114,6 @@
             </div>
         </div>
     </div>
-
     <!-- Rejection Modal -->
     <div class="modal fade" id="rejectConfirmationModal" tabindex="-1" aria-labelledby="rejectConfirmationModalLabel"
          aria-hidden="true">
@@ -170,6 +175,39 @@
             });
         });
 
+        // Disable reject button if comment is empty
+        const commentTextarea = document.getElementById("rejectComment");
+        const rejectButton = document.getElementById("confirmRejectBtn");
+
+        rejectButton.setAttribute("disabled", "");
+
+        commentTextarea.addEventListener("input", function() {
+            if (commentTextarea.value.length > 0) {
+            rejectButton.removeAttribute("disabled");
+            rejectButton.style.display = "inline-block";
+            } else {
+            rejectButton.setAttribute("disabled", "");
+            rejectButton.style.display = "none";
+            }
+        });
+
+        // Data Filter
+        $(document).ready(function () {
+            $(".btn-group button").click(function () {
+                var filterValue = $(this).attr('data-filter');
+                console.log("filterValue", filterValue)
+                $("#suppliertable tbody tr").hide();
+                $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
+                if (filterValue === "all") {
+                    $("#suppliertable tbody tr").show();
+                } else {
+                    $("#suppliertable tbody tr").hide();
+                    $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
+                }
+                $(".btn-group button").removeClass("active");
+                $(this).addClass("active");
+            });
+        });
     </script>
 
 @endsection

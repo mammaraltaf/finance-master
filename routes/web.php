@@ -30,6 +30,13 @@ use App\Models\User;
 //    return view('auth.login');
 //})->name('mainpage');
 
+Route::get('/mail', function () {
+    $request_data = \App\Models\RequestFlow::where('id', 1)->first();
+//    dd($request_data);
+    \App\Jobs\AcceptOrRejectRequest::dispatch($request_data);
+});
+
+
 Route::group(['middleware'=>'auth'],function (){
     /*Super Admin Routes*/
     Route::group([
@@ -73,6 +80,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/edit-supplier/{id}', [SuperAdminController::class, 'updatesupplier'])->name('edit-supplier-post');
      Route::post('/delete-supplier', [SuperAdminController::class, 'deletesupplier'])->name('delete-supplier');
     });
+
     /*User Routes*/
     Route::group([
         'middleware' => ['role:'.UserTypesEnum::User],

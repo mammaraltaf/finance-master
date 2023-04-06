@@ -35,7 +35,7 @@ class AcceptOrRejectRequest implements ShouldQueue
         $email = 'mammaraltaf@gmail.com';
         Mail::send('emails.acceptOrReject', ['data' => $this->request_data], function ($m) use ($email) {
             $m->from('finance@mail.com', config('app.name', 'APP Name'));
-            $m->to($email)->subject('Change Email Verification');
+            $m->to($email)->subject('Review Request');
         });
     }
 }

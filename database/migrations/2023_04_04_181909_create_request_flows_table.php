@@ -22,6 +22,7 @@ class CreateRequestFlowsTable extends Migration
             $table->foreignId('expense_type_id')->constrained('type_of_expanses')->onDelete('cascade');
             $table->string('currency')->nullable(false);
             $table->string('amount')->nullable(false);
+            $table->string('amount_in_gel')->nullable();
             $table->string('description')->nullable(false);
             $table->string('basis')->nullable(false);
             $table->date('payment_date')->nullable(false);

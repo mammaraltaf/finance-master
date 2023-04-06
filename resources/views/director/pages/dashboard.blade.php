@@ -8,51 +8,59 @@
     <div class="card-header pt-5">
 
         <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1">Dashboard</span>
+            <span class="card-label fw-bolder fs-3 mb-1">Pending Documents Reuqests</span>
         </h3>
     </div>
+    <!--end::Header-->
+    <!--begin::Body-->
+    <div class="btn-group my-4">
+      <button class="btn btn-info active" data-filter="all">All</button>
+      <button class="btn btn-info" data-filter="accepted">Accepted Requested</button>
+      <button class="btn btn-info" data-filter="rejected">Rejected Requests</button>
+  </div>
+
     <div class="container">
-      <h1>Director Portal</h1>
-      <h2>Pending Documents</h2>
-      <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable" style="width:100%">
-        <thead>
-          <tr>
-              <th>Initiator</th>
-              <th>Company</th>
-              <th>Department</th>
-              <th>Supplier</th>
-              <th>Type of Expense</th>
-              <th>Currency</th>
-              <th>Amount</th>
-              <th>Description</th>
-              <th>Basis (file attachment title)</th>
-              <th>Due Date of Payment</th>
-              <th>Due Date</th>
-              <th>Status</th>
-              <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-          @foreach($requests as $request)
-              <tr>
-                  <td>{{$request->initiator ?? ''}}</td>
-                  <td>{{$request->company ?? ''}}</td>
-                  <td>{{$request->department ?? ''}}</td>
-                  <td>{{$request->supplier ?? ''}}</td>
-                  <td>{{$request->expense_type ?? ''}}</td>
-                  <td>{{$request->currency ?? ''}}</td>
-                  <td>{{$request->amount ?? ''}}</td>
-                  <td>{{$request->description ?? ''}}</td>
-                  <td>{{$request->basis ?? ''}}</td>
-                  <td>{{$request->payment_date ?? ''}}</td>
-                  <td>{{$request->submission_date ?? ''}}</td>
-                  <td>{{$request->status ?? ''}}</td>
-                  <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
-              </tr>
-          @endforeach
-        </tbody>
-      </table>
+      <div class="overflow-auto">
+        <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable dt-responsive" cellspacing="0">
+          <thead>
+            <tr class="text-center">
+                <th>Initiator</th>
+                <th>Company</th>
+                <th>Department</th>
+                <th>Supplier</th>
+                <th>Type of Expense</th>
+                <th>Currency</th>
+                <th>Amount</th>
+                <th>Description</th>
+                <th>Basis (file attachment title)</th>
+                <th>Due Date of Payment</th>
+                <th>Due Date</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+            @foreach($requests as $request)
+                <tr>
+                    <td>{{$request->initiator ?? ''}}</td>
+                    <td>{{$request->company ?? ''}}</td>
+                    <td>{{$request->department ?? ''}}</td>
+                    <td>{{$request->supplier ?? ''}}</td>
+                    <td>{{$request->expense_type ?? ''}}</td>
+                    <td>{{$request->currency ?? ''}}</td>
+                    <td>{{$request->amount ?? ''}}</td>
+                    <td>{{$request->description ?? ''}}</td>
+                    <td>{{$request->basis ?? ''}}</td>
+                    <td>{{$request->payment_date ?? ''}}</td>
+                    <td>{{$request->submission_date ?? ''}}</td>
+                    <td>{{$request->status ?? ''}}</td>
+                    <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
+                </tr>
+            @endforeach
+          </tbody>
+        </table>
+      </div>
 
       <div class="modal fade" id="document-modal" tabindex="-1" role="dialog" aria-labelledby="document-modal-label" aria-hidden="true">
           <div class="modal-dialog" role="document">
@@ -96,7 +104,6 @@
       </div>
   </div>
 
-
 @endsection
 @section('script')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
@@ -121,6 +128,24 @@
             rejectButton.setAttribute("disabled", "");
             rejectButton.style.display = "none";
             }
+        });
+
+        // Data Filter
+        $(document).ready(function () {
+            $(".btn-group button").click(function () {
+                var filterValue = $(this).attr('data-filter');
+                console.log("filterValue", filterValue)
+                $("#suppliertable tbody tr").hide();
+                $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
+                if (filterValue === "all") {
+                    $("#suppliertable tbody tr").show();
+                } else {
+                    $("#suppliertable tbody tr").hide();
+                    $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
+                }
+                $(".btn-group button").removeClass("active");
+                $(this).addClass("active");
+            });
         });
     </script>
 

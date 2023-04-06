@@ -34,7 +34,7 @@
                 Add Request
             </button>
         </div>
-        <!-- Modal HTML Markup -->
+        <!-- Add Request Modal -->
         <div id="ModalLoginForm" class="modal fade">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -225,7 +225,7 @@
                                     <!-- Show previously uploaded files here -->
                                 </div>
                             </div>
-                              
+
                             <div class="form-group">
                                 <label for="due-date-payment">Due Date of Payment</label>
                                 <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2" min='<?php echo date('Y-m-d');?>' required>
@@ -252,6 +252,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
+
         <div class="tab-content">
 
             {{--All Datatable--}}
@@ -288,26 +289,26 @@
                             <td>{{$request['amount']}}</td>
                             <td>{{$request['description']}}</td>
                             <td><?php
-                                if(isset($request['basis'])){ 
+                                if(isset($request['basis'])){
                                     $files=explode(',',$request['basis']);
                                     foreach($files as $file){ ?>
-    <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
-    
-                            <?php  }   }else{
+                                    <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+
+                                <?php  }   }else{
                                    echo "No document available";
                                 }
                                 ?></td>
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
-                               @if ($request['status'] == "new") 
+                               @if ($request['status'] == "new")
                             <td class="d-flex align-items-center justify-content-center">
                                 <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"
                                    class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
                                    class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
                             </td>
-                            
+
                             {{-- @elseif ($request['status'] == "submitted-for-review}}")  --}}
                             @endif
 
@@ -320,6 +321,7 @@
             </div>
         </div>
     </div>
+    {{-- Delete Modal --}}
     <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -350,7 +352,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
     <script type="text/javascript">
-  
+
         $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
@@ -359,8 +361,10 @@
     <script type="text/javascript">
         var basisFiles2 = '';
 
+        // Preview Start
         $(document).ready(function () {
             $('#suppliertable').DataTable();
+
             var d = new Date();
 
             var month = d.getMonth()+1;
@@ -369,10 +373,7 @@
             var currentDate = d.getFullYear() + '/' +
                 ((''+month).length<2 ? '0' : '') + month + '/' +
                 ((''+day).length<2 ? '0' : '') + day;
-        });
 
-        // Preview Start
-        $(document).ready(function () {
             $("#basis").change(function () {
                 $("#preview").empty(); // Clear the preview div
                 if (this.files && this.files.length > 0) {
@@ -459,7 +460,7 @@
         //=============================
         // Edit Document Preview Start
         //=============================
-        
+
 
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
@@ -487,7 +488,7 @@
                         var fileName = files[i];
                         fileHtml += '<div><a href="{{asset('basis')}}' +'/'+ fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
                         docs2.push(fileName);
-                    }  
+                    }
                         $('#previousFiles').html(fileHtml);
                         $('#basis3').val(docs2);
                     }
@@ -496,92 +497,12 @@
                 }
             })
         })
-
-
-
-        // Bind a click event to the "Remove" button
         $('body').on('click', '.remove-file', function () {
             var fileName = $(this).data('file');
             console.log("fileName", fileName);
-
-            // if (basisFiles2) {
-            //     var basisFiles = basisFiles2.split(',');
-            //     var updatedBasis = basisFiles.filter(function(file) {
-            //         return file !== fileName;
-            //     }).join(',');
-            // }
-            // console.log("updatedBasis", updatedBasis);
-
             $(this).parent().remove();
         });
 
-        // $(document).on('click', '#userEdit', function () {
-        // var request_id = $(this).data('id');
-        // console.log("Edit::::::::::")
-
-    //     $(document).on('click', '.remove-file', function () {
-    //         var fileToRemove = $(this).data('file');
-    //         // Add filename to an array of removed files
-    //         removedFiles.push(fileToRemove);
-    //         $(this).closest('div').remove();
-    //         });
-
-    //         var formData = new FormData();
-    //         var newFiles = $('#basis2')[0].files;
-    //         for (var i = 0; i < newFiles.length; i++) {
-    //             formData.append('basis[]', newFiles[i]);
-    //         }
-    //     formData.append('basis3', JSON.stringify(removedFiles));
-
-    //     $.ajax({
-    //         type: "GET",
-    //         url: "{{url('/user/edit-request/')}}" + '/' + request_id,
-    //         data: formData,
-    //         processData: false,
-    //         contentType: false,
-    //         success: function (response) {
-    //             console.log("response", response);
-    //             $('#reqid').val(response.id);
-    //             $('#amount2').val(response.amount);
-    //             $('#description2').val(response.description);
-    //             // $("#basis2").val(response.basis);
-    //             $('#due-date-payment2').val(response.payment_date);
-    //             $('#due-date2').val(response.submission_date);
-
-    //             $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
-    //             // Show previously uploaded files
-    //             basisFiles2 = response.basis;
-    //             if (response.basis) {
-    //                 var docs2 = [];
-    //                 var files = response.basis.split(',');
-    //                 var fileHtml = '';
-    //                 for (var i = 0; i < files.length; i++) {
-    //                     var fileName = files[i];
-    //                     fileHtml += '<div><a href="{{asset('basis')}}' + '/' + fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
-    //                     docs2.push(fileName);
-    //                 }
-    //                 $('#previousFiles').html(fileHtml);
-    //                 $('#basis3').val(docs2);
-    //             }
-    //         }
-    //     });
-    // });
-
-
-            // Bind a click event to the "Remove" button
-            $('body').on('click', '.remove-file', function() {
-                var fileName = $(this).data('file');
-                console.log("fileName", fileName);
-                
-                $(this).parent().remove(); 
-            });
-            // $(document).on('click', '.remove-file', function () {
-            //     var fileToRemove = $(this).data('file');
-            //     // Add filename to an array of removed files
-            //     removedFiles.push(fileToRemove);
-            //     $(this).closest('div').remove();
-            // });
-            
         //=============================
         // Edit Document Preview End
         //=============================

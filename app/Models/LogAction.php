@@ -5,18 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class RequestFlow extends Model
+class LogAction extends Model
 {
     use HasFactory;
+
     protected $guarded = ['id'];
 
-    public function company()
+    public function user()
     {
-        return $this->belongsTo(Company::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function log_actions()
+    public function request_flow()
     {
-        return $this->hasMany(LogAction::class);
+        return $this->belongsTo(RequestFlow::class);
     }
 }
