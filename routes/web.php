@@ -31,7 +31,7 @@ use App\Models\User;
 //})->name('mainpage');
 
 Route::get('/mail', function () {
-    $request_data = \App\Models\RequestFlow::where('id', 1)->first();
+    $request_data = \App\Models\RequestFlow::whereId(1)->first();
 //    dd($request_data);
     \App\Jobs\AcceptOrRejectRequest::dispatch($request_data);
 });

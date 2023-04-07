@@ -66,7 +66,7 @@
                                 </select>
                                 </div>
                                 <br>
-            
+
                                 <label class="control-label">Company</label>
                                 <div>
                                 {{-- <select name="company" class="form-control" aria-placeholder="Select company" required> --}}
@@ -79,18 +79,18 @@
                                     <select id="company" name="company[]" multiple class="form-control">
                                         <option value="">Select Company</option>
                                         @foreach($companies as $company)
-                                            <option value="{{$company->name}}">{{$company->name}}</option>
+                                            <option value="{{$company->id}}">{{$company->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <br>
-                                
+
                                 <label class="control-label">Department</label>
                                 <div>
-                                <select name="department" class="form-control" aria-placeholder="Select department" required>
+                                <select name="department[]" class="form-control" aria-placeholder="Select department" required>
                                     <option value="" >Select Department</option>
                                        @foreach($departments as $department)
-                                             <option value="{{$department->name}}">{{$department->name}}</option>
+                                             <option value="{{$department->id}}">{{$department->name}}</option>
                                        @endforeach
                                 </select>
                                 </div>
@@ -236,7 +236,7 @@
                                 </select>
                                 </div>
                                 <br>
-                                
+
                                 <label class="control-label">Department</label>
                                 <div>
                                 <select name="department" class="form-control" aria-placeholder="Select department" required>
