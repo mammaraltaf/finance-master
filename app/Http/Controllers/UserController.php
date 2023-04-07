@@ -257,7 +257,6 @@ class UserController extends Controller
 
     public function updaterequest(Request $request, $id)
     {
-
         try {
             $input = $request->all();
             dd($input);

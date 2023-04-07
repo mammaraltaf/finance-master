@@ -23,7 +23,7 @@
       <div class="overflow-auto">
         <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable dt-responsive" cellspacing="0">
           <thead>
-            <tr class="text-center">
+            <tr class="text-center text-nowrap">
                 <th>Initiator</th>
                 <th>Company</th>
                 <th>Department</th>
@@ -103,6 +103,7 @@
           </div>
       </div>
   </div>
+ 
 
 @endsection
 @section('script')
@@ -110,10 +111,9 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('#reviewDocument').DataTable();
-        } );
-
+      $(document).ready(function() {
+        $('#reviewDocument').DataTable();
+      });
 
       const commentTextarea = document.getElementById("document-comments");
         const rejectButton = document.getElementById("reject-button");
