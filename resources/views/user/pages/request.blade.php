@@ -102,7 +102,7 @@
                             </div>
                             <div class="form-group">
                             <label for="gel-amount">Amount in GEL:</label>
-                            <input type="text" class="form-control" id="gel-amount" readonly>
+                            <input type="text" class="form-control" name="amount_in_gel" id="gel-amount" readonly>
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
@@ -344,8 +344,8 @@
             </div>
         </div>
     </div>
-   
-   
+
+
 
     <!--end::Body-->
 @endsection

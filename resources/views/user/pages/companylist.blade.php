@@ -5,7 +5,7 @@
     <div class="list-group">
       <?php
 foreach($companies as $company){ ?>
-  <a href="{{url('company/dashboard/'.$company->id)}}" class="list-group-item active">{{ $company->name}}</a>
+  <a href="{{url('user/'.$company->slug.'/dashboard/')}}" class="list-group-item active">{{ $company->name}}</a>
 <?php }
 
 ?>

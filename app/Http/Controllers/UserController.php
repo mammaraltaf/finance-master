@@ -33,16 +33,14 @@ class UserController extends Controller
 
     public function selectCompany()
     {
-        $companies = Company::where('user_id', Auth::user()->id)->get();
+        $companies = User::where('id', Auth::user()->id)->first()->companies;
         return view('user.pages.companylist', compact('companies'));
     }
     public function dashboard(Request $request)
     {
-        $input = $request->all();
-        $company_id=$input['id'];
-        $company_details=Company::select('*')->where('id',$company_id)->first();
         // $this->authorize('user');
-         return view('user.pages.dashboard',compact('company_details'));
+        $companies = User::where('id', Auth::user()->id)->first()->companies;
+         return view('user.pages.dashboard',compact('companies'));
     }
 
     public function supplier()
@@ -106,8 +104,8 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $requests = RequestFlow::all();
-        $companies = Company::all(['id', 'name', 'user_id']);
-        $departments = Department::all(['id', 'name', 'user_id']);
+        $companies = Company::all();
+        $departments = Department::all();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
         return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses'));

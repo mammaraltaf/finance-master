@@ -49,7 +49,7 @@
                                 </div>
                                 <br>
                                 <br>
-                                <label class="control-label">Select Admin</label>
+                                <label class="control-label">Select User</label>
                                 <div>
                                     <select name="user_id" class="form-control">
                                         <option value="">Select User</option>

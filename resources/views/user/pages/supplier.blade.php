@@ -159,13 +159,14 @@
                         <td>{{$supplier['bank_swift']}}</td>
                         <td>{{$supplier['accounting_id']}}</td>
                         @hasanyrole('super-admin|accounting')
-                        <td><a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"
-                               data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a>
-                               <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$supplier->id}}"
-                                   class="btn btn-danger delete_btn btn-sm">Delete</a></td>
-                            </tr>
                         <td>
-                            <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                            <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}" data-user_type="{{auth()->user()->user_type}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+
+
+{{--                            <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"--}}
+{{--                               data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a>--}}
+                               <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$supplier->id}}"
+                                   class="btn btn-danger delete_btn btn-sm">Delete</a>
                         </td>
                         @endhasanyrole
                     </tr>
@@ -287,22 +288,21 @@
         });
         $('body').on('click', '#userEdit', function () {
             var supplier_id = $(this).data('id');
-            console.log(supplier_id);
+            var user_type = $(this).data('user_type');
             $.ajax({
                 type: "GET",
-                url: "{{url('/user/edit-supplier/')}}" + '/' + supplier_id,
+                url: "{{url('super-admin/edit-supplier/')}}" + '/' + supplier_id,
                 success: function (response) {
                     console.log(response);
                     $('#id_software').val(response.id_software);
                     $('#name').val(response.supplier_name);
                     $('#tax_id').val(response.tax_id);
-                    $('#name').val(response.supplier_name);
                     $('#bank_id').val(response.bank_id);
                     $('#bank_name').val(response.bank_name);
                     $('#bank_account').val(response.bank_account);
                     $('#bank_swift').val(response.bank_swift);
                     $('#accounting_id').val(response.accounting_id);
-                    $('#userFormEdit').attr('action', "{{url('/user/edit-supplier/')}}" + '/' + supplier_id);
+                    $('#userFormEdit').attr('action', "{{url('super-admin/edit-supplier/')}}" + '/' + supplier_id);
                 }
 
             });

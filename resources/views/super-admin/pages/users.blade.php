@@ -115,7 +115,7 @@
                 <thead>
                 <tr class="text-nowrap text-center">
                     <th>Name</th>
-                      <th>Email</th>
+                    <th>Email</th>
                     <th>Type</th>
 
                     <th>Action</th>
