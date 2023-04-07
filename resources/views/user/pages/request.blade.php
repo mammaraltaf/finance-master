@@ -5,6 +5,7 @@
 @section('content')
 
     <!--begin::Header-->
+
     <br>
 
     <div class="card-header pt-5">
@@ -342,23 +343,25 @@
                 </form>
             </div>
         </div>
-
     </div>
-
+   
+   
 
     <!--end::Body-->
 @endsection
 @section('script')
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
-    <script type="text/javascript">
 
+    <script type="text/javascript">
         $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
         });
     </script>
     <script type="text/javascript">
+
+
         var basisFiles2 = '';
 
         // Preview Start
@@ -455,16 +458,14 @@
                 $("#currency").trigger("change");
             });
         });
-        // Preview End
 
         //=============================
         // Edit Document Preview Start
         //=============================
-
+        var removedFiles = [];
 
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
-            console.log("Edit::::::::::")
             $.ajax({
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
@@ -473,7 +474,7 @@
                 $('#reqid').val(response.id);
                 $('#amount2').val(response.amount);
                 $('#description2').val(response.description);
-                // $("#basis2").val(response.basis);
+                $('#basis2').val(removedFiles);
                 $('#due-date-payment2').val(response.payment_date);
                 $('#due-date2').val(response.submission_date);
 
@@ -501,6 +502,16 @@
             var fileName = $(this).data('file');
             console.log("fileName", fileName);
             $(this).parent().remove();
+            // removedFiles.push(fileName);
+            var basisFiles = $('#basis3').val().split(',');
+            // Find the index of the removed file in the array
+            var index = basisFiles.indexOf(fileName);
+            // If the file is in the array, remove it
+            if (index > -1) {
+                basisFiles.splice(index, 1);
+            }
+            // Convert the array to a comma-separated string and set it as the value of the basis3 field
+            $('#basis3').val(basisFiles.join(','));
         });
 
         //=============================
