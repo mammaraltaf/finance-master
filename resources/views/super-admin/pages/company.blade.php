@@ -54,7 +54,7 @@
                                 </label>
                                 <input type="file" class="d-none" id="avatar-upload" accept="image/*">
                             </div>
-                              
+
                             <div class="form-group">
                                 <label class="control-label">ID / Software (Must be Unique)</label>
                                 <div>
@@ -203,12 +203,12 @@
                 <tbody>
                 @foreach($companies as $company)
                     <tr class="text-nowrap text-center">
-                        <!-- <td>{{$company->id_software}}</td>
-                        <td>{{$company->tax_id}}</td> -->
-                        <!-- <td>{{$company->name}}</td> -->
-                        <!-- <td>{{$company->threshold_amount}}</td>
+                        <td>{{$company->id_software}}</td>
+                        <td>{{$company->tax_id}}</td>
+                        <td>{{$company->name}}</td>
+                        <td>{{$company->threshold_amount}}</td>
                         <td>{{$company->legal_address}}</td>
-                        <td>{{$company->user->name}}</td> -->
+{{--                        <td>{{$company->user->name}}</td>--}}
 
                          <!-- <td>
                          {{--   <a href="" class="btn btn-primary btn-sm" id="companyEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$company->id}}">Edit</a>
@@ -264,7 +264,7 @@
             </div>
         </div>
     </div>
-  
+
     <div class="container-fluid">
         <!-- Document List -->
         <div class="row">
@@ -301,7 +301,7 @@
             </table>
           </div>
         </div>
-        
+
         <!-- Filter -->
         <div class="row">
           <div class="col-12">
@@ -339,7 +339,7 @@
             </form>
           </div>
         </div>
-        
+
         <!-- Weekly Paid Report -->
         <div class="row">
           <div class="col-12">
@@ -359,8 +359,8 @@
             </form>
           </div>
         </div>
-        
-      
+
+
 
     <!--end::Body-->
 @endsection

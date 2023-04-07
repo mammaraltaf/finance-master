@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password')->nullable();
             $table->string('original_password')->nullable();
-            $table->string('company')->nullable();
-            $table->string('department')->nullable();
+//            $table->foreignId('company_id')->nullable()->constrained('companies')->onDelete('cascade');
+//            $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('cascade');
             $table->string('user_type')->default(\App\Classes\Enums\UserTypesEnum::User);
             $table->string('status')->default(\App\Classes\Enums\StatusEnum::Active);
             $table->rememberToken();

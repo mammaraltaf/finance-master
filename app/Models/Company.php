@@ -20,8 +20,9 @@ class Company extends Model
     {
         return $this->hasMany(RequestFlow::class);
     }
-    public function user()
+    public function users()
     {
-        return $this->belongsToMany(User::class,'companies_users','companies_id','users_id');
+        return $this->belongsToMany(User::class);
+//        return $this->belongsToMany(User::class,'companies_users','companies_id','users_id');
     }
 }

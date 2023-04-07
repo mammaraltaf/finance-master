@@ -124,6 +124,10 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
     <script>
+       $(document).ready(function () {
+            $('#accounting').DataTable();
+        });
+
       $(document).ready(function () {
             $(".btn-group button").click(function () {
                 var filterValue = $(this).attr('data-filter');

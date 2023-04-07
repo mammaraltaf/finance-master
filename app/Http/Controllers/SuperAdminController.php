@@ -33,8 +33,8 @@ class SuperAdminController extends Controller
         try{
             $users = User::where('user_type','!=',UserTypesEnum::SuperAdmin)->get();
             $roles = Role::whereIn('name',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
-            $companies = Company::all(['id', 'name','user_id']);
-            $departments = Department::all(['id', 'name','user_id']);
+            $companies = Company::all();
+            $departments = Department::all();
             return view('super-admin.pages.users', compact('users','roles','companies','departments'));
         }
         catch(Exception $e){
@@ -59,15 +59,19 @@ class SuperAdminController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
+
             $users = User::create([
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'password' => Hash::make($input['password']),
                 'original_password' => $input['password'],
                 'user_type' => $input['type'],
-                'company' => $input['company'],
-                'department' => $input['department']
             ]);
+
+            $companyIds = $request->input('company',[]);
+            $departmentIds = $request->input('department',[]);
+            $users->companies()->attach($companyIds);
+            $users->departments()->attach($departmentIds);
 
             $users->assignRole($input['type']);
 
@@ -175,7 +179,7 @@ class SuperAdminController extends Controller
                 'user_id' => $input['user_id'],
             ]);
             $user_id=$input['user_id'];
-            $company->user()->attach($user_id);
+//            $company->user()->attach($user_id);
             if ($company) {
                 return redirect()->back()->with('success', 'Company created successfully');
             }

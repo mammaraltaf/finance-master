@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Enums\ActionEnum;
 use App\Classes\Enums\StatusEnum;
 use App\Classes\Enums\UserTypesEnum;
 use App\Models\RequestFlow;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ManagerController extends Controller
@@ -34,6 +36,8 @@ class ManagerController extends Controller
             }
             $requestFlow->comment = $request->comment ?? null ;
             $requestFlow->save();
+            $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::MANAGER_ACCEPT);
+
             return redirect()->back()->with('success', 'Request Approved Successfully');
         }
         catch (Exception $e){
@@ -56,6 +60,7 @@ class ManagerController extends Controller
             $requestFlow->status = StatusEnum::ManagerRejected;
             $requestFlow->comment = $request->comment;
             $requestFlow->save();
+            $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::MANAGER_REJECT);
             return redirect()->back()->with('success', 'Request Rejected Successfully');
         }
         catch (Exception $e){

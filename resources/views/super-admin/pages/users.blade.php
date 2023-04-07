@@ -66,24 +66,31 @@
                                 </select>
                                 </div>
                                 <br>
-            
+
                                 <label class="control-label">Company</label>
                                 <div>
-                                <select name="company" class="form-control" aria-placeholder="Select company" required>
+                                {{-- <select name="company" class="form-control" aria-placeholder="Select company" required> --}}
+                                {{-- <select name="company" class="form-control chosen" aria-placeholder="Select company" required multiple>
+
                                     <option value="" >Select Company</option>
                                        @foreach($companies as $company)
-                                             <option value="{{$company->name}}">{{$company->name}}</option>
                                        @endforeach
-                                </select>
+                                    </select> --}}
+                                    <select id="company" name="company[]" multiple class="form-control">
+                                        <option value="">Select Company</option>
+                                        @foreach($companies as $company)
+                                            <option value="{{$company->id}}">{{$company->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <br>
-                                
+
                                 <label class="control-label">Department</label>
                                 <div>
-                                <select name="department" class="form-control" aria-placeholder="Select department" required>
+                                <select name="department[]" class="form-control" aria-placeholder="Select department" required>
                                     <option value="" >Select Department</option>
                                        @foreach($departments as $department)
-                                             <option value="{{$department->name}}">{{$department->name}}</option>
+                                             <option value="{{$department->id}}">{{$department->name}}</option>
                                        @endforeach
                                 </select>
                                 </div>
@@ -229,7 +236,7 @@
                                 </select>
                                 </div>
                                 <br>
-                                
+
                                 <label class="control-label">Department</label>
                                 <div>
                                 <select name="department" class="form-control" aria-placeholder="Select department" required>
@@ -263,9 +270,33 @@
 
 @endsection
         @section('script')
+            {{-- Multiple select --}}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+            <link
+                rel="stylesheet"
+                href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+            />
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+            <link
+                rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
+            />
+                            {{-- End --}}
             <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
             <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
             <script type="text/javascript">
+
+            // multiple select dropwdown
+            $(document).ready(function () {
+				$("#company").multiselect({
+					nonSelectedText: "Select Company",
+					// enableFiltering: true,
+					// enableCaseInsensitiveFiltering: true,
+					buttonWidth: "400px",
+				});
+			});
                 $('.delete_btn').click(function () {
                     var a = $(this).data('id');
                     $('.user-delete').val(a);
