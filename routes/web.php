@@ -135,7 +135,9 @@ Route::group(['middleware'=>'auth'],function (){
         'as' => UserTypesEnum::Director.'.',
     ],function (){
         Route::get('/dashboard', [DirectorController::class, 'dashboard'])->name('dashboard');
-
+        Route::get('/filter/{id}',[DirectorController::class,'filter'])->name('filter');
+        Route::post('/reject', [DirectorController::class, 'rejectRequest'])->name('reject');
+        Route::post('/accept', [DirectorController::class, 'approveRequest'])->name('accept');
     });
 
 

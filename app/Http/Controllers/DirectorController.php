@@ -9,9 +9,11 @@ use App\Models\RequestFlow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
+use App\Models\LogAction;
+use App\Traits\LogActionTrait;
 class DirectorController extends Controller
 {
+    use LogActionTrait;
 
     public function __construct()
     {
@@ -24,7 +26,17 @@ class DirectorController extends Controller
         $requests = RequestFlow::whereIn('status',[StatusEnum::FinanceOk,StatusEnum::ManagerConfirmed])->get();
         return view('director.pages.dashboard', compact('requests'));
     }
-
+public function filter($id){
+if($id=='1'){
+   return $this->dashboard();
+}elseif($id=='2'){
+    $requests = RequestFlow::whereIn('status',[StatusEnum::DirectorConfirmed])->get();
+    return view('director.pages.dashboard', compact('requests'));
+}else{
+    $requests = RequestFlow::whereIn('status',[StatusEnum::DirectorRejected])->get();
+    return view('director.pages.dashboard', compact('requests'));
+}
+}
     public function approveRequest(Request $request)
     {
         try{
