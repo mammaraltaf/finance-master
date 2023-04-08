@@ -6,6 +6,7 @@ use App\Classes\Enums\ActionEnum;
 use App\Classes\Enums\StatusEnum;
 use App\Classes\Enums\UserTypesEnum;
 use App\Models\RequestFlow;
+use App\Traits\LogActionTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -23,7 +24,7 @@ class DirectorController extends Controller
     public function dashboard()
     {
         // $this->authorize('director');
-        $requests = RequestFlow::whereIn('status',[StatusEnum::FinanceOk,StatusEnum::ManagerConfirmed])->get();
+        $requests = RequestFlow::with('company','supplier','typeOfExpense')->whereIn('status',[StatusEnum::FinanceOk,StatusEnum::ManagerConfirmed])->get();
         return view('director.pages.dashboard', compact('requests'));
     }
 public function filter($id){

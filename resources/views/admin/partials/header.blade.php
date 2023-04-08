@@ -63,9 +63,11 @@
                 <div class="p-2">
                     <select class="form-control" id="company-dropdown" onchange="location = this.value;">
                         <option value="">--Switch Company--</option>
-                        @foreach($companies as $company)
-                            <option value="{{url('/user/'.$company->slug.'/dashboard')}}">{{$company->name}}</option>
-                        @endforeach
+                        @isset($companies)
+                            @foreach($companies as $company)
+                                <option value="{{url('/user/'.$company->slug.'/dashboard')}}">{{$company->name}}</option>
+                            @endforeach
+                        @endisset
                     </select>
                 </div>
                 @endrole

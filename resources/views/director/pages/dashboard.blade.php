@@ -42,12 +42,11 @@
           <tbody>
             @foreach($requests as $request)
                 <tr>
-                    <td>
-                      {{$request->initiator ?? ''}}</td>
-                    <td>{{$request->company ?? ''}}</td>
-                    <td>{{$request->department ?? ''}}</td>
-                    <td>{{$request->supplier ?? ''}}</td>
-                    <td>{{$request->expense_type ?? ''}}</td>
+                    <td>{{$request->initiator ?? ''}}</td>
+                    <td>{{$request->company->name ?? ''}}</td>
+                    <td>{{$request->department->name ?? ''}}</td>
+                    <td>{{$request->supplier->supplier_name ?? ''}}</td>
+                    <td>{{$request->expense_type->name ?? ''}}</td>
                     <td>{{$request->currency ?? ''}}</td>
                     <td>{{$request->amount ?? ''}}</td>
                     <td>{{$request->description ?? ''}}</td>
@@ -107,7 +106,7 @@
           </div>
       </div>
   </div>
- 
+
 
 @endsection
 @section('script')
