@@ -61,12 +61,11 @@
             <div class="d-flex align-items-center">
                 @role('user')
                 <div class="p-2">
-                    <select class="form-control" id="company-dropdown">
+                    <select class="form-control" id="company-dropdown" onchange="location = this.value;">
                         <option value="">--Switch Company--</option>
-                        <option value="company1">Company 1</option>
-                        <option value="company2">Company 2</option>
-                        <option value="company3">Company 3</option>
-                        <option value="company4">Company 4</option>
+                        @foreach($companies as $company)
+                            <option value="{{url('/user/'.$company->slug.'/dashboard')}}">{{$company->name}}</option>
+                        @endforeach
                     </select>
                 </div>
                 @endrole
