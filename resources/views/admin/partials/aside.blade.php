@@ -39,7 +39,13 @@
             <!--begin::Menu-->
             <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true">
                 <div class="menu-item">
-                    @if(auth()->user()->user_type != 'user')
+                    @if(auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::User)
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.  '.company.dashboard') ? 'active' : '' }}" href="{{ route((auth()->user()->user_type. '.company.dashboard'),['company'=>\Illuminate\Support\Facades\Session::get('url-slug')])}}" >
+                                <span class="menu-title">Dashboard</span>
+                            </a>
+                        </div>
+                    @else
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.dashboard') ? 'active' : '' }}" href="{{ route(auth()->user()->user_type.'.dashboard')}}" >
                             <span class="menu-title">Dashboard</span>
@@ -84,7 +90,8 @@
 
                     @role(\App\Classes\Enums\UserTypesEnum::User)
                     <div class="menu-item">
-                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::User.'.request') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::User.'.request')}}" >
+                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::User.'.request') ? 'active' : '' }}"
+                           href="{{url(\App\Classes\Enums\UserTypesEnum::User.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'request')}}" >
                             <span class="menu-title">Manage Requests</span>
                         </a>
                     </div>

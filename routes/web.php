@@ -32,8 +32,13 @@ use App\Models\User;
 
 Route::get('/mail', function () {
     $request_data = \App\Models\RequestFlow::whereId(1)->first();
-//    dd($request_data);
     \App\Jobs\AcceptOrRejectRequest::dispatch($request_data);
+});
+
+Route::get('/store-button-value/{buttonValue}', function ($buttonValue) {
+    Session::forget('url-slug');
+    Session::put('url-slug', $buttonValue);
+    return response()->json(['status' => 'success']);
 });
 
 
@@ -88,17 +93,20 @@ Route::group(['middleware'=>'auth'],function (){
         'as' => UserTypesEnum::User.'.',
     ], function () {
         Route::get('/select-company', [UserController::class, 'selectCompany'])->name('select-company');
-        Route::get('{company}/dashboard', [UserController::class, 'dashboard'])->name('company/dashboard');
-        Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
-        Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
-        Route::get('/edit-supplier/{id}', [UserController::class, 'editsupplier'])->name('edit-supplier');
-        Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');
-        Route::post('/delete-supplier', [UserController::class, 'deletesupplier'])->name('delete-supplier');
-        Route::get('/request', [UserController::class, 'request'])->name('request');
-        Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
-        Route::post('/delete-request', [UserController::class, 'deleterequest'])->name('delete-request');
-        Route::get('/edit-request/{id}', [UserController::class, 'editrequest'])->name('edit-request');
-        Route::post('/edit-request/{id}', [UserController::class, 'updaterequest'])->name('edit-request-post');
+//        Route::prefix('{company}')->group(function () {
+            Route::get('{company}/dashboard', [UserController::class, 'dashboard'])->name('company.dashboard');
+
+            Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
+            Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
+            Route::get('/edit-supplier/{id}', [UserController::class, 'editsupplier'])->name('edit-supplier');
+            Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');
+            Route::post('/delete-supplier', [UserController::class, 'deletesupplier'])->name('delete-supplier');
+            Route::get('{company}/request', [UserController::class, 'request'])->name('request');
+            Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
+            Route::post('/delete-request', [UserController::class, 'deleterequest'])->name('delete-request');
+            Route::get('/edit-request/{id}', [UserController::class, 'editrequest'])->name('edit-request');
+            Route::post('/edit-request/{id}', [UserController::class, 'updaterequest'])->name('edit-request-post');
+//        });
     });
 
 
