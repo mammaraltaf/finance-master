@@ -58,8 +58,8 @@ class LoginController extends Controller
             if ($user->hasRole(UserTypesEnum::SuperAdmin)) {
                 return redirect()->route('super-admin.dashboard');
             } elseif ($user->hasRole(UserTypesEnum::User)) {
-                    return redirect()->route('user.select-company');
-//                return redirect()->route('user.dashboard');
+                 return redirect()->route('user.select-company');
+            //   return redirect()->route('user.dashboard');
             } else {
                 return redirect()->route('login')
                     ->withErrors(['error' => 'Incorrect username or password'])

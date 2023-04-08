@@ -286,6 +286,8 @@
                             {{-- End --}}
             <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
             <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+            
+            
             <script type="text/javascript">
 
             // multiple select dropwdown
@@ -303,9 +305,20 @@
                 });
             </script>
             <script type="text/javascript">
-                $(document).ready(function () {
-                    $('#categoryTable').DataTable();
-                });
+          
+     
+        $(document).ready(function() {
+    $('#categoryForm').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5'
+        ]
+    } );
+} );
+
                  $('body').on('click', '#userEdit', function () {
                      var user_id = $(this).data('id');
                      $.ajax({
