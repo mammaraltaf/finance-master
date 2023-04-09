@@ -28,13 +28,8 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.list-group-item').click(function () {
-                $('.list-group-item').removeClass('active');
-                $(this).addClass('active');
-            });
-
             // Add a click event listener to the button
-            $('#url-company').click(function (e) {
+            $('.url-company').click(function (e) {
                 e.preventDefault();
                 // Get the button value
                 // var buttonValue = $(this).attr('href');
@@ -51,6 +46,12 @@
                 };
                 xhr.send();
             });
+
+            $('.list-group-item').click(function () {
+                $('.list-group-item').removeClass('active');
+                $(this).addClass('active');
+            });
+
         });
     </script>
 @endsection

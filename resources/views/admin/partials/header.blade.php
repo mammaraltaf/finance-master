@@ -60,12 +60,30 @@
             {{-- Company drop down list --}}
             <div class="d-flex align-items-center">
                 @role('user')
+                @if(\Illuminate\Support\Facades\Session::get('url-slug') != null)
+                    @php
+//                    dd(\Illuminate\Support\Facades\Session::get('url-slug'));
+                        $companyName = \App\Models\Company::where('slug', \Illuminate\Support\Facades\Session::get('url-slug'))->first();
+                        if (is_null($companyName)){
+                            $companyName = \App\Models\Company::with('users')->whereHas('users', function ($query) {
+                                $query->where('user_id', \Illuminate\Support\Facades\Auth::id());
+                            })->first();
+                            $companyName = $companyName->name;
+                        }
+                    @endphp
+                    @if($companyName)
+                        <div class="p-2" style="float: left">
+                           <h5>Selected Company: </h5> <h5 class="text-dark fw-bolder fs-3 mb-0">{{$companyName->name ?? ''}}</h5>
+                        </div>
+                    @endif
+                @endif
+
                 <div class="p-2">
-                    <select class="form-control" id="company-dropdown" onchange="location = this.value;">
-                        <option value="">--Switch Company--</option>
-                        @isset($companies)
-                            @foreach($companies as $company)
-                                <option value="{{url('/user/'.$company->slug.'/dashboard')}}">{{$company->name}}</option>
+                    <select class="form-control url_company">
+                        <option value="">Select Company</option>
+                        @isset($companies_slug)
+                            @foreach($companies_slug as $company)
+                                <option data-slug="{{$company->slug}}" data-url="{{url('/user/'.$company->slug.'/dashboard')}}">{{$company->name}}</option>
                             @endforeach
                         @endisset
                     </select>

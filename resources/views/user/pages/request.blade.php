@@ -303,7 +303,6 @@
                     </thead>
                     <tbody>
                     @foreach($requests as $request)
-{{--                        @dd($requests)--}}
                         <tr class="text-nowrap text-center" data-status="{{$request['status']}}">
                             <td>{{$request->initiator}}</td>
                             <td>{{$request->company->name}}</td>

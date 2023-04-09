@@ -37,25 +37,27 @@ class UserController extends Controller
         $companies = User::where('id', Auth::user()->id)->first()->companies;
         return view('user.pages.companylist', compact('companies'));
     }
+
     public function dashboard(Request $request)
     {
         // $this->authorize('user');
-        $companies = User::where('id', Auth::user()->id)->first()->companies;
-         return view('user.pages.dashboard',compact('companies'));
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+        return view('user.pages.dashboard', compact('companies_slug'));
     }
 
     public function supplier()
     {
         $suppliers = Supplier::all();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
 //        $suppliers=Supplier::rightJoin('supplier_bank','supplier_bank.supplier_id','=','suppliers.id')
 //          ->select('suppliers.*','supplier_bank.*')
 //         ->get()->toArray();
-        return view('user.pages.supplier', compact('suppliers'));
+        return view('user.pages.supplier', compact('suppliers', 'companies_slug'));
     }
 
     public function addsupplier(Request $request)
     {
-        $this->authorize('create supplier');
+//        $this->authorize('create supplier');
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
@@ -104,12 +106,18 @@ class UserController extends Controller
     public function request()
     {
         $user = Auth::user();
-        $requests = RequestFlow::all();
+        $requests = RequestFlow::with('company')
+            ->where('user_id', $user->id)
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })->get();
         $companies = Company::where('slug', Session::get('url-slug'))->get();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+
         $departments = Department::all();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
-        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses'));
+        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
     }
 
     public function updatesupplier(Request $request, $id)
@@ -215,9 +223,10 @@ class UserController extends Controller
                 'user_id' => auth()->user()->id
             ]);
 
+
             if ($request_data) {
                 if ($status == StatusEnum::SubmittedForReview) {
-                    $this->logActionCreate(Auth::id(), $request_data->id,  'User Request created');
+                    $this->logActionCreate(Auth::id(), $request_data->id, 'User Request created');
                     AcceptOrRejectRequest::dispatch($request_data);
                 }
                 return redirect()->back()->with('success', 'Request successfull');
@@ -258,7 +267,6 @@ class UserController extends Controller
     {
         try {
             $input = $request->all();
-            dd($input);
             $validator = Validator::make($input, [
                 'company' => 'required',
                 'department' => 'required',
@@ -267,7 +275,6 @@ class UserController extends Controller
                 'currency' => 'required',
                 'amount' => 'required',
                 'description' => 'required',
-                // 'basis' => 'required',
                 'due-date-payment2' => 'required',
                 'due-date2' => 'required'
             ]);
@@ -278,7 +285,40 @@ class UserController extends Controller
                 $status = $_POST['button'];
             }
             $request = RequestFlow::find($id);
-
+            if (isset($input['basis3'])) {
+                $keep_files = $input['basis3'];
+                if (isset($input['basis'])) {
+                    $files = [];
+                    if ($request->hasfile('basis')) {
+                        foreach ($request->file('basis') as $file) {
+                            $name = time() . rand(1, 50) . '.' . $file->extension();
+                            $file->move(public_path('basis'), $name);
+                            $files[] = $name;
+                        }
+                    }
+                    $new_files = implode(',', $files);
+                    $basis = $keep_files . ',' . $new_files;
+                }
+            } else {
+                $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
+                $files = explode(',', $all_files);
+                foreach ($files as $file) {
+                    if (File::exists(public_path('basis/' . $file))) {
+                        File::delete(public_path('basis/' . $file));
+                    }
+                }
+                if (isset($input['basis'])) {
+                    $files = [];
+                    if ($request->hasfile('basis')) {
+                        foreach ($request->file('basis') as $file) {
+                            $name = time() . rand(1, 50) . '.' . $file->extension();
+                            $file->move(public_path('basis'), $name);
+                            $files[] = $name;
+                        }
+                    }
+                    $basis = implode(',', $files);
+                }
+            }
             $request->company_id = $input['company'];
             $request->department_id = $input['department'];
             $request->supplier_id = $input['supplier'];
@@ -289,6 +329,7 @@ class UserController extends Controller
             $request->description = $input['description'];
             $request->payment_date = $input['due-date-payment2'];
             $request->submission_date = $input['due-date2'];
+            $request->basis = $basis;
             $request->status = $status;
             $request->save();
 

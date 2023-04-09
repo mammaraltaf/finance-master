@@ -24,7 +24,12 @@ class SuperAdminController extends Controller
 
     public function dashboard()
     {
-        return view('super-admin.pages.dashboard');
+        $users = User::where('user_type','!=',UserTypesEnum::User)->count();
+        $companies = Company::count();
+        $departments = Department::count();
+        $suppliers = Supplier::count();
+        $typeOfExpanse = TypeOfExpanse::count();
+        return view('super-admin.pages.dashboard', compact('users','companies','departments','suppliers','typeOfExpanse'));
     }
 
     /*-------------Users-------------*/
@@ -192,7 +197,11 @@ class SuperAdminController extends Controller
 
     public function editCompany($id)
     {
-        $company = Company::find($id);
+        $company = Company::with(['users'=>function($query){
+            $query->where('user_type', UserTypesEnum::Admin);
+        }])
+            ->where('id', $id)
+            ->first();
         return response()->json($company);
     }
 

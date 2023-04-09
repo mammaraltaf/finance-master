@@ -96,7 +96,7 @@ Route::group(['middleware'=>'auth'],function (){
 //        Route::prefix('{company}')->group(function () {
             Route::get('{company}/dashboard', [UserController::class, 'dashboard'])->name('company.dashboard');
 
-            Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
+            Route::get('{company}/supplier', [UserController::class, 'supplier'])->name('supplier');
             Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
             Route::get('/edit-supplier/{id}', [UserController::class, 'editsupplier'])->name('edit-supplier');
             Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');
@@ -121,6 +121,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/get-request-detail/{id}', [FinanceController::class, 'getRequestDetail'])->name('get-request-detail');
         Route::post('/approve-request', [FinanceController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [FinanceController::class, 'rejectRequest'])->name('reject-request');
+        Route::get('/filter/{id}',[FinanceController::class,'filter'])->name('filter');
     });
 
 
@@ -133,6 +134,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/dashboard', [ManagerController::class, 'dashboard'])->name('dashboard');
         Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
+        Route::get('/filter/{id}',[ManagerController::class,'filter'])->name('filter');
     });
 
 
@@ -143,7 +145,9 @@ Route::group(['middleware'=>'auth'],function (){
         'as' => UserTypesEnum::Director.'.',
     ],function (){
         Route::get('/dashboard', [DirectorController::class, 'dashboard'])->name('dashboard');
-
+        Route::get('/filter/{id}',[DirectorController::class,'filter'])->name('filter');
+        Route::post('/reject', [DirectorController::class, 'rejectRequest'])->name('reject');
+        Route::post('/accept', [DirectorController::class, 'approveRequest'])->name('accept');
     });
 
 
@@ -155,7 +159,9 @@ Route::group(['middleware'=>'auth'],function (){
     ],function (){
         Route::get('/dashboard', [AccountingController::class, 'dashboard'])->name('dashboard');
         Route::get('/supplier', [AccountingController::class, 'supplier'])->name('supplier');
-
+        Route::get('/filter/{id}',[AccountingController::class,'filter'])->name('filter');
+        Route::get('/payment/{id}', [AccountingController::class, 'payment'])->name('payment');
+        Route::post('/payment/{id}', [AccountingController::class, 'pay'])->name('payment-post');
     });
 });
 

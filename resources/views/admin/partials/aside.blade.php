@@ -82,7 +82,8 @@
 
                     @hasanyrole('super-admin|accounting|user')
                     <div class="menu-item">
-                        <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.supplier') ? 'active' : '' }}" href="{{route(auth()->user()->user_type.'.supplier')}}" >
+                        <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.supplier') ? 'active' : '' }}"
+                           href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'supplier')}}" >
                             <span class="menu-title">Manage Suppliers</span>
                         </a>
                     </div>
