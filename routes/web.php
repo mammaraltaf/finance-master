@@ -96,7 +96,7 @@ Route::group(['middleware'=>'auth'],function (){
 //        Route::prefix('{company}')->group(function () {
             Route::get('{company}/dashboard', [UserController::class, 'dashboard'])->name('company.dashboard');
 
-            Route::get('/supplier', [UserController::class, 'supplier'])->name('supplier');
+            Route::get('{company}/supplier', [UserController::class, 'supplier'])->name('supplier');
             Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
             Route::get('/edit-supplier/{id}', [UserController::class, 'editsupplier'])->name('edit-supplier');
             Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');

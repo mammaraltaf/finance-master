@@ -4,8 +4,8 @@
         <h2>Select a company to redirect to the dashboard:</h2>
         <div class="list-group">
             @foreach ($companies as $company)
-            <a id="url-company" data-url={{$company->slug}}  href="{{url('user/'.$company->slug.'/dashboard/')}}"
-               class="list-group-item">{{ $company->name}}</a>
+            <a data-url="{{$company->slug}}"  href="#"
+               class="list-group-item url-company">{{ $company->name}}</a>
             @endforeach
 
                 {{-- <a href="#" class="list-group-item active">Account 1</a>
@@ -20,13 +20,8 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('.list-group-item').click(function () {
-                $('.list-group-item').removeClass('active');
-                $(this).addClass('active');
-            });
-
             // Add a click event listener to the button
-            $('#url-company').click(function (e) {
+            $('.url-company').click(function (e) {
                 e.preventDefault();
                 // Get the button value
                 // var buttonValue = $(this).attr('href');
@@ -43,6 +38,12 @@
                 };
                 xhr.send();
             });
+
+            $('.list-group-item').click(function () {
+                $('.list-group-item').removeClass('active');
+                $(this).addClass('active');
+            });
+
         });
     </script>
 @endsection

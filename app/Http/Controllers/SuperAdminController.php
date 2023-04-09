@@ -192,7 +192,11 @@ class SuperAdminController extends Controller
 
     public function editCompany($id)
     {
-        $company = Company::find($id);
+        $company = Company::with(['users'=>function($query){
+            $query->where('user_type', UserTypesEnum::Admin);
+        }])
+            ->where('id', $id)
+            ->first();
         return response()->json($company);
     }
 
