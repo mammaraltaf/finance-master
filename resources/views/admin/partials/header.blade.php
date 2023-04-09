@@ -72,7 +72,7 @@
                         }
                     @endphp
                     @if($companyName)
-                        <div class="p-2">
+                        <div class="p-2" style="float: left">
                            <h5>Selected Company: </h5> <h5 class="text-dark fw-bolder fs-3 mb-0">{{$companyName->name ?? ''}}</h5>
                         </div>
                     @endif
@@ -80,8 +80,9 @@
 
                 <div class="p-2">
                     <select class="form-control url_company">
-                        @isset($companies)
-                            @foreach($companies as $company)
+                        <option value="">Select Company</option>
+                        @isset($companies_slug)
+                            @foreach($companies_slug as $company)
                                 <option data-slug="{{$company->slug}}" data-url="{{url('/user/'.$company->slug.'/dashboard')}}">{{$company->name}}</option>
                             @endforeach
                         @endisset

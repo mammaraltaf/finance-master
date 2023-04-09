@@ -24,7 +24,12 @@ class SuperAdminController extends Controller
 
     public function dashboard()
     {
-        return view('super-admin.pages.dashboard');
+        $users = User::where('user_type','!=',UserTypesEnum::User)->count();
+        $companies = Company::count();
+        $departments = Department::count();
+        $suppliers = Supplier::count();
+        $typeOfExpanse = TypeOfExpanse::count();
+        return view('super-admin.pages.dashboard', compact('users','companies','departments','suppliers','typeOfExpanse'));
     }
 
     /*-------------Users-------------*/

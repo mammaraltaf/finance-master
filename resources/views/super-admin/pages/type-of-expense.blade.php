@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <!--begin::Header-->
-  
+
     <br>
     <div class="card-header pt-5">
         <h3 class="card-title">
@@ -130,7 +130,6 @@
                         <td>{{$typeOfExpense->id_software}}</td>
                         <td>{{$typeOfExpense->name}}</td>
                         <td>{{$typeOfExpense->accounting_id}}</td>
-
                         <td>
                             {{-- <a href="" class="btn btn-primary btn-sm" id="typeOfExpenseEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$typeOfExpense->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$typeOfExpense->id}}"
@@ -183,7 +182,7 @@
         </div>
     </div>
 
-    
+
 
     <!--end::Body-->
 @endsection

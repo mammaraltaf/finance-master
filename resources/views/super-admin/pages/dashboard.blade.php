@@ -11,7 +11,6 @@
             <span class="card-label fw-bolder fs-3 mb-1">Dashboard</span>
         </h3>
 
-
     </div>
     <div class="card-toolbar">
     </div>
@@ -23,52 +22,52 @@
         <div class="card-body text-center">
           <i class="bi bi-people-fill fs-1"></i>
           <h3 class="card-title mt-3">Users</h3>
-          <p class="card-text">10</p>
+          <p class="card-text">{{$users ?? 0}}</p>
         </div>
       </div>
     </div>
-  
+
     <div class="col">
       <div class="card shadow rounded h-100 d-flex flex-column justify-content-center">
         <div class="card-body text-center">
           <i class="bi bi-building fs-1"></i>
           <h3 class="card-title mt-3">Departments</h3>
-          <p class="card-text">5</p>
+          <p class="card-text">{{$departments ?? 0}}</p>
         </div>
       </div>
     </div>
-  
+
     <div class="col">
       <div class="card shadow rounded h-100 d-flex flex-column justify-content-center">
         <div class="card-body text-center">
           <i class="bi bi-building fs-1"></i>
           <h3 class="card-title mt-3">Companies</h3>
-          <p class="card-text">3</p>
+          <p class="card-text">{{$companies ?? 0}}</p>
         </div>
       </div>
     </div>
-  
+
     <div class="col">
       <div class="card shadow rounded h-100 d-flex flex-column justify-content-center">
         <div class="card-body text-center">
           <i class="bi bi-currency-dollar fs-1"></i>
           <h3 class="card-title mt-3">Types of Expenses</h3>
-          <p class="card-text">8</p>
+          <p class="card-text">{{$typeOfExpanse ?? 0}}</p>
         </div>
       </div>
     </div>
-  
+
     <div class="col">
       <div class="card shadow rounded h-100 d-flex flex-column justify-content-center">
         <div class="card-body text-center">
           <i class="bi bi-truck fs-1"></i>
           <h3 class="card-title mt-3">Suppliers</h3>
-          <p class="card-text">12</p>
+          <p class="card-text">{{$suppliers ?? 0}}</p>
         </div>
       </div>
     </div>
   </div>
-  
+
 {{--    <div class="card-body py-3">--}}
 {{--        <div class="overflow-auto">--}}
 {{--            --}}{{--All Datatable--}}

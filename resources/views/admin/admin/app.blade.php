@@ -140,7 +140,7 @@
             xhr.open('GET', '/store-button-value/' + buttonValue, true);
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-                    window.location.redirect = buttonSlug;
+                    window.location.replace(buttonSlug);
 
                 }
             };
