@@ -57,24 +57,24 @@
                 </tr>
             @endforeach
             </tbody>
-            <tfoot>
-            <tr>
-                <th>Initiator</th>
-                <th>Company</th>
-                <th>Department</th>
-                <th>Supplier</th>
-                <th>Type of Expense</th>
-                <th>Currency</th>
-                <th>Amount</th>
-                <th>Description</th>
-                <th>Basis (file attachment title)</th>
-                <th>Due Date of Payment</th>
-                <th>Due Date</th>
-                <th>Status</th>
-                <th>Actions</th>
+            {{-- <tfoot>
+                <tr>
+                    <th>Initiator</th>
+                    <th>Company</th>
+                    <th>Department</th>
+                    <th>Supplier</th>
+                    <th>Type of Expense</th>
+                    <th>Currency</th>
+                    <th>Amount</th>
+                    <th>Description</th>
+                    <th>Basis (file attachment title)</th>
+                    <th>Due Date of Payment</th>
+                    <th>Due Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
 
-            </tr>
-            </tfoot>
+                </tr>
+            </tfoot> --}}
 
         </table>
     </div>
@@ -167,6 +167,21 @@
                 var comment = $('#rejectComment').val();
                 $('#rejectConfirmationModal').modal('hide');
             });
+        });
+        // Disable reject button if comment is empty
+        const commentTextarea = document.getElementById("rejectComment");
+        const rejectButton = document.getElementById("confirmRejectBtn");
+
+        rejectButton.setAttribute("disabled", "");
+
+        commentTextarea.addEventListener("input", function() {
+            if (commentTextarea.value.length > 0) {
+            rejectButton.removeAttribute("disabled");
+            rejectButton.style.display = "inline-block";
+            } else {
+            rejectButton.setAttribute("disabled", "");
+            rejectButton.style.display = "none";
+            }
         });
 
     </script>

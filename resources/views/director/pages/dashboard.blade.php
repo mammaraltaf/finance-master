@@ -115,7 +115,7 @@
         $('#reviewDocument').DataTable();
       });
 
-      const commentTextarea = document.getElementById("document-comments");
+        const commentTextarea = document.getElementById("document-comments");
         const rejectButton = document.getElementById("reject-button");
 
         rejectButton.setAttribute("disabled", "");
