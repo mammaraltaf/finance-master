@@ -123,7 +123,9 @@
         <div class="overflow-auto">
 
             {{--All Datatable--}}
-            <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%">
+            <table name="categoryTable" id="categoryTable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+
+            {{-- <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
                     <th>Name</th>
@@ -296,6 +298,24 @@
 
 @endsection
 @section('script')
+<<<<<<< HEAD
+            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+            <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+            <link
+                rel="stylesheet"
+                href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
+            />
+                            {{-- End --}}
+            <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+            <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+            
+            
+            <script type="text/javascript">
+=======
     {{-- Multiple select --}}
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
@@ -313,6 +333,7 @@
     {{-- End --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+>>>>>>> fe72e0d9a057c984382c750fa7b8b66b875ec51b
 
 
     <script type="text/javascript">
@@ -333,6 +354,16 @@
                 // enableCaseInsensitiveFiltering: true,
                 // buttonWidth: "400px",
             });
+                $('.delete_btn').click(function () {
+                    var a = $(this).data('id');
+                    $('.user-delete').val(a);
+                });
+            </script>
+            <script type="text/javascript">
+          
+     
+        $(document).ready(function() {
+            $('#categoryTable').DataTable( {
         });
         $(document).ready(function () {
             $("#edit-companies").multiselect({
