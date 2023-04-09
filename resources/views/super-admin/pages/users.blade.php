@@ -119,7 +119,9 @@
         <div class="overflow-auto">
 
             {{--All Datatable--}}
-            <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%">
+            <table name="categoryTable" id="categoryTable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+
+            {{-- <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
                     <th>Name</th>
@@ -282,15 +284,12 @@
     </div><!-- /.modal -->
 
 @endsection
-        @section('script')
-            {{-- Multiple select --}}
-            {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
-            <link
-                rel="stylesheet"
-                href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-            />
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> --}}
+@section('script')
+            <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+            <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+            <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+            <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
             <link
                 rel="stylesheet"
@@ -345,7 +344,7 @@
           
      
         $(document).ready(function() {
-            $('#categoryForm').DataTable( {
+            $('#categoryTable').DataTable( {
                 dom: 'Bfrtip',
                 buttons: [
                     'copyHtml5',

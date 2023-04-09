@@ -1,11 +1,19 @@
 @extends('layouts.app')
 @section('content')
+
+    <style>
+        a:hover {
+            background-color: #007bff;
+            color: white !important;
+            text-decoration: none !important;
+        }
+    </style>
     <div class="container">
         <h2>Select a company to redirect to the dashboard:</h2>
         <div class="list-group">
             @foreach ($companies as $company)
             <a id="url-company" data-url={{$company->slug}}  href="{{url('user/'.$company->slug.'/dashboard/')}}"
-               class="list-group-item">{{ $company->name}}</a>
+               class="list-group-item ">{{ $company->name}}</a>
             @endforeach
 
                 {{-- <a href="#" class="list-group-item active">Account 1</a>
