@@ -19,7 +19,7 @@
     <!--begin::Body-->
     <div class="card-body py-3">
         <!-- Modal HTML Markup -->
-        <div class="tab-content">
+        <div class="overflow-auto">
 
             {{--All Datatable--}}
             <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%">

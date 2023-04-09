@@ -254,7 +254,7 @@
             </div><!-- /.modal-dialog -->
         </div>
 
-        <div class="tab-content">
+        <div class="overflow-auto">
 
             {{--All Datatable--}}
             <div class="overflow-auto">
@@ -280,15 +280,16 @@
                     </thead>
                     <tbody>
                     @foreach($requests as $request)
+{{--                        @dd($requests)--}}
                         <tr class="text-nowrap text-center" data-status="{{$request['status']}}">
-                            <td>{{$request['initiator']}}</td>
-                            <td>{{$request['company_id']}}</td>
-                            <td>{{$request['department_id']}}</td>
-                            <td>{{$request['supplier_id']}}</td>
-                            <td>{{$request['expense_type_id']}}</td>
-                            <td>{{$request['currency']}}</td>
-                            <td>{{$request['amount']}}</td>
-                            <td>{{$request['description']}}</td>
+                            <td>{{$request->initiator}}</td>
+                            <td>{{$request->company->name}}</td>
+                            <td>{{$request->department->name}}</td>
+                            <td>{{$request->supplier->supplier_name}}</td>
+                            <td>{{$request->typeOfExpense->name}}</td>
+                            <td>{{$request->currency}}</td>
+                            <td>{{$request->amount}}</td>
+                            <td>{{$request->description}}</td>
                             <td><?php
                                 if(isset($request['basis'])){
                                     $files=explode(',',$request['basis']);
@@ -401,6 +402,7 @@
                     }
                 }
             });
+            // Preview End
 
             $("#currency").change(function() {
                 var currency = $(this).val();

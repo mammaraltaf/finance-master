@@ -8,6 +8,7 @@ use App\Jobs\AcceptOrRejectRequest;
 use App\Traits\LogActionTrait;
 use Exception;
 
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -104,7 +105,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $requests = RequestFlow::all();
-        $companies = Company::all();
+        $companies = Company::where('slug', Session::get('url-slug'))->get();
         $departments = Department::all();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();

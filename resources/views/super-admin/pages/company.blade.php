@@ -164,14 +164,19 @@
                                 <br>
                                 <label class="control-label">Select Admin</label>
                                 <div>
-                                    <select name="user_id" id="user_id" class="form-control">
+                                    {{-- <select name="user_id" id="user-id" class="form-control">
+                                        <option value="">Select Admin</option>
+                                        @foreach($admins as $admin)
+                                            <option value="{{$admin->id}}">{{$admin->name}}</option>
+                                        @endforeach
+                                    </select> --}}
+                                    <select name="user_id" id="user-id" class="form-control">
                                         <option value="">Select Admin</option>
                                         @foreach($admins as $admin)
                                             <option value="{{$admin->id}}">{{$admin->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-
                             </div>
 
 
@@ -185,9 +190,8 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-        <div class="tab-content">
-
-            {{--All Datatable--}}
+        {{--All Datatable--}}
+        <div class="overflow-auto">
             <table id="companyTable" name="companyTable" class="ui celled table allTable" style="width:100%">
                 <thead>
                 <tr class="text-nowrap text-center">
@@ -262,103 +266,6 @@
         </div>
     </div>
 
-    <div class="container-fluid">
-        <!-- Document List -->
-        <div class="row">
-          <div class="col-12">
-            <h2>Document List</h2>
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>Status</th>
-                  <th>Directory</th>
-                  <th>Project</th>
-                  <th>Initiator</th>
-                  <th>Supplier</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Sample data for document list -->
-                <tr>
-                  <td>Confirmed</td>
-                  <td>Directory A</td>
-                  <td>Project X</td>
-                  <td>John Doe</td>
-                  <td>Supplier Y</td>
-                </tr>
-                <tr>
-                  <td>Paid</td>
-                  <td>Directory B</td>
-                  <td>Project Y</td>
-                  <td>Jane Smith</td>
-                  <td>Supplier Z</td>
-                </tr>
-                <!-- End of sample data -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Filter -->
-        <div class="row">
-          <div class="col-12">
-            <h2>Filter</h2>
-            <form>
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label for="status">Status</label>
-                  <select id="status" class="form-control">
-                    <option selected>All</option>
-                    <option>Confirmed</option>
-                    <option>Paid</option>
-                  </select>
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="directory">Directory</label>
-                  <input type="text" class="form-control" id="directory">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="project">Project</label>
-                  <input type="text" class="form-control" id="project">
-                </div>
-              </div>
-              <div class="form-row">
-                <div class="form-group col-md-4">
-                  <label for="initiator">Initiator</label>
-                  <input type="text" class="form-control" id="initiator">
-                </div>
-                <div class="form-group col-md-4">
-                  <label for="supplier">Supplier</label>
-                  <input type="text" class="form-control" id="supplier">
-                </div>
-              </div>
-              <button type="submit" class="btn btn-primary">Filter</button>
-            </form>
-          </div>
-        </div>
-
-        <!-- Weekly Paid Report -->
-        <div class="row">
-          <div class="col-12">
-            <h2>Weekly Paid Report</h2>
-            <form>
-              <div class="form-row">
-                <div class="form-group col-md-6">
-                  <label for="start-date">Start Date</label>
-                  <input type="date" class="form-control" id="start-date">
-                </div>
-                <div class="form-group col-md-6">
-                  <label for="end-date">End Date</label>
-                  <input type="date" class="form-control" id="end-date">
-                </div>
-              </div>
-              <button type="submit" class="btn btn-primary">Generate Report</button>
-            </form>
-          </div>
-        </div>
-
-
-
     <!--end::Body-->
 @endsection
 @section('script')
@@ -380,13 +287,13 @@
                 type: "GET",
                 url: "{{url('/super-admin/edit-company/')}}"+'/'+company_id,
                 success:function (response){
-                    console.log(response);
+                    console.log(response.user_id);
                     $('#id_software').val(response.id_software);
                     $('#tax_id').val(response.tax_id);
                     $('#company_name').val(response.name);
                     $('#threshold_amount').val(response.threshold_amount);
                     $('#legal_address').val(response.legal_address);
-                    $('#user_id').val(response.user_id);
+                    $('#user-id').val(response.user_id);
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
                 }
 

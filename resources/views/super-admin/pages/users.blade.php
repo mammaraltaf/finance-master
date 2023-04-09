@@ -68,31 +68,39 @@
                                 <br>
 
                                 <label class="control-label">Company</label>
-                                <div>
-                                {{-- <select name="company" class="form-control" aria-placeholder="Select company" required> --}}
-                                {{-- <select name="company" class="form-control chosen" aria-placeholder="Select company" required multiple>
-
-                                    <option value="" >Select Company</option>
-                                       @foreach($companies as $company)
-                                       @endforeach
-                                    </select> --}}
-                                    <select id="company" name="company[]" multiple class="form-control">
-                                        <option value="">Select Company</option>
-                                        @foreach($companies as $company)
-                                            <option value="{{$company->id}}">{{$company->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                    <div id="single" class="">
+                                        <select name="company[]"  class="form-control">
+                                            <option value="" >Select Company</option>
+                                                @foreach($companies as $company)
+                                                    <option value="{{$company->id}}">{{$company->name}}</option>
+                                                @endforeach
+                                        </select>
+                                    </div>
+                                
+                                    <div id='multiple' class="">
+                                        <select id="companies" name="company[]" multiple class="form-control">
+                                            @foreach($companies as $company)
+                                                <option value="{{$company->id}}">{{$company->name}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 <br>
 
                                 <label class="control-label">Department</label>
-                                <div>
-                                <select name="department[]" class="form-control" aria-placeholder="Select department" required>
-                                    <option value="" >Select Department</option>
-                                       @foreach($departments as $department)
-                                             <option value="{{$department->id}}">{{$department->name}}</option>
-                                       @endforeach
-                                </select>
+                                <div id='multi-dept' class="">
+                                    <select id="departments" name="department[]" class="form-control" multiple aria-placeholder="Select department" required>
+                                        @foreach($departments as $department)
+                                                <option value="{{$department->id}}">{{$department->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div id='single-dept' class="">
+                                    <select id="department" name="department[]" class="form-control"  aria-placeholder="Select department" required>
+                                        <option value="">Select Department</option>
+                                        @foreach($departments as $department)
+                                                <option value="{{$department->id}}">{{$department->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <br>
 
@@ -108,7 +116,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-        <div class="tab-content">
+        <div class="overflow-auto">
 
             {{--All Datatable--}}
             <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%">
@@ -123,26 +131,16 @@
                 </thead>
                 <tbody>
                 @foreach($users as $user)
-                    <tr class="text-nowrap text-center">
+                    <tr class="text-center">
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
                         <td>
                             <span class="badge badge-success">{{$user->user_type}}</span>
                             </td>
-{{--                        <td>--}}
-{{--                            @if($user->status == "active")--}}
-{{--                                <span class="badge badge-success">Active</span>--}}
-{{--                            @else--}}
-{{--                                <span class="badge badge-danger">New User</span>--}}
-{{--                            @endif--}}
-{{--                        <td>--}}
-                        @if(($user->user_type == \App\Classes\Enums\UserTypesEnum::Admin) || ($user->user_type == \App\Classes\Enums\UserTypesEnum::User))
+
+                            @if(($user->user_type == \App\Classes\Enums\UserTypesEnum::Admin) || ($user->user_type == \App\Classes\Enums\UserTypesEnum::User))
 
                         <td>
-                            {{-- <a href="" class="btn btn-primary btn-sm" id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$user->id}}">Edit</a>
-                            <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
-                               class="btn btn-danger delete_btn btn-sm">Delete
-                            </a> --}}
                             <i id="userEdit" id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                             <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}" class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
                         </td>
@@ -164,7 +162,8 @@
                 </tr>
                 </tfoot> --}}
             </table>
-        </div></div>
+        </div>
+    </div>
            <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
                 <div class="modal-dialog modal-sm" role="document">
                     <div class="modal-content">
@@ -227,24 +226,38 @@
                             </div>
                             <br>
                             <label class="control-label">Company</label>
-                                <div>
-                                <select name="company" class="form-control" aria-placeholder="Select company" required>
-                                    <option value="" >Select Company</option>
-                                       @foreach($companies as $company)
-                                             <option value="{{$company->name}}" {{ $company->name == $user->company? 'selected' : '' }}>{{$company->name}}</option>
-                                       @endforeach
-                                </select>
+                                <div id="edit-single-company">
+                                    <select name="company" class="form-control" aria-placeholder="Select company" required>
+                                        <option value="" >Select Company</option>
+                                        @foreach($companies as $company)
+                                                <option value="{{$company->name}}" {{ $company->name == $user->company? 'selected' : '' }}>{{$company->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div id="edit-multi-company">
+                                    <select id="edit-companies" name="company" multiple class="form-control" aria-placeholder="Select company" required>
+                                        @foreach($companies as $company)
+                                                <option value="{{$company->name}}" {{ $company->name == $user->company? 'selected' : '' }}>{{$company->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <br>
 
                                 <label class="control-label">Department</label>
-                                <div>
-                                <select name="department" class="form-control" aria-placeholder="Select department" required>
-                                    <option value="" >Select Department</option>
-                                       @foreach($departments as $department)
-                                             <option value="{{$department->name}}" {{ $department->name == $user->department? 'selected' : '' }}>{{$department->name}}</option>
-                                       @endforeach
-                                </select>
+                                <div id="edit-single-dept" class="">
+                                    <select name="department" class="form-control" aria-placeholder="Select department" required>
+                                        <option value="" >Select Department</option>
+                                        @foreach($departments as $department)
+                                                <option value="{{$department->name}}" {{ $department->name == $user->department? 'selected' : '' }}>{{$department->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div id="edit-multi-dept" class="">
+                                    <select id="edit-departments" name="department" multiple class="form-control"  aria-placeholder="Select department" required>
+                                        @foreach($departments as $department)
+                                                <option value="{{$department->name}}" {{ $department->name == $user->department? 'selected' : '' }}>{{$department->name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                                 <br>
                                 <label class="control-label">Password</label>
@@ -271,13 +284,13 @@
 @endsection
         @section('script')
             {{-- Multiple select --}}
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+            {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
             <link
                 rel="stylesheet"
                 href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
             />
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> --}}
             <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
             <link
                 rel="stylesheet"
@@ -292,13 +305,37 @@
 
             // multiple select dropwdown
             $(document).ready(function () {
-				$("#company").multiselect({
+				$("#companies").multiselect({
 					nonSelectedText: "Select Company",
 					// enableFiltering: true,
 					// enableCaseInsensitiveFiltering: true,
-					buttonWidth: "400px",
+					// buttonWidth: "400px",
 				});
 			});
+            $(document).ready(function () {
+				$("#departments").multiselect({
+					nonSelectedText: "Select Department",
+					// enableFiltering: true,
+					// enableCaseInsensitiveFiltering: true,
+					// buttonWidth: "400px",
+				});
+			});
+            $(document).ready(function () {
+                $("#edit-companies").multiselect({
+                    nonSelectedText: "Select Company",
+                    // enableFiltering: true,
+                    // enableCaseInsensitiveFiltering: true,
+                    // buttonWidth: "400px",
+                });
+            });
+            $(document).ready(function () {
+                $("#edit-departments").multiselect({
+                    nonSelectedText: "Select Department",
+                    // enableFiltering: true,
+                    // enableCaseInsensitiveFiltering: true,
+                    // buttonWidth: "400px",
+                });
+            });
                 $('.delete_btn').click(function () {
                     var a = $(this).data('id');
                     $('.user-delete').val(a);
@@ -308,10 +345,16 @@
           
      
         $(document).ready(function() {
-    $('#categoryForm').DataTable( {
-      
-    } );
-} );
+            $('#categoryForm').DataTable( {
+                dom: 'Bfrtip',
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5'
+                ]
+            } );
+        });
 
                  $('body').on('click', '#userEdit', function () {
                      var user_id = $(this).data('id');
@@ -330,6 +373,60 @@
 
                      });
                  });
+
+                $(document).ready(function() {
+                    $('#multiple').hide();
+                    $('#multi-dept').hide();
+
+                    $('select[name="type"]').on('change', function() {
+                        if ($(this).val() === 'user') {
+                            $('#single').hide();
+                            $('#multiple').show();
+                            $('#single-dept').hide();
+                            $('#multi-dept').show();
+                        } 
+                        else if ($(this).val() === 'admin') {
+                            $('#multiple').hide();
+                            $('#single').show();
+                            $('#multi-dept').hide();
+                            $('#single-dept').show();
+                        }
+                        else {
+                            $('#single').hide();
+                            $('#multiple').show();
+                            $('#single-dept').hide();
+                            $('#multi-dept').show();
+                        }
+                    });
+                });
+                
+                // edit user
+                $(document).ready(function(){
+                    $('#edit-multi-company').hide();
+                    $('#edit-multi-dept').hide();
+
+                    $('select[name="type"]').on('change', function() {
+                        if ($(this).val() === 'user') {
+                            $('#edit-single-company').hide();
+                            $('#edit-multi-company').show();
+                            $('#edit-single-dept').hide();
+                            $('#edit-multi-dept').show();
+                        } 
+                        else if ($(this).val() === 'admin') {
+                            $('#edit-multi-company').hide();
+                            $('#edit-single-company').show();
+                            $('#edit-multi-dept').hide();
+                            $('#edit-single-dept').show();
+                        }
+                        else {
+                            $('#edit-single-company').hide();
+                            $('#edit-multi-company').show();
+                            $('#edit-single-dept').hide();
+                            $('#edit-multi-dept').show();
+                        }
+                    });
+                })
+                
 
             </script>
 @endsection

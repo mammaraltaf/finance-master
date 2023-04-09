@@ -10,6 +10,8 @@ class RequestFlow extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
+    protected $with = ['company', 'supplier', 'typeOfExpense', 'department', 'log_actions'];
+
     public function company()
     {
         return $this->belongsTo(Company::class);

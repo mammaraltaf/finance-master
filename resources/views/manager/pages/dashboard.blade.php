@@ -219,6 +219,21 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
                 $('#rejectConfirmationModal').modal('hide');
             });
         });
+        // Disable reject button if comment is empty
+        const commentTextarea = document.getElementById("rejectComment");
+        const rejectButton = document.getElementById("confirmRejectBtn");
+
+        rejectButton.setAttribute("disabled", "");
+
+        commentTextarea.addEventListener("input", function() {
+            if (commentTextarea.value.length > 0) {
+            rejectButton.removeAttribute("disabled");
+            rejectButton.style.display = "inline-block";
+            } else {
+            rejectButton.setAttribute("disabled", "");
+            rejectButton.style.display = "none";
+            }
+        });
 
     </script>
 
