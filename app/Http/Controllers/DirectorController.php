@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\LogAction;
-use App\Traits\LogActionTrait;
+
 class DirectorController extends Controller
 {
     use LogActionTrait;
@@ -25,17 +25,38 @@ class DirectorController extends Controller
     {
         // $this->authorize('director');
         $requests = RequestFlow::with('company','supplier','typeOfExpense')->whereIn('status',[StatusEnum::FinanceOk,StatusEnum::ManagerConfirmed])->get();
+       
         return view('director.pages.dashboard', compact('requests'));
     }
 public function filter($id){
 if($id=='1'){
-   return $this->dashboard();
+    $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
+    ->rightJoin('companies','request_flows.company_id','=','companies.id')
+    ->rightJoin('departments','request_flows.department_id','=','departments.id')
+    ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
+    ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
+    ->whereIn('action',[ActionEnum::DIRECTOR_REJECT,ActionEnum::DIRECTOR_ACCEPT])
+    ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
+    return view('director.pages.accepted', compact('requests'));     
 }elseif($id=='2'){
-    $requests = RequestFlow::whereIn('status',[StatusEnum::DirectorConfirmed])->get();
-    return view('director.pages.dashboard', compact('requests'));
+    $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
+    ->rightJoin('companies','request_flows.company_id','=','companies.id')
+    ->rightJoin('departments','request_flows.department_id','=','departments.id')
+    ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
+    ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
+    ->whereIn('action',[ActionEnum::DIRECTOR_ACCEPT])
+    ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
+    return view('director.pages.accepted', compact('requests'));     
+  
 }else{
-    $requests = RequestFlow::whereIn('status',[StatusEnum::DirectorRejected])->get();
-    return view('director.pages.dashboard', compact('requests'));
+    $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
+    ->rightJoin('companies','request_flows.company_id','=','companies.id')
+    ->rightJoin('departments','request_flows.department_id','=','departments.id')
+    ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
+    ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
+    ->whereIn('action',[ActionEnum::DIRECTOR_REJECT])
+    ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
+    return view('director.pages.accepted', compact('requests')); 
 }
 }
     public function approveRequest(Request $request)

@@ -30,7 +30,7 @@
                 <th>Supplier</th>
                 <th>Type of Expense</th>
                 <th>Currency</th>
-                <th>Amount</th>
+                <th>Amount In Gel</th>
                 <th>Description</th>
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
@@ -46,11 +46,19 @@
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
                     <td>{{$request->supplier->supplier_name ?? ''}}</td>
-                    <td>{{$request->expense_type->name ?? ''}}</td>
+                    <td>{{$request->typeOfExpense->name ?? ''}}</td>
                     <td>{{$request->currency ?? ''}}</td>
-                    <td>{{$request->amount ?? ''}}</td>
+                    <td>{{$request->amount_in_gel ?? ''}}</td>
                     <td>{{$request->description ?? ''}}</td>
-                    <td>{{$request->basis ?? ''}}</td>
+                    <td><?php if(isset($request->basis)){
+                                    $files=explode(',',$request->basis);
+                                    foreach($files as $file){ ?>
+                                    <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+
+                                <?php  }   }else{
+                                   echo "No document available";
+                                }
+                                ?></td>
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
                     <td>{{$request->status ?? ''}}</td>
@@ -134,7 +142,7 @@
             {
 extend: 'copy',
 exportOptions: {
-columns: [0,1, 5, 6, 7, 8,9,10,11]
+columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
 }
 },
 {
@@ -142,7 +150,7 @@ extend: 'excel',
 orientation : 'landscape',
                 pageSize : 'LEGAL',
 exportOptions: {
-columns: [0,1, 5, 6, 7, 8,9,10,11]
+columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
 }
 },
 {
@@ -150,7 +158,7 @@ extend: 'pdf',
 orientation : 'landscape',
                 pageSize : 'LEGAL',
 exportOptions: {
-columns: [0,1, 5, 6, 7, 8,9,10,11]
+columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
 }
 },
 'colvis'

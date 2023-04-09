@@ -113,6 +113,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/get-request-detail/{id}', [FinanceController::class, 'getRequestDetail'])->name('get-request-detail');
         Route::post('/approve-request', [FinanceController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [FinanceController::class, 'rejectRequest'])->name('reject-request');
+        Route::get('/filter/{id}',[FinanceController::class,'filter'])->name('filter');
     });
 
 
@@ -125,6 +126,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/dashboard', [ManagerController::class, 'dashboard'])->name('dashboard');
         Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
+        Route::get('/filter/{id}',[ManagerController::class,'filter'])->name('filter');
     });
 
 
@@ -149,7 +151,9 @@ Route::group(['middleware'=>'auth'],function (){
     ],function (){
         Route::get('/dashboard', [AccountingController::class, 'dashboard'])->name('dashboard');
         Route::get('/supplier', [AccountingController::class, 'supplier'])->name('supplier');
-
+        Route::get('/filter/{id}',[AccountingController::class,'filter'])->name('filter');
+        Route::get('/payment/{id}', [AccountingController::class, 'payment'])->name('payment');
+        Route::post('/payment/{id}', [AccountingController::class, 'pay'])->name('payment-post');
     });
 });
 
