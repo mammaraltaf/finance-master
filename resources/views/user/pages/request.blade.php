@@ -254,7 +254,7 @@
             </div><!-- /.modal-dialog -->
         </div>
 
-        <div class="tab-content">
+        <div class="overflow-auto">
 
             {{--All Datatable--}}
             <div class="overflow-auto">
@@ -402,6 +402,7 @@
                     }
                 }
             });
+            // Preview End
 
             $("#currency").change(function() {
                 var currency = $(this).val();

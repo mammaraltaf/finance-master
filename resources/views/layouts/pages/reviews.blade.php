@@ -152,7 +152,7 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
 
-        <div class="tab-content">
+        <div class="overflow-auto">
 
             {{--All Datatable--}}
             <table id="example" name="allTable" class="ui celled table allTable" style="width:100%">
