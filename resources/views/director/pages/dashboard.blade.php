@@ -4,33 +4,33 @@
 @endsection
 @section('content')
     <!--begin::Header-->
-    <br>
+    <div class="btn-group my-4">
+      <button class="btn btn-info active" id="all">All</button>
+      <button class="btn btn-info" id="accept">Accepted </button>
+      <button class="btn btn-info" id="reject">Rejected </button>
+  </div>
     <div class="card-header pt-5">
 
         <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1">Pending Documents Reuqests</span>
+            <span class="card-label fw-bolder fs-3 mb-1">Pending Documents Requests</span>
         </h3>
     </div>
     <!--end::Header-->
     <!--begin::Body-->
-    <div class="btn-group my-4">
-      <button class="btn btn-info active" data-filter="all">All</button>
-      <button class="btn btn-info" data-filter="accepted">Accepted Requested</button>
-      <button class="btn btn-info" data-filter="rejected">Rejected Requests</button>
-  </div>
+   
 
     <div class="container">
       <div class="overflow-auto">
-        <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable dt-responsive" cellspacing="0">
+        <table id="reviewDocument" name="reviewDocument" class="table table-striped table-bordered" cellspacing="0">
           <thead>
-            <tr class="text-center text-nowrap">
+            <tr>
                 <th>Initiator</th>
                 <th>Company</th>
                 <th>Department</th>
                 <th>Supplier</th>
                 <th>Type of Expense</th>
                 <th>Currency</th>
-                <th>Amount</th>
+                <th>Amount In Gel</th>
                 <th>Description</th>
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
@@ -40,18 +40,25 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
             @foreach($requests as $request)
                 <tr>
                     <td>{{$request->initiator ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
                     <td>{{$request->supplier->supplier_name ?? ''}}</td>
-                    <td>{{$request->expense_type->name ?? ''}}</td>
+                    <td>{{$request->typeOfExpense->name ?? ''}}</td>
                     <td>{{$request->currency ?? ''}}</td>
-                    <td>{{$request->amount ?? ''}}</td>
+                    <td>{{$request->amount_in_gel ?? ''}}</td>
                     <td>{{$request->description ?? ''}}</td>
-                    <td>{{$request->basis ?? ''}}</td>
+                    <td><?php if(isset($request->basis)){
+                                    $files=explode(',',$request->basis);
+                                    foreach($files as $file){ ?>
+                                    <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+
+                                <?php  }   }else{
+                                   echo "No document available";
+                                }
+                                ?></td>
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
                     <td>{{$request->status ?? ''}}</td>
@@ -72,8 +79,10 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form id="directorAcceptRejectForm">
+                <form id="directorAcceptRejectForm" method="post" action="">
 {{--                  <div class="form-group">--}}
+@csrf
+  <input type="hidden" name="id" id="id">
 {{--                    <label for="document-id">Document ID:</label>--}}
 {{--                    <input type="text" class="form-control" id="document-id" name="document_id" readonly>--}}
 {{--                  </div>--}}
@@ -85,20 +94,22 @@
 {{--                    <label for="document-amount">Amount:</label>--}}
 {{--                    <input type="text" class="form-control" id="document-amount" name="document_amount" readonly>--}}
 {{--                  </div>--}}
+
                   <div class="form-group">
                     <label for="document-comments">Comments:</label>
-                    <textarea class="form-control" id="document-comments" name="comments" rows="3"></textarea>
+                    <textarea class="form-control" id="document-comments" name="comment" rows="3"></textarea>
                   </div>
-                  <div class="form-group form-check">
+                  <!-- <div class="form-group form-check">
                     <input type="checkbox" class="form-check-input" id="amount-verification" name="amount_verification">
                     <label class="form-check-label" for="amount-verification">Verify amount manually</label>
-                  </div>
+                  </div> -->
+                  <div class="modal-footer">
+                <button type="submit" class="btn btn-danger" id="reject-button" name="reject" disabled>Reject</button>
+                <button type="submit" class="btn btn-success" id="approve-button" name="approve">Approve</button>
+              </div>
                 </form>
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" id="reject-button" disabled>Reject</button>
-                <button type="button" class="btn btn-success" id="approve-button">Approve</button>
-              </div>
+              
             </div>
           </div>
       </div>
@@ -107,13 +118,54 @@
 
 @endsection
 @section('script')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
-
-    <script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+ 
+ <script>
       $(document).ready(function() {
-        $('#reviewDocument').DataTable();
-      });
+        $('#reviewDocument').DataTable({
+          dom: 'Blfrtip',
+          lengthChange: true,
+          buttons: [ 
+
+            {
+extend: 'copy',
+exportOptions: {
+columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+}
+},
+{
+extend: 'excel',
+orientation : 'landscape',
+                pageSize : 'LEGAL',
+exportOptions: {
+columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+}
+},
+{
+extend: 'pdf',
+orientation : 'landscape',
+                pageSize : 'LEGAL',
+exportOptions: {
+columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+}
+},
+'colvis'
+           ]
+    } );
+        });
+      
 
         const commentTextarea = document.getElementById("document-comments");
         const rejectButton = document.getElementById("reject-button");
@@ -129,23 +181,36 @@
             rejectButton.style.display = "none";
             }
         });
-
-        // Data Filter
         $(document).ready(function () {
-            $(".btn-group button").click(function () {
-                var filterValue = $(this).attr('data-filter');
-                console.log("filterValue", filterValue)
-                $("#suppliertable tbody tr").hide();
-                $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
-                if (filterValue === "all") {
-                    $("#suppliertable tbody tr").show();
-                } else {
-                    $("#suppliertable tbody tr").hide();
-                    $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
-                }
-                $(".btn-group button").removeClass("active");
-                $(this).addClass("active");
-            });
+            $("#all").click(function(){
+              var id = '1';
+	var url = "{{ route('director.filter', ':id') }}";
+	url = url.replace(':id', id);
+	location.href = url;
+});
+$("#accept").click(function(){
+              var id = '2';
+	var url = "{{ route('director.filter', ':id') }}";
+	url = url.replace(':id', id);
+	location.href = url;
+});
+$("#reject").click(function(){
+              var id = '3';
+	var url = "{{ route('director.filter', ':id') }}";
+	url = url.replace(':id', id);
+	location.href = url;
+});
+        });
+
+        $('body').on('click', '#reviewBtn', function () {
+            var req_id = $(this).data('id');
+            $('#id').val(req_id);
+        });
+        $('body').on('click', '#reject-button', function () {
+            $('#directorAcceptRejectForm').attr('action', "{{url('director/reject')}}");
+        });
+        $('body').on('click', '#approve-button', function () {
+            $('#directorAcceptRejectForm').attr('action', "{{url('director/accept')}}");
         });
     </script>
 

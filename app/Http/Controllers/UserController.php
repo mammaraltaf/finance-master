@@ -214,7 +214,8 @@ class UserController extends Controller
                 'status' => $status,
                 'user_id' => auth()->user()->id
             ]);
-
+            
+           
             if ($request_data) {
                 if ($status == StatusEnum::SubmittedForReview) {
                     $this->logActionCreate(Auth::id(), $request_data->id,  'User Request created');
@@ -258,7 +259,6 @@ class UserController extends Controller
     {
         try {
             $input = $request->all();
-            dd($input);
             $validator = Validator::make($input, [
                 'company' => 'required',
                 'department' => 'required',
@@ -267,7 +267,6 @@ class UserController extends Controller
                 'currency' => 'required',
                 'amount' => 'required',
                 'description' => 'required',
-                // 'basis' => 'required',
                 'due-date-payment2' => 'required',
                 'due-date2' => 'required'
             ]);
@@ -278,7 +277,40 @@ class UserController extends Controller
                 $status = $_POST['button'];
             }
             $request = RequestFlow::find($id);
-
+if(isset($input['basis3'])){
+$keep_files=$input['basis3'];
+if(isset($input['basis'])){
+    $files = [];
+    if ($request->hasfile('basis')) {
+        foreach ($request->file('basis') as $file) {
+            $name = time() . rand(1, 50) . '.' . $file->extension();
+            $file->move(public_path('basis'), $name);
+            $files[] = $name;
+        }
+    }
+    $new_files = implode(',', $files);
+$basis=$keep_files.','.$new_files;
+}
+}else{
+    $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
+    $files = explode(',', $all_files);
+    foreach ($files as $file) {
+        if (File::exists(public_path('basis/' . $file))) {
+            File::delete(public_path('basis/' . $file));
+        }
+    }
+    if(isset($input['basis'])){
+        $files = [];
+        if ($request->hasfile('basis')) {
+            foreach ($request->file('basis') as $file) {
+                $name = time() . rand(1, 50) . '.' . $file->extension();
+                $file->move(public_path('basis'), $name);
+                $files[] = $name;
+            }
+        }
+        $basis = implode(',', $files);
+    }
+}
             $request->company_id = $input['company'];
             $request->department_id = $input['department'];
             $request->supplier_id = $input['supplier'];
@@ -289,6 +321,7 @@ class UserController extends Controller
             $request->description = $input['description'];
             $request->payment_date = $input['due-date-payment2'];
             $request->submission_date = $input['due-date2'];
+            $request->basis = $basis;
             $request->status = $status;
             $request->save();
 

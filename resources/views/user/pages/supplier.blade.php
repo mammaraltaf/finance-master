@@ -172,19 +172,7 @@
                     </tr>
                 @endforeach
                 </tbody>
-                {{-- <tfoot>
-                <tr>
-                    <th>ID</th>
-                    <th>Tax ID</th>
-                    <th>Supplier Name</th>
-                    <th>Bank ID</th>
-                    <th>Bank Name</th>
-                    <th>Bank Account</th>
-                    <th>Bank Swift</th>
-                    <th>Accounting ID</th>
-                    <th>Action</th>
-                </tr>
-                </tfoot> --}}
+               
             </table>
         </div>
     </div>
@@ -274,9 +262,19 @@
     <!--end::Body-->
 @endsection
 @section('script')
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script type="text/javascript">
 
           $('.delete_btn').click(function () {
@@ -284,7 +282,36 @@
             $('.user-delete').val(a);
         });
         $(document).ready(function () {
-            $('#suppliertable').DataTable();
+            $('#suppliertable').DataTable({
+                dom: 'Blfrtip',
+          lengthChange: true,
+          buttons: [ 
+
+            {
+extend: 'copy',
+exportOptions: {
+columns: [0,1, 5, 6, 7, 8,9,10,11]
+}
+},
+{
+extend: 'excel',
+orientation : 'landscape',
+                pageSize : 'LEGAL',
+exportOptions: {
+columns: [0,1, 2,3,4,5,6,7]
+}
+},
+{
+extend: 'pdf',
+orientation : 'landscape',
+                pageSize : 'LEGAL',
+exportOptions: {
+columns: [0,1, 2,3,4,5,6,7]
+}
+},
+'colvis'
+           ]
+            });
         });
         $('body').on('click', '#userEdit', function () {
             var supplier_id = $(this).data('id');

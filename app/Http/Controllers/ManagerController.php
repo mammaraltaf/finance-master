@@ -9,15 +9,47 @@ use App\Models\RequestFlow;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-
+use App\Traits\LogActionTrait;
+use App\Models\LogAction;
 class ManagerController extends Controller
 {
+    use LogActionTrait;
     public function __construct()
     {
         $this->middleware(['auth', 'role:'.UserTypesEnum::Manager]);
     }
 
-
+    public function filter($id){
+        if($id=='1'){
+            $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
+            ->rightJoin('companies','request_flows.company_id','=','companies.id')
+            ->rightJoin('departments','request_flows.department_id','=','departments.id')
+            ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
+            ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
+            ->whereIn('action',[ActionEnum::MANAGER_REJECT,ActionEnum::MANAGER_ACCEPT])
+            ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
+            return view('manager.pages.accepted', compact('requests'));     
+        }elseif($id=='2'){
+            $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
+            ->rightJoin('companies','request_flows.company_id','=','companies.id')
+            ->rightJoin('departments','request_flows.department_id','=','departments.id')
+            ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
+            ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
+            ->whereIn('action',[ActionEnum::MANAGER_ACCEPT])
+            ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
+            return view('manager.pages.accepted', compact('requests'));     
+          
+        }else{
+            $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
+            ->rightJoin('companies','request_flows.company_id','=','companies.id')
+            ->rightJoin('departments','request_flows.department_id','=','departments.id')
+            ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
+            ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
+            ->whereIn('action',[ActionEnum::MANAGER_REJECT])
+            ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
+            return view('manager.pages.accepted', compact('requests')); 
+        }
+        }
     public function dashboard()
     {
         $requests = RequestFlow::whereStatus(StatusEnum::FinanceOk)->get();
