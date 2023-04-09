@@ -12,8 +12,8 @@
         <h2>Select a company to redirect to the dashboard:</h2>
         <div class="list-group">
             @foreach ($companies as $company)
-            <a id="url-company" data-url={{$company->slug}}  href="{{url('user/'.$company->slug.'/dashboard/')}}"
-               class="list-group-item ">{{ $company->name}}</a>
+            <a data-url="{{$company->slug}}"  href="#"
+               class="list-group-item url-company">{{ $company->name}}</a>
             @endforeach
 
                 {{-- <a href="#" class="list-group-item active">Account 1</a>
