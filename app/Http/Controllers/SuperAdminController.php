@@ -98,6 +98,7 @@ class SuperAdminController extends Controller
     }
 
     public function editUserPost(Request $request, $id){
+//        dd($request->all(),$id);
         try{
             $input = $request->all();
             $validator = Validator::make($input, [

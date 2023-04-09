@@ -17,7 +17,7 @@
     </div>
 
     <!--begin::Body-->
-    
+
 
     <div class="container-fluid">
 
@@ -65,7 +65,7 @@
         <table name="accounting" id="accounting" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
 
           {{-- <table id="accounting" name="accounting" class="table table-striped table-bordered" style="width:100%"> --}}
-           
+           <thead>
             <tr>
                 <th>Initiator</th>
                 <th>Company</th>
@@ -81,7 +81,7 @@
                 <th>Status</th>
                 <th>Action</th>
             </tr>
-          </thead>
+            </thead>
           <tbody>
             @foreach($requests as $request)
                 <tr>
@@ -111,9 +111,9 @@
           </tbody>
           </table>
         </div>
-      </div> 
-      
-      
+      </div>
+
+
       <div class="modal fade" id="document-modal" tabindex="-1" role="dialog" aria-labelledby="document-modal-label" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -133,20 +133,20 @@
                     <label for="document-comments">Amount In Gel:</label>
                     <input type="text" class="form-control" id="amount" name="amount" readonly>
                   </div>
-               
+
                   <div class="modal-footer">
                   <button type="submit" class="btn btn-danger" id="reject-button" value="reject" name="button">Reject</button>
                 <button type="submit" class="btn btn-success" id="approve-button" value="pay" name="button">Pay</button>
               </div>
                 </form>
               </div>
-              
+
             </div>
           </div>
       </div>
   </div>
 
-      
+
       <!-- Weekly Paid Report -->
       <!-- <div class="row">
         <div class="col-12">
@@ -167,7 +167,7 @@
         </div>
     </div> -->
   </div>
-  
+
 
 @endsection
 @section('script')
@@ -176,7 +176,7 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-    
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
@@ -198,7 +198,7 @@
             $('#accounting').DataTable({
               dom: 'Blfrtip',
           lengthChange: true,
-          buttons: [ 
+          buttons: [
 
             {
 extend: 'copy',

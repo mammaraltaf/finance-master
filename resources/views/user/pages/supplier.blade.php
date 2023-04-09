@@ -26,26 +26,26 @@
         </div>
         @endrole
         <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <form method="post" action="{{route('user.delete-supplier')}}">
-                    @csrf
-                    <div class="modal-header" style="text-align: center;">
-                        <h2 class="modal-title" id="myModalLabel">Delete</h2>
-                    </div>
-                    <div class="modal-body" style="text-align: center;">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <form method="post" action="{{route('user.delete-supplier')}}">
+                        @csrf
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title" id="myModalLabel">Delete</h2>
+                        </div>
+                        <div class="modal-body" style="text-align: center;">
 
-                        Are you sure you want to delete ?
-                        <input type="hidden" name="id" class="user-delete" value=""/>
-                    </div>
-                    <div class="modal-footer" style="text-align: center;">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </div>
-                </form>
+                            Are you sure you want to delete ?
+                            <input type="hidden" name="id" class="user-delete" value=""/>
+                        </div>
+                        <div class="modal-footer" style="text-align: center;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 
         @role('user')
         <!-- Modal HTML Markup -->
@@ -131,8 +131,9 @@
         <div class="overflow-auto">
 
             {{--All Datatable--}}
-            <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-            {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%"> --}}
+            <table name="suppliertable" id="suppliertable"
+                   class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
                     <th>ID Software</th>
@@ -161,19 +162,21 @@
                         <td>{{$supplier['accounting_id']}}</td>
                         @hasanyrole('super-admin|accounting')
                         <td>
-                            <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}" data-user_type="{{auth()->user()->user_type}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                            <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}"
+                               data-user_type="{{auth()->user()->user_type}}"
+                               class="fas px-1 fa-edit cursor-pointer text-primary"></i>
 
 
-{{--                            <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"--}}
-{{--                               data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a>--}}
-                               <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$supplier->id}}"
-                                   class="btn btn-danger delete_btn btn-sm">Delete</a>
+                            {{--                            <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"--}}
+                            {{--                               data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a>--}}
+{{--                            <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$supplier->id}}"--}}
+{{--                               class="btn btn-danger delete_btn btn-sm">Delete</a>--}}
                         </td>
                         @endhasanyrole
                     </tr>
                 @endforeach
                 </tbody>
-               
+
             </table>
         </div>
     </div>
@@ -263,64 +266,65 @@
     <!--end::Body-->
 @endsection
 @section('script')
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script type="text/javascript">
 
-          $('.delete_btn').click(function () {
+        $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
         });
         $(document).ready(function () {
             $('#suppliertable').DataTable({
                 dom: 'Blfrtip',
-          lengthChange: true,
-          buttons: [ 
+                lengthChange: true,
+                buttons: [
 
-            {
-extend: 'copy',
-exportOptions: {
-columns: [0,1, 5, 6, 7, 8,9,10,11]
-}
-},
-{
-extend: 'excel',
-orientation : 'landscape',
-                pageSize : 'LEGAL',
-exportOptions: {
-columns: [0,1, 2,3,4,5,6,7]
-}
-},
-{
-extend: 'pdf',
-orientation : 'landscape',
-                pageSize : 'LEGAL',
-exportOptions: {
-columns: [0,1, 2,3,4,5,6,7]
-}
-},
-'colvis'
-           ]
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: [0, 1, 5, 6, 7, 8, 9, 10, 11]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7]
+                        }
+                    },
+                    'colvis'
+                ]
             });
         });
         $('body').on('click', '#userEdit', function () {
