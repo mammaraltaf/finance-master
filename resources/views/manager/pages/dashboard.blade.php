@@ -5,10 +5,10 @@
 @section('content')
     <!--begin::Header-->
     <div class="btn-group my-4">
-      <button class="btn btn-info active" id="all">All</button>
-      <button class="btn btn-info" id="accept">Accepted </button>
-      <button class="btn btn-info" id="reject">Rejected </button>
-  </div>
+        <button class="btn btn-info active" id="all">All</button>
+        <button class="btn btn-info" id="accept">Accepted</button>
+        <button class="btn btn-info" id="reject">Rejected</button>
+    </div>
     <div class="card-header pt-5">
 
         <h3 class="card-title">
@@ -17,9 +17,10 @@
 
     </div>
     <div class="overflow-auto">
-        <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+        <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap"
+               style="width:100%">
 
-        {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable dt-responsive" cellspacing="0"> --}}
+            {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable dt-responsive" cellspacing="0"> --}}
             <thead>
             <tr>
                 <th>Initiator</th>
@@ -48,15 +49,16 @@
                     <td>{{$request->currency ?? ''}}</td>
                     <td>{{$request->amount_in_gel ?? ''}}</td>
                     <td>{{$request->description ?? ''}}</td>
-                    <td><?php if(isset($request->basis)){
-                                    $files=explode(',',$request->basis);
-                                    foreach($files as $file){ ?>
-                                    <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+                    <td><?php if (isset($request->basis)){
+                            $files = explode(',', $request->basis);
+                        foreach ($files as $file){ ?>
+                        <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
 
-                                <?php  }   }else{
-                                   echo "No document available";
-                                }
-                                ?></td>
+                        <?php }
+                        } else {
+                            echo "No document available";
+                        }
+                            ?></td>
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
                     <td>{{$request->status ?? ''}}</td>
@@ -71,7 +73,7 @@
                 </tr>
             @endforeach
             </tbody>
-           
+
 
         </table>
     </div>
@@ -116,19 +118,20 @@
                 </div>
                 <form action="{{route(UserTypesEnum::Manager.'.reject-request')}}" method="POST">
                     @csrf
-                <div class="modal-body">
-                    <p>Are you sure you want to reject this request?</p>
-                    <input type="hidden" name="id" class="reject-request-id" value=""/>
-                    <form>
-                        <div class="form-group">
-                            <label for="rejectComment">Comment (compulsory)</label>
-                            <textarea class="form-control" name="comment" id="rejectComment" rows="3" required></textarea>
-                        </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-danger" id="confirmRejectBtn">Reject</button>
-                </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to reject this request?</p>
+                        <input type="hidden" name="id" class="reject-request-id" value=""/>
+                        <form>
+                            <div class="form-group">
+                                <label for="rejectComment">Comment (compulsory)</label>
+                                <textarea class="form-control" name="comment" id="rejectComment" rows="3"
+                                          required></textarea>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" id="confirmRejectBtn">Reject</button>
+                    </div>
                 </form>
             </div>
         </div>
@@ -137,78 +140,79 @@
 
 @endsection
 @section('script')
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+{{--    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>--}}
+{{--    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>--}}
+{{--    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>--}}
+{{--    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>--}}
+{{--    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>--}}
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+{{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>--}}
+{{--    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>--}}
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
+{{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>--}}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#all").click(function(){
-              var id = '1';
-	var url = "{{ route('manager.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
-$("#accept").click(function(){
-              var id = '2';
-	var url = "{{ route('manager.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
-$("#reject").click(function(){
-              var id = '3';
-	var url = "{{ route('manager.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
+            $("#all").click(function () {
+                var id = '1';
+                var url = "{{ route('manager.filter', ':id') }}";
+                url = url.replace(':id', id);
+                location.href = url;
+            });
+            $("#accept").click(function () {
+                var id = '2';
+                var url = "{{ route('manager.filter', ':id') }}";
+                url = url.replace(':id', id);
+                location.href = url;
+            });
+            $("#reject").click(function () {
+                var id = '3';
+                var url = "{{ route('manager.filter', ':id') }}";
+                url = url.replace(':id', id);
+                location.href = url;
+            });
 
             $('#suppliertable').DataTable({
                 dom: 'Blfrtip',
-          lengthChange: true,
-          buttons: [ 
+                lengthChange: true,
+                buttons: [
 
-            {
-extend: 'copy',
-exportOptions: {
-columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-}
-},
-{
-extend: 'excel',
-orientation : 'landscape',
-                pageSize : 'LEGAL',
-exportOptions: {
-columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-}
-},
-{
-extend: 'pdf',
-orientation : 'landscape',
-                pageSize : 'LEGAL',
-exportOptions: {
-columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-}
-},
-'colvis'
-           ]
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        exportOptions: {
+                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+                        }
+                    },
+                    'colvis'
+                ]
             });
 
             $('#acceptBtn').click(function () {
@@ -236,13 +240,13 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
 
         rejectButton.setAttribute("disabled", "");
 
-        commentTextarea.addEventListener("input", function() {
+        commentTextarea.addEventListener("input", function () {
             if (commentTextarea.value.length > 0) {
-            rejectButton.removeAttribute("disabled");
-            rejectButton.style.display = "inline-block";
+                rejectButton.removeAttribute("disabled");
+                rejectButton.style.display = "inline-block";
             } else {
-            rejectButton.setAttribute("disabled", "");
-            rejectButton.style.display = "none";
+                rejectButton.setAttribute("disabled", "");
+                rejectButton.style.display = "none";
             }
         });
 

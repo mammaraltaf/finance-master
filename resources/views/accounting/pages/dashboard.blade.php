@@ -13,7 +13,7 @@
     </div>
 
     <!--begin::Body-->
-    
+
 
     <div class="container-fluid">
 
@@ -41,7 +41,7 @@
                 <th>Status</th>
                 <th>Action</th>
             </tr>
-          </thead>
+            </thead>
           <tbody>
             @foreach($requests as $request)
                 <tr>
@@ -96,14 +96,14 @@
                     <label for="document-comments">Amount In Gel:</label>
                     <input type="text" class="form-control" id="amount" name="amount" readonly>
                   </div>
-               
+
                   <div class="modal-footer">
                   <button type="submit" class="btn btn-danger" id="reject-button" value="reject" name="button">Reject</button>
                 <button type="submit" class="btn btn-success" id="approve-button" value="pay" name="button">Pay</button>
               </div>
                 </form>
               </div>
-              
+
             </div>
           </div>
       </div>
@@ -111,7 +111,7 @@
 
     
   </div>
-  
+
 
 @endsection
 @section('script')
@@ -149,7 +149,7 @@
       'order': [[1, 'asc']],
               dom: 'Blfrtip',
           lengthChange: true,
-          buttons: [ 
+          buttons: [
 
             {
 extend: 'copy',

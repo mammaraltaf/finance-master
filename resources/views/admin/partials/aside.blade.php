@@ -80,14 +80,23 @@
                     </div>
                     @endrole
 
-                    @hasanyrole('super-admin|accounting|user')
+                    @role('user')
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.supplier') ? 'active' : '' }}"
                            href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'supplier')}}" >
                             <span class="menu-title">Manage Suppliers</span>
                         </a>
                     </div>
-                    @endhasanyrole
+                    @endrole
+
+                        @hasanyrole('super-admin|accounting')
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.supplier') ? 'active' : '' }}"
+                               href="{{url(auth()->user()->user_type.'/'.'supplier')}}" >
+                                <span class="menu-title">Manage Suppliers</span>
+                            </a>
+                        </div>
+                        @endhasanyrole
 
                     @role(\App\Classes\Enums\UserTypesEnum::User)
                     <div class="menu-item">

@@ -94,14 +94,14 @@ Route::group(['middleware'=>'auth'],function (){
     ], function () {
         Route::get('/select-company', [UserController::class, 'selectCompany'])->name('select-company');
 //        Route::prefix('{company}')->group(function () {
-            Route::get('{company}/dashboard', [UserController::class, 'dashboard'])->name('company.dashboard');
+            Route::get('{company?}/dashboard', [UserController::class, 'dashboard'])->name('company.dashboard');
 
-            Route::get('{company}/supplier', [UserController::class, 'supplier'])->name('supplier');
+            Route::get('{company?}/supplier', [UserController::class, 'supplier'])->name('supplier');
             Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
             Route::get('/edit-supplier/{id}', [UserController::class, 'editsupplier'])->name('edit-supplier');
             Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');
             Route::post('/delete-supplier', [UserController::class, 'deletesupplier'])->name('delete-supplier');
-            Route::get('{company}/request', [UserController::class, 'request'])->name('request');
+            Route::get('{company?}/request', [UserController::class, 'request'])->name('request');
             Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
             Route::post('/delete-request', [UserController::class, 'deleterequest'])->name('delete-request');
             Route::get('/edit-request/{id}', [UserController::class, 'editrequest'])->name('edit-request');
