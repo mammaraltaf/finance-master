@@ -22,8 +22,9 @@
       <div class="row">
       <div class="container">
       <div class="overflow-auto">
-      <form id="frm-example" action="" method="POST">
-        <table name="accounting" id="accounting" class=" display table table-striped table-bordered " style="width:100%">
+      <form id="frm-example" action="{{route('accounting.payments')}}" method="POST"  enctype="multipart/form-data">
+      @csrf 
+      <table name="accounting" id="accounting" class=" display table table-striped table-bordered " style="width:100%">
    <thead>
             <tr>
               <th></th>
@@ -143,7 +144,7 @@
               'columnDefs': [
          {
             'targets': 0,
-            'checkboxes': true
+            'checkboxes': true,
          }
       ],
       'order': [[1, 'asc']],
@@ -185,13 +186,13 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
       var rows_selected = table.column(0).checkboxes.selected();
 
       // Iterate over all selected checkboxes
-      $.each(rows_selected, function(index, id){
+      $.each(rows_selected, function(index, rowId){
          // Create a hidden element
          $(form).append(
              $('<input>')
                 .attr('type', 'hidden')
                 .attr('name', 'id[]')
-                .val(id)
+                .val(rowId)
          );
       });
    });

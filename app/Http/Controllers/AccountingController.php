@@ -70,7 +70,9 @@ use LogActionTrait;
             $requests_data = RequestFlow::find($id);
             return response()->json($requests_data);
         }
-
+public function payments(Request $request){
+    dd($request);
+}
         public function pay(Request $request,$id)
         {
             try{

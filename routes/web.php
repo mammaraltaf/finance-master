@@ -162,6 +162,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/filter/{id}',[AccountingController::class,'filter'])->name('filter');
         Route::get('/payment/{id}', [AccountingController::class, 'payment'])->name('payment');
         Route::post('/payment/{id}', [AccountingController::class, 'pay'])->name('payment-post');
+        Route::post('/payments', [AccountingController::class, 'payments'])->name('payments');
     });
 });
 
