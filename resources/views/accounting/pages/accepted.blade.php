@@ -3,17 +3,33 @@
 @section('pageTitle')
 @endsection
 @section('content')
-
+<div class="ml-5 mt-3">
+        <form action="{{route('accounting.logfilters')}}" method="post"  >
+   @csrf
+        <div class="form-row">
+              <div class="form-group col-md-3">
+                <label for="start-date">Start Date</label>
+                <input type="date" class="form-control" id="start-date" name="start-date" required>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="end-date">End Date</label>
+                <input type="date" class="form-control" id="end-date" name="end-date" required>
+              </div>
+              <div class="form-group col-md-3 mt-7">
+              <input type="submit" class="btn btn-sm btn-primary" id="dates" value="Generate">
+            </div>
+            </div>
+          </form> </div>
     <!--begin::Header-->
     <div class="btn-group my-4">
-      <button class="btn btn-info active" id="all">All</button>
-      <button class="btn btn-info" id="accept">Accepted </button>
-      <button class="btn btn-info" id="reject">Rejected </button>
+      <button class="btn btn-info active" data-filter="all">All</button>
+      <button class="btn btn-info" data-filter="accounting-accept">Accepted </button>
+      <button class="btn btn-info" data-filter="accounting-reject">Rejected </button>
   </div>
     <div class="card-header pt-5">
 
         <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1"> Requests Logs</span>
+            <span class="card-label fw-bolder fs-3 mb-1">Logs</span>
         </h3>
     </div>
     <!--end::Header-->
@@ -42,7 +58,7 @@
           </thead>
           <tbody>
             @foreach($requests as $request)
-                <tr>
+                <tr class="text-nowrap text-center" data-status="{{$request['action']}}">
                     <td>{{$request['initiator'] ?? ''}}</td>
                     <td>{{$request['compname'] ?? ''}}</td>
                     <td>{{$request['depname'] ?? ''}}</td>
@@ -123,29 +139,24 @@ columns: [0,1, 5, 6, 7, 8,9,10,11]
     } );
         });
       
-
+        // Data Filter Start
         $(document).ready(function () {
-            $("#all").click(function(){
-              var id = '1';
-	var url = "{{ route('accounting.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
-$("#accept").click(function(){
-              var id = '2';
-	var url = "{{ route('accounting.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
-$("#reject").click(function(){
-              var id = '3';
-	var url = "{{ route('accounting.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
+            $(".btn-group button").click(function () {
+                var filterValue = $(this).attr('data-filter');
+                console.log("filterValue", filterValue)
+                $("#reviewDocument tbody tr").hide();
+                $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+                if (filterValue === "all") {
+                    $("#reviewDocument tbody tr").show();
+                } else {
+                    $("#reviewDocument tbody tr").hide();
+                    $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+                }
+                $(".btn-group button").removeClass("active");
+                $(this).addClass("active");
+            });
         });
-
-
+      
     </script>
 
 @endsection

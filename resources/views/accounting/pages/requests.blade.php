@@ -7,7 +7,7 @@
     <div class="card-header pt-5">
 
         <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1">Dashboard</span>
+            <span class="card-label fw-bolder fs-3 mb-1">Requests</span>
         </h3>
         </div>
         <div class="ml-5 mt-3">
@@ -186,24 +186,6 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
 
       $(document).ready(function () {
 
-        $("#all").click(function(){
-              var id = '1';
-	var url = "{{ route('accounting.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
-$("#accept").click(function(){
-              var id = '2';
-	var url = "{{ route('accounting.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
-$("#reject").click(function(){
-              var id = '3';
-	var url = "{{ route('accounting.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
             });
             $('body').on('click', '#reviewBtn', function () {
             var request_id = $(this).data('id');
