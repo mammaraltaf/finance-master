@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Traits\LogActionTrait;
 use App\Models\LogAction;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 class AccountingController extends Controller
 {
 use LogActionTrait;
@@ -21,10 +22,7 @@ use LogActionTrait;
     public function dashboard()
     {
         // $this->authorize('accounting');
-        $requests = RequestFlow::with('company','supplier','typeOfExpense')->whereIn('status',[StatusEnum::DirectorConfirmed,StatusEnum::ManagerConfirmed])->get();
-     
-     //   $requests = RequestFlow::whereStatus(StatusEnum::SubmittedForReview)->get();
-        return view('accounting.pages.dashboard', compact('requests'));
+        return view('accounting.pages.dashboard');
     }
 
     public function supplier()
@@ -34,44 +32,47 @@ use LogActionTrait;
         return view('user.pages.supplier', compact('suppliers'));
     }
 
-    public function filter($id){
-        if($id=='1'){
-            $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
-            ->rightJoin('companies','request_flows.company_id','=','companies.id')
-            ->rightJoin('departments','request_flows.department_id','=','departments.id')
-            ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
-            ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
-            ->whereIn('action',[ActionEnum::ACCOUNTING_REJECT,ActionEnum::ACCOUNTING_ACCEPT])
-            ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
-            return view('accounting.pages.accepted', compact('requests'));     
-        }elseif($id=='2'){
-            $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
-            ->rightJoin('companies','request_flows.company_id','=','companies.id')
-            ->rightJoin('departments','request_flows.department_id','=','departments.id')
-            ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
-            ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
-            ->whereIn('action',[ActionEnum::ACCOUNTING_ACCEPT])
-            ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
-            return view('accounting.pages.accepted', compact('requests'));     
-          
-        }else{
-            $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
-            ->rightJoin('companies','request_flows.company_id','=','companies.id')
-            ->rightJoin('departments','request_flows.department_id','=','departments.id')
-            ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
-            ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
-            ->whereIn('action',[ActionEnum::ACCOUNTING_REJECT])
-            ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
-            return view('accounting.pages.accepted', compact('requests')); 
-        }
-        }
-
+ 
+public function viewrequests(){
+    $requests = RequestFlow::with('company','supplier','typeOfExpense')->whereIn('status',[StatusEnum::DirectorConfirmed,StatusEnum::ManagerConfirmed])->get();
+       return view('accounting.pages.requests', compact('requests'));
+}
         public function payment($id){
             $requests_data = RequestFlow::find($id);
             return response()->json($requests_data);
         }
 public function payments(Request $request){
-    dd($request);
+    $input = $request->all();
+    $start = Carbon::parse($input['start-date'])->toDateTimeString();
+    $end = Carbon::parse($input['end-date'])->toDateTimeString();
+    $requests = RequestFlow::with('company','supplier','typeOfExpense')->whereIn('status',[StatusEnum::DirectorConfirmed,StatusEnum::ManagerConfirmed])
+    ->whereBetween('created_at',[$start,$end])
+    ->get();
+       return view('accounting.pages.requests', compact('requests'));
+}
+public function logfilters(Request $request){
+    $input = $request->all();
+    $start = Carbon::parse($input['start-date'])->toDateTimeString();
+    $end = Carbon::parse($input['end-date'])->toDateTimeString();
+    $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
+            ->rightJoin('companies','request_flows.company_id','=','companies.id')
+            ->rightJoin('departments','request_flows.department_id','=','departments.id')
+            ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
+            ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
+            ->whereIn('action',[ActionEnum::ACCOUNTING_REJECT,ActionEnum::ACCOUNTING_ACCEPT])
+            ->whereBetween('log_actions.created_at',[$start,$end])
+            ->get(['log_actions.*','log_actions.created_at as log_date','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
+            return view('accounting.pages.accepted', compact('requests'));     
+}
+public function logs(){
+    $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
+            ->rightJoin('companies','request_flows.company_id','=','companies.id')
+            ->rightJoin('departments','request_flows.department_id','=','departments.id')
+            ->rightJoin('suppliers','request_flows.supplier_id','=','suppliers.id')
+            ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
+            ->whereIn('action',[ActionEnum::ACCOUNTING_REJECT,ActionEnum::ACCOUNTING_ACCEPT])
+            ->get(['log_actions.*','log_actions.created_at as log_date','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
+            return view('accounting.pages.accepted', compact('requests'));     
 }
         public function pay(Request $request,$id)
         {
