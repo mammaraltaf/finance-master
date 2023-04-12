@@ -3,6 +3,7 @@
 @section('pageTitle')
 @endsection
 @section('content')
+
     <!--begin::Header-->
     <div class="btn-group my-4">
       <button class="btn btn-info active" id="all">All</button>
@@ -12,7 +13,7 @@
     <div class="card-header pt-5">
 
         <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1"> Documents Requests</span>
+            <span class="card-label fw-bolder fs-3 mb-1"> Requests Logs</span>
         </h3>
     </div>
     <!--end::Header-->
@@ -36,6 +37,7 @@
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
                 <th>Action</th>
+                <th>Action Date</th>
             </tr>
           </thead>
           <tbody>
@@ -61,6 +63,7 @@
                     <td>{{$request['payment_date'] ?? ''}}</td>
                     <td>{{$request['submission_date'] ?? ''}}</td>
                     <td>{{$request['action'] ?? ''}}</td>
+                    <td>{{$request['log_date'] ?? ''}}</td>
                             </tr>
             @endforeach
           </tbody>

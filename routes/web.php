@@ -159,6 +159,8 @@ Route::group(['middleware'=>'auth'],function (){
     ],function (){
         Route::get('/dashboard', [AccountingController::class, 'dashboard'])->name('dashboard');
         Route::get('/supplier', [AccountingController::class, 'supplier'])->name('supplier');
+        Route::get('/logs', [AccountingController::class, 'logs'])->name('logs');
+        Route::get('/viewrequests', [AccountingController::class, 'viewrequests'])->name('viewrequests');
         Route::get('/filter/{id}',[AccountingController::class,'filter'])->name('filter');
         Route::get('/payment/{id}', [AccountingController::class, 'payment'])->name('payment');
         Route::post('/payment/{id}', [AccountingController::class, 'pay'])->name('payment-post');
