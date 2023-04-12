@@ -23,11 +23,11 @@
       <div class="container">
       <div class="overflow-auto">
       <form id="frm-example" action="{{route('accounting.payments')}}" method="POST"  enctype="multipart/form-data">
-      @csrf 
-      <table name="accounting" id="accounting" class=" display table table-striped table-bordered " style="width:100%">
-   <thead>
+        @csrf 
+        <table name="accounting" id="accounting" class=" display table table-striped table-bordered " style="width:100%">
+        <thead>
             <tr>
-              <th></th>
+              <th><input type="checkbox" id="select-all"></th>
                 <th>Initiator</th>
                 <th>Company</th>
                 <th>Department</th>
@@ -69,7 +69,7 @@
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
                     <td>{{$request->status ?? ''}}</td>
-                    <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
+                    <td><button type="button review-selected" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
                 </tr>
             @endforeach
           </tbody>
@@ -135,6 +135,8 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script>
+
+
        $(document).ready(function () {
    
             $('#accounting').DataTable({
@@ -191,20 +193,31 @@ $("#reject").click(function(){
 });
             });
             $('body').on('click', '#reviewBtn', function () {
-            var request_id = $(this).data('id');
-          console.log(request_id);
-            $.ajax({
-                type: "GET",
-                url: "{{url('accounting/payment/')}}" + '/' + request_id,
-                success: function (response) {
-                    console.log(response);
-                    $('#id').val(response.id);
-                    $('#amount').val(response.amount_in_gel);
-                    $('#directorAcceptRejectForm').attr('action', "{{url('accounting/payment/')}}" + '/' + request_id);
-                }
+              var request_id = $(this).data('id');
+              console.log(request_id);
+              $.ajax({
+                  type: "GET",
+                  url: "{{url('accounting/payment/')}}" + '/' + request_id,
+                  success: function (response) {
+                      console.log(response);
+                      $('#id').val(response.id);
+                      $('#amount').val(response.amount_in_gel);
+                      $('#directorAcceptRejectForm').attr('action', "{{url('accounting/payment/')}}" + '/' + request_id);
+                  }
 
-            });
+              });
         });
+
+
+    $(document).ready(function() {
+        $('#select-all').click(function() {
+            $('input[type="checkbox"]').prop('checked', this.checked);
+         
+        });
+    });
+    
+    
+
     </script>
 
 @endsection
