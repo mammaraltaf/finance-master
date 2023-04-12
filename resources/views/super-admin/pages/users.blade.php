@@ -144,19 +144,12 @@
                             <span class="badge badge-success">{{$user->user_type}}</span>
                         </td>
 
-                        @if(($user->user_type == UserTypesEnum::Admin) || ($user->user_type == UserTypesEnum::User))
-
                             <td>
                                 <i id="userEdit" id="userEdit" data-toggle="modal" data-target="#ModalEdit"
                                    data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
                                    class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
                             </td>
-                        @else
-                            <td>
-                                -
-                            </td>
-                        @endif
 
                     </tr>
                 @endforeach

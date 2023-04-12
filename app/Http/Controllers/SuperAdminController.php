@@ -37,7 +37,8 @@ class SuperAdminController extends Controller
     {
         try{
             $users = User::where('user_type','!=',UserTypesEnum::SuperAdmin)->get();
-            $roles = Role::whereIn('name',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
+//            $roles = Role::whereIn('name',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
+            $roles = Role::where('name','!=',UserTypesEnum::SuperAdmin)->get();
             $companies = Company::all();
             $departments = Department::all();
             return view('super-admin.pages.users', compact('users','roles','companies','departments'));

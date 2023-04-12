@@ -23,7 +23,26 @@ class FinanceController extends Controller
     {
         // $this->authorize('finance');
         $requests = RequestFlow::with('company','supplier','typeOfExpense')->whereStatus(StatusEnum::SubmittedForReview)->get();
-        return view('finance.pages.dashboard', compact('requests'));
+        $financeAccepted = LogAction::where('action', ActionEnum::FINANCE_ACCEPT)->count();
+        $financeRejected = LogAction::where('action', ActionEnum::FINANCE_REJECT)->count();
+
+        $data = [
+            'labels' => ['Request Submitted For Review', 'Finance Accepted', 'Finance Rejected'],
+            'datasets' => [
+                [
+//                    'data' => [10, 20, 30],
+                    'data' => [$requests->count(), $financeAccepted, $financeRejected],
+                    'backgroundColor' => ['#ff6384', '#36a2eb', '#ffce56'],
+                    'hoverBackgroundColor' => ['#ff6384', '#36a2eb', '#ffce56']
+                ]
+            ]
+        ];
+        return view('finance.pages.dashboard', compact('requests','data'));
+    }
+
+    public function requestFinance(){
+        $requests = RequestFlow::with('company','supplier','typeOfExpense')->whereStatus(StatusEnum::SubmittedForReview)->get();
+        return view('finance.pages.request', compact('requests'));
     }
     public function filter($id){
         if($id=='1'){
@@ -34,7 +53,7 @@ class FinanceController extends Controller
             ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
             ->whereIn('action',[ActionEnum::FINANCE_REJECT,ActionEnum::FINANCE_ACCEPT])
             ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
-            return view('finance.pages.accepted', compact('requests'));     
+            return view('finance.pages.accepted', compact('requests'));
         }elseif($id=='2'){
             $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
             ->rightJoin('companies','request_flows.company_id','=','companies.id')
@@ -43,8 +62,8 @@ class FinanceController extends Controller
             ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
             ->whereIn('action',[ActionEnum::FINANCE_ACCEPT])
             ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
-            return view('finance.pages.accepted', compact('requests'));     
-          
+            return view('finance.pages.accepted', compact('requests'));
+
         }else{
             $requests=LogAction::rightJoin('request_flows','request_flows.id','=','log_actions.request_flow_id')
             ->rightJoin('companies','request_flows.company_id','=','companies.id')
@@ -53,7 +72,7 @@ class FinanceController extends Controller
             ->rightJoin('type_of_expanses','request_flows.expense_type_id','=','type_of_expanses.id')
             ->whereIn('action',[ActionEnum::FINANCE_REJECT])
             ->get(['log_actions.*','request_flows.*','companies.name as compname','departments.name as depname','suppliers.supplier_name as supname','type_of_expanses.name as expname'])->toArray();
-            return view('finance.pages.accepted', compact('requests')); 
+            return view('finance.pages.accepted', compact('requests'));
         }
         }
 //    public function getNewRequests()
@@ -79,8 +98,8 @@ class FinanceController extends Controller
             $requestFlow->status = StatusEnum::FinanceOk;
             $requestFlow->comment = $request->comment ?? null ;
             $requestFlow->save();
-        $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::FINANCE_ACCEPT);
-        
+            $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::FINANCE_ACCEPT);
+
             return redirect()->back()->with('success', 'Request Approved Successfully');
         }
         catch (Exception $e){
@@ -103,7 +122,7 @@ class FinanceController extends Controller
             $requestFlow->status = StatusEnum::FinanceRejected;
             $requestFlow->comment = $request->comment;
             $requestFlow->save();
-            
+
             $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::FINANCE_REJECT);
             return redirect()->back()->with('success', 'Request Rejected Successfully');
         }

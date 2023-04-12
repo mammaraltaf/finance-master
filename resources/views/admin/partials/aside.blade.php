@@ -53,6 +53,14 @@
                     </div>
                     @endif
 
+                    @role('finance')
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::Finance.'.request') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::Finance.'.request')}}" >
+                                <span class="menu-title">Manage Request</span>
+                            </a>
+                        </div>
+                        @endrole
+
                     {{--SUPER ADMIN--}}
                     @role(\App\Classes\Enums\UserTypesEnum::SuperAdmin)
                     <div class="menu-item">

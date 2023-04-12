@@ -117,6 +117,7 @@ Route::group(['middleware'=>'auth'],function (){
         'as' => UserTypesEnum::Finance.'.',
     ],function (){
         Route::get('/dashboard', [FinanceController::class, 'dashboard'])->name('dashboard');
+        Route::get('/request', [FinanceController::class, 'requestFinance'])->name('request');
         Route::get('/get-new-requests', [FinanceController::class, 'getNewRequests'])->name('get-new-requests');
         Route::get('/get-request-detail/{id}', [FinanceController::class, 'getRequestDetail'])->name('get-request-detail');
         Route::post('/approve-request', [FinanceController::class, 'approveRequest'])->name('approve-request');
