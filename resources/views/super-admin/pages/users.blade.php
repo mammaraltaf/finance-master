@@ -298,7 +298,6 @@
 
 @endsection
 @section('script')
-<<<<<<< HEAD
             <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
             <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
             <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
@@ -315,7 +314,6 @@
             
             
             <script type="text/javascript">
-=======
     {{-- Multiple select --}}
     {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
@@ -333,7 +331,6 @@
     {{-- End --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
->>>>>>> fe72e0d9a057c984382c750fa7b8b66b875ec51b
 
 
     <script type="text/javascript">
