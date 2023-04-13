@@ -332,9 +332,9 @@
             var user_type = $(this).data('user_type');
             $.ajax({
                 type: "GET",
-                url: "{{url('super-admin/edit-supplier/')}}" + '/' + supplier_id,
+                url: "{{url('/')}}/" + user_type + "/edit-supplier/" + supplier_id,
                 success: function (response) {
-                    console.log(response);
+                    // console.log(response);
                     $('#id_software').val(response.id_software);
                     $('#name').val(response.supplier_name);
                     $('#tax_id').val(response.tax_id);
@@ -343,7 +343,7 @@
                     $('#bank_account').val(response.bank_account);
                     $('#bank_swift').val(response.bank_swift);
                     $('#accounting_id').val(response.accounting_id);
-                    $('#userFormEdit').attr('action', "{{url('super-admin/edit-supplier/')}}" + '/' + supplier_id);
+                    $('#userFormEdit').attr('action', "{{url('/')}}/" + user_type + "/edit-supplier/" + supplier_id);
                 }
 
             });

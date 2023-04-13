@@ -98,8 +98,6 @@ Route::group(['middleware'=>'auth'],function (){
 
             Route::get('{company?}/supplier', [UserController::class, 'supplier'])->name('supplier');
             Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
-            Route::get('/edit-supplier/{id}', [UserController::class, 'editsupplier'])->name('edit-supplier');
-            Route::post('/edit-supplier/{id}', [UserController::class, 'updatesupplier'])->name('edit-supplier-post');
             Route::post('/delete-supplier', [UserController::class, 'deletesupplier'])->name('delete-supplier');
             Route::get('{company?}/request', [UserController::class, 'request'])->name('request');
             Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
@@ -166,6 +164,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/payment/{id}', [AccountingController::class, 'pay'])->name('payment-post');
         Route::post('/payments', [AccountingController::class, 'payments'])->name('payments');
         Route::post('/logfilters', [AccountingController::class, 'logfilters'])->name('logfilters');
+        Route::get('/edit-supplier/{id}', [AccountingController::class, 'editsupplier'])->name('edit-supplier');
+        Route::post('/edit-supplier/{id}', [AccountingController::class, 'updatesupplier'])->name('edit-supplier-post');
     });
 });
 
