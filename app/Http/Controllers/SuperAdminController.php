@@ -164,6 +164,7 @@ class SuperAdminController extends Controller
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
+                'logo' => 'required',
                 'id_software' => 'required | unique:companies,id_software',
                 'tax_id' => 'required | unique:companies,tax_id',
                 'company_name' => 'required',
@@ -175,8 +176,17 @@ class SuperAdminController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
+           
+            if ($request->hasfile('logo')) {
+                $file=$request->file('logo');
+               
+                    $name = time() . rand(1, 50) . '.' . $file->extension();
+                    $file->move(public_path('image'), $name);
+                    $logo = $name;
+            }
 
             $company = Company::create([
+                'logo' => $logo,
                 'id_software' => $input['id_software'],
                 'tax_id' => $input['tax_id'],
                 'name' => $input['company_name'],

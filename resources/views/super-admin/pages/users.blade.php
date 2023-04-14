@@ -112,7 +112,7 @@
 
                             <div class="form-group">
                                 <div>
-                                    <button type="submit" class="btn btn-success">Add User</button>
+                                    <input type="submit" class="btn btn-success" value="Add User">
                                 </div>
                             </div>
                         </form>
