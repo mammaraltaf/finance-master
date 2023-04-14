@@ -52,16 +52,13 @@
                                 <label for="avatar-upload">
                                   <img src="https://res.cloudinary.com/crunchbase-production/image/upload/c_lpad,h_256,w_256,f_auto,q_auto:eco,dpr_1/jtejvun3edchdngsgccx" class="img-avatar" alt="Avatar">
                                 </label>
-                                <input type="file" class="d-none" id="avatar-upload" accept="image/*">
+                                <input type="file" class="d-none" id="avatar-upload" name="logo" accept="image/*">
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label">ID / Software (Must be Unique)</label>
                                 <div>
-                                    <input type="text" name="id_software" placeholder="Enter ID / Software"
-                                           class="form-control input-lg" required>
+                                    <input type="hidden" name="id_software" value="{{ Illuminate\Support\Str::random(10) }}"  class="form-control input-lg" required>
                                 </div>
-                                <br>
 
                                 <label class="control-label">Tax ID</label>
                                 <div>
@@ -87,11 +84,6 @@
                                 <label class="control-label">Legal Address</label>
                                 <div>
                                     <textarea name="legal_address" cols="30" rows="10" class="form-control"></textarea>
-                                </div>
-                                <div class="form-group">
-                                    <label for="basis">Basis</label>
-                                    <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
-                                    <div class="d-flex justify-content-between align-items-center" id="preview"></div>
                                 </div>
                                 <br>
                                 <label class="control-label">Select Admin</label>
@@ -127,6 +119,12 @@
                               enctype="multipart/form-data">
                             @csrf
                             <input type="hidden" name="company_id" id="company_id">
+                            <div class="avatar">
+                                <label for="avatar-upload">
+                                  <img src="" class="img-avatar" alt="Avatar" id="logoedit">
+                                </label>
+                                <input type="file" class="d-none" id="avatar-upload" name="logo" accept="image/*">
+                            </div>
                             <div class="form-group">
                                 <label class="control-label">ID / Software (Must be Unique)</label>
                                 <div>
@@ -197,6 +195,7 @@
             {{-- <table id="companyTable" name="companyTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
+                <th>Logo</th>
                     <th>ID / Software</th>
                     <th>Tax ID</th>
                     <th>Company Name</th>
@@ -208,6 +207,7 @@
                 <tbody>
                 @foreach($companies as $company)
                     <tr class="text-nowrap text-center">
+                        <td><img src="{{asset('image/'.$company->logo)}}" alt="Company Logo" width="50" height="40"></td>
                         <td>{{$company->id_software}}</td>
                         <td>{{$company->tax_id}}</td>
                         <td>{{$company->name}}</td>
@@ -292,11 +292,12 @@
         });
         $('body').on('click', '#companyEdit', function () {
             var company_id = $(this).data('id');
+            console.log(company_id);
             $.ajax({
                 type: "GET",
                 url: "{{url('/super-admin/edit-company/')}}"+'/'+company_id,
                 success:function (response){
-                    console.log(response.user_id);
+                $('#company_id').val(company_id);
                     $('#id_software').val(response.id_software);
                     $('#tax_id').val(response.tax_id);
                     $('#company_name').val(response.name);

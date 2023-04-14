@@ -12,7 +12,6 @@
             <span class="card-label fw-bolder fs-3 mb-1">Manage Users</span>
         </h3>
 
-
     </div>
     <div class="card-toolbar">
     </div>
@@ -32,7 +31,7 @@
                         <h1 class="modal-title">Add New User</h1>
                     </div>
                     <div class="modal-body">
-                        <form id="categoryForm" method="POST" action="{{route('super-admin.add-user-post')}}"
+                        <form id="add-user" method="POST" action="{{route('super-admin.add-user-post')}}"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
@@ -112,7 +111,7 @@
 
                             <div class="form-group">
                                 <div>
-                                    <button type="submit" class="btn btn-success">Add User</button>
+                                    <input type="submit" class="btn btn-success" value="Add User">
                                 </div>
                             </div>
                         </form>
@@ -145,7 +144,7 @@
                         </td>
 
                             <td>
-                                <i id="userEdit" id="userEdit" data-toggle="modal" data-target="#ModalEdit"
+                                <i id="userEdit" data-toggle="modal" data-target="#ModalEdit"
                                    data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
                                    class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
@@ -292,11 +291,12 @@
 
 @endsection
 @section('script')
-    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    {{-- 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script> --}}
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
     <link
@@ -304,8 +304,8 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
     />
     {{-- End --}}
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
 
     {{-- Multiple select --}}
         {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
@@ -315,14 +315,14 @@
             href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
         />
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> --}}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
-    <link
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script> --}}
+    {{-- <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
-    />
+    /> --}}
     {{-- End --}}
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
+    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
 
 
     <script type="text/javascript">
