@@ -125,6 +125,12 @@
                                 </label>
                                 <input type="file" class="d-none" id="avatar-upload" name="logo" accept="image/*">
                             </div>
+                            <div class="avatar">
+                                <label for="avatar-upload">
+                                  <img src='' class="img-avatar" alt="Avatar" id="logoedit">
+                                </label>
+                                <input type="file" class="d-none" id="avatar-upload" name="logo" accept="image/*">
+                            </div>
                             <div class="form-group">
                                 <label class="control-label">ID / Software (Must be Unique)</label>
                                 <div>
@@ -297,6 +303,7 @@
                 type: "GET",
                 url: "{{url('/super-admin/edit-company/')}}"+'/'+company_id,
                 success:function (response){
+                    console.log(response)
                 $('#company_id').val(company_id);
                     $('#id_software').val(response.id_software);
                     $('#tax_id').val(response.tax_id);
@@ -305,9 +312,29 @@
                     $('#legal_address').val(response.legal_address);
                     $('#user-id').val(response.user_id);
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
+
+                    if (response.logo) {
+                        var logoUrl = "{{url('image')}}/"+response.logo;
+                        $('#logoedit').attr('src', logoUrl);
+                        $('#logoedit').attr('alt', response.logo);
+                        $('#logoedit').siblings('label').html(response.logo);
+                    }
+
+                    // Handle logo update
+                    $('#avatar-upload').on('change', function() {
+                        var logo = $(this)[0].files[0];
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            $('#logoedit').attr('src', e.target.result);
+                            $('#logoedit').siblings('label').html(logo.name);
+                        };
+                        reader.readAsDataURL(logo);
+                    });
                 }
 
             });
+
+
         });
         //====================
         // Avatar upload
