@@ -160,7 +160,7 @@ class SuperAdminController extends Controller
 
     public function companyPost(Request $request)
     {
-        $this->authorize('create company');
+//        $this->authorize('create company');
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
@@ -193,10 +193,10 @@ class SuperAdminController extends Controller
                 'slug' => Str::slug($input['company_name']),
                 'threshold_amount' => $input['threshold_amount'],
                 'legal_address' => $input['legal_address'],
-                'user_id' => $input['user_id'],
             ]);
-            $user_id=$input['user_id'];
-//            $company->user()->attach($user_id);
+
+            $company->users()->attach($input['user_id']);
+
             if ($company) {
                 return redirect()->back()->with('success', 'Company created successfully');
             }
@@ -214,16 +214,16 @@ class SuperAdminController extends Controller
         }])
             ->where('id', $id)
             ->first();
+
         return response()->json($company);
     }
 
     public function editCompanyPost(Request $request, $id)
     {
-        $this->authorize('edit company');
+//        $this->authorize('edit company');
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
-                'id_software' => 'required | unique:companies,id_software,' . $id,
                 'tax_id' => 'required | unique:companies,tax_id,' . $id,
                 // 'logo' => 'required',
                 'company_name' => 'required',
