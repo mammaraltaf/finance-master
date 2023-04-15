@@ -52,10 +52,14 @@ class ManagerController extends Controller
         }
     public function dashboard()
     {
-        $requests = RequestFlow::whereStatus(StatusEnum::FinanceOk)->get();
-        return view('manager.pages.dashboard', compact('requests'));
+        return view('manager.pages.dashboard');
     }
-
+    public function viewrequests()
+    {
+        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::FinanceOk])->get();
+        return view('manager.pages.requests', compact('requests'));
+    }
+    
     public function approveRequest(Request $request)
     {
         try{

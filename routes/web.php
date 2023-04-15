@@ -120,7 +120,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/get-request-detail/{id}', [FinanceController::class, 'getRequestDetail'])->name('get-request-detail');
         Route::post('/approve-request', [FinanceController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [FinanceController::class, 'rejectRequest'])->name('reject-request');
-        Route::get('/filter/{id}',[FinanceController::class,'filter'])->name('filter');
+        Route::post('/payments', [FinanceController::class, 'payments'])->name('payments');
+        Route::get('/logs', [FinanceController::class, 'logs'])->name('logs');
+        Route::post('/logfilters', [FinanceController::class, 'logfilters'])->name('logfilters');
     });
 
 
@@ -133,7 +135,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/dashboard', [ManagerController::class, 'dashboard'])->name('dashboard');
         Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
-        Route::get('/filter/{id}',[ManagerController::class,'filter'])->name('filter');
+        Route::get('/viewrequests', [ManagerController::class, 'viewrequests'])->name('viewrequests');
     });
 
 

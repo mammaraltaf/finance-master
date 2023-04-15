@@ -312,7 +312,7 @@
                     $('#legal_address').val(response.legal_address);
                     $('#user-id').val(response.user_id);
                     $('#logoedit').attr('src',response.logo);
-                    // ('#avatar-upload').val(null);
+                     $('#avatar-upload').val(null);
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
 
                     if (response.logo) {

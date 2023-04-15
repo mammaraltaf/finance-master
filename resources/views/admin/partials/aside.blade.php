@@ -59,6 +59,12 @@
                                 <span class="menu-title">Manage Request</span>
                             </a>
                         </div>
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"
+                               href="{{url(auth()->user()->user_type.'/'.'logs')}}" >
+                                <span class="menu-title">Manage Logs</span>
+                            </a>
+                        </div>
                         @endrole
 
                     {{--SUPER ADMIN--}}
@@ -106,13 +112,14 @@
                             </a>
                         </div>
                         @endhasanyrole
-                        @hasanyrole('accounting|director')
+                        @hasanyrole('accounting|director|manager')
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.viewrequests') ? 'active' : '' }}"
                                href="{{url(auth()->user()->user_type.'/'.'viewrequests')}}" >
                                 <span class="menu-title">Manage Requests</span>
                             </a>
                         </div>
+                        
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"
                                href="{{url(auth()->user()->user_type.'/'.'logs')}}" >

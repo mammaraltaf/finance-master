@@ -12,7 +12,7 @@
         </h3>
     </div>
     <div class="ml-5 mt-3">
-        <form action="{{route('director.payments')}}" method="post"  >
+        <form action="" method="post"  >
    @csrf
         <div class="form-row">
               <div class="form-group col-md-3">
