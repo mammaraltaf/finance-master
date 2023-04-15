@@ -11,7 +11,7 @@
         </h3>
         </div>
         <div class="ml-5 mt-3">
-        <form action="{{route('accounting.payments')}}" method="post"  >
+        <form action="{{route('manager.payments')}}" method="post"  >
    @csrf
         <div class="form-row">
               <div class="form-group col-md-3">
@@ -35,7 +35,7 @@
 
     
       <!-- Document List -->
-      <div class="row">
+     
       <div class="container">
       <div class="overflow-auto">
      
@@ -166,16 +166,6 @@
 
 @endsection
 @section('script')
-{{--    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>--}}
-{{--    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>--}}
-{{--    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>--}}
-{{--    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>--}}
-{{--    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>--}}
-
-{{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>--}}
-{{--    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>--}}
-
-{{--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>--}}
     <link rel="stylesheet" type="text/css"
           href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -191,25 +181,6 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script>
         $(document).ready(function () {
-            $("#all").click(function () {
-                var id = '1';
-                var url = "{{ route('manager.filter', ':id') }}";
-                url = url.replace(':id', id);
-                location.href = url;
-            });
-            $("#accept").click(function () {
-                var id = '2';
-                var url = "{{ route('manager.filter', ':id') }}";
-                url = url.replace(':id', id);
-                location.href = url;
-            });
-            $("#reject").click(function () {
-                var id = '3';
-                var url = "{{ route('manager.filter', ':id') }}";
-                url = url.replace(':id', id);
-                location.href = url;
-            });
-
             $('#suppliertable').DataTable({
                 dom: 'Blfrtip',
                 lengthChange: true,

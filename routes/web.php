@@ -136,6 +136,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
         Route::get('/viewrequests', [ManagerController::class, 'viewrequests'])->name('viewrequests');
+        Route::post('/payments', [ManagerController::class, 'payments'])->name('payments');
+        Route::get('/logs', [ManagerController::class, 'logs'])->name('logs');
+        Route::post('/logfilters', [ManagerController::class, 'logfilters'])->name('logfilters');
     });
 
 
