@@ -54,6 +54,7 @@
                                 </label>
                                 <input type="file" class="d-none" id="avatar-upload" name="logo" accept="image/*">
                             </div>
+                            {{-- <div id="preview"></div> --}}
 
                             <div class="form-group">
                                 <div>
@@ -304,9 +305,11 @@
                     $('#company_name').val(response.name);
                     $('#threshold_amount').val(response.threshold_amount);
                     $('#legal_address').val(response.legal_address);
-                    $('#user-id').val(response.user_id);
                     $('#logoedit').attr('src',response.logo);
-                     $('#avatar-upload').val(null);
+                    $('#avatar-upload').val(null);
+                    var userType = response.users[0].id; 
+                    $('#user-id').val(userType);
+                    console.log("User type", userType)
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
                     
                     $('#logoedit').attr('src', response.logo);
@@ -359,32 +362,46 @@
         //=======================
         // Preview Files Start
         //=======================
+        // $(document).ready(function() {
+        //     $("#avatar-upload").change(function() {
+        //         $(".img-avatar").empty(); // Clear the preview div
+        //         if(this.files && this.files.length > 0) {
+        //             for(let i = 0; i < this.files.length; i++) {
+        //                 let file = this.files[i];
+        //                 let reader = new FileReader();
+                        
+        //                 reader.onload = function(e) {
+        //                 let fileType = file.type.split('/')[0];
+        //                 let previewItem = '';
+        //                 if (fileType === 'image') {
+        //                     previewItem = '<div class="w-100"><img src="' + e.target.result + '" class="img-thumbnail" width="100%"></div>';
+        //                 } else if (fileType === 'application' && file.type === 'application/pdf') {
+        //                     previewItem = '<div class=""><embed class="p-2" src="' + e.target.result + '" type="application/pdf" width="100%"></div>';
+        //                 } else if (fileType === 'application' && file.type === 'application/msword') {
+        //                     previewItem = '<div><i class="far fa-file-word text-primary" style="font-size: 24px; width: 100%;"></i><embed src="' + e.target.result + '" type="application/msword" width="100%"></div>';
+        //                 } else {
+        //                     previewItem = '<p>' + file.name + ' - ' + file.size + ' bytes</p>';
+        //                 }
+        //                 $(".img-avatar").append(previewItem);
+        //                 };
+        //                 reader.readAsDataURL(file);
+        //             }
+        //         }
+        //     });
+        // });
         $(document).ready(function() {
-            $("#basis").change(function() {
-                $("#preview").empty(); // Clear the preview div
-                if(this.files && this.files.length > 0) {
-                    for(let i = 0; i < this.files.length; i++) {
-                        let file = this.files[i];
-                        let reader = new FileReader();
-                        reader.onload = function(e) {
-                        let fileType = file.type.split('/')[0];
-                        let previewItem = '';
-                        if (fileType === 'image') {
-                            previewItem = '<div class="w-100"><img src="' + e.target.result + '" class="img-thumbnail" width="100%"></div>';
-                        } else if (fileType === 'application' && file.type === 'application/pdf') {
-                            previewItem = '<div class=""><embed class="p-2" src="' + e.target.result + '" type="application/pdf" width="100%"></div>';
-                        } else if (fileType === 'application' && file.type === 'application/msword') {
-                            previewItem = '<div><i class="far fa-file-word text-primary" style="font-size: 24px; width: 100%;"></i><embed src="' + e.target.result + '" type="application/msword" width="100%"></div>';
-                        } else {
-                            previewItem = '<p>' + file.name + ' - ' + file.size + ' bytes</p>';
-                        }
-                        $("#preview").append(previewItem);
-                        };
-                        reader.readAsDataURL(file);
-                    }
+            $('#avatar-upload').on('change', function(e) {
+                var file = e.target.files[0];
+                var reader = new FileReader();
+                
+                reader.readAsDataURL(file);
+                
+                reader.onload = function(e) {
+                $('.img-avatar').attr('src', e.target.result);
                 }
             });
         });
+
         //====================
         // Preview Files End
         //====================
