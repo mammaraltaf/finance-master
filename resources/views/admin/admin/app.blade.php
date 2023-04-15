@@ -118,7 +118,7 @@
 <script src="{{asset('assets/plugins/global/plugins.bundle.js')}}"></script>
 {{--<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         $.ajaxSetup({
@@ -126,7 +126,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-
         $('.url_company').change(function (e) {
             e.preventDefault();
             // Get the button value

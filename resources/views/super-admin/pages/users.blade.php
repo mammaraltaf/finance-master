@@ -19,7 +19,6 @@
             <span class="card-label fw-bolder fs-3 mb-1">Manage Users</span>
         </h3>
 
-
     </div>
     <div class="card-toolbar">
     </div>
@@ -156,7 +155,7 @@
                         </td>
 
                             <td>
-                                <i id="userEdit" id="userEdit" data-toggle="modal" data-target="#ModalEdit"
+                                <i id="userEdit" data-toggle="modal" data-target="#ModalEdit"
                                    data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
                                    class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>

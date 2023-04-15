@@ -56,12 +56,9 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label">ID / Software (Must be Unique)</label>
                                 <div>
-                                    <input type="text" name="id_software" placeholder="Enter ID / Software"
-                                           class="form-control input-lg" required>
+                                    <input type="hidden" name="id_software" value="{{ Illuminate\Support\Str::random(10) }}"  class="form-control input-lg" required>
                                 </div>
-                                <br>
 
                                 <label class="control-label">Tax ID</label>
                                 <div>
@@ -88,12 +85,7 @@
                                 <div>
                                     <textarea name="legal_address" cols="30" rows="10" class="form-control"></textarea>
                                 </div>
-                                <!-- <div class="form-group">
-                                    <label for="basis">Basis</label>
-                                    <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
-                                    <div class="d-flex justify-content-between align-items-center" id="preview"></div>
-                                </div>
-                                <br> -->
+                                <br>
                                 <label class="control-label">Select Admin</label>
                                 <div>
                                     <select name="user_id" class="form-control">
@@ -128,8 +120,7 @@
                             @csrf
                             <input type="hidden" name="company_id" id="company_id">
                             <div class="avatar">
-                                <label for="avatar-upload">
-                                    
+                                <label for="avatar-upload">        
                                   <img src='' class="img-avatar" alt="Avatar" id="logoedit">
                                 </label>
                                 <input type="file" class="d-none" id="avatar-upload" name="logo" accept="image/*">
@@ -171,14 +162,14 @@
                                 <br>
                                 <label class="control-label">Select Admin</label>
                                 <div>
-                                    {{-- <select name="user_id" id="user-id" class="form-control">
-                                        <option value="">Select Admin</option>
+                                    {{-- <select name="user_id" id="user-id" class="form-control" required>
+                                        <option value="" disabled>Select Admin</option>
                                         @foreach($admins as $admin)
                                             <option value="{{$admin->id}}">{{$admin->name}}</option>
                                         @endforeach
                                     </select> --}}
-                                    <select name="user_id" id="user-id" class="form-control">
-                                        <option value="">Select Admin</option>
+                                    <select name="user_id" id="user-id" class="form-control" required>
+                                        <option value="" disabled>Select Admin</option>
                                         @foreach($admins as $admin)
                                             <option value="{{$admin->id}}">{{$admin->name}}</option>
                                         @endforeach
@@ -305,7 +296,7 @@
             $.ajax({
                 type: "GET",
                 url: "{{url('/super-admin/edit-company/')}}"+'/'+company_id,
-                success:function (response){  
+                success:function (response){
                     console.log(response)
                 $('#company_id').val(company_id);
                     $('#id_software').val(response.id_software);
@@ -314,6 +305,8 @@
                     $('#threshold_amount').val(response.threshold_amount);
                     $('#legal_address').val(response.legal_address);
                     $('#user-id').val(response.user_id);
+                    $('#logoedit').attr('src',response.logo);
+                     $('#avatar-upload').val(null);
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
                     
                     $('#logoedit').attr('src', response.logo);
@@ -341,20 +334,15 @@
                     });
 
                     
-                }
-
-                
+                }   
                     
             });
 
 
         });
         //====================
-        // Avatar upload
         //====================
         const avatarUpload = document.getElementById("avatar-upload");
-            const avatarImage = document.querySelector(".avatar img");
-
             avatarUpload.addEventListener("change", () => {
             const file = avatarUpload.files[0];
             const reader = new FileReader();

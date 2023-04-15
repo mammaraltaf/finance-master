@@ -2,20 +2,16 @@
 @extends('admin.admin.app')
 @section('pageTitle')
 @endsection
-@section('styles')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-@endsection
 @section('content')
-    <!--begin::Header-->
-   
+    
     <div class="card-header pt-5">
 
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Requests</span>
         </h3>
-    </div>
-    <div class="ml-5 mt-3">
-        <form action="{{route('finance.payments')}}" method="post"  >
+        </div>
+        <div class="ml-5 mt-3">
+        <form action="{{route('accounting.payments')}}" method="post"  >
    @csrf
         <div class="form-row">
               <div class="form-group col-md-3">
@@ -31,17 +27,25 @@
             </div>
             </div>
           </form> </div>
-    <!--end::Header-->
+         
     <!--begin::Body-->
 
 
-    <div class="overflow-auto px-2">
-        <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap"
+    <div class="container-fluid">
+
+    
+      <!-- Document List -->
+      <div class="row">
+      <div class="container">
+      <div class="overflow-auto">
+     
+     
+      <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap"
                style="width:100%">
 
             {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable dt-responsive" cellspacing="0"> --}}
             <thead>
-            <tr class="text-center text-nowrap">
+            <tr>
                 <th>Initiator</th>
                 <th>Company</th>
                 <th>Department</th>
@@ -59,7 +63,7 @@
             </thead>
             <tbody>
             @foreach($requests as $request)
-                <tr class="text-center">
+                <tr>
                     <td>{{$request->initiator ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
@@ -93,10 +97,13 @@
             @endforeach
             </tbody>
 
-        </table>
-    </div>
 
-    <!-- Confirmation Modal -->
+        </table>
+        </div>
+      </div> 
+      
+     
+         <!-- Confirmation Modal -->
     <div class="modal fade" id="acceptConfirmationModal" tabindex="-1" aria-labelledby="acceptConfirmationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
@@ -105,7 +112,7 @@
                     <h5 class="modal-title" id="acceptConfirmationModalLabel">Accept Request</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{route(UserTypesEnum::Finance.'.approve-request')}}" method="POST">
+                <form action="{{route(UserTypesEnum::Manager.'.approve-request')}}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <p>Are you sure you want to accept this request?</p>
@@ -124,8 +131,8 @@
             </div>
         </div>
     </div>
-    <!-- Rejection Modal -->
-    <div class="modal fade" id="rejectConfirmationModal" tabindex="-1" aria-labelledby="rejectConfirmationModalLabel"
+ <!-- Rejection Modal -->
+ <div class="modal fade" id="rejectConfirmationModal" tabindex="-1" aria-labelledby="rejectConfirmationModalLabel"
          aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -133,11 +140,12 @@
                     <h5 class="modal-title" id="rejectConfirmationModalLabel">Reject Request</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{route(UserTypesEnum::Finance.'.reject-request')}}" method="POST">
+                <form action="{{route(UserTypesEnum::Manager.'.reject-request')}}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <p>Are you sure you want to reject this request?</p>
                         <input type="hidden" name="id" class="reject-request-id" value=""/>
+                        <form>
                             <div class="form-group">
                                 <label for="rejectComment">Comment (compulsory)</label>
                                 <textarea class="form-control" name="comment" id="rejectComment" rows="3"
@@ -152,7 +160,9 @@
             </div>
         </div>
     </div>
-    </div>
+    
+  </div>
+
 
 @endsection
 @section('script')
@@ -179,9 +189,27 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
     <script>
         $(document).ready(function () {
+            $("#all").click(function () {
+                var id = '1';
+                var url = "{{ route('manager.filter', ':id') }}";
+                url = url.replace(':id', id);
+                location.href = url;
+            });
+            $("#accept").click(function () {
+                var id = '2';
+                var url = "{{ route('manager.filter', ':id') }}";
+                url = url.replace(':id', id);
+                location.href = url;
+            });
+            $("#reject").click(function () {
+                var id = '3';
+                var url = "{{ route('manager.filter', ':id') }}";
+                url = url.replace(':id', id);
+                location.href = url;
+            });
+
             $('#suppliertable').DataTable({
                 dom: 'Blfrtip',
                 lengthChange: true,
@@ -232,7 +260,6 @@
                 $('#rejectConfirmationModal').modal('hide');
             });
         });
-
         // Disable reject button if comment is empty
         const commentTextarea = document.getElementById("rejectComment");
         const rejectButton = document.getElementById("confirmRejectBtn");
@@ -249,6 +276,6 @@
             }
         });
 
-        
     </script>
+
 @endsection
