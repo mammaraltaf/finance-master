@@ -57,6 +57,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/edit-user/{id}', [SuperAdminController::class, 'editUser'])->name('edit-user');
         Route::post('/edit-user/{id}', [SuperAdminController::class, 'editUserPost'])->name('edit-user-post');
         Route::post('/delete-user', [SuperAdminController::class, 'deleteUser'])->name('delete-user');
+        Route::post('/block-user', [SuperAdminController::class, 'blockUser'])->name('block-user');
 
         /*Manage Company*/
         Route::get('/company', [SuperAdminController::class, 'company'])->name('company');

@@ -23,6 +23,8 @@ class StatusEnum
     public const Active = 'active';
     public const Inactive = 'inactive';
 
+    public const Blocked = 'blocked';
+
     public static $Statuses  =
     [
         self::New,
@@ -36,12 +38,13 @@ class StatusEnum
         self::ManagerConfirmed,
         self::DirectorConfirmed,
         self::ConfirmedPartially,
-        self::Paid
+        self::Paid,
     ];
 
     public static $Basic_statuses =
     [
         self::Active,
-        self::Inactive
+        self::Inactive,
+        self::Blocked,
     ];
 }

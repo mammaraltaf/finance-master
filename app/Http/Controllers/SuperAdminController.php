@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\Enums\StatusEnum;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\Supplier;
@@ -93,8 +94,9 @@ class SuperAdminController extends Controller
 
     public function editUser($id)
     {
-        $this->authorize('edit user');
-        $user = User::find($id);
+//        $this->authorize('edit user');
+//        $user = User::find($id);
+        $user = User::with(['companies','departments'])->where('id',$id)->first();
         return response()->json($user);
     }
 
@@ -147,6 +149,15 @@ class SuperAdminController extends Controller
         return redirect()->back()->with('success', 'User deleted successfully');
     }
 
+    public function blockUser(Request $request)
+    {
+        dd($request->all());
+        $user = User::where('id', $request->id)->first();
+        $user->status = StatusEnum::Blocked;
+        $user->save();
+        return redirect()->back()->with('success', 'User status updated successfully');
+    }
+
 
 
 
@@ -176,10 +187,10 @@ class SuperAdminController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-           
+
             if ($request->hasfile('logo')) {
                 $file=$request->file('logo');
-               
+
                     $name = time() . rand(1, 50) . '.' . $file->extension();
                     $file->move(public_path('image'), $name);
                     $logo = $name;
