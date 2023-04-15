@@ -129,6 +129,7 @@
                             <input type="hidden" name="company_id" id="company_id">
                             <div class="avatar">
                                 <label for="avatar-upload">
+                                    
                                   <img src='' class="img-avatar" alt="Avatar" id="logoedit">
                                 </label>
                                 <input type="file" class="d-none" id="avatar-upload" name="logo" accept="image/*">
@@ -314,7 +315,9 @@
                     $('#legal_address').val(response.legal_address);
                     $('#user-id').val(response.user_id);
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
-
+                    
+                    $('#logoedit').attr('src', response.logo);
+                    $('#avatar-upload').val(null);
                     if (response.logo) {
                         var logoUrl = "{{url('image')}}/"+response.logo;
                         $('#logoedit').attr('src', logoUrl);
@@ -325,14 +328,22 @@
                     // Handle logo update
                     $('#avatar-upload').on('change', function() {
                         var logo = $(this)[0].files[0];
-                        var reader = new FileReader();
-                        reader.onload = function(e) {
-                            $('#logoedit').attr('src', e.target.result);
-                            $('#logoedit').siblings('label').html(logo.name);
-                        };
-                        reader.readAsDataURL(logo);
+                        
+                        $("#avatar-upload").val(logo)
+                       
+
+                        // var reader = new FileReader();
+                        // reader.onload = function(e) {
+                        //     $('#logoedit').attr('src', e.target.result);
+                        //     $('#logoedit').siblings('label').html(logo.name);
+                        // };
+                        // reader.readAsDataURL(logo);
                     });
+
+                    
                 }
+
+                
                     
             });
 

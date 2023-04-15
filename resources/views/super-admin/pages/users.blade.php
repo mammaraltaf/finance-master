@@ -5,6 +5,13 @@
 @endsection
 @section('content')
     <!--begin::Header-->
+
+    <style>
+        .dropdown-menu.show{
+            width: 100% !important;
+            padding: 10px 0;
+        }
+    </style>
     <br>
     <div class="card-header pt-5">
 
@@ -70,34 +77,38 @@
                                 <br>
 
                                 <label class="control-label">Company</label>
-                                <div id="single" class="">
+                                <div class="company-selects">
+                                </div>
+                                {{-- <div id="single" class="">
                                     <select name="company[]" class="form-control">
                                         <option value="">Select Company</option>
                                         @foreach($companies as $company)
                                             <option value="{{$company->id}}">{{$company->name}}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> --}}
 
-                                <div id='multiple' class="">
+                                {{-- <div id='multi-company' class="">
                                     <select id="companies" name="company[]" multiple class="form-control">
                                         @foreach($companies as $company)
                                             <option value="{{$company->id}}">{{$company->name}}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> --}}
                                 <br>
 
                                 <label class="control-label">Department</label>
-                                <div id='multi-dept' class="">
-                                    <select id="departments" name="department[]" class="form-control" multiple
+                                <div class="department-selects">
+                                </div>
+                                {{-- <div id='multi-dept' class="">
+                                    <select id="departments" name="department" class="form-control" multiple
                                             aria-placeholder="Select department" required>
-                                        @foreach($departments as $department)
+                                         @foreach($departments as $department)
                                             <option value="{{$department->id}}">{{$department->name}}</option>
                                         @endforeach
                                     </select>
-                                </div>
-                                <div id='single-dept' class="">
+                                </div> --}}
+                                {{-- <div id='single-dept' class="">
                                     <select id="department" name="department[]" class="form-control"
                                             aria-placeholder="Select department" required>
                                         <option value="">Select Department</option>
@@ -105,7 +116,7 @@
                                             <option value="{{$department->id}}">{{$department->name}}</option>
                                         @endforeach
                                     </select>
-                                </div>
+                                </div> --}}
                                 <br>
 
                             </div>
@@ -228,7 +239,9 @@
                             </div>
                             <br>
                             <label class="control-label">Company</label>
-                            <div id="edit-single-company">
+                            <div class="edit-company-selects">
+                            </div>
+                            {{-- <div id="edit-single-company">
                                 <select name="company" class="form-control" aria-placeholder="Select company" required>
                                     <option value="">Select Company</option>
                                     @foreach($companies as $company)
@@ -236,8 +249,8 @@
                                             value="{{$company->name}}" {{ $company->name == $user->company? 'selected' : '' }}>{{$company->name}}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div id="edit-multi-company">
+                            </div> --}}
+                            {{-- <div id="edit-multi-company">
                                 <select id="edit-companies" name="company" multiple class="form-control"
                                         aria-placeholder="Select company" required>
                                     @foreach($companies as $company)
@@ -245,11 +258,16 @@
                                             value="{{$company->name}}" {{ $company->name == $user->company? 'selected' : '' }}>{{$company->name}}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
+                            
+
                             <br>
 
                             <label class="control-label">Department</label>
-                            <div id="edit-single-dept" class="">
+                            <div class="edit-department-selects">
+                            </div>
+                            
+                            {{-- <div id="edit-single-dept" class="">
                                 <select name="department" class="form-control" aria-placeholder="Select department"
                                         required>
                                     <option value="">Select Department</option>
@@ -258,8 +276,8 @@
                                             value="{{$department->name}}" {{ $department->name == $user->department? 'selected' : '' }}>{{$department->name}}</option>
                                     @endforeach
                                 </select>
-                            </div>
-                            <div id="edit-multi-dept" class="">
+                            </div> --}}
+                            {{-- <div id="edit-multi-dept" class="">
                                 <select id="edit-departments" name="department" multiple class="form-control"
                                         aria-placeholder="Select department" required>
                                     @foreach($departments as $department)
@@ -267,7 +285,7 @@
                                             value="{{$department->name}}" {{ $department->name == $user->department? 'selected' : '' }}>{{$department->name}}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                             <br>
                             <label class="control-label">Password</label>
                             <div>
@@ -286,97 +304,37 @@
                         </div>
                     </form>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
 
 @endsection
 @section('script')
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    {{-- 
+{{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+    
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script> --}}
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+    
     <script
         src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
     />
-    {{-- End --}}
-    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
-
-    {{-- Multiple select --}}
-        {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
-        <link
-            rel="stylesheet"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-        />
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> --}}
-        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script> --}}
-    {{-- <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
-    /> --}}
-    {{-- End --}}
-    {{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
-
-
+    
     <script type="text/javascript">
 
-        // multiple select dropwdown
-        $(document).ready(function () {
-            $("#companies").multiselect({
-                nonSelectedText: "Select Company",
-                // enableFiltering: true,
-                // enableCaseInsensitiveFiltering: true,
-                // buttonWidth: "400px",
-            });
-        });
-        $(document).ready(function () {
-            $("#departments").multiselect({
-                nonSelectedText: "Select Department",
-                // enableFiltering: true,
-                // enableCaseInsensitiveFiltering: true,
-                // buttonWidth: "400px",
-            });
+       
+        $(document).ready(function(){
             $('.delete_btn').click(function () {
                 var a = $(this).data('id');
                 $('.user-delete').val(a);
             });
-        });
+        })
     </script>
-    <script type="text/javascript">
-
-
-        $(document).ready(function () {
-            // $('#categoryTable').DataTable({});
-            $(document).ready(function () {
-                $("#edit-companies").multiselect({
-                    nonSelectedText: "Select Company",
-                    // enableFiltering: true,
-                    // enableCaseInsensitiveFiltering: true,
-                    // buttonWidth: "400px",
-                });
-            });
-            $(document).ready(function () {
-                $("#edit-departments").multiselect({
-                    nonSelectedText: "Select Department",
-                    // enableFiltering: true,
-                    // enableCaseInsensitiveFiltering: true,
-                    // buttonWidth: "400px",
-                });
-            });
-            $('.delete_btn').click(function () {
-                var a = $(this).data('id');
-                $('.user-delete').val(a);
-            });
-        });
-    </script>
+   
     <script type="text/javascript">
 
 
@@ -399,66 +357,159 @@
                 type: "GET",
                 url: "{{url('/super-admin/edit-user/')}}" + '/' + user_id,
                 success: function (response) {
-                    // console.log(response);
+                    console.log(response);
                     $('#name').val(response.name);
                     $('#email').val(response.email);
-                    $('#type').val(response.user_type);
                     $('#password').val(response.original_password);
-                    // $('#type').prop('selectedIndex', response.user_type);
+                    $('select[name="type"]').val(response.user_type).trigger('change');
                     $('#userFormEdit').attr('action', "{{url('/super-admin/edit-user/')}}" + '/' + user_id);
                 }
 
             });
         });
 
-        $(document).ready(function () {
-            $('#multiple').hide();
-            $('#multi-dept').hide();
+        // company select field
+        $('select[name="type"]').on('change', function() {
+            var selectedRole = $(this).val();
+            var companySelects = $('.company-selects');
 
-            $('select[name="type"]').on('change', function () {
-                if ($(this).val() === 'user') {
-                    $('#single').hide();
-                    $('#multiple').show();
-                    $('#single-dept').hide();
-                    $('#multi-dept').show();
-                } else if ($(this).val() === 'admin') {
-                    $('#multiple').hide();
-                    $('#single').show();
-                    $('#multi-dept').hide();
-                    $('#single-dept').show();
-                } else {
-                    $('#single').hide();
-                    $('#multiple').show();
-                    $('#single-dept').hide();
-                    $('#multi-dept').show();
-                }
+            // Remove any existing select elements
+            companySelects.empty();
+
+            if (selectedRole === 'admin') {
+                // Add single select dropdown for company
+                var selectElement = $('<select name="company[]" class=" form-control">');
+                selectElement.append('<option value="">Select Company</option>');
+                @foreach($companies as $company)
+                selectElement.append('<option class="dropdown-menu show" value="{{$company->id}}">{{$company->name}}</option>');
+                @endforeach
+                companySelects.append(selectElement);
+            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
+                // Add multiple select dropdown for company
+                var selectElement = $('<select id="companies" name="company[]" multiple class="form-control">');
+                @foreach($companies as $company)
+                selectElement.append('<option value="{{$company->id}}">{{$company->name}}</option>');
+                @endforeach
+                companySelects.append(selectElement);
+                $(document).ready(function() {
+                $('#companies').multiselect({
+                nonSelectedText: 'Select Company',
+                // enableFiltering: true,
+                // enableCaseInsensitiveFiltering: true,
+                buttonWidth: '100%',
+                maxHeight: 300
+                });
             });
+            }
+        });
+        // department select field
+        $('select[name="type"]').on('change', function() {
+            var selectedRole = $(this).val();
+            var departmentSelects = $('.department-selects');
+
+            // Remove any existing select elements
+            departmentSelects.empty();
+
+            if (selectedRole === 'admin') {
+                // Add single select dropdown for company
+                var selectElement = $('<select name="department[]" class="form-control">');
+                selectElement.append('<option value="">Select Department</option>');
+                @foreach($departments as $department)
+                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
+                @endforeach
+                departmentSelects.append(selectElement);
+            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
+                // Add multiple select dropdown for company
+                var selectElement = $('<select id="departments" name="department[]" multiple class="form-control">');
+                @foreach($departments as $department)
+                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
+                @endforeach
+                departmentSelects.append(selectElement);
+                $(document).ready(function() {
+                $('#departments').multiselect({
+                nonSelectedText: 'Select Departments',
+                // enableFiltering: true,
+                // enableCaseInsensitiveFiltering: true,
+                buttonWidth: '100%',
+                maxHeight: 300
+                });
+            });
+            }
+        });
+        
+        //edit company select field
+        $('select[name="type"]').on('change', function() {
+            var selectedRole = $(this).val();
+            var companySelects = $('.edit-company-selects');
+
+            // Remove any existing select elements
+            companySelects.empty();
+
+            if (selectedRole === 'admin') {
+                // Add single select dropdown for company
+                var selectElement = $('<select name="company[]" class="form-control">');
+                selectElement.append('<option value="">Select Company</option>');
+                @foreach($companies as $company)
+                selectElement.append('<option value="{{$company->id}}">{{$company->name}}</option>');
+                @endforeach
+                companySelects.append(selectElement);
+            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
+                // Add multiple select dropdown for company
+                var selectElement = $('<select id="edit-companies" name="company[]" multiple class="form-control">');
+                @foreach($companies as $company)
+                selectElement.append('<option value="{{$company->id}}">{{$company->name}}</option>');
+                @endforeach
+                companySelects.append(selectElement);
+                $(document).ready(function() {
+                $('#edit-companies').multiselect({
+                nonSelectedText: 'Select Company',
+                // enableFiltering: true,
+                // enableCaseInsensitiveFiltering: true,
+                buttonWidth: '100%',
+                maxHeight: 300
+                });
+            });
+            }
+        });
+        
+        //edit department select field
+        $('select[name="type"]').on('change', function() {
+            var selectedRole = $(this).val();
+            var departmentSelects = $('.edit-department-selects');
+
+            // Remove any existing select elements
+            departmentSelects.empty();
+
+            if (selectedRole === 'admin') {
+                // Add single select dropdown for company
+                var selectElement = $('<select name="department[]" class="form-control">');
+                selectElement.append('<option value="">Select Department</option>');
+                @foreach($departments as $department)
+                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
+                @endforeach
+                departmentSelects.append(selectElement);
+            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
+                // Add multiple select dropdown for company
+                var selectElement = $('<select id="edit-departments" name="department[]" multiple class="form-control">');
+                @foreach($departments as $department)
+                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
+                @endforeach
+                departmentSelects.append(selectElement);
+                $(document).ready(function() {
+                $('#edit-departments').multiselect({
+                nonSelectedText: 'Select Departments',
+                // enableFiltering: true,
+                // enableCaseInsensitiveFiltering: true,
+                buttonWidth: '100%',
+                maxHeight: 300
+                });
+            });
+            }
         });
 
-        // edit user
-        $(document).ready(function () {
-            $('#edit-multi-company').hide();
-            $('#edit-multi-dept').hide();
-
-            $('select[name="type"]').on('change', function () {
-                if ($(this).val() === 'user') {
-                    $('#edit-single-company').hide();
-                    $('#edit-multi-company').show();
-                    $('#edit-single-dept').hide();
-                    $('#edit-multi-dept').show();
-                } else if ($(this).val() === 'admin') {
-                    $('#edit-multi-company').hide();
-                    $('#edit-single-company').show();
-                    $('#edit-multi-dept').hide();
-                    $('#edit-single-dept').show();
-                } else {
-                    $('#edit-single-company').hide();
-                    $('#edit-multi-company').show();
-                    $('#edit-single-dept').hide();
-                    $('#edit-multi-dept').show();
-                }
-            });
-        })
+   
+       
+    
 
 
     </script>
