@@ -534,7 +534,6 @@
         })
         $('body').on('click', '.remove-file', function () {
             var fileName = $(this).data('file');
-            console.log("fileName", fileName);
             $(this).parent().remove();
             // removedFiles.push(fileName);
             var basisFiles = $('#basis3').val().split(',');
