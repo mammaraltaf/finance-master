@@ -129,7 +129,7 @@
                             <input type="hidden" name="company_id" id="company_id">
                             <div class="avatar">
                                 <label for="avatar-upload">
-                                  <img src='' class="img-avatar" alt="Avatar" id="logoedit">
+                                  <img src="" class="img-avatar" alt="Avatar" id="logoedit">
                                 </label>
                                 <input type="file" class="d-none" id="avatar-upload" name="logo" accept="image/*">
                             </div>
@@ -170,14 +170,14 @@
                                 <br>
                                 <label class="control-label">Select Admin</label>
                                 <div>
-                                    {{-- <select name="user_id" id="user-id" class="form-control">
-                                        <option value="">Select Admin</option>
+                                    {{-- <select name="user_id" id="user-id" class="form-control" required>
+                                        <option value="" disabled>Select Admin</option>
                                         @foreach($admins as $admin)
                                             <option value="{{$admin->id}}">{{$admin->name}}</option>
                                         @endforeach
                                     </select> --}}
-                                    <select name="user_id" id="user-id" class="form-control">
-                                        <option value="">Select Admin</option>
+                                    <select name="user_id" id="user-id" class="form-control" required>
+                                        <option value="" disabled>Select Admin</option>
                                         @foreach($admins as $admin)
                                             <option value="{{$admin->id}}">{{$admin->name}}</option>
                                         @endforeach
@@ -313,6 +313,8 @@
                     $('#threshold_amount').val(response.threshold_amount);
                     $('#legal_address').val(response.legal_address);
                     $('#user-id').val(response.user_id);
+                    $('#logoedit').attr('src',response.logo);
+                    // ('#avatar-upload').val(null);
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
 
                     if (response.logo) {

@@ -225,6 +225,7 @@ class SuperAdminController extends Controller
             $validator = Validator::make($input, [
                 'id_software' => 'required | unique:companies,id_software,' . $id,
                 'tax_id' => 'required | unique:companies,tax_id,' . $id,
+                // 'logo' => 'required',
                 'company_name' => 'required',
                 'threshold_amount' => 'required',
                 'legal_address' => 'required',
@@ -234,7 +235,7 @@ class SuperAdminController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-
+dd($input);
             $company = Company::find($id);
             $company->id_software = $input['id_software'];
             $company->tax_id = $input['tax_id'];

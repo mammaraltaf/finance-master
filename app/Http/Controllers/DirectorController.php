@@ -24,9 +24,12 @@ class DirectorController extends Controller
     public function dashboard()
     {
         // $this->authorize('director');
-        $requests = RequestFlow::with('company','supplier','typeOfExpense')->whereIn('status',[StatusEnum::FinanceOk,StatusEnum::ManagerConfirmed])->get();
-       
-        return view('director.pages.dashboard', compact('requests'));
+         return view('director.pages.dashboard');
+    }
+    public function viewrequests()
+    {
+        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::FinanceOk, StatusEnum::ManagerConfirmed])->get();
+        return view('director.pages.requests', compact('requests'));
     }
 public function filter($id){
 if($id=='1'){
