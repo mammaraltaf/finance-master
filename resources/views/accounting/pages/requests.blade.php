@@ -39,7 +39,7 @@
       <div class="container">
       <div class="overflow-auto">
      
-      <table name="accounting" id="accounting" class=" display table table-striped table-bordered " style="width:100%">
+      <table name="accounting" id="accounting" class="display table table-striped table-bordered " style="width:100%">
    <thead>
             <tr>
               <th></th>
@@ -62,7 +62,7 @@
             @foreach($requests as $request)
                 <tr>
                   <td>
-                    <input type="checkbox" name="id[]" value="<?php  echo $request->id ?>">
+                    
                   </td>
                     <td>{{$request->initiator ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
@@ -148,11 +148,24 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
+<link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
+<script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
     <script>
        $(document).ready(function () {
    
             $('#accounting').DataTable({
+      'columnDefs': [
+         {
+            'targets': 0,
+            'checkboxes': {
+               'selectRow': true
+            }
+         }
+      ],
+      'select': {
+         'style': 'multi'
+      },
+      'order': [[1, 'asc']] ,
               dom: 'Blfrtip',
           lengthChange: true,
           buttons: [

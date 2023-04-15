@@ -75,7 +75,10 @@ class AccountingController extends Controller
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('accounting.pages.accepted', compact('requests'));
     }
-
+public function alldata(){
+    $data_ids = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])->get();
+    dd(response()->json($data_ids));
+}
     public function logs()
     {
         $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')

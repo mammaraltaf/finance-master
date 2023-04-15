@@ -235,7 +235,7 @@ class SuperAdminController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-dd($input);
+
             $company = Company::find($id);
             $company->id_software = $input['id_software'];
             $company->tax_id = $input['tax_id'];
@@ -243,7 +243,7 @@ dd($input);
             $company->slug = Str::slug($input['company_name']);
             $company->threshold_amount = $input['threshold_amount'];
             $company->legal_address = $input['legal_address'];
-            $company->user_id = $input['user_id'];
+            // $company->user_id = $input['user_id'];
             $company->save();
 
             if ($company) {

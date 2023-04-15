@@ -174,6 +174,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/logfilters', [AccountingController::class, 'logfilters'])->name('logfilters');
         Route::get('/edit-supplier/{id}', [AccountingController::class, 'editsupplier'])->name('edit-supplier');
         Route::post('/edit-supplier/{id}', [AccountingController::class, 'updatesupplier'])->name('edit-supplier-post');
+        Route::get('/alldata', [AccountingController::class, 'alldata'])->name('alldata');
     });
 });
 

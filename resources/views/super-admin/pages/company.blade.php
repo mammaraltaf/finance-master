@@ -120,10 +120,10 @@
                             @csrf
                             <input type="hidden" name="company_id" id="company_id">
                             <div class="avatar">
-                                <label for="avatar-upload">        
+                                <!-- <label for="avatar-upload">         -->
                                   <img src='' class="img-avatar" alt="Avatar" id="logoedit">
-                                </label>
-                                <input type="file" class="d-none" id="avatar-upload" name="logo" accept="image/*">
+                                <!-- </label> -->
+                               
                             </div>
                             <div class="form-group">
                                 <label class="control-label">ID / Software (Must be Unique)</label>
