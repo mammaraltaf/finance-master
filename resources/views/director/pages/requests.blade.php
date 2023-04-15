@@ -12,7 +12,7 @@
         </h3>
     </div>
     <div class="ml-5 mt-3">
-        <form action="" method="post"  >
+        <form action="{{route('director.payments')}}" method="post"  >
    @csrf
         <div class="form-row">
               <div class="form-group col-md-3">
@@ -206,26 +206,7 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
             rejectButton.style.display = "none";
             }
         });
-        $(document).ready(function () {
-            $("#all").click(function(){
-              var id = '1';
-	var url = "{{ route('director.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
-$("#accept").click(function(){
-              var id = '2';
-	var url = "{{ route('director.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
-$("#reject").click(function(){
-              var id = '3';
-	var url = "{{ route('director.filter', ':id') }}";
-	url = url.replace(':id', id);
-	location.href = url;
-});
-        });
+       
 
         $('body').on('click', '#reviewBtn', function () {
             var req_id = $(this).data('id');

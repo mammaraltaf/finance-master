@@ -149,11 +149,12 @@ Route::group(['middleware'=>'auth'],function (){
         'as' => UserTypesEnum::Director.'.',
     ],function (){
         Route::get('/dashboard', [DirectorController::class, 'dashboard'])->name('dashboard');
-      //  Route::get('/logs', [DirectorController::class, 'logs'])->name('logs');
+        Route::get('/logs', [DirectorController::class, 'logs'])->name('logs');
         Route::get('/viewrequests', [DirectorController::class, 'viewrequests'])->name('viewrequests');
-        Route::get('/filter/{id}',[DirectorController::class,'filter'])->name('filter');
+        Route::post('/logfilters', [DirectorController::class, 'logfilters'])->name('logfilters');
         Route::post('/reject', [DirectorController::class, 'rejectRequest'])->name('reject');
         Route::post('/accept', [DirectorController::class, 'approveRequest'])->name('accept');
+        Route::post('/payments', [DirectorController::class, 'payments'])->name('payments');
     });
 
 
