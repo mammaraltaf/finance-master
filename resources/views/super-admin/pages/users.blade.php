@@ -160,8 +160,8 @@
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
                                    class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
                             </td>
-
                     </tr>
+                    
                 @endforeach
                 </tbody>
                 {{-- <tfoot>
