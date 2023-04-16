@@ -121,10 +121,10 @@
                             @csrf
                             <input type="hidden" name="company_id" id="company_id">
                             <div class="avatar">
-                                <!-- <label for="avatar-upload">         -->
+                                <label for="edit-avatar-upload">  
                                   <img src='' class="img-avatar" alt="Avatar" id="logoedit">
-                                <!-- </label> -->
-                               
+                                </label> 
+                                <input type="file" class="d-none" id="edit-avatar-upload" name="logo" accept="image/*">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">ID / Software (Must be Unique)</label>
@@ -193,7 +193,7 @@
         {{-- <div class="overflow-auto"> --}}
             <table name="companyTable" id="companyTable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
 
-            {{-- <table id="companyTable" name="companyTable" class="ui celled table allTable" style="width:100%"> --}}
+                {{-- <table id="companyTable" name="companyTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
                 <th>Logo</th>
@@ -291,6 +291,8 @@
         $(document).ready(function () {
             $('#companyTable').DataTable();
         });
+
+        //Edit Company Get Req
         $('body').on('click', '#companyEdit', function () {
             var company_id = $(this).data('id');
             console.log(company_id);
@@ -305,15 +307,15 @@
                     $('#company_name').val(response.name);
                     $('#threshold_amount').val(response.threshold_amount);
                     $('#legal_address').val(response.legal_address);
-                    $('#logoedit').attr('src',response.logo);
-                    $('#avatar-upload').val(null);
+                    // $('#logoedit').attr('src',response.logo);
+                    // $('#avatar-upload').val(null);
                     var userType = response.users[0].id; 
                     $('#user-id').val(userType);
                     console.log("User type", userType)
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
                     
                     $('#logoedit').attr('src', response.logo);
-                    $('#avatar-upload').val(null);
+                    $('#edit-avatar-upload').val(null);
                     if (response.logo) {
                         var logoUrl = "{{url('image')}}/"+response.logo;
                         $('#logoedit').attr('src', logoUrl);
@@ -322,18 +324,18 @@
                     }
 
                     // Handle logo update
-                    $('#avatar-upload').on('change', function() {
+                    $('#edit-avatar-upload').on('change', function() {
                         var logo = $(this)[0].files[0];
                         
-                        $("#avatar-upload").val(logo)
+                        $("#edit-avatar-upload").val(logo)
                        
 
-                        // var reader = new FileReader();
-                        // reader.onload = function(e) {
-                        //     $('#logoedit').attr('src', e.target.result);
-                        //     $('#logoedit').siblings('label').html(logo.name);
-                        // };
-                        // reader.readAsDataURL(logo);
+                        var reader = new FileReader();
+                        reader.onload = function(e) {
+                            $('#logoedit').attr('src', e.target.result);
+                            $('#logoedit').siblings('label').html(logo.name);
+                        };
+                        reader.readAsDataURL(logo);
                     });
 
                     
@@ -343,21 +345,40 @@
 
 
         });
-        //====================
-        //====================
-        const avatarUpload = document.getElementById("avatar-upload");
-            avatarUpload.addEventListener("change", () => {
-            const file = avatarUpload.files[0];
-            const reader = new FileReader();
+        
+        $('#edit-avatar-upload').on('change', function() {
+            var logo = $(this)[0].files[0];
 
-            reader.addEventListener("load", () => {
-                avatarImage.src = reader.result;
-            });
-
-            if (file) {
-                reader.readAsDataURL(file);
-            }
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                $('#logoedit').attr('src', e.target.result);
+                $('#logoedit').siblings('label').html(logo.name);
+            };
+            reader.readAsDataURL(logo);
         });
+
+        // Edit company Post Req 
+        $('body').on('click', '#submitFormBtn', function() {
+            var company_id = $(this).data('id');
+            var formData = new FormData($('#companyFormEdit')[0]);
+            formData.append('logo', $('#edit-avatar-upload')[0].files[0]);
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('/super-admin/edit-company/') }}" + '/' + company_id,
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    console.log("response::::::",response);
+                    console.log("form", formData);
+
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        });
+    
 
         //=======================
         // Preview Files Start
