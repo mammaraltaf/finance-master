@@ -161,7 +161,7 @@
                                    class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
                             </td>
                     </tr>
-                    
+
                 @endforeach
                 </tbody>
                 {{-- <tfoot>
@@ -323,9 +323,9 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
     />
     <script type="text/javascript">
-        $('#deleteBtn').click(function () {
+       $('.delete_btn').click(function () {
             var a = $(this).data('id');
-            $('#deleteid').val(a);
+            $('.user-delete').val(a);
         });
     </script>
 
