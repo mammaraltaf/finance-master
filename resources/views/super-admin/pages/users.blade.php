@@ -349,6 +349,9 @@
             });
         });
 
+        var editCompanyOption;
+
+        
         $('body').on('click', '#userEdit', function () {
             var user_id = $(this).data('id');
             // console.log(user_id);
@@ -362,10 +365,70 @@
                     $('#password').val(response.original_password);
                     $('select[name="type"]').val(response.user_type).trigger('change');
                     $('#userFormEdit').attr('action', "{{url('/super-admin/edit-user/')}}" + '/' + user_id);
-                }
+                    // Preload companies dropdown
+                    var companies = response.companies;
 
+                    var companySelects = $('.edit-company-selects');
+                    companySelects.empty();
+
+                    if (response.user_type === 'admin') {
+                        // Add single select dropdown for company
+                        var selectElement = $('<select id="edit-admin-comp"  name="company[]" class="form-control"></select>');
+                        selectElement.append('<option value="">Select Company</option>');
+                        $.each(companies, function(index, company) {
+                            selectElement.append('<option value="' + company.id + '" selected>' + company.name + '</option>');
+                        });
+                        companySelects.append(selectElement);
+                    } else {
+                        // Add multiple select dropdown for company
+                        var selectElement = $('<select id="edit-companies" name="company[]" multiple class="form-control"></select>');
+                        $.each(companies, function(index, company) {
+                            selectElement.append('<option value="' + company.id + '" selected>' + company.name + '</option>');
+                        });
+                        companySelects.append(selectElement);
+                        $('#edit-companies').multiselect({
+                            nonSelectedText: 'Select Company',
+                            // enableFiltering: true,
+                            // enableCaseInsensitiveFiltering: true,
+                            buttonWidth: '100%',
+                            maxHeight: 300
+                        });
+                    }
+
+                                // Preload departments dropdown
+                    var departments = response.departments;
+                    var departmentSelects = $('.edit-department-selects');
+
+                    // Remove any existing select elements
+                    departmentSelects.empty();
+
+                    if (response.user_type === 'admin') {
+                        // Add single select dropdown for department
+                        var selectElement = $('<select name="department[]" class="form-control">');
+                        selectElement.append('<option value="">Select Department</option>');
+                        $.each(departments, function(index, department) {
+                            selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
+                        });
+                        departmentSelects.append(selectElement);
+                    } else{
+                        // Add multiple select dropdown for department
+                        var selectElement = $('<select id="edit-departments" name="department[]" multiple class="form-control">');
+                        $.each(departments, function(index, department) {
+                            selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
+                        });
+                        departmentSelects.append(selectElement);
+                        $('#edit-departments').multiselect({
+                            nonSelectedText: 'Select Departments',
+                            buttonWidth: '100%',
+                            maxHeight: 300
+                        });
+                    }  
+                }
             });
         });
+
+        
+        
 
         // company select field
         $('select[name="type"]').on('change', function() {
@@ -436,75 +499,7 @@
             }
         });
 
-        //edit company select field
-        $('select[name="type"]').on('change', function() {
-            var selectedRole = $(this).val();
-            var companySelects = $('.edit-company-selects');
-
-            // Remove any existing select elements
-            companySelects.empty();
-
-            if (selectedRole === 'admin') {
-                // Add single select dropdown for company
-                var selectElement = $('<select name="company[]" class="form-control">');
-                selectElement.append('<option value="">Select Company</option>');
-                @foreach($companies as $company)
-                selectElement.append('<option value="{{$company->id}}">{{$company->name}}</option>');
-                @endforeach
-                companySelects.append(selectElement);
-            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
-                // Add multiple select dropdown for company
-                var selectElement = $('<select id="edit-companies" name="company[]" multiple class="form-control">');
-                @foreach($companies as $company)
-                selectElement.append('<option value="{{$company->id}}">{{$company->name}}</option>');
-                @endforeach
-                companySelects.append(selectElement);
-                $(document).ready(function() {
-                $('#edit-companies').multiselect({
-                nonSelectedText: 'Select Company',
-                // enableFiltering: true,
-                // enableCaseInsensitiveFiltering: true,
-                buttonWidth: '100%',
-                maxHeight: 300
-                });
-            });
-            }
-        });
-
-        //edit department select field
-        $('select[name="type"]').on('change', function() {
-            var selectedRole = $(this).val();
-            var departmentSelects = $('.edit-department-selects');
-
-            // Remove any existing select elements
-            departmentSelects.empty();
-
-            if (selectedRole === 'admin') {
-                // Add single select dropdown for company
-                var selectElement = $('<select name="department[]" class="form-control">');
-                selectElement.append('<option value="">Select Department</option>');
-                @foreach($departments as $department)
-                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
-                @endforeach
-                departmentSelects.append(selectElement);
-            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
-                // Add multiple select dropdown for company
-                var selectElement = $('<select id="edit-departments" name="department[]" multiple class="form-control">');
-                @foreach($departments as $department)
-                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
-                @endforeach
-                departmentSelects.append(selectElement);
-                $(document).ready(function() {
-                $('#edit-departments').multiselect({
-                nonSelectedText: 'Select Departments',
-                // enableFiltering: true,
-                // enableCaseInsensitiveFiltering: true,
-                buttonWidth: '100%',
-                maxHeight: 300
-                });
-            });
-            }
-        });
+        
 
 
 

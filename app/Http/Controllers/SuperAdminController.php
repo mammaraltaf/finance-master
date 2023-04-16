@@ -236,13 +236,13 @@ class SuperAdminController extends Controller
             $input = $request->all();
             $validator = Validator::make($input, [
                 'tax_id' => 'required | unique:companies,tax_id,' . $id,
-                // 'logo' => 'required',
+                'logo' => 'required',
                 'company_name' => 'required',
                 'threshold_amount' => 'required',
                 'legal_address' => 'required',
                 'user_id' => 'required',
             ]);
-
+            
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
