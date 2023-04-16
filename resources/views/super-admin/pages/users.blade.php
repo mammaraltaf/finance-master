@@ -161,7 +161,7 @@
                                    class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
                             </td>
                     </tr>
-                    
+
                 @endforeach
                 </tbody>
                 {{-- <tfoot>
@@ -324,12 +324,9 @@
     />
     
     <script type="text/javascript">
-
-
-        $(document).ready(function () {
-            $('#deleteBtn').click(function () {
+       $('.delete_btn').click(function () {
             var a = $(this).data('id');
-            $('#deleteid').val(a);
+            $('.user-delete').val(a);
         });
         
             $('#categoryTable').DataTable({
