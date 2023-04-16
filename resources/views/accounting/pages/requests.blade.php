@@ -90,8 +90,8 @@
                   @endforeach
                 </tbody>
             </table>
-            <button type="button" id="rejectBtn" class="btn btn-danger">Reject</button>
-            <button type="button" id="payBtn" class="btn btn-success">Pay</button>
+            {{-- <button type="button" id="rejectBtn" class="btn btn-danger">Reject</button>
+            <button type="button" id="payBtn" class="btn btn-success">Pay</button> --}}
         </form>
       </div>
     </div> 
@@ -201,9 +201,9 @@
       'columnDefs': [
         {
           'targets': 0,
-          'checkboxes': {
-            'selectRow': true
-          }
+          // 'checkboxes': {
+          //   'selectRow': true
+          // }
         }
       ],
       'select': {
@@ -315,36 +315,36 @@
             //         ]
             //       });
             // });
-            $(document).ready(function () {
+            // $(document).ready(function () {
 
-              $('#rejectBtn').on('click', function() {
-                var form = this;
-                var table = $('#accounting').DataTable();
-                var rows_selected = table.column(0).checkboxes.selected();
-                console.log("rows_selected",rows_selected);
+            //   $('#rejectBtn').on('click', function() {
+            //     var form = this;
+            //     var table = $('#accounting').DataTable();
+            //     var rows_selected = table.column(0).checkboxes.selected();
+            //     console.log("rows_selected",rows_selected);
 
-                  // Iterate over all selected checkboxes
-                  $.each(rows_selected.context[0].aaSorting, function(index, rowId) {
-                      // Get the request ID for the selected row
-                      console.log("fdjfa", rowId);
-                      var request_id = table.row('#' + rowId).data().id;
-                      console.log("dddddd", request_id);
+            //       // Iterate over all selected checkboxes
+            //       $.each(rows_selected.context[0].aaSorting, function(index, rowId) {
+            //           // Get the request ID for the selected row
+            //           console.log("fdjfa", rowId);
+            //           var request_id = table.row('#' + rowId).data().id;
+            //           console.log("dddddd", request_id);
 
-                      // Create a hidden element
-                      $(form).append(
-                          $('<input>')
-                              .attr('type', 'hidden')
-                              .attr('name', 'id[]')
-                              .val(request_id)
-                      );
-                  });
-                  console.log("rows:::",rows_selected);
+            //           // Create a hidden element
+            //           $(form).append(
+            //               $('<input>')
+            //                   .attr('type', 'hidden')
+            //                   .attr('name', 'id[]')
+            //                   .val(request_id)
+            //           );
+            //       });
+            //       console.log("rows:::",rows_selected);
 
-                  // Set the form action with the selected request IDs
-                  // $(form).attr('action', "{{ url('accounting/payment/') }}/" + rows_selected.join());
-              });
+            //       // Set the form action with the selected request IDs
+            //       // $(form).attr('action', "{{ url('accounting/payment/') }}/" + rows_selected.join());
+            //   });
 
-            });
+            // });
   
 
     </script>
