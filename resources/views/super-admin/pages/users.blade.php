@@ -155,6 +155,7 @@
                         </td>
 
                             <td>
+<<<<<<< Updated upstream
 
                             <i id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                             <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}" class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
@@ -165,6 +166,12 @@
                                    data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i> -->
                                 <!-- <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
                                    class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i> -->
+=======
+                                <i id="userEdit" data-toggle="modal" data-target="#ModalEdit"
+                                   data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                                <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
+                                   class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
+>>>>>>> Stashed changes
                             </td>
 
                     </tr>
@@ -315,7 +322,7 @@
 
 @endsection
 @section('script')
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+ <script src="https://code.jquery.com/jquery-3.5.1.js"></script> 
 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
@@ -328,17 +335,16 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
     />
-    <script type="text/javascript">
-        $('#deleteBtn').click(function () {
-            var a = $(this).data('id');
-            $('#deleteid').val(a);
-        });
-    </script>
-
+    
     <script type="text/javascript">
 
 
         $(document).ready(function () {
+            $('#deleteBtn').click(function () {
+            var a = $(this).data('id');
+            $('#deleteid').val(a);
+        });
+        
             $('#categoryTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
