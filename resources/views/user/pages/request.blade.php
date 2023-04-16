@@ -330,7 +330,7 @@
                                 <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"
                                    class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
-                                   class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
+                                   class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
                             </td>
 
                              @else 
