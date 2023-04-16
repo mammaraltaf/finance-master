@@ -164,7 +164,7 @@
                         <td>
                             <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}"
                                data-user_type="{{auth()->user()->user_type}}"
-                               class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                               class="fas px-1 fa-edit delete_btn cursor-pointer text-primary"></i>
 
 
                             {{--                            <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"--}}

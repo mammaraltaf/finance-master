@@ -216,9 +216,17 @@
                         <td>{{$company->legal_address}}</td>
 
                           <td>
+<<<<<<< Updated upstream
                         
                             <i id="companyEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$company->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                             <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$company->id}}" class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
+=======
+                         {{--   <a href="" class="btn btn-primary btn-sm" id="companyEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$company->id}}">Edit</a>
+                            <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$company->id}}"
+                               class="btn btn-danger delete_btn btn-sm">Delete</a> --}}
+                            <i id="companyEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$company->id}}" class="fas px-1  fa-edit cursor-pointer text-primary"></i>
+                            <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$company->id}}" class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
+>>>>>>> Stashed changes
                         </td>
                     </tr>
                 @endforeach

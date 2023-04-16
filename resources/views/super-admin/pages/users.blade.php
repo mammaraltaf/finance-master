@@ -155,6 +155,7 @@
                         </td>
 
                             <td>
+<<<<<<< Updated upstream
 
                             <i id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                             <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}" class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
@@ -165,6 +166,12 @@
                                    data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i> -->
                                 <!-- <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
                                    class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i> -->
+=======
+                                <i id="userEdit" data-toggle="modal" data-target="#ModalEdit"
+                                   data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                                <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
+                                   class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
+>>>>>>> Stashed changes
                             </td>
 
                     </tr>

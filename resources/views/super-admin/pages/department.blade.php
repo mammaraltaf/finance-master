@@ -134,7 +134,7 @@
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$department->id}}"
                                class="btn btn-danger delete_btn btn-sm">Delete</a> --}}
                             <i id="departmentEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$department->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
-                            <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$department->id}}" class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
+                            <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$department->id}}" class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
                         </td>
                     </tr>
                 @endforeach
