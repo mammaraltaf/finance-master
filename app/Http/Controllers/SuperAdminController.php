@@ -236,7 +236,7 @@ class SuperAdminController extends Controller
             $input = $request->all();
             $validator = Validator::make($input, [
                 'tax_id' => 'required | unique:companies,tax_id,' . $id,
-                'logo' => 'required',
+                // 'logo' => 'required',
                 'company_name' => 'required',
                 'threshold_amount' => 'required',
                 'legal_address' => 'required',
@@ -246,6 +246,13 @@ class SuperAdminController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
+            if ($request->hasfile('logo')) {
+                $file=$request->file('logo');
+
+                    $name = time() . rand(1, 50) . '.' . $file->extension();
+                    $file->move(public_path('image'), $name);
+                    $logo = $name;
+            }
 
             $company = Company::find($id);
             $company->id_software = $input['id_software'];
@@ -254,6 +261,9 @@ class SuperAdminController extends Controller
             $company->slug = Str::slug($input['company_name']);
             $company->threshold_amount = $input['threshold_amount'];
             $company->legal_address = $input['legal_address'];
+            if(isset($logo)){
+                $company->logo = $logo;
+            }
             // $company->user_id = $input['user_id'];
             $company->save();
 
@@ -269,9 +279,9 @@ class SuperAdminController extends Controller
 
     public function deleteCompany(Request $request)
     {
-        $this->authorize('delete company');
+        // $this->authorize('delete company');
         try {
-            Company::where('id',$request->id)->delete();
+           $data= Company::where('id',$request->id)->delete();
             return redirect()->back()->with('success','Company deleted Successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());

@@ -281,7 +281,7 @@
             <div class="overflow-auto">
             <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
 
-                    {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%"> --}}
+                   
                     <thead>
                     <tr class="text-nowrap text-center">
                         <th>Initiator</th>
@@ -333,7 +333,9 @@
                                    class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
                             </td>
 
-                            {{-- @elseif ($request['status'] == "submitted-for-review}}")  --}}
+                             @else 
+                             <td></td>
+                             @endelse
                             @endif
 
                         {{-- @endhasanyrole --}}

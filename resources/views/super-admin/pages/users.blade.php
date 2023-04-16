@@ -155,10 +155,16 @@
                         </td>
 
                             <td>
-                                <i id="userEdit" data-toggle="modal" data-target="#ModalEdit"
-                                   data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
-                                <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
-                                   class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
+
+                            <i id="userEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                            <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}" class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i>
+
+
+                            
+                                <!-- <i id="userEdit" data-toggle="modal" data-target="#ModalEdit"
+                                   data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i> -->
+                                <!-- <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
+                                   class="fa px-1 fa-trash cursor-pointer text-danger" aria-hidden="true"></i> -->
                             </td>
 
                     </tr>
@@ -187,7 +193,7 @@
                     <div class="modal-body" style="text-align: center;">
 
                         Are you sure you want to delete ?
-                        <input type="hidden" name="id" class="user-delete" value=""/>
+                        <input type="hidden" name="id" class="user-delete" id="deleteid" value=""/>
                     </div>
                     <div class="modal-footer" style="text-align: center;">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -322,16 +328,11 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
     />
-
     <script type="text/javascript">
-
-
-        $(document).ready(function(){
-            $('.delete_btn').click(function () {
-                var a = $(this).data('id');
-                $('.user-delete').val(a);
-            });
-        })
+        $('#deleteBtn').click(function () {
+            var a = $(this).data('id');
+            $('#deleteid').val(a);
+        });
     </script>
 
     <script type="text/javascript">
