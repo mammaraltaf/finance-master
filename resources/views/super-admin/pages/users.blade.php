@@ -322,11 +322,20 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
     />
-    
     <script type="text/javascript">
        $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
+        });
+    </script>
+
+    <script type="text/javascript">
+
+
+        $(document).ready(function () {
+            $('#deleteBtn').click(function () {
+            var a = $(this).data('id');
+            $('#deleteid').val(a);
         });
         
             $('#categoryTable').DataTable({
