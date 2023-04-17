@@ -19,7 +19,8 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             DepartmentSeeder::class,
             SupplierSeeder::class,
-            TypeOfExpanseSeeder::class
+            TypeOfExpanseSeeder::class,
+            RequestSeeder::class
             ]);
     }
 }

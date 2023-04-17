@@ -122,11 +122,15 @@ class SuperAdminController extends Controller
             $user->email = $input['email'];
             $user->user_type = $input['type'];
             $user->password = Hash::make($input['password']);
-            $user->company = $input['company'];
+          //  $user->company = $input['company'];
             $user->original_password = $input['password'];
-            $user->department = $input['department'];
+          //  $user->department = $input['department'];
             $user->save();
 
+            $companyIds = $request->input('company',[]);
+            $departmentIds = $request->input('department',[]);
+            // $user->companies()->attach($companyIds);
+            // $user->departments()->attach($departmentIds);
             $user->syncRoles($input['type']);
 
             if($user){

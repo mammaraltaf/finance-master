@@ -284,23 +284,9 @@ class UserController extends Controller
             if (isset($_POST['button'])) {
                 $status = $_POST['button'];
             }
-            $request = RequestFlow::find($id);
-            if (isset($input['basis3'])) {
-                $keep_files = $input['basis3'];
-                if (isset($input['basis'])) {
-                    $files = [];
-                    if ($request->hasfile('basis')) {
-                        foreach ($request->file('basis') as $file) {
-                            $name = time() . rand(1, 50) . '.' . $file->extension();
-                            $file->move(public_path('basis'), $name);
-                            $files[] = $name;
-                        }
-                    }
-                    $new_files = implode(',', $files);
-                    $basis = $keep_files . ',' . $new_files;
-                }
-            } else {
-                $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
+           // dd($input);
+           if($input['basis3']==null){
+             $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
                 $files = explode(',', $all_files);
                 foreach ($files as $file) {
                     if (File::exists(public_path('basis/' . $file))) {
@@ -318,18 +304,62 @@ class UserController extends Controller
                     }
                     $basis = implode(',', $files);
                 }
+            
+        }else{
+            $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
+            $existing_files = explode(',', $all_files);
+            $keep=explode(',',$input['basis3']);
+            //dd($keep);
+            if (isset($input['basis'])) {
+                $files = [];
+                if ($request->hasfile('basis')) {
+                    foreach ($request->file('basis') as $file) {
+                        $name = time() . rand(1, 50) . '.' . $file->extension();
+                        $file->move(public_path('basis'), $name);
+                        $files[] = $name;
+                    }
+                }
+                $basis=implode(',',array_merge($files,$keep));
+               
+            }else{
+$basis=implode(',',$keep);
             }
+          
+           
+            $removed=array_diff($existing_files,$keep);
+    //    print_r($existing_files);
+    //    echo "<br>";
+    //    print_r($keep);
+    //    echo "<br>";
+    //    print_r($files);
+    //    echo "<br>";
+    //    print_r($removed);
+    //    echo "<br>";
+    //    print_r($basis);
+    //    exit();
+            foreach ($removed as $remove) {
+                if (File::exists(public_path('basis/' . $remove))) {
+                    File::delete(public_path('basis/' . $remove));
+                }
+            }
+           
+         
+        }
+            $request = RequestFlow::find($id);
+            
             $request->company_id = $input['company'];
             $request->department_id = $input['department'];
             $request->supplier_id = $input['supplier'];
             $request->expense_type_id = $input['expense-type'];
             $request->currency = $input['currency'];
             $request->amount = $input['amount'];
-            $request->amount_in_gel = $input['amount_in_gel'];
+            $request->amount_in_gel = $input['gel-amount2'];
             $request->description = $input['description'];
             $request->payment_date = $input['due-date-payment2'];
             $request->submission_date = $input['due-date2'];
+           if(isset($basis)){
             $request->basis = $basis;
+           }
             $request->status = $status;
             $request->save();
 

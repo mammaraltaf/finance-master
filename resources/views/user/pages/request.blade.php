@@ -20,8 +20,8 @@
         <button class="btn btn-info" data-filter="new">New</button>
         <button class="btn btn-info" data-filter="submitted-for-review">Submitted for review</button>
         <button class="btn btn-info" data-filter="rejected">Rejected</button>
-        <button class="btn btn-info" data-filter="finance">Finance ok</button>
-        <button class="btn btn-info" data-filter="confirmed">Confirmed</button>
+        <button class="btn btn-info" data-filter="finance-ok">Finance ok</button>
+        <button class="btn btn-info" data-filter="confirmed-partially">Confirmed</button>
         <button class="btn btn-info" data-filter="paid">Paid</button>
     </div>
 
@@ -227,7 +227,7 @@
     
                                 <div class="form-group w-100 px-2">
                                     <label for="gel-amount">Amount in GEL:</label>
-                                    <input type="text" class="form-control" id="gel-amount2" readonly>
+                                    <input type="text" class="form-control" id="gel-amount2" name="gel-amount2" readonly>
                                 </div>
     
                             </div>
@@ -325,18 +325,18 @@
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
-                               @if ($request['status'] == "new")
+                              <?php if ($request['status'] == "new"){ ?>
                             <td class="d-flex align-items-center justify-content-center">
                                 <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"
                                    class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
                                    class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
                             </td>
-
-                             @else 
+                           <?php }else{ ?>
+                            
                              <td></td>
-                             @endelse
-                            @endif
+                             <?php } ?>
+                           
 
                         {{-- @endhasanyrole --}}
 
