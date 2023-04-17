@@ -110,7 +110,7 @@ class SuperAdminController extends Controller
                 'type' => 'required',
                 'company' => 'required',
                 'department' => 'required',
-                'password' => 'required',
+                'password' => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -122,16 +122,13 @@ class SuperAdminController extends Controller
             $user->email = $input['email'];
             $user->user_type = $input['type'];
             $user->password = Hash::make($input['password']);
-          //  $user->company = $input['company'];
             $user->original_password = $input['password'];
-          //  $user->department = $input['department'];
             $user->save();
 
             $companyIds = $request->input('company',[]);
             $departmentIds = $request->input('department',[]);
-            // $user->companies()->attach($companyIds);
-            // $user->departments()->attach($departmentIds);
-            $user->syncRoles($input['type']);
+            $user->companies()->sync($companyIds);
+            $user->departments()->sync($departmentIds);
 
             if($user){
                 return redirect()->back()->with('success', 'User updated successfully');
@@ -246,7 +243,7 @@ class SuperAdminController extends Controller
                 'legal_address' => 'required',
                 'user_id' => 'required',
             ]);
-            
+
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
