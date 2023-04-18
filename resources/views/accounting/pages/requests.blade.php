@@ -40,10 +40,11 @@
           <div class="container">
           <div class="overflow-auto">
       
-            <table name="accounting" id="accounting" class="display table table-striped table-bordered " style="width:100%">
+            <table name="accounting" id="accounting" class="display px-2 table table-striped table-bordered " style="width:100%">
                 <thead>
-                  <tr>
+                  <tr class="text-nowrap text-center">
                     <th></th>
+                    <th class="d-none">id</th>
                       <th>Initiator</th>
                       <th>Company</th>
                       <th>Department</th>
@@ -61,10 +62,11 @@
                   </thead>
                   <tbody>
                     @foreach($requests as $request)
-                      <tr>
+                      <tr class="text-center">
                         <td>
                           
                         </td>
+                        <td class="d-none">{{$request->id}}</td>
                           <td>{{$request->initiator ?? ''}}</td>
                           <td>{{$request->company->name ?? ''}}</td>
                           <td>{{$request->department->name ?? ''}}</td>
@@ -90,8 +92,8 @@
                   @endforeach
                 </tbody>
             </table>
-            {{-- <button type="button" id="rejectBtn" class="btn btn-danger">Reject</button>
-            <button type="button" id="payBtn" class="btn btn-success">Pay</button> --}}
+            <button disabled type="button" id="rejectBtn" class="btn btn-danger">Reject</button>
+            <button disabled type="button" id="payBtn" class="btn btn-success">Pay</button>
         </form>
       </div>
     </div> 
@@ -152,199 +154,113 @@
 <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
 <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
     <script type="text/javascript">
-       $(document).ready(function () {
-   
-      //     $('#accounting').DataTable({
-      //         'columnDefs': [
-      //           {
-      //               'targets': 0,
-      //               'checkboxes': {
-      //                 'selectRow': true
-      //               }
-      //           }
-      //         ],
-      //     'select': {
-      //       'style': 'multi'
-      //     },
-      //     'order': [[1, 'asc']] ,
-      //             dom: 'Blfrtip',
-      //         lengthChange: true,
-      //         buttons: [
-
-      //       {
-      //       extend: 'copy',
-      //       exportOptions: {
-      //       columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-      //       }
-      //       },
-      //       {
-      //       extend: 'excel',
-      //       orientation : 'landscape',
-      //                       pageSize : 'LEGAL',
-      //       exportOptions: {
-      //       columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-      //       }
-      //       },
-      //       {
-      //       extend: 'pdf',
-      //       orientation : 'landscape',
-      //                       pageSize : 'LEGAL',
-      //       exportOptions: {
-      //       columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-      //       }
-      //       },
-      //       'colvis'
-      //       ]
-      //       });
-      // });
-      $('#accounting').DataTable({
-      'columnDefs': [
-        {
-          'targets': 0,
-          // 'checkboxes': {
-          //   'selectRow': true
-          // }
+      $('body').on('click', '#reviewBtn', function () {
+        var request_id = $(this).data('id');
+        $.ajax({
+        type: "GET",
+        url: "{{url('accounting/payment/')}}" + '/' + request_id,
+        success: function (response) {
+          console.log(response);
+          $('#id').val(response.id);
+          $('#amount').val(response.amount_in_gel);
+          $('#directorAcceptRejectForm').attr('action', "{{url('accounting/payment/')}}" + '/' + request_id);
         }
-      ],
-      'select': {
-        'style': 'multi'
-      },
-      'order': [[1, 'asc']],
-      dom: 'Blfrtip',
-      lengthChange: true,
-      buttons: [
-        {
-          extend: 'copy',
-          exportOptions: {
-            columns: [0,1,2,3,4,5,6,7,8,9,10,11]
+
+      });
+    });
+
+    $(document).ready(function () {
+      var selectedCheckboxes = [];
+      var table = $('#accounting').DataTable({
+        'columnDefs': [
+          {
+            'targets': [0],
+            'checkboxes': {
+              'selectRow': true,
+              'selectCallback': function (nodes, selected) {
+                console.log("selected",selected);
+                if (selected) {
+                  $('#payBtn').removeAttr('disabled');
+                  $('#rejectBtn').removeAttr('disabled');
+                } else {
+                  $('#payBtn').attr('disabled', 'disabled');
+                  $('#rejectBtn').attr('disabled', 'disabled');
+                }
+              },
+              'selectAllCallback': function (nodes, selected, indeterminate) {
+                if (selected) {
+                  $('#payBtn').removeAttr('disabled');
+                  $('#rejectBtn').removeAttr('disabled');
+                } else {
+                  $('#payBtn').attr('disabled', 'disabled');
+                  $('#rejectBtn').attr('disabled', 'disabled');
+                }
+              }
+            }
           }
+        ],
+        'select': {
+          'style': 'multi'
         },
-        {
-          extend: 'excel',
-          orientation: 'landscape',
-          pageSize: 'LEGAL',
-          exportOptions: {
-            columns: [0,1,2,3,4,5,6,7,8,9,10,11]
-          }
-        },
-        {
-          extend: 'pdf',
-          orientation: 'landscape',
-          pageSize: 'LEGAL',
-          exportOptions: {
-            columns: [0,1,2,3,4,5,6,7,8,9,10,11]
-          }
-        },
-        'colvis'
-      ]
-    });   
-  })
+        'order': [[1, 'asc']],
+        dom: 'Blfrtip',
+        lengthChange: true,
+        buttons: [
+          {
+            extend: 'copy',
+            exportOptions: {
+              columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+            }
+          },
+          {
+            extend: 'excel',
+            orientation : 'landscape',
+            pageSize : 'LEGAL',
+            exportOptions: {
+              columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+            }
+          },
+          {
+            extend: 'pdf',
+            orientation : 'landscape',
+            pageSize : 'LEGAL',
+            exportOptions: {
+              columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+            }
+          },
+          'colvis'
+        ]
+      });
+                
+      $('#rejectBtn').on('click', function () {
+        var selectedRows = table.rows({selected: true}).data();
+        if (selectedRows.length > 0) {
+          var ids = selectedRows.toArray().map(function (row) {
+            return row[0];
+          });
+          var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
+          $('#submit-btn').attr('action', url);
+          $('#submit-btn').submit();
+          console.log("url",url);
+        }
+      });
+                  
+      $('#payBtn').on('click', function () {
+        var selectedRows = table.rows({selected: true}).data();
+        console.log("selectedRows",selectedRows)
+        if (selectedRows.length > 0) {
+          var ids = selectedRows.toArray().map(function (row) {
+            return row[1];
+          });
+          console.log(ids);
+          var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
+          $('#submit-btn').attr('action', url);
+          $('#submit-btn').submit();
+          console.log("url",url);
+        }
+      });
+    });
 
-     
-            $('body').on('click', '#reviewBtn', function () {
-                var request_id = $(this).data('id');
-                console.log(request_id);
-                $.ajax({
-                    type: "GET",
-                    url: "{{url('accounting/payment/')}}" + '/' + request_id,
-                    success: function (response) {
-                        console.log(response);
-                        $('#id').val(response.id);
-                        $('#amount').val(response.amount_in_gel);
-                        $('#directorAcceptRejectForm').attr('action', "{{url('accounting/payment/')}}" + '/' + request_id);
-                    }
-
-                });
-            });
-
-            // $(document).ready(function () {
-  
-            //   $('#submit-btn').on('submit', function(e){
-            //         e.preventDefault();
-            //         var rows_selected = $('#accounting').DataTable().column(0).checkboxes.selected();
-            //         var idsArray = [];
-            //         console.log("rows_selected", rows_selected);
-            //         // Iterate over all selected checkboxes
-            //         $.each(rows_selected, function(index, rowId){
-            //             idsArray.push(rowId);
-                        
-            //         });
-            //         console.log("Selected IDs:", idsArray);
-            //       });
-
-
-            //       $('#accounting').DataTable({
-            //         'columnDefs': [
-            //           {
-            //             'targets': 0,
-            //             'checkboxes': {
-            //               'selectRow': true
-            //             }
-            //           }
-            //         ],
-            //         'select': {
-            //           'style': 'multi'
-            //         },
-            //         'order': [[1, 'asc']],
-            //         dom: 'Blfrtip',
-            //         lengthChange: true,
-            //         buttons: [
-            //           {
-            //             extend: 'copy',
-            //             exportOptions: {
-            //               columns: [0,1,2,3,4,5,6,7,8,9,10,11]
-            //             }
-            //           },
-            //           {
-            //             extend: 'excel',
-            //             orientation: 'landscape',
-            //             pageSize: 'LEGAL',
-            //             exportOptions: {
-            //               columns: [0,1,2,3,4,5,6,7,8,9,10,11]
-            //             }
-            //           },
-            //           {
-            //             extend: 'pdf',
-            //             orientation: 'landscape',
-            //             pageSize: 'LEGAL',
-            //             exportOptions: {
-            //               columns: [0,1,2,3,4,5,6,7,8,9,10,11]
-            //             }
-            //           },
-            //           'colvis'
-            //         ]
-            //       });
-            // });
-            // $(document).ready(function () {
-
-            //   $('#rejectBtn').on('click', function() {
-            //     var form = this;
-            //     var table = $('#accounting').DataTable();
-            //     var rows_selected = table.column(0).checkboxes.selected();
-            //     console.log("rows_selected",rows_selected);
-
-            //       // Iterate over all selected checkboxes
-            //       $.each(rows_selected.context[0].aaSorting, function(index, rowId) {
-            //           // Get the request ID for the selected row
-            //           console.log("fdjfa", rowId);
-            //           var request_id = table.row('#' + rowId).data().id;
-            //           console.log("dddddd", request_id);
-
-            //           // Create a hidden element
-            //           $(form).append(
-            //               $('<input>')
-            //                   .attr('type', 'hidden')
-            //                   .attr('name', 'id[]')
-            //                   .val(request_id)
-            //           );
-            //       });
-            //       console.log("rows:::",rows_selected);
-
-            //       // Set the form action with the selected request IDs
-            //       // $(form).attr('action', "{{ url('accounting/payment/') }}/" + rows_selected.join());
-            //   });
-
-            // });
   
 
     </script>
