@@ -1,6 +1,6 @@
 @extends('admin.admin.app')
 @section('pageTitle')
-    Contact Form
+    Dashboard
 @endsection
 @section('content')
     <!--begin::Header-->
