@@ -4,7 +4,7 @@ namespace Database\Seeders;
 use App\Models\TypeOfExpanse;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Str;
 class TypeOfExpanseSeeder extends Seeder
 {
     /**
@@ -14,14 +14,15 @@ class TypeOfExpanseSeeder extends Seeder
      */
     public function run()
     {
+        for($i=1;$i<=20;$i++) {
         TypeOfExpanse::firstOrCreate(
             [
-            'id'    => 1,
-            'id_software' => '1',
-            'name' => 'Type of expanse 1',
+            'id'    => $i,
+            'id_software' =>  Str::random(10),
+            'name' => 'Type of expanse' .$i,
             'accounting_id' => '1',
             'created_at'    => Carbon::now(),
             'updated_at'    => Carbon::now(),
         ]);
-    }
+    }}
 }

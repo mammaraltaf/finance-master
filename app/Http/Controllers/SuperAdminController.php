@@ -291,6 +291,7 @@ class SuperAdminController extends Controller
 
     public function typeOfExpense()
     {
+       
         $typeOfExpenses = TypeOfExpanse::all();
         return view('super-admin.pages.type-of-expense', compact('typeOfExpenses'));
     }

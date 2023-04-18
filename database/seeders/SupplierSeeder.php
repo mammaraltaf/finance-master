@@ -4,6 +4,7 @@ namespace Database\Seeders;
 use App\Models\Supplier;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class SupplierSeeder extends Seeder
 {
@@ -14,13 +15,14 @@ class SupplierSeeder extends Seeder
      */
     public function run()
     {
+        for($i=1;$i<=20;$i++) {
         Supplier::firstOrCreate(
             [
-            'id'    => 1,
-            'id_software' => '1',
-            'tax_id' => '1',
+            'id'    => $i,
+            'id_software' => Str::random(10) ,
+            'tax_id' => Str::random(10) ,
             'user_id' => 1,
-            'supplier_name' => 'Supplier 1',
+            'supplier_name' => 'Supplier'.$i,
             'bank_id' => '100000',
             'bank_account' => '1222222',
             'bank_swift' => '12222222',
@@ -28,5 +30,5 @@ class SupplierSeeder extends Seeder
             'created_at'    => Carbon::now(),
             'updated_at'    => Carbon::now(),
         ]);
-    }
+    }}
 }

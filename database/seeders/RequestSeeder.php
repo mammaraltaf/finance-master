@@ -3,8 +3,16 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use App\Models\Company;
+use App\Models\Department;
+use App\Models\Supplier;
+use App\Models\TypeOfExpanse;
 use App\Models\RequestFlow;
 use Carbon\Carbon;
+use App\Classes\Enums\StatusEnum;
+use Illuminate\Support\Str;
+
+
 class RequestSeeder extends Seeder
 {
     /**
@@ -14,234 +22,32 @@ class RequestSeeder extends Seeder
      */
     public function run()
     {
-
-        foreach (range(1,10) as $index) {
+$year = Carbon::now()->year;
+ 
+$companies=Company::all()->pluck('id')->toArray();
+$departments=Department::all()->pluck('id')->toArray();
+$Suppliers=Supplier::all()->pluck('id')->toArray();
+$expenses=TypeOfExpanse::all()->pluck('id')->toArray();
+        for($i=1;$i<=200;$i++) {
             RequestFlow::create([
                 'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
+                'company_id' => $companies[array_rand($companies)],
+                'department_id' =>  $departments[array_rand($departments)],
+                'supplier_id' =>  $Suppliers[array_rand($Suppliers)],
+                'expense_type_id' =>  $expenses[array_rand($expenses)],
                 'currency' => 'USD',
                 'amount' => '45',
                 'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
+                'description' => 'I am psycho',
                 'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'status' => 'new',
+                'payment_date' => Carbon::create($year, rand(1, 12), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
+                'submission_date' => Carbon::create($year, rand(1, 12), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
+                'status' => StatusEnum::$Statuses[array_rand(StatusEnum::$Statuses)],
                 'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
+                'created_at'    => Carbon::create($year, rand(1, 12), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
+                'updated_at'    => Carbon::create($year, rand(1, 12), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
             ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'status' => 'submitted-for-review',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'comment' => 'Im not paying You',
-                'status' => 'finance-rejected',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'comment' => 'Im not paying You',
-                'status' => 'manager-rejected',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'comment' => 'Im not paying You',
-                'status' => 'director-rejected',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'comment' => 'Im not paying You',
-                'status' => 'rejected',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'comment' => 'Good Luck',
-                'status' => 'finance-ok',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'comment' => 'Out of my budget',
-                'status' => 'threshold-exceeded',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'comment' => 'Have Fun',
-                'status' => 'manager-confirmed',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'comment' => 'Have Fun',
-                'status' => 'director-confirmed',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'comment' => 'Depends on my mood',
-                'status' => 'confirmed-partially',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
-            RequestFlow::create([
-                'initiator' => 'user',
-                'company_id' => '1',
-                'department_id' => '1',
-                'supplier_id' => '1',
-                'expense_type_id' => '1',
-                'currency' => 'USD',
-                'amount' => '45',
-                'amount_in_gel' => '10.09',
-                'description' => 'I am testing',
-                'basis' => '168164621911.png',
-                'payment_date' => '2023-04-19',
-                'submission_date' => '2023-05-19',
-                'comment' => 'Ok',
-                'status' => 'paid',
-                'user_id' => '3',
-                'created_at'    => Carbon::now(),
-                'updated_at'    => Carbon::now(),
-            ]);
+            
         }
     }
 }

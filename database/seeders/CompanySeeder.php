@@ -4,7 +4,7 @@ namespace Database\Seeders;
 use App\Models\Company;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-
+use Illuminate\Support\Str;
 class CompanySeeder extends Seeder
 {
     /**
@@ -14,17 +14,19 @@ class CompanySeeder extends Seeder
      */
     public function run()
     {
+        for($i=1;$i<=20;$i++) {
         Company::firstOrCreate(
             [
-            'id'    => 1,
-            'id_software' => '1',
-            'tax_id' => '1',
-            'name' => 'Company 1',
-            'slug' => 'company-1',
+            'id'    => $i,
+            'id_software' =>  Str::random(10) ,
+            'tax_id' => mt_rand(1000,9999),
+            'name' => 'Company '.$i,
+            'slug' => 'company-'.$i,
             'threshold_amount' => 1000,
-            'legal_address' => 'Address 1',
+            'legal_address' => 'Address '.$i,
             'created_at'    => Carbon::now(),
             'updated_at'    => Carbon::now(),
         ]);
     }
+}
 }

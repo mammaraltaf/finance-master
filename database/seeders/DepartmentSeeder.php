@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 use App\Models\Department;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Database\Seeder;
 
 class DepartmentSeeder extends Seeder
@@ -14,13 +15,14 @@ class DepartmentSeeder extends Seeder
      */
     public function run()
     {
+        for($i=1;$i<=20;$i++) {
         Department::firstOrCreate(
             [
-            'id'    => 1,
-            'id_software' => '1',
-            'name' => 'Department 1',
+            'id'    => $i,
+            'id_software' => Str::random(10),
+            'name' => 'Department '.$i,
             'created_at'    => Carbon::now(),
             'updated_at'    => Carbon::now(),
         ]);
-    }
+    }}
 }
