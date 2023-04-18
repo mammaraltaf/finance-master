@@ -11,6 +11,7 @@ use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\AccountingController;
+use App\Http\Controllers\AdminController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +86,19 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/edit-supplier/{id}', [SuperAdminController::class, 'editsupplier'])->name('edit-supplier');
         Route::post('/edit-supplier/{id}', [SuperAdminController::class, 'updatesupplier'])->name('edit-supplier-post');
      Route::post('/delete-supplier', [SuperAdminController::class, 'deletesupplier'])->name('delete-supplier');
+    });
+
+
+
+     /*Admin Routes*/
+     Route::group([
+        'middleware' => ['role:'.UserTypesEnum::Admin],
+        'prefix' => UserTypesEnum::Admin,
+        'as' => UserTypesEnum::Admin.'.',
+    ],function (){
+        Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/type-of-expense', [AdminController::class, 'typeOfExpense'])->name('type-of-expense');
+     
     });
 
     /*User Routes*/
