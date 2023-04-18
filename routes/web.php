@@ -59,6 +59,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/edit-user/{id}', [SuperAdminController::class, 'editUserPost'])->name('edit-user-post');
         Route::post('/delete-user', [SuperAdminController::class, 'deleteUser'])->name('delete-user');
         Route::post('/block-user', [SuperAdminController::class, 'blockUser'])->name('block-user');
+        Route::post('/unblock-user', [SuperAdminController::class, 'unblockUser'])->name('unblock-user');
 
         /*Manage Company*/
         Route::get('/company', [SuperAdminController::class, 'company'])->name('company');
@@ -98,7 +99,7 @@ Route::group(['middleware'=>'auth'],function (){
     ],function (){
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/type-of-expense', [AdminController::class, 'typeOfExpense'])->name('type-of-expense');
-     
+
     });
 
     /*User Routes*/

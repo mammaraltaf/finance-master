@@ -37,7 +37,7 @@ class SuperAdminController extends Controller
     public function users()
     {
         try{
-            $users = User::where('user_type','!=',UserTypesEnum::SuperAdmin)->get();
+            $users = User::where('user_type','!=',UserTypesEnum::SuperAdmin)->withTrashed()->get();
 //            $roles = Role::whereIn('name',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
             $roles = Role::where('name','!=',UserTypesEnum::SuperAdmin)->get();
             $companies = Company::all();
@@ -152,9 +152,18 @@ class SuperAdminController extends Controller
 
     public function blockUser(Request $request)
     {
-        dd($request->all());
         $user = User::where('id', $request->id)->first();
         $user->status = StatusEnum::Blocked;
+        $user->save();
+        $user->delete();
+        return redirect()->back()->with('success', 'User status updated successfully');
+    }
+
+    public function unblockUser(Request $request)
+    {
+        $user = User::where('id', $request->id)->withTrashed()->first();
+        $user->status = StatusEnum::Active;
+        $user->deleted_at = null;
         $user->save();
         return redirect()->back()->with('success', 'User status updated successfully');
     }
@@ -291,7 +300,7 @@ class SuperAdminController extends Controller
 
     public function typeOfExpense()
     {
-       
+
         $typeOfExpenses = TypeOfExpanse::all();
         return view('super-admin.pages.type-of-expense', compact('typeOfExpenses'));
     }

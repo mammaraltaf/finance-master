@@ -142,6 +142,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Type</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -153,12 +154,19 @@
                         <td>
                             <span class="badge badge-success">{{$user->user_type}}</span>
                         </td>
-
+                        <td><span class="badge badge-{{($user->status == \App\Classes\Enums\StatusEnum::Blocked) ? 'danger' : 'success'}}">{{$user->status}}</span></td>
                             <td>
                                 <i id="userEdit" data-toggle="modal" data-target="#ModalEdit"
                                    data-id="{{$user->id}}" class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$user->id}}"
                                    class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
+                                @if($user->status != \App\Classes\Enums\StatusEnum::Blocked)
+                                    <i id="blockBtn" data-toggle="modal" data-target=".modal2" data-id="{{$user->id}}"
+                                       class="fa px-1 fa-ban block_btn cursor-pointer text-danger" aria-hidden="true"></i>
+                                    @else
+                                    <i id="unblockBtn" data-toggle="modal" data-target=".modal3" data-id="{{$user->id}}"
+                                       class="fa px-1 fa-check unblock_btn cursor-pointer text-success" aria-hidden="true"></i>
+                                @endif
                             </td>
                     </tr>
 
@@ -198,6 +206,56 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade modal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <form id="categoryForm" method="POST" action="{{route('super-admin.block-user')}}"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header" style="text-align: center;">
+                        <h2 class="modal-title" id="myModalLabel">Block</h2>
+                    </div>
+                    <div class="modal-body" style="text-align: center;">
+
+                        Are you sure you want to block ?
+                        <input type="hidden" name="id" class="user-block" id="blockid" value=""/>
+                    </div>
+                    <div class="modal-footer" style="text-align: center;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger">Block</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+        <div class="modal fade modal3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+            <div class="modal-dialog modal-sm" role="document">
+                <div class="modal-content">
+                    <form id="categoryForm" method="POST" action="{{route('super-admin.unblock-user')}}"
+                          enctype="multipart/form-data">
+                        @csrf
+                        <div class="modal-header" style="text-align: center;">
+                            <h2 class="modal-title" id="myModalLabel">Un Block</h2>
+                        </div>
+                        <div class="modal-body" style="text-align: center;">
+
+                            Are you sure you want to unblock ?
+                            <input type="hidden" name="id" class="user-block" id="blockid" value=""/>
+                        </div>
+                        <div class="modal-footer" style="text-align: center;">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success">UnBlock</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
 
     <!--end::Body-->
     <div id="ModalEdit" class="modal fade">
@@ -309,7 +367,7 @@
 
 @endsection
 @section('script')
- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> 
+ <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
@@ -327,6 +385,16 @@
             var a = $(this).data('id');
             $('.user-delete').val(a);
         });
+
+       $('.block_btn').click(function () {
+           var a = $(this).data('id');
+           $('.user-block').val(a);
+       });
+
+         $('.unblock_btn').click(function () {
+              var a = $(this).data('id');
+              $('.user-unblock').val(a);
+         });
     </script>
 
     <script type="text/javascript">
@@ -337,7 +405,7 @@
             var a = $(this).data('id');
             $('#deleteid').val(a);
         });
-        
+
             $('#categoryTable').DataTable({
                 dom: 'Bfrtip',
                 buttons: [
@@ -351,7 +419,7 @@
 
         var editCompanyOption;
 
-        
+
         $('body').on('click', '#userEdit', function () {
             var user_id = $(this).data('id');
             // console.log(user_id);
@@ -422,13 +490,13 @@
                             buttonWidth: '100%',
                             maxHeight: 300
                         });
-                    }  
+                    }
                 }
             });
         });
 
-        
-        
+
+
 
         // company select field
         $('select[name="type"]').on('change', function() {
@@ -499,7 +567,7 @@
             }
         });
 
-        
+
 
 
 

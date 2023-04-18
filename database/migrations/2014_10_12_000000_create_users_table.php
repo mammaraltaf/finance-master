@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->string('user_type')->default(\App\Classes\Enums\UserTypesEnum::User);
             $table->string('status')->default(\App\Classes\Enums\StatusEnum::Active);
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
