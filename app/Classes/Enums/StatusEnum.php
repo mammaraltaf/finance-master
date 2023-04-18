@@ -25,6 +25,7 @@ class StatusEnum
 
     public const Blocked = 'blocked';
 
+
     public static $Statuses  =
     [
         self::New,

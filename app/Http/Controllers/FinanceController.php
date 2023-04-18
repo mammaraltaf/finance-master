@@ -22,23 +22,78 @@ class FinanceController extends Controller
 
     public function dashboard()
     {
-        // $this->authorize('finance');
-        $requests = RequestFlow::with('company','supplier','typeOfExpense')->whereStatus(StatusEnum::SubmittedForReview)->get();
-        $financeAccepted = LogAction::where('action', ActionEnum::FINANCE_ACCEPT)->count();
-        $financeRejected = LogAction::where('action', ActionEnum::FINANCE_REJECT)->count();
+        $currentYear = Carbon::now()->year;
+        $currentMonth = Carbon::now()->month;
+        $firstDayOfCurrentMonth = Carbon::create($currentYear, $currentMonth, 1, 0, 0, 0);
+        $lastDayOfCurrentMonth = Carbon::create($currentYear, $currentMonth, 1, 0, 0, 0)->endOfMonth();
+        $firstDayOfCurrentYear = Carbon::create($currentYear, 1, 1, 0, 0, 0);
+        $lastDayOfCurrentYear = Carbon::create($currentYear, 12, 31, 0, 0, 0);
 
-        $data = [
-            'labels' => ['Request Submitted For Review', 'Finance Accepted', 'Finance Rejected'],
+        $requests = RequestFlow::with('company','supplier','typeOfExpense','department')
+            ->whereStatus(StatusEnum::Paid)
+            ->whereBetween('created_at', [$firstDayOfCurrentMonth, $lastDayOfCurrentMonth])
+            ->get();
+
+        $requestsByDepartment = $requests->groupBy('department.name');
+        $departmentNames = array_keys($requestsByDepartment->toArray());
+        $departmentTotals = array_values($requestsByDepartment->map->sum('amount_in_gel')->toArray());
+
+        $departmentChart = [
+            'labels' => $departmentNames,
             'datasets' => [
                 [
-//                    'data' => [10, 20, 30],
-                    'data' => [$requests->count(), $financeAccepted, $financeRejected],
+                    'data' => $departmentTotals,
                     'backgroundColor' => ['#ff6384', '#36a2eb', '#ffce56'],
                     'hoverBackgroundColor' => ['#ff6384', '#36a2eb', '#ffce56']
                 ]
             ]
         ];
-        return view('finance.pages.dashboard', compact('requests','data'));
+
+        /*Chart 2 - Type Of Expanse Chart*/
+        $requestsByTypeOfExpanse = $requests->groupBy('typeOfExpense.name');
+        $typeOfExpanseNames = array_keys($requestsByTypeOfExpanse->toArray());
+        $typeOfExpanseTotals = array_values($requestsByTypeOfExpanse->map->sum('amount_in_gel')->toArray());
+
+        $typeOfExpanseChart = [
+            'labels' => $typeOfExpanseNames,
+            'datasets' => [
+                [
+                    'data' => $typeOfExpanseTotals,
+                    'backgroundColor' => ['#ff6384', '#36a2eb', '#ffce56', '#ff6384', '#36a2eb', '#ffce56'],
+                    'hoverBackgroundColor' => ['#ff6384', '#36a2eb', '#ffce56', '#ff6384', '#36a2eb', '#ffce56']
+                ]
+            ]
+        ];
+
+        /*Chart 3 - Yearly Based Expanses*/
+
+        $getAllYearRequests = RequestFlow::with('company','supplier','typeOfExpense','department')
+            ->whereStatus(StatusEnum::Paid)
+            ->whereBetween('created_at', [$firstDayOfCurrentYear, $lastDayOfCurrentYear])
+            ->get();
+
+        $requestsByMonth = $getAllYearRequests->groupBy(function($date) {
+            return Carbon::parse($date->created_at)->format('m'); // grouping by months
+        });
+
+        $requestsByMonth = $requestsByMonth->map->sum('amount_in_gel')->toArray();
+
+        $monthNames = array_keys($requestsByMonth);
+        $monthTotals = array_values($requestsByMonth);
+
+        $yearChart = [
+            'labels' => $monthNames,
+            'datasets' => [
+                [
+                    'data' => $monthTotals,
+                    'backgroundColor' => ['#ff6384', '#36a2eb', '#ffce56', '#ff6384', '#36a2eb', '#ffce56'],
+                    'hoverBackgroundColor' => ['#ff6384', '#36a2eb', '#ffce56', '#ff6384', '#36a2eb', '#ffce56']
+                ]
+            ]
+        ];
+
+        return view('finance.pages.dashboard', compact('requests','departmentChart','typeOfExpanseChart','yearChart'));
+
     }
 
     public function requestFinance(){

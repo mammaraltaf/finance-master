@@ -20,15 +20,17 @@
         </h3>
     </div>
 
-    <canvas id="financeChart" width="400" height="400"></canvas>
+    <canvas id="departmentChart" width="400" height="400"></canvas>
+    <canvas id="typeOfExpanseChart" width="400" height="400"></canvas>
+    <canvas id="yearChart" width="400" height="400"></canvas>
 
 @endsection
 @section('script')
     <script>
-        var ctx = document.getElementById('financeChart').getContext('2d');
-        var financeChart = new Chart(ctx, {
+        var ctx = document.getElementById('departmentChart').getContext('2d');
+        var departmentChart = new Chart(ctx, {
             type: 'doughnut',
-            data: {!! json_encode($data) !!},
+            data: {!! json_encode($departmentChart) !!},
             options: {
                 // responsive: true,
 
@@ -39,7 +41,7 @@
                     },
                     title: {
                         display: true,
-                        text: 'Finance Statistics',
+                        text: 'Department Paid for Month of {{date('F')}}',
                         font: {
                             size: 50,
                             weight: 'bold'
@@ -48,6 +50,51 @@
                 }
             }
         });
+
+
+        var ctxtoe = document.getElementById('typeOfExpanseChart').getContext('2d');
+        var typeOfExpanseChart = new Chart(ctxtoe, {
+            type: 'doughnut',
+            data: {!! json_encode($typeOfExpanseChart) !!},
+            options: {
+                // responsive: true,
+
+                // maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Type Of Expanse for Month of {{date('F')}}',
+                        font: {
+                            size: 50,
+                            weight: 'bold'
+                        }
+                    },
+                }
+            }
+        });
+
+        var ctxyear = document.getElementById('yearChart').getContext('2d');
+        var yearChart = new Chart(ctxyear, {
+            type: 'bar',
+            data: {!! json_encode($yearChart) !!},
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: '{{date('Y')}} Expanse',
+                    }
+                }
+            },
+        });
+
+
     </script>
 
 @endsection
