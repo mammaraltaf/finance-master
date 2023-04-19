@@ -32,8 +32,9 @@ class AcceptOrRejectRequest implements ShouldQueue
      */
     public function handle()
     {
-        $email = 'mammaraltaf@gmail.com';
-        Mail::send('emails.acceptOrReject', ['data' => $this->request_data], function ($m) use ($email) {
+        $email = auth()->user()->email;
+        $request_data = $this->request_data;
+        Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($email) {
             $m->from('finance@mail.com', config('app.name', 'APP Name'));
             $m->to($email)->subject('Review Request');
         });

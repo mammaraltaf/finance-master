@@ -8,6 +8,7 @@ use App\Jobs\AcceptOrRejectRequest;
 use App\Traits\LogActionTrait;
 use Exception;
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -22,6 +23,7 @@ use App\Models\Department;
 use App\Models\TypeOfExpanse;
 use Illuminate\Support\Facades\Auth;
 use File;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -61,7 +63,7 @@ class UserController extends Controller
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
-                'id_software' => 'required | unique:suppliers,id_software',
+//                'id_software' => 'required | unique:suppliers,id_software',
                 'tax_id' => 'required | unique:suppliers,tax_id',
                 'name' => 'required ',
                 // 'bank_id' => 'required',
@@ -76,7 +78,7 @@ class UserController extends Controller
             }
 
             $supplier_data = Supplier::create([
-                'id_software' => $input['id_software'],
+                'id_software' =>  Str::random(10),
                 'tax_id' => $input['tax_id'],
                 'supplier_name' => $input['name'],
                 // 'bank_id' => $input['bank_id'],
@@ -125,7 +127,7 @@ class UserController extends Controller
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
-                'id_software' => 'required | unique:suppliers,id_software,' . $id,
+//                'id_software' => 'required | unique:suppliers,id_software,' . $id,
                 'tax_id' => 'required | unique:suppliers,tax_id,' . $id,
                 'name' => 'required ',
                 // 'bank_id' => 'required',
@@ -140,7 +142,6 @@ class UserController extends Controller
             }
 
             $supplier = Supplier::find($id);
-            $supplier->id_software = $input['id_software'];
             $supplier->tax_id = $input['tax_id'];
             $supplier->supplier_name = $input['name'];
             // $supplier->bank_id = $input['bank_id'];
@@ -304,7 +305,7 @@ class UserController extends Controller
                     }
                     $basis = implode(',', $files);
                 }
-            
+
         }else{
             $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
             $existing_files = explode(',', $all_files);
@@ -320,12 +321,12 @@ class UserController extends Controller
                     }
                 }
                 $basis=implode(',',array_merge($files,$keep));
-               
+
             }else{
 $basis=implode(',',$keep);
             }
-          
-           
+
+
             $removed=array_diff($existing_files,$keep);
     //    print_r($existing_files);
     //    echo "<br>";
@@ -342,11 +343,11 @@ $basis=implode(',',$keep);
                     File::delete(public_path('basis/' . $remove));
                 }
             }
-           
-         
+
+
         }
             $request = RequestFlow::find($id);
-            
+
             $request->company_id = $input['company'];
             $request->department_id = $input['department'];
             $request->supplier_id = $input['supplier'];

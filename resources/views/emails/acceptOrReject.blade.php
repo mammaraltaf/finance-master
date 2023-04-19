@@ -31,14 +31,14 @@
                             </tr>
                             <tr style="float:left;width:100%;padding-bottom:20px;">
                                 <td style="float:left;width:100%;" align="center">
-                                    <h1 style="font-size: 40px;margin-top: 0px;margin-bottom: 10px;">New Request Created</h1>
+                                    <h1 style="font-size: 40px;margin-top: 0px;margin-bottom: 10px;">Request Details</h1>
                                 </td>
                             </tr>
                             <tr style="float:left;width:100%;padding-bottom:20px;">
                                 <td style="float:left;width:100%;" align="center">
-                                    <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Hi Admin!, </strong> New Request Created! Please review & respond.</p> <br>
-                                    @isset($request_data->initiator)
-                                        <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Initiator :</strong>{{$request_data->initiator ?? ''}}</p>
+{{--                                    <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Hi Admin!, </strong> New Request Created! Please review & respond.</p> <br>--}}
+                                    @isset($request_data['initiator'])
+                                        <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Initiator :</strong>{{$request_data['initiator'] ?? ''}}</p>
                                     @endisset
                                     @isset($request_data->comapny->name)
                                         <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Company :</strong>{{$request_data->comapny->name ?? ''}}</p>

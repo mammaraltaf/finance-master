@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\Enums\ActionEnum;
 use App\Classes\Enums\StatusEnum;
 use App\Classes\Enums\UserTypesEnum;
+use App\Jobs\AcceptOrRejectRequest;
 use App\Models\RequestFlow;
 use App\Traits\LogActionTrait;
 use Illuminate\Http\Request;
@@ -90,6 +91,8 @@ class FinanceController extends Controller
             $requestFlow->comment = $request->comment ?? null ;
             $requestFlow->save();
             $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::FINANCE_ACCEPT);
+            AcceptOrRejectRequest::dispatch($requestFlow);
+
 
             return redirect()->back()->with('success', 'Request Approved Successfully');
         }
@@ -115,6 +118,8 @@ class FinanceController extends Controller
             $requestFlow->save();
 
             $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::FINANCE_REJECT);
+            AcceptOrRejectRequest::dispatch($requestFlow);
+
             return redirect()->back()->with('success', 'Request Rejected Successfully');
         }
         catch (Exception $e){

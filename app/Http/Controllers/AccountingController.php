@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\Enums\ActionEnum;
 use App\Classes\Enums\StatusEnum;
 use App\Classes\Enums\UserTypesEnum;
+use App\Jobs\AcceptOrRejectRequest;
 use App\Models\RequestFlow;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
@@ -102,6 +103,7 @@ public function alldata(){
                 $requestFlow->status = StatusEnum::Paid;
                 $requestFlow->save();
                 $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::ACCOUNTING_ACCEPT);
+                AcceptOrRejectRequest::dispatch($requestFlow);
 
                 return redirect()->back()->with('success', 'Request Approved Successfully');
             } else {
@@ -109,7 +111,7 @@ public function alldata(){
                 $requestFlow->status = StatusEnum::Rejected;
                 $requestFlow->save();
                 $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::ACCOUNTING_REJECT);
-
+                AcceptOrRejectRequest::dispatch($requestFlow);
                 return redirect()->back()->with('success', 'Request Rejected Successfully');
             }
         } catch (Exception $e) {

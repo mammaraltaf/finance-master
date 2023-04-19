@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Classes\Enums\ActionEnum;
 use App\Classes\Enums\StatusEnum;
 use App\Classes\Enums\UserTypesEnum;
+use App\Jobs\AcceptOrRejectRequest;
 use App\Models\RequestFlow;
 use App\Traits\LogActionTrait;
 use Illuminate\Http\Request;
@@ -83,6 +84,7 @@ class DirectorController extends Controller
             $requestFlow->comment = $request->comment ?? null ;
             $requestFlow->save();
             $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::DIRECTOR_ACCEPT);
+            AcceptOrRejectRequest::dispatch($requestFlow);
             return redirect()->back()->with('success', 'Request Approved Successfully');
         }
         catch (Exception $e){
@@ -106,6 +108,7 @@ class DirectorController extends Controller
             $requestFlow->comment = $request->comment;
             $requestFlow->save();
             $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::DIRECTOR_REJECT);
+            AcceptOrRejectRequest::dispatch($requestFlow);
             return redirect()->back()->with('success', 'Request Rejected Successfully');
         }
         catch (Exception $e){

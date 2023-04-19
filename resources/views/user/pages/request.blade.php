@@ -17,7 +17,7 @@
 
     <div class="btn-group">
         <button class="btn btn-info active" data-filter="all">All</button>
-        <button class="btn btn-info" data-filter="new">New</button>
+{{--        <button class="btn btn-info" data-filter="new">New</button>--}}
         <button class="btn btn-info" data-filter="submitted-for-review">Submitted for review</button>
         <button class="btn btn-info" data-filter="rejected">Rejected</button>
         <button class="btn btn-info" data-filter="finance-ok">Finance ok</button>
@@ -81,7 +81,7 @@
                                         <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
                                         <?php } ?>
                                     </select>
-                                </div> 
+                                </div>
                             </div>
                             <div class="d-flex">
                                 <div class="form-group w-100 px-2">
@@ -135,11 +135,11 @@
                                 </div>
                             </div>
                             <div class="form-group d-flex gx-5">
-                                <div class='p-2'>
+{{--                                <div class='p-2'>--}}
 
-                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button"
-                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>
-                                </div>
+{{--                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button"--}}
+{{--                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>--}}
+{{--                                </div>--}}
                                 <div class='p-2'>
                                     <button type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
                                             name="button"
@@ -204,7 +204,7 @@
                                 <div class="form-group w-100 px-2">
                                     <label for="expense-type">Type of Expense</label>
                                     <select class="form-control" id="expense-type" name="expense-type" required>
-    
+
                                         <?php foreach ($expenses as $expense){ ?>
                                         <option value="{{$expense->id}}">{{$expense->name}}</option>
                                         <?php } ?>
@@ -224,12 +224,12 @@
                                     <label for="amount">Amount</label>
                                     <input type="number" class="form-control" id="amount2" name="amount" required>
                                 </div>
-    
+
                                 <div class="form-group w-100 px-2">
                                     <label for="gel-amount">Amount in GEL:</label>
                                     <input type="text" class="form-control" id="gel-amount2" name="gel-amount2" readonly>
                                 </div>
-    
+
                             </div>
                             <div class="form-group">
                                 <label for="description">Description</label>
@@ -281,7 +281,7 @@
             <div class="overflow-auto">
             <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
 
-                   
+
                     <thead>
                     <tr class="text-nowrap text-center">
                         <th>Initiator</th>
@@ -296,7 +296,7 @@
                         <th>Due Date of Payment</th>
                         <th>Due Date</th>
                         <th>Status</th>
-                        @hasanyrole('super-admin|accounting|user')
+                        @hasanyrole('super-admin|accounting')
                         <th>Actions</th>
                         @endhasanyrole
                     </tr>
@@ -325,18 +325,18 @@
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
-                              <?php if ($request['status'] == "new"){ ?>
-                            <td class="d-flex align-items-center justify-content-center">
-                                <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"
-                                   class="fas px-1 fa-edit cursor-pointer text-primary"></i>
-                                <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
-                                   class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>
-                            </td>
-                           <?php }else{ ?>
-                            
-                             <td></td>
-                             <?php } ?>
-                           
+{{--                              <?php if ($request['status'] == "new"){ ?>--}}
+{{--                            <td class="d-flex align-items-center justify-content-center">--}}
+{{--                                <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"--}}
+{{--                                   class="fas px-1 fa-edit cursor-pointer text-primary"></i>--}}
+{{--                                <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"--}}
+{{--                                   class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>--}}
+{{--                            </td>--}}
+{{--                           <?php }else{ ?>--}}
+
+{{--                             <td></td>--}}
+{{--                             <?php } ?>--}}
+
 
                         {{-- @endhasanyrole --}}
 
@@ -370,7 +370,7 @@
         </div>
     </div>
 
-   
+
 
     <!--end::Body-->
 @endsection
@@ -380,7 +380,7 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-{{-- 
+{{--
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
 
@@ -497,8 +497,8 @@
         // Edit Document Preview Start
         //=============================
         var removedFiles = [];
-       
-        
+
+
         $('body').on('click', '#userEdit', function () {
             var request_id = $(this).data('id');
             $.ajax({
@@ -513,7 +513,7 @@
                 $('#due-date-payment2').val(response.payment_date);
                 $('#due-date2').val(response.submission_date);
                 $('#gel-amount2').val(response.amount_in_gel);
-                
+
 
                 $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
                     // Show previously uploaded files

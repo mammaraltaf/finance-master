@@ -60,12 +60,12 @@
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label class="control-label">ID / Software</label>
-                                <div>
-                                    <input type="text" name="id_software" placeholder="Enter tax ID "
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
+{{--                                <label class="control-label">ID / Software</label>--}}
+{{--                                <div>--}}
+{{--                                    <input type="text" name="id_software" placeholder="Enter tax ID "--}}
+{{--                                           class="form-control input-lg" required>--}}
+{{--                                </div>--}}
+{{--                                <br>--}}
 
                                 <label class="control-label">Tax ID</label>
                                 <div>
@@ -194,12 +194,12 @@
                         <div class="form-group">
 
 
-                            <label class="control-label">ID / Software</label>
-                            <div>
-                                <input type="text" name="id_software" id="id_software" placeholder="Enter tax ID "
-                                       class="form-control input-lg" required>
-                            </div>
-                            <br>
+{{--                            <label class="control-label">ID / Software</label>--}}
+{{--                            <div>--}}
+{{--                                <input type="text" name="id_software" id="id_software" placeholder="Enter tax ID "--}}
+{{--                                       class="form-control input-lg" required>--}}
+{{--                            </div>--}}
+{{--                            <br>--}}
                             <label class="control-label">Tax ID</label>
                             <div>
                                 <input type="text" name="tax_id" id="tax_id" placeholder="Enter tax ID "
