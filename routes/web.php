@@ -12,6 +12,7 @@ use App\Http\Controllers\ManagerController;
 use App\Http\Controllers\DirectorController;
 use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ChartController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -130,7 +131,7 @@ Route::group(['middleware'=>'auth'],function (){
         'prefix' => UserTypesEnum::Finance,
         'as' => UserTypesEnum::Finance.'.',
     ],function (){
-        Route::get('/dashboard', [FinanceController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [ChartController::class, 'dashboard'])->name('dashboard');
         Route::get('/request', [FinanceController::class, 'requestFinance'])->name('request');
         Route::get('/get-new-requests', [FinanceController::class, 'getNewRequests'])->name('get-new-requests');
         Route::get('/get-request-detail/{id}', [FinanceController::class, 'getRequestDetail'])->name('get-request-detail');
@@ -148,7 +149,7 @@ Route::group(['middleware'=>'auth'],function (){
         'prefix' => UserTypesEnum::Manager,
         'as' => UserTypesEnum::Manager.'.',
     ],function (){
-        Route::get('/dashboard', [ManagerController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [ChartController::class, 'dashboard'])->name('dashboard');
         Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
         Route::get('/viewrequests', [ManagerController::class, 'viewrequests'])->name('viewrequests');
@@ -164,7 +165,7 @@ Route::group(['middleware'=>'auth'],function (){
         'prefix' => UserTypesEnum::Director,
         'as' => UserTypesEnum::Director.'.',
     ],function (){
-        Route::get('/dashboard', [DirectorController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [ChartController::class, 'dashboard'])->name('dashboard');
         Route::get('/logs', [DirectorController::class, 'logs'])->name('logs');
         Route::get('/viewrequests', [DirectorController::class, 'viewrequests'])->name('viewrequests');
         Route::post('/logfilters', [DirectorController::class, 'logfilters'])->name('logfilters');
@@ -180,7 +181,7 @@ Route::group(['middleware'=>'auth'],function (){
         'prefix' => UserTypesEnum::Accounting,
         'as' => UserTypesEnum::Accounting.'.',
     ],function (){
-        Route::get('/dashboard', [AccountingController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [ChartController::class, 'dashboard'])->name('dashboard');
         Route::get('/supplier', [AccountingController::class, 'supplier'])->name('supplier');
         Route::get('/logs', [AccountingController::class, 'logs'])->name('logs');
         Route::get('/viewrequests', [AccountingController::class, 'viewrequests'])->name('viewrequests');
