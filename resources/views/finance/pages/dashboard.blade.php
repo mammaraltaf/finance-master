@@ -20,9 +20,11 @@
         </h3>
     </div>
 
-    <canvas id="departmentChart" width="400" height="400"></canvas>
-    <canvas id="typeOfExpanseChart" width="400" height="400"></canvas>
-    <canvas id="yearChart" width="400" height="400"></canvas>
+    <div class="d-flex align-items-center w-100 mb-4">
+        <canvas id="departmentChart" class="w-50 h-100"></canvas>
+        <canvas id="typeOfExpanseChart" class="w-50 h-100" ></canvas>
+    </div>
+    <canvas id="yearChart" class="w-100" width="400" height="400"></canvas>
 
 @endsection
 @section('script')
