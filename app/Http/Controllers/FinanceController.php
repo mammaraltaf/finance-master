@@ -29,6 +29,22 @@ class FinanceController extends Controller
         $firstDayOfCurrentYear = Carbon::create($currentYear, 1, 1, 0, 0, 0);
         $lastDayOfCurrentYear = Carbon::create($currentYear, 12, 31, 0, 0, 0);
 
+        $chartColors =[
+            '#ff6384',
+            '#36a2eb',
+            '#ffce56',
+            '#3366CC', // blue
+            '#DC3912', // red
+            '#FF9900', // orange
+            '#109618', // green
+            '#990099', // purple
+            '#0099C6', // light blue
+            '#DD4477', // pink
+            '#66AA00', // dark green
+            '#B82E2E', // dark red
+            '#316395'  // dark blue
+        ];
+
         $requests = RequestFlow::with('company','supplier','typeOfExpense','department')
             ->whereStatus(StatusEnum::Paid)
             ->whereBetween('created_at', [$firstDayOfCurrentMonth, $lastDayOfCurrentMonth])
@@ -43,7 +59,7 @@ class FinanceController extends Controller
             'datasets' => [
                 [
                     'data' => $departmentTotals,
-                    'backgroundColor' => ['#ff6384', '#36a2eb', '#ffce56'],
+                    'backgroundColor' => $chartColors,
                     'hoverBackgroundColor' => ['#ff6384', '#36a2eb', '#ffce56']
                 ]
             ]
@@ -59,7 +75,7 @@ class FinanceController extends Controller
             'datasets' => [
                 [
                     'data' => $typeOfExpanseTotals,
-                    'backgroundColor' => ['#ff6384', '#36a2eb', '#ffce56', '#ff6384', '#36a2eb', '#ffce56'],
+                    'backgroundColor' => $chartColors,
                     'hoverBackgroundColor' => ['#ff6384', '#36a2eb', '#ffce56', '#ff6384', '#36a2eb', '#ffce56']
                 ]
             ]
@@ -73,7 +89,9 @@ class FinanceController extends Controller
             ->get();
 
         $requestsByMonth = $getAllYearRequests->groupBy(function($date) {
-            return Carbon::parse($date->created_at)->format('m'); // grouping by months
+            return Carbon::parse($date->created_at)->format('F'); // grouping by months
+        })->sortBy(function ($requests, $month) {
+            return Carbon::parse($month)->month; // sorting by month (numerical order)
         });
 
         $requestsByMonth = $requestsByMonth->map->sum('amount_in_gel')->toArray();
@@ -86,7 +104,7 @@ class FinanceController extends Controller
             'datasets' => [
                 [
                     'data' => $monthTotals,
-                    'backgroundColor' => ['#ff6384', '#36a2eb', '#ffce56', '#ff6384', '#36a2eb', '#ffce56'],
+                    'backgroundColor' => $chartColors,
                     'hoverBackgroundColor' => ['#ff6384', '#36a2eb', '#ffce56', '#ff6384', '#36a2eb', '#ffce56']
                 ]
             ]

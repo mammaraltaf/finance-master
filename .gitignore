@@ -22,3 +22,8 @@ Homestead.yaml
 Homestead.json
 /.vagrant
 .phpunit.result.cache
+.idea/commandlinetools/Laravel_4_19_23__4_35_PM.xml
+.idea/commandlinetools/schemas/frameworkDescriptionVersion1.1.4.xsd
+.idea/phpspec.xml
+.idea/codeception.xml
+composer.lock
