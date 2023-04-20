@@ -376,5 +376,83 @@ $basis=implode(',',$keep);
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+public function filter($id){
+    if($id=="all"){
+       return $this->request();
+    }else if($id=="review"){
+        $user = Auth::user();
+        $requests = RequestFlow::with('company')
+            ->where('user_id', $user->id)
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })->where('status','submitted-for-review')->get();
+        $companies = Company::where('slug', Session::get('url-slug'))->get();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
 
+        $departments = Department::all();
+        $suppliers = supplier::all();
+        $expenses = TypeOfExpanse::all();
+        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+    }
+    else if($id=="rejected"){
+        $user = Auth::user();
+        $requests = RequestFlow::with('company')
+            ->where('user_id', $user->id)
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })->whereIn('status',['finance-rejected','manager-rejected','director-rejected','rejected'])->get();
+        $companies = Company::where('slug', Session::get('url-slug'))->get();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+
+        $departments = Department::all();
+        $suppliers = supplier::all();
+        $expenses = TypeOfExpanse::all();
+        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+    }
+    else if($id=="finance"){
+        $user = Auth::user();
+        $requests = RequestFlow::with('company')
+            ->where('user_id', $user->id)
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })->where('status','finance-ok')->get();
+        $companies = Company::where('slug', Session::get('url-slug'))->get();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+
+        $departments = Department::all();
+        $suppliers = supplier::all();
+        $expenses = TypeOfExpanse::all();
+        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+    }
+    else if($id=="confirmed"){
+        $user = Auth::user();
+        $requests = RequestFlow::with('company')
+            ->where('user_id', $user->id)
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })->whereIn('status',['manager-confirmed','director-confirmed','confirmed-partially'])->get();
+        $companies = Company::where('slug', Session::get('url-slug'))->get();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+
+        $departments = Department::all();
+        $suppliers = supplier::all();
+        $expenses = TypeOfExpanse::all();
+        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+    }
+    else{
+        $user = Auth::user();
+        $requests = RequestFlow::with('company')
+            ->where('user_id', $user->id)
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })->where('status','paid')->get();
+        $companies = Company::where('slug', Session::get('url-slug'))->get();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+
+        $departments = Department::all();
+        $suppliers = supplier::all();
+        $expenses = TypeOfExpanse::all();
+        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+    }
+}
 }

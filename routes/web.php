@@ -124,7 +124,7 @@ Route::group(['middleware'=>'auth'],function (){
             Route::post('/delete-request', [UserController::class, 'deleterequest'])->name('delete-request');
             Route::get('/edit-request/{id}', [UserController::class, 'editrequest'])->name('edit-request');
             Route::post('/edit-request/{id}', [UserController::class, 'updaterequest'])->name('edit-request-post');
-           
+            Route::get('/filter/{id}',[UserController::class,'filter'])->name('filter');
             //        });
     });
 

@@ -16,13 +16,13 @@
 
 
     <div class="">
-        <button id="all" class="btn btn-info active" data-filter="all">All</button>
+        <button id="all" class="btn btn-info active filter">All</button>
 {{--        <button class="btn btn-info" data-filter="new">New</button>--}}
-        <button id="review" class="btn btn-info" data-filter="submitted-for-review">Submitted for review</button>
-        <button id="rejected" class="btn btn-info" data-filter="rejected">Rejected</button>
-        <button id="finance" class="btn btn-info" data-filter="finance-ok">Finance ok</button>
-        <button id="confirmed" class="btn btn-info" data-filter="confirmed-partially">Confirmed</button>
-        <button id="paid" class="btn btn-info" data-filter="paid">Paid</button>
+        <button id="review" class="btn btn-info filter" >Submitted for review</button>
+        <button id="rejected" class="btn btn-info filter" >Rejected</button>
+        <button id="finance" class="btn btn-info filter" >Finance ok</button>
+        <button id="confirmed" class="btn btn-info filter" >Confirmed</button>
+        <button id="paid" class="btn btn-info filter" >Paid</button>
     </div>
 
 
@@ -570,11 +570,15 @@
 
         $(document).ready(function() {
             // listen for click events on all the buttons
-            $('button').click(function() {
+            $('.filter').click(function() {
                 // get the id of the clicked button
                 var buttonId = $(this).attr('id');
                 // log the button name to the console
                 console.log(buttonId);
+
+	var url = "{{ route('user.filter', ':id') }}";
+	url = url.replace(':id', buttonId);
+	location.href = url;
             });
         });
 
