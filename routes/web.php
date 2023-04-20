@@ -103,7 +103,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/payments', [AdminController::class, 'payments'])->name('payments');
         Route::get('/company', [AdminController::class, 'company'])->name('company');
         Route::get('/edit-company/{id}', [AdminController::class, 'editCompany'])->name('edit-company');
-      
+        Route::post('/edit-company/{id}', [AdminController::class, 'editCompanyPost'])->name('edit-company-post');
     });
 
     /*User Routes*/

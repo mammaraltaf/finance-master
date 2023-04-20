@@ -213,7 +213,7 @@
                     var userType = response.users[0].id; 
                     $('#user-id').val(userType);
                     console.log("User type", userType)
-                    $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
+                    $('#companyFormEdit').attr('action',"{{url('/admin/edit-company/')}}"+'/'+company_id);
                     
                     $('#logoedit').attr('src', response.logo);
                     $('#edit-avatar-upload').val(null);
