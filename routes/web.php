@@ -99,8 +99,11 @@ Route::group(['middleware'=>'auth'],function (){
         'as' => UserTypesEnum::Admin.'.',
     ],function (){
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-        Route::get('/type-of-expense', [AdminController::class, 'typeOfExpense'])->name('type-of-expense');
-
+        Route::get('/viewrequests', [AdminController::class, 'viewrequests'])->name('viewrequests');
+        Route::post('/payments', [AdminController::class, 'payments'])->name('payments');
+        Route::get('/company', [AdminController::class, 'company'])->name('company');
+        Route::get('/edit-company/{id}', [AdminController::class, 'editCompany'])->name('edit-company');
+      
     });
 
     /*User Routes*/
@@ -121,7 +124,8 @@ Route::group(['middleware'=>'auth'],function (){
             Route::post('/delete-request', [UserController::class, 'deleterequest'])->name('delete-request');
             Route::get('/edit-request/{id}', [UserController::class, 'editrequest'])->name('edit-request');
             Route::post('/edit-request/{id}', [UserController::class, 'updaterequest'])->name('edit-request-post');
-//        });
+           
+            //        });
     });
 
 

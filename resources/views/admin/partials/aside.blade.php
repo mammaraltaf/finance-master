@@ -93,13 +93,7 @@
                         </a>
                     </div>
                     @endrole
-                    @role(\App\Classes\Enums\UserTypesEnum::Admin)
-                    <div class="menu-item">
-                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::Admin.'.type-of-expense') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::Admin.'.type-of-expense')}}" >
-                            <span class="menu-title">Manage Type Of Expanses</span>
-                        </a>
-                    </div>
-                    @endrole
+                  
                     @role('user')
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.supplier') ? 'active' : '' }}"
@@ -133,7 +127,19 @@
                             </a>
                         </div>
                         @endhasanyrole
-                    
+                        @hasanyrole('accounting|director|manager|admin')
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.viewrequests') ? 'active' : '' }}"
+                               href="{{url(auth()->user()->user_type.'/'.'viewrequests')}}" >
+                                <span class="menu-title">Manage Requests</span>
+                            </a>
+                        </div>
+                        <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::Admin.'.company') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::Admin.'.company')}}" >
+                               <span class="menu-title">Manage Company</span>
+                            </a>
+                        </div>
+                        @endhasanyrole
 
                     @role(\App\Classes\Enums\UserTypesEnum::User)
                     <div class="menu-item">

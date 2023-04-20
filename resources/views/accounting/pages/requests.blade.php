@@ -92,8 +92,8 @@
                   @endforeach
                 </tbody>
             </table>
-            <button disabled type="button" id="rejectBtn" class="btn btn-danger">Reject</button>
-            <button disabled type="button" id="payBtn" class="btn btn-success">Pay</button>
+            <button disabled type="button" id="rejectBtn" class="btn btn-danger rejectall">Reject All</button>
+            <button disabled type="button" id="payBtn" class="btn btn-success payall">Pay All</button>
         </form>
       </div>
     </div> 
@@ -236,12 +236,13 @@
         var selectedRows = table.rows({selected: true}).data();
         if (selectedRows.length > 0) {
           var ids = selectedRows.toArray().map(function (row) {
+            console.log(ids);
             return row[0];
           });
-          var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
-          $('#submit-btn').attr('action', url);
-          $('#submit-btn').submit();
-          console.log("url",url);
+         // var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
+       //   $('#submit-btn').attr('action', url);
+        //  $('#submit-btn').submit();
+         // console.log("url",url);
         }
       });
                   
