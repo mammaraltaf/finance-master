@@ -93,7 +93,7 @@
                         </a>
                     </div>
                     @endrole
-                  
+
                     @role('user')
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.supplier') ? 'active' : '' }}"
@@ -104,7 +104,7 @@
                     @endrole
 
                         @hasanyrole('super-admin|accounting')
-                        
+
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.supplier') ? 'active' : '' }}"
                                href="{{url(auth()->user()->user_type.'/'.'supplier')}}" >
@@ -119,7 +119,7 @@
                                 <span class="menu-title">Manage Requests</span>
                             </a>
                         </div>
-                        
+
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"
                                href="{{url(auth()->user()->user_type.'/'.'logs')}}" >
@@ -127,7 +127,7 @@
                             </a>
                         </div>
                         @endhasanyrole
-                        @hasanyrole('accounting|director|manager|admin')
+                        @hasanyrole('director|manager|admin')
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.viewrequests') ? 'active' : '' }}"
                                href="{{url(auth()->user()->user_type.'/'.'viewrequests')}}" >
@@ -149,7 +149,7 @@
                         </a>
                     </div>
                     @endrole
-                 
+
 
             </div>
             <!--end::Menu-->

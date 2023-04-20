@@ -27,3 +27,6 @@ Homestead.json
 .idea/phpspec.xml
 .idea/codeception.xml
 composer.lock
+*.jpg
+public/image/16820163543.jpg
+public/image/16820164061.jpg
