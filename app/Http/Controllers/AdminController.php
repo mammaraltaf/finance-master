@@ -56,13 +56,13 @@ class AdminController extends Controller
     }
     public function editCompany($id)
     {
-        dd($id);
+        // dd($id);
         $company = Company::with(['users'=>function($query){
             $query->where('user_type', UserTypesEnum::Admin);
         }])
             ->where('id', $id)
             ->first();
-dd($company);
+// dd($company);
         return response()->json($company);
     }
 }

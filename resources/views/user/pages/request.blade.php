@@ -278,11 +278,9 @@
         <div class="overflow-auto">
 
             {{--All Datatable--}}
-            <div class="overflow-auto">
+            {{-- <div class="overflow-auto"> --}}
             <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-
-
-                    <thead>
+                <thead>
                     <tr class="text-nowrap text-center">
                         <th>Initiator</th>
                         <th>Company</th>
@@ -325,26 +323,12 @@
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request['status']}}</td>
-{{--                              <?php if ($request['status'] == "new"){ ?>--}}
-{{--                            <td class="d-flex align-items-center justify-content-center">--}}
-{{--                                <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"--}}
-{{--                                   class="fas px-1 fa-edit cursor-pointer text-primary"></i>--}}
-{{--                                <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"--}}
-{{--                                   class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i>--}}
-{{--                            </td>--}}
-{{--                           <?php }else{ ?>--}}
-
-{{--                             <td></td>--}}
-{{--                             <?php } ?>--}}
-
-
-                        {{-- @endhasanyrole --}}
 
                         </tr>
                     @endforeach
                     </tbody>
             </table>
-            </div>
+            {{-- </div> --}}
         </div>
     </div>
     {{-- Delete Modal --}}
@@ -385,6 +369,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
 
     <script type="text/javascript">
+     $('#suppliertable').DataTable();
         $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
@@ -395,7 +380,7 @@
 
         // Preview Start
         $(document).ready(function () {
-            $('#suppliertable').DataTable();
+            // $('#suppliertable').DataTable();
 
             var d = new Date();
 

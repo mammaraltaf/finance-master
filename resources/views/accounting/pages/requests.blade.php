@@ -178,7 +178,7 @@
             'checkboxes': {
               'selectRow': true,
               'selectCallback': function (nodes, selected) {
-                console.log("selected",selected);
+                console.log("selected",nodes);
                 if (selected) {
                   $('#payBtn').removeAttr('disabled');
                   $('#rejectBtn').removeAttr('disabled');
@@ -187,6 +187,8 @@
                   $('#rejectBtn').attr('disabled', 'disabled');
                 }
               },
+              
+
               'selectAllCallback': function (nodes, selected, indeterminate) {
                 if (selected) {
                   $('#payBtn').removeAttr('disabled');
@@ -233,34 +235,39 @@
       });
                 
       $('#rejectBtn').on('click', function () {
+        
+        console.log("aaaaaa",table);
         var selectedRows = table.rows({selected: true}).data();
         if (selectedRows.length > 0) {
           var ids = selectedRows.toArray().map(function (row) {
-            console.log(ids);
-            return row[0];
+            return row[1];
           });
-         // var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
-       //   $('#submit-btn').attr('action', url);
-        //  $('#submit-btn').submit();
-         // console.log("url",url);
+          // var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
+          // $('#submit-btn').attr('action', url);
+          // $('#submit-btn').submit();
+          console.log("ids",ids);
         }
       });
                   
       $('#payBtn').on('click', function () {
         var selectedRows = table.rows({selected: true}).data();
-        console.log("selectedRows",selectedRows)
+        console.log("selectedRows>>>>>",selectedRows)
         if (selectedRows.length > 0) {
           var ids = selectedRows.toArray().map(function (row) {
             return row[1];
           });
           console.log(ids);
-          var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
-          $('#submit-btn').attr('action', url);
-          $('#submit-btn').submit();
-          console.log("url",url);
+          // var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
+          // $('#submit-btn').attr('action', url);
+          // $('#submit-btn').submit();
+          // console.log("url",url);
         }
       });
+      
+      
     });
+
+    
 
   
 
