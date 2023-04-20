@@ -4,6 +4,24 @@
 @endsection
 @section('content')
     <!--begin::Header-->
+    <style>
+        /* .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+        } */
+        ul.pagination .paginate_button:hover {
+            color: white !important;
+            /* border: 1px solid #111; */
+            background-color: blue!important;
+            /* background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #585858), color-stop(100%, #111)); */
+            /* background: -webkit-linear-gradient(top, #585858 0%, #111 100%); */
+            background: -moz-linear-gradient(top, #585858 0%, #1755ba 100%)!important;
+            background: -ms-linear-gradient(top, #585858 0%, #1755ba 100%)!important;
+            background: -o-linear-gradient(top, #585858 0%, #1755ba 100%)!important;
+            /* background: linear-gradient(to bottom, #585858 0%, #111 100%); */
+        }
+        /* .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+            background-color: blue!important;
+        } */
+    </style>
     <br>
     <div class="card-header pt-5">
 
