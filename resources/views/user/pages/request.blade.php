@@ -15,14 +15,14 @@
     </div>
 
 
-    <div class="btn-group">
-        <button class="btn btn-info active" data-filter="all">All</button>
+    <div class="">
+        <button id="all" class="btn btn-info active" data-filter="all">All</button>
 {{--        <button class="btn btn-info" data-filter="new">New</button>--}}
-        <button class="btn btn-info" data-filter="submitted-for-review">Submitted for review</button>
-        <button class="btn btn-info" data-filter="rejected">Rejected</button>
-        <button class="btn btn-info" data-filter="finance-ok">Finance ok</button>
-        <button class="btn btn-info" data-filter="confirmed-partially">Confirmed</button>
-        <button class="btn btn-info" data-filter="paid">Paid</button>
+        <button id="review" class="btn btn-info" data-filter="submitted-for-review">Submitted for review</button>
+        <button id="rejected" class="btn btn-info" data-filter="rejected">Rejected</button>
+        <button id="finance" class="btn btn-info" data-filter="finance-ok">Finance ok</button>
+        <button id="confirmed" class="btn btn-info" data-filter="confirmed-partially">Confirmed</button>
+        <button id="paid" class="btn btn-info" data-filter="paid">Paid</button>
     </div>
 
 
@@ -551,21 +551,32 @@
         });
 
         // Data Filter Start
-        $(document).ready(function () {
-            $(".btn-group button").click(function () {
-                var filterValue = $(this).attr('data-filter');
-                console.log("filterValue", filterValue)
-                $("#suppliertable tbody tr").hide();
-                $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
-                if (filterValue === "all") {
-                    $("#suppliertable tbody tr").show();
-                } else {
-                    $("#suppliertable tbody tr").hide();
-                    $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
-                }
-                $(".btn-group button").removeClass("active");
-                $(this).addClass("active");
+        // $(document).ready(function () {
+        //     $(".btn-group button").click(function () {
+        //         var filterValue = $(this).attr('data-filter');
+        //         console.log("filterValue", filterValue)
+        //         $("#suppliertable").hide();
+        //         $("#suppliertable tbody tr[data-status='" + filterValue + "']").show();
+        //         if (filterValue === "all") {
+        //             $("#suppliertable").show();
+        //         } else {
+        //             $("#suppliertable").hide();
+        //             $("#suppliertable tr[data-status='" + filterValue + "']").show();
+        //         }
+        //         $(".btn-group button").removeClass("active");
+        //         $(this).addClass("active");
+        //     });
+        // });
+
+        $(document).ready(function() {
+            // listen for click events on all the buttons
+            $('button').click(function() {
+                // get the id of the clicked button
+                var buttonId = $(this).attr('id');
+                // log the button name to the console
+                console.log(buttonId);
             });
         });
+
     </script>
 @endsection
