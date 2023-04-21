@@ -40,12 +40,12 @@ class RequestSeeder extends Seeder
                 'amount_in_gel' => '10.09',
                 'description' => 'Testing Description',
                 'basis' => '168164621911.png',
-                'payment_date' => Carbon::create($year, rand(1, 12), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
-                'submission_date' => Carbon::create($year, rand(1, 12), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
+                'payment_date' => Carbon::create($year, rand(1, 4), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
+                'submission_date' => Carbon::create($year, rand(1, 4), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
                 'status' => StatusEnum::$Statuses[array_rand(StatusEnum::$Statuses)],
                 'user_id' => '3',
-                'created_at' => Carbon::create($year, rand(1, 12), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
-                'updated_at' => Carbon::create($year, rand(1, 12), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
+                'created_at' => Carbon::create($year, rand(1, 4), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
+                'updated_at' => Carbon::create($year, rand(1, 4), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
             ]);
 
         }

@@ -192,10 +192,13 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/payment/{id}', [AccountingController::class, 'payment'])->name('payment');
         Route::post('/payment/{id}', [AccountingController::class, 'pay'])->name('payment-post');
         Route::post('/payments', [AccountingController::class, 'payments'])->name('payments');
+        Route::post('/bulk-pay-or-reject', [AccountingController::class, 'bulkPayOrReject'])->name('bulk-pay-or-reject');
+
         Route::post('/logfilters', [AccountingController::class, 'logfilters'])->name('logfilters');
         Route::get('/edit-supplier/{id}', [AccountingController::class, 'editsupplier'])->name('edit-supplier');
         Route::post('/edit-supplier/{id}', [AccountingController::class, 'updatesupplier'])->name('edit-supplier-post');
         Route::get('/alldata', [AccountingController::class, 'alldata'])->name('alldata');
+
     });
 });
 

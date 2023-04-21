@@ -3,7 +3,7 @@
 @section('pageTitle')
 @endsection
 @section('content')
-    
+
     <div class="card-header pt-5">
 
         <h3 class="card-title">
@@ -26,9 +26,9 @@
                 <input type="submit" class="btn btn-sm btn-primary" id="dates" value="Generate">
               </div>
               </div>
-        </form> 
+        </form>
     </div>
-         
+
     <!--begin::Body-->
 
 
@@ -87,15 +87,15 @@
                   @endforeach
 
               </tbody>
-              
+
             </table>
-            <button  type="submit" id="rejectBtn" class="btn btn-danger rejectall">Reject All</button>
-            <button  type="submit" id="payBtn" class="btn btn-success payall">Pay All</button>
+            <button  type="button" id="rejectBtn" class="btn btn-danger rejectall">Reject Selected</button>
+            <button  type="button" id="payBtn" class="btn btn-success payall">Pay Selected</button>
         </form>
       </div>
-    </div> 
-      
-     
+    </div>
+
+
       <div class="modal fade" id="document-modal" tabindex="-1" role="dialog" aria-labelledby="document-modal-label" aria-hidden="true">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -126,15 +126,15 @@
             </div>
           </div>
       </div>
- 
+
 
 
 @endsection
 @section('script')
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-  
-    
+
+
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -184,7 +184,7 @@
     //               $('#rejectBtn').attr('disabled', 'disabled');
     //             }
     //           },
-              
+
 
     //           'selectAllCallback': function (nodes, selected, indeterminate) {
     //             if (selected) {
@@ -230,9 +230,9 @@
     //       'colvis'
     //     ]
     //   });
-                
+
     //   $('#rejectBtn').on('click', function () {
-        
+
     //     console.log("aaaaaa",table);
     //     var selectedRows = table.rows({selected: true}).data();
     //     if (selectedRows.length > 0) {
@@ -245,7 +245,7 @@
     //       console.log("ids",ids);
     //     }
     //   });
-                  
+
     //   $('#payBtn').on('click', function () {
     //     var selectedRows = table.rows({selected: true}).data();
     //     console.log("selectedRows>>>>>",selectedRows)
@@ -260,8 +260,8 @@
     //       // console.log("url",url);
     //     }
     //   });
-      
-      
+
+
     // });
     $(document).ready(function() {
       var table = $('#accounting').DataTable({
@@ -271,10 +271,10 @@
           'orderable': false,
           'className': 'dt-body-center',
           'render': function(data, type, full, meta) {
-            return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html().replace(/"/g, '&quot;') + '" data-rowid="' + meta.row + '">'; 
+            return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html().replace(/"/g, '&quot;') + '" data-rowid="' + meta.row + '">';
           }
         }],
-       
+
         'order': [1, 'asc'],
         dom: 'Blfrtip',
         lengthChange: true,
@@ -303,7 +303,7 @@
           },
           'colvis'
         ]
-        
+
       });
 
       // Handle click on "Select all" control
@@ -335,9 +335,26 @@
         var ids=selectedIds.map(input=>{
           return $(input).attr('value');
         })
-        var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
-          $('#submit-btn').attr('action', url);
-          $('#submit-btn').submit();
+        {{--var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');--}}
+          var bulkIds = ids.join(',');
+          var url = "{{url('accounting/bulk-pay-or-reject/')}}";
+          $.ajax({
+              type: "POST",
+              url: url,
+              data: {
+                  bulkIds:bulkIds,
+                  action:'reject'
+              },
+              success:function (response){
+                  if(response.success === 'reject'){
+                      toastr.success("Bulk Requests Rejected successfully!", "Finance Alert");
+                      location.reload();
+                  }
+                  else{
+                      toastr.error("Something went wrong!", "Finance Alert");
+                  }
+              }
+          })
       });
 
         // Handle click on "Pay All" button
@@ -350,16 +367,34 @@
         var ids=selectedIds.map(input=>{
           return $(input).attr('value');
         })
-        var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
-          $('#submit-btn').attr('action', url);
-          $('#submit-btn').submit();
+        var bulkIds = ids.join(',');
+        var url = "{{url('accounting/bulk-pay-or-reject/')}}";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    bulkIds:bulkIds,
+                    action:'pay'
+                },
+                success:function (response){
+                    if(response.success === 'success'){
+                        toastr.success("Bulk Requests Paid successfully!", "Finance Alert");
+                        location.reload();
+                    }
+                    else{
+                        toastr.error("Something went wrong!", "Finance Alert");
+                    }
+                }
+            });
+          // $('#submit-btn').attr('action', url);
+          // $('#submit-btn').submit();
         });
 
     });
 
-    
 
-  
+
+
 
     </script>
 

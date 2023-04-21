@@ -61,6 +61,72 @@ class AccountingController extends Controller
         return view('accounting.pages.requests', compact('requests'));
     }
 
+    public function bulkPayOrReject(Request $request)
+    {
+        try {
+            if ($request->action == 'pay') {
+                $validator = Validator::make($request->all(), [
+                    'bulkIds' => 'required',
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json(['error' => $validator->errors()->all()]);
+                }
+
+                $totalIds = explode(',', $request->bulkIds);
+//                $requestSingle = RequestFlow::whereIn('id', $totalIds)->update(['status' => StatusEnum::Paid]);
+
+                foreach ($totalIds as $id) {
+                    $requestSingle = RequestFlow::find($id);
+                    $requestSingle->status = StatusEnum::Paid;
+                    $requestSingle->save();
+                    $this->logActionCreate(Auth::id(), $id, ActionEnum::ACCOUNTING_ACCEPT);
+                    AcceptOrRejectRequest::dispatch($requestSingle);
+                }
+
+                return response()->json(['success' => 'success']);
+            }
+            /*Rejected*/
+            elseif ($request->action == 'reject') {
+                $validator = Validator::make($request->all(), [
+                    'bulkIds' => 'required',
+                ]);
+
+                if ($validator->fails()) {
+                    return response()->json(['error' => $validator->errors()->all()]);
+                }
+
+                $totalIds = explode(',', $request->bulkIds);
+//                $requestSingle = RequestFlow::whereIn('id', $totalIds)->update(['status' => StatusEnum::Rejected]);
+
+                    foreach ($totalIds as $id) {
+                        $requestSingle = RequestFlow::find($id);
+                        $requestSingle->status = StatusEnum::Rejected;
+                        $requestSingle->save();
+                        $this->logActionCreate(Auth::id(), $id, ActionEnum::ACCOUNTING_REJECT);
+                        AcceptOrRejectRequest::dispatch($requestSingle);
+                    }
+
+                    return response()->json(['success' => 'reject']);
+//                    return response()->json(['success' => 'Bulk Requests Rejected successfully.']);
+                }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
+
+
+        dd($request->all());
+        $input = $request->all();
+        $ids = $input['ids'];
+        $action = $input['action'];
+        $user = Auth::user();
+        $requests = RequestFlow::whereIn('id', $ids)->get();
+        foreach ($requests as $request) {
+            $this->dispatch(new AcceptOrRejectRequest($request, $action, $user));
+        }
+        return response()->json(['success' => 'Requests updated successfully.']);
+    }
+
     public function logfilters(Request $request)
     {
         $input = $request->all();
@@ -76,10 +142,13 @@ class AccountingController extends Controller
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('accounting.pages.accepted', compact('requests'));
     }
-public function alldata(){
-    $data_ids = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])->get();
-    dd(response()->json($data_ids));
-}
+
+    public function alldata()
+    {
+        $data_ids = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])->get();
+        dd(response()->json($data_ids));
+    }
+
     public function logs()
     {
         $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
@@ -118,18 +187,20 @@ public function alldata(){
             return redirect()->back()->withErrors($e->getMessage());
         }
     }
+
     public function editsupplier($id)
     {
         $user = Supplier::find($id);
         return response()->json($user);
     }
 
-    public function updatesupplier(Request $request, $id){
-        try{
+    public function updatesupplier(Request $request, $id)
+    {
+        try {
             $input = $request->all();
             $validator = Validator::make($input, [
-                'id_software' => 'required | unique:suppliers,id_software,'. $id,
-                'tax_id' => 'required | unique:suppliers,tax_id,'. $id,
+                'id_software' => 'required | unique:suppliers,id_software,' . $id,
+                'tax_id' => 'required | unique:suppliers,tax_id,' . $id,
                 'name' => 'required ',
                 // 'bank_id' => 'required',
                 // 'bank_name' => 'required',
@@ -146,28 +217,33 @@ public function alldata(){
             $supplier->id_software = $input['id_software'];
             $supplier->tax_id = $input['tax_id'];
             $supplier->supplier_name = $input['name'];
-            if(isset($input['bank_id'])){
+            if (isset($input['bank_id'])) {
                 $supplier->bank_id = $input['bank_id'];
             }
-            if(isset($input['bank_name'])){
-                $supplier->bank_name = $input['bank_name']; }
-            if(isset($input['bank_account'])){   $supplier->bank_account = $input['bank_account']; }
-            if(isset($input['bank_swift'])){    $supplier->bank_swift = $input['bank_swift'];}
-            if(isset($input['accounting_id'])){    $supplier->accounting_id = $input['accounting_id'];}
+            if (isset($input['bank_name'])) {
+                $supplier->bank_name = $input['bank_name'];
+            }
+            if (isset($input['bank_account'])) {
+                $supplier->bank_account = $input['bank_account'];
+            }
+            if (isset($input['bank_swift'])) {
+                $supplier->bank_swift = $input['bank_swift'];
+            }
+            if (isset($input['accounting_id'])) {
+                $supplier->accounting_id = $input['accounting_id'];
+            }
 
             $supplier->save();
 
-            if($supplier){
+            if ($supplier) {
                 return redirect()->back()->with('success', 'Supplier updated successfully');
             }
 
             return redirect()->back()->with('error', 'Something went wrong');
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
 
 
 }
