@@ -37,15 +37,12 @@
         <!-- Document List -->
       <div class="row">
         <form id="submit-btn" action="" method=""  >
-          <div class="container">
-          <div class="overflow-auto">
-      
             <table name="accounting" id="accounting" class="display px-2 table table-striped table-bordered " style="width:100%">
-                <thead>
-                  <tr class="text-nowrap text-center">
-                    <th></th>
-                    <th class="d-none">id</th>
-                      <th>Initiator</th>
+              <thead>
+                <tr>
+                  <th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
+                  <th>ids</th>
+                  <th>Initiator</th>
                       <th>Company</th>
                       <th>Department</th>
                       <th>Supplier</th>
@@ -63,10 +60,8 @@
                   <tbody>
                     @foreach($requests as $request)
                       <tr class="text-center">
-                        <td>
-                          
-                        </td>
-                        <td class="d-none">{{$request->id}}</td>
+                        <td><input type="checkbox" name="id[]" value="{{ $request->id }}"></td>
+                        <td>{{ $request->id }}</td>
                           <td>{{$request->initiator ?? ''}}</td>
                           <td>{{$request->company->name ?? ''}}</td>
                           <td>{{$request->department->name ?? ''}}</td>
@@ -90,10 +85,12 @@
                           <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
                       </tr>
                   @endforeach
-                </tbody>
+
+              </tbody>
+              
             </table>
-            <button disabled type="button" id="rejectBtn" class="btn btn-danger rejectall">Reject All</button>
-            <button disabled type="button" id="payBtn" class="btn btn-success payall">Pay All</button>
+            <button  type="submit" id="rejectBtn" class="btn btn-danger rejectall">Reject All</button>
+            <button  type="submit" id="payBtn" class="btn btn-success payall">Pay All</button>
         </form>
       </div>
     </div> 
@@ -169,42 +166,116 @@
       });
     });
 
-    $(document).ready(function () {
-      var selectedCheckboxes = [];
-      var table = $('#accounting').DataTable({
-        'columnDefs': [
-          {
-            'targets': [0],
-            'checkboxes': {
-              'selectRow': true,
-              'selectCallback': function (nodes, selected) {
-                console.log("selected",nodes);
-                if (selected) {
-                  $('#payBtn').removeAttr('disabled');
-                  $('#rejectBtn').removeAttr('disabled');
-                } else {
-                  $('#payBtn').attr('disabled', 'disabled');
-                  $('#rejectBtn').attr('disabled', 'disabled');
-                }
-              },
+    // $(document).ready(function () {
+    //   var selectedCheckboxes = [];
+    //   var table = $('#accounting').DataTable({
+    //     'columnDefs': [
+    //       {
+    //         'targets': [0],
+    //         'checkboxes': {
+    //           'selectRow': true,
+    //           'selectCallback': function (nodes, selected) {
+    //             console.log("selected",nodes);
+    //             if (selected) {
+    //               $('#payBtn').removeAttr('disabled');
+    //               $('#rejectBtn').removeAttr('disabled');
+    //             } else {
+    //               $('#payBtn').attr('disabled', 'disabled');
+    //               $('#rejectBtn').attr('disabled', 'disabled');
+    //             }
+    //           },
               
 
-              'selectAllCallback': function (nodes, selected, indeterminate) {
-                if (selected) {
-                  $('#payBtn').removeAttr('disabled');
-                  $('#rejectBtn').removeAttr('disabled');
-                } else {
-                  $('#payBtn').attr('disabled', 'disabled');
-                  $('#rejectBtn').attr('disabled', 'disabled');
-                }
-              }
-            }
+    //           'selectAllCallback': function (nodes, selected, indeterminate) {
+    //             if (selected) {
+    //               $('#payBtn').removeAttr('disabled');
+    //               $('#rejectBtn').removeAttr('disabled');
+    //             } else {
+    //               $('#payBtn').attr('disabled', 'disabled');
+    //               $('#rejectBtn').attr('disabled', 'disabled');
+    //             }
+    //           }
+    //         }
+    //       }
+    //     ],
+    //     'select': {
+    //       'style': 'multi'
+    //     },
+    //     'order': [[1, 'asc']],
+    //     dom: 'Blfrtip',
+    //     lengthChange: true,
+    //     buttons: [
+    //       {
+    //         extend: 'copy',
+    //         exportOptions: {
+    //           columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+    //         }
+    //       },
+    //       {
+    //         extend: 'excel',
+    //         orientation : 'landscape',
+    //         pageSize : 'LEGAL',
+    //         exportOptions: {
+    //           columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+    //         }
+    //       },
+    //       {
+    //         extend: 'pdf',
+    //         orientation : 'landscape',
+    //         pageSize : 'LEGAL',
+    //         exportOptions: {
+    //           columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+    //         }
+    //       },
+    //       'colvis'
+    //     ]
+    //   });
+                
+    //   $('#rejectBtn').on('click', function () {
+        
+    //     console.log("aaaaaa",table);
+    //     var selectedRows = table.rows({selected: true}).data();
+    //     if (selectedRows.length > 0) {
+    //       var ids = selectedRows.toArray().map(function (row) {
+    //         return row[1];
+    //       });
+    //       // var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
+    //       // $('#submit-btn').attr('action', url);
+    //       // $('#submit-btn').submit();
+    //       console.log("ids",ids);
+    //     }
+    //   });
+                  
+    //   $('#payBtn').on('click', function () {
+    //     var selectedRows = table.rows({selected: true}).data();
+    //     console.log("selectedRows>>>>>",selectedRows)
+    //     if (selectedRows.length > 0) {
+    //       var ids = selectedRows.toArray().map(function (row) {
+    //         return row[1];
+    //       });
+    //       console.log(ids);
+    //       // var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
+    //       // $('#submit-btn').attr('action', url);
+    //       // $('#submit-btn').submit();
+    //       // console.log("url",url);
+    //     }
+    //   });
+      
+      
+    // });
+    $(document).ready(function() {
+      var table = $('#accounting').DataTable({
+        'columnDefs': [{
+          'targets': 0,
+          'searchable': false,
+          'orderable': false,
+          'className': 'dt-body-center',
+          'render': function(data, type, full, meta) {
+            return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html().replace(/"/g, '&quot;') + '" data-rowid="' + meta.row + '">'; 
           }
-        ],
-        'select': {
-          'style': 'multi'
-        },
-        'order': [[1, 'asc']],
+        }],
+       
+        'order': [1, 'asc'],
         dom: 'Blfrtip',
         lengthChange: true,
         buttons: [
@@ -232,39 +303,58 @@
           },
           'colvis'
         ]
-      });
-                
-      $('#rejectBtn').on('click', function () {
         
-        console.log("aaaaaa",table);
-        var selectedRows = table.rows({selected: true}).data();
-        if (selectedRows.length > 0) {
-          var ids = selectedRows.toArray().map(function (row) {
-            return row[1];
-          });
-          // var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
-          // $('#submit-btn').attr('action', url);
-          // $('#submit-btn').submit();
-          console.log("ids",ids);
+      });
+
+      // Handle click on "Select all" control
+      $('#example-select-all').on('click', function() {
+        // Check/uncheck all checkboxes in the table
+        var rows = table.rows({
+          'search': 'applied'
+        }).nodes();
+        $('input[type="checkbox"]', rows).prop('checked', this.checked);
+      });
+
+      // Handle click on checkbox to set state of "Select all" control
+      $('#accounting tbody').on('change', 'input[type="checkbox"]', function() {
+        // If checkbox is not checked
+        if (!this.checked) {
+          var el = $('#example-select-all').get(0);
+          if (el && el.checked && ('indeterminate' in el)) {
+            el.indeterminate = true;
+          }
         }
       });
-                  
-      $('#payBtn').on('click', function () {
-        var selectedRows = table.rows({selected: true}).data();
-        console.log("selectedRows>>>>>",selectedRows)
-        if (selectedRows.length > 0) {
-          var ids = selectedRows.toArray().map(function (row) {
-            return row[1];
-          });
-          console.log(ids);
-          // var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
-          // $('#submit-btn').attr('action', url);
-          // $('#submit-btn').submit();
-          // console.log("url",url);
-        }
+
+      // Handle click on "Reject All" button
+      $('#rejectBtn').on('click', function() {
+        var selectedIds = [];
+        $('input[name="id[]"]:checked').each(function() {
+          selectedIds.push($(this).attr('value'));
+        });
+        var ids=selectedIds.map(input=>{
+          return $(input).attr('value');
+        })
+        var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
+          $('#submit-btn').attr('action', url);
+          $('#submit-btn').submit();
       });
-      
-      
+
+        // Handle click on "Pay All" button
+        $('#payBtn').on('click', function() {
+        var selectedIds = [];
+
+        $('input[name="id[]"]:checked').each(function() {
+          selectedIds.push($(this).attr('value'));
+        });
+        var ids=selectedIds.map(input=>{
+          return $(input).attr('value');
+        })
+        var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
+          $('#submit-btn').attr('action', url);
+          $('#submit-btn').submit();
+        });
+
     });
 
     
