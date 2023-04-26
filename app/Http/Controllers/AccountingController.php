@@ -199,7 +199,7 @@ class AccountingController extends Controller
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
-                'id_software' => 'required | unique:suppliers,id_software,' . $id,
+                'id_software' => 'unique:suppliers,id_software,' . $id,
                 'tax_id' => 'required | unique:suppliers,tax_id,' . $id,
                 'name' => 'required ',
                 // 'bank_id' => 'required',
@@ -214,7 +214,6 @@ class AccountingController extends Controller
             }
 
             $supplier = Supplier::find($id);
-            $supplier->id_software = $input['id_software'];
             $supplier->tax_id = $input['tax_id'];
             $supplier->supplier_name = $input['name'];
             if (isset($input['bank_id'])) {

@@ -4,7 +4,7 @@
         <!--begin::Logo-->
         <a href="#">
 {{--            <img style="align-items: center; width:150px; height:20px;" alt="Finance" src="{{asset('assets/logo/logo.png')}}"  />--}}
-            <h2 style="color: white;">Finance</h2>
+            <h2 style="color: white;">Expense Management</h2>
         </a>
         <!--end::Logo-->
         <!--begin::Aside minimize-->

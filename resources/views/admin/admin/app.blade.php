@@ -25,7 +25,6 @@
             integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     @yield('styles')
 </head>
-@include('admin.partials.sessionMessages')
 
 <!--end::Head-->
 <!--begin::Body-->
@@ -45,8 +44,10 @@
             @include('admin.partials.header')
             <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
                 <!--begin::Post-->
+                    @include('admin.partials.sessionMessages')
                 <div class="post d-flex flex-column-fluid" id="kt_post">
                     <!--begin::Container-->
+
                     <div id="kt_content_container" class="container-xxl">
                         <!--begin::Row-->
                         <div class="row g-5 g-xl-8">

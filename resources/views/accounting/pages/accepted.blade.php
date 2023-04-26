@@ -34,13 +34,15 @@
     </div>
     <!--end::Header-->
     <!--begin::Body-->
-   
+
 
     <div class="container">
       <div class="overflow-auto">
         <table id="reviewDocument" name="reviewDocument" class="table table-striped table-bordered" cellspacing="0">
           <thead>
             <tr>
+                <th>ID</th>
+                <th>Request Created At</th>
                 <th>Initiator</th>
                 <th>Company</th>
                 <th>Department</th>
@@ -59,6 +61,8 @@
           <tbody>
             @foreach($requests as $request)
                 <tr class="text-nowrap text-center" data-status="{{$request['action']}}">
+                    <td>{{$request['id'] ?? ''}}</td>
+                    <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request['initiator'] ?? ''}}</td>
                     <td>{{$request['compname'] ?? ''}}</td>
                     <td>{{$request['depname'] ?? ''}}</td>
@@ -86,7 +90,7 @@
         </table>
       </div>
 
-      
+
 
 
 @endsection
@@ -104,13 +108,13 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
- 
+
  <script>
       $(document).ready(function() {
         $('#reviewDocument').DataTable({
           dom: 'Blfrtip',
           lengthChange: true,
-          buttons: [ 
+          buttons: [
 
             {
 extend: 'copy',
@@ -138,7 +142,7 @@ columns: [0,1, 5, 6, 7, 8,9,10,11]
            ]
     } );
         });
-      
+
         // Data Filter Start
         $(document).ready(function () {
             $(".btn-group button").click(function () {
@@ -156,7 +160,7 @@ columns: [0,1, 5, 6, 7, 8,9,10,11]
                 $(this).addClass("active");
             });
         });
-      
+
     </script>
 
 @endsection

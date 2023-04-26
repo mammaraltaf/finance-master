@@ -186,7 +186,7 @@ class SuperAdminController extends Controller
             $input = $request->all();
             $validator = Validator::make($input, [
                 'logo' => 'required',
-                'id_software' => 'required | unique:companies,id_software',
+//                'id_software' => 'required | unique:companies,id_software',
                 'tax_id' => 'required | unique:companies,tax_id',
                 'company_name' => 'required',
                 'threshold_amount' => 'required',
@@ -265,7 +265,6 @@ class SuperAdminController extends Controller
             }
 
             $company = Company::find($id);
-            $company->id_software = $input['id_software'];
             $company->tax_id = $input['tax_id'];
             $company->name = $input['company_name'];
             $company->slug = Str::slug($input['company_name']);
@@ -479,7 +478,7 @@ class SuperAdminController extends Controller
         try{
             $input = $request->all();
             $validator = Validator::make($input, [
-                'id_software' => 'required | unique:suppliers,id_software,'. $id,
+                'id_software' => 'unique:suppliers,id_software,'. $id,
                 'tax_id' => 'required | unique:suppliers,tax_id,'. $id,
                 'name' => 'required ',
                 // 'bank_id' => 'required',
