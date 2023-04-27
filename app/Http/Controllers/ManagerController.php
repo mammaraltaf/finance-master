@@ -42,7 +42,17 @@ class ManagerController extends Controller
     }
     public function viewrequests()
     {
-        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::FinanceOk])->get();
+//        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::FinanceOk])->get();
+
+        $user = Auth::user();
+        $companyIds = $user->companies->pluck('id')->toArray();
+//        $departmentIds = $user->departments->pluck('id')->toArray();
+
+        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+            ->whereIn('company_id', $companyIds)
+//            ->whereIn('department_id', $departmentIds)
+            ->whereStatus(StatusEnum::FinanceOk)
+            ->get();
         return view('manager.pages.requests', compact('requests'));
     }
     public function payments(Request $request)
@@ -60,7 +70,7 @@ class ManagerController extends Controller
     {
         try{
             $requestFlow = RequestFlow::with('company')->find($request->id);
-            if ($requestFlow->amount > $requestFlow->company->threshold_amount) {
+            if ($requestFlow->amount_in_gel > $requestFlow->company->threshold_amount) {
                 $requestFlow->status = StatusEnum::ThresholdExceeded;
             }
             else {

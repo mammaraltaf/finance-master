@@ -35,13 +35,6 @@
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label class="control-label">ID / Software (Must be Unique)</label>
-                                <div>
-                                    <input type="text" name="id_software" placeholder="Enter ID / Software"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
-
                                 <label class="control-label">Name</label>
                                 <div>
                                     <input type="text" name="name" placeholder="Enter Name"
@@ -84,12 +77,6 @@
                             @csrf
                             <input type="hidden" name="company_id" id="company_id">
                             <div class="form-group">
-                                <label class="control-label">ID / Software (Must be Unique)</label>
-                                <div>
-                                    <input type="text" name="id_software" id="id_software" placeholder="Enter ID / Software"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
 
                                 <label class="control-label">Name</label>
                                 <div>

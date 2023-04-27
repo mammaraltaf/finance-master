@@ -40,7 +40,17 @@ class AccountingController extends Controller
 
     public function viewrequests()
     {
-        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])->get();
+//        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])->get();
+        $user = Auth::user();
+        $companyIds = $user->companies->pluck('id')->toArray();
+//        $departmentIds = $user->departments->pluck('id')->toArray();
+
+        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+            ->whereIn('company_id', $companyIds)
+//            ->whereIn('department_id', $departmentIds)
+            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])
+            ->get();
+
         return view('accounting.pages.requests', compact('requests'));
     }
 

@@ -24,7 +24,25 @@ class FinanceController extends Controller
 
 
     public function requestFinance(){
-        $requests = RequestFlow::with('company','supplier','typeOfExpense')->whereStatus(StatusEnum::SubmittedForReview)->get();
+        $user = Auth::user();
+//        $requests = RequestFlow::with('company','supplier','typeOfExpense')
+//            ->whereHas('company', function($query) use ($user) {
+//                $query->where('id', $user->companies->pluck('id'));
+//            })
+//            ->whereHas('department', function($query) use ($user) {
+//                $query->where('id', $user->departments->pluck('id'));
+//            })
+//            ->whereStatus(StatusEnum::SubmittedForReview)
+//            ->get();
+        $companyIds = $user->companies->pluck('id')->toArray();
+//        $departmentIds = $user->departments->pluck('id')->toArray();
+
+        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+            ->whereIn('company_id', $companyIds)
+//            ->whereIn('department_id', $departmentIds)
+            ->whereStatus(StatusEnum::SubmittedForReview)
+            ->get();
+
         return view('finance.pages.request', compact('requests'));
     }
 

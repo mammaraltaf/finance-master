@@ -127,7 +127,8 @@
                             </a>
                         </div>
                         @endhasanyrole
-                        @hasanyrole('director|manager|admin')
+{{--                        @hasanyrole('director|manager|admin')--}}
+                        @hasanyrole('admin')
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.viewrequests') ? 'active' : '' }}"
                                href="{{url(auth()->user()->user_type.'/'.'viewrequests')}}" >

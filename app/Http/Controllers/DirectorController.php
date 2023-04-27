@@ -29,7 +29,20 @@ class DirectorController extends Controller
     }
     public function viewrequests()
     {
-        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::FinanceOk, StatusEnum::ManagerConfirmed])->get();
+//        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+//                    ->whereIn('status', [StatusEnum::ManagerConfirmed, StatusEnum::ThresholdExceeded])
+//                    ->get();
+        $user = Auth::user();
+        $companyIds = $user->companies->pluck('id')->toArray();
+//        $departmentIds = $user->departments->pluck('id')->toArray();
+
+        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+            ->whereIn('company_id', $companyIds)
+//            ->whereIn('department_id', $departmentIds)
+            ->whereIn('status', [StatusEnum::ManagerConfirmed, StatusEnum::ThresholdExceeded])
+            ->get();
+
+
         return view('director.pages.requests', compact('requests'));
     }
 
@@ -38,7 +51,8 @@ class DirectorController extends Controller
         $input = $request->all();
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
-        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::FinanceOk, StatusEnum::ManagerConfirmed])
+        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+            ->whereIn('status', [StatusEnum::FinanceOk, StatusEnum::ManagerConfirmed])
             ->whereBetween('created_at', [$start, $end])
             ->get();
         return view('director.pages.requests', compact('requests'));
@@ -75,7 +89,7 @@ class DirectorController extends Controller
     {
         try{
             $requestFlow = RequestFlow::with('company')->find($request->id);
-            if ($requestFlow->amount > $requestFlow->company->threshold_amount) {
+            if ($requestFlow->amount_in_gel > $requestFlow->company->threshold_amount) {
                 $requestFlow->status = StatusEnum::ConfirmedPartially;
             }
             else {
