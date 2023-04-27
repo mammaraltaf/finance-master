@@ -41,7 +41,9 @@
         <table id="reviewDocument" name="reviewDocument" class="table table-striped table-bordered" cellspacing="0">
           <thead>
             <tr>
+              <th>ID</th>
                 <th>Initiator</th>
+                <th>Created At</th>
                 <th>Company</th>
                 <th>Department</th>
                 <th>Supplier</th>
@@ -58,7 +60,9 @@
           <tbody>
             @foreach($requests as $request)
                 <tr data-status="{{$request['action']}}">
+                  <td>{{$request->id}}</td>
                     <td>{{$request['initiator'] ?? ''}}</td>
+                    <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request['compname'] ?? ''}}</td>
                     <td>{{$request['depname'] ?? ''}}</td>
                     <td>{{$request['supname'] ?? ''}}</td>
