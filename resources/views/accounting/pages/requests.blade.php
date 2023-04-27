@@ -35,7 +35,7 @@
     <div class="container-fluid">
 
         <!-- Document List -->
-      <div class="row">
+      <div class="row overflow-auto">
         <form id="submit-btn" action="" method=""  >
             <table name="accounting" id="accounting" class="display px-2 table table-striped table-bordered " style="width:100%">
               <thead>

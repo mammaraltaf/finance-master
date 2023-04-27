@@ -106,7 +106,9 @@
                 {{-- <table id="companyTable" name="companyTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
+                    <th>ID</th>
                 <th>Logo</th>
+                <th>Created At</th>
                     <th>ID / Software</th>
                     <th>Tax ID</th>
                     <th>Company Name</th>
@@ -118,7 +120,9 @@
                 <tbody>
                 @foreach($companys as $company)
                     <tr class="text-nowrap text-center">
+                        <td>{{$company->id}}</td>
                         <td><img src="{{asset('image/'.$company->logo)}}" alt="Company Logo" width="50" height="40"></td>
+                        <td>{{\Carbon\Carbon::parse($company['created_at']) ?? ''}}</td>
                         <td>{{$company->id_software}}</td>
                         <td>{{$company->tax_id}}</td>
                         <td>{{$company->name}}</td>
