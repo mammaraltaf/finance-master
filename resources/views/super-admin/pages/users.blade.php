@@ -139,7 +139,9 @@
                 {{-- <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
+                    <th>ID</th>
                     <th>Name</th>
+                    <th>Created At</th>
                     <th>Email</th>
                     <th>Type</th>
                     <th>Status</th>
@@ -149,7 +151,9 @@
                 <tbody>
                 @foreach($users as $user)
                     <tr class="text-center">
+                        <td>{{$user->id}}</td>
                         <td>{{$user->name}}</td>
+                        <td>{{\Carbon\Carbon::parse($user['created_at']) ?? ''}}</td>
                         <td>{{$user->email}}</td>
                         <td>
                             <span class="badge badge-success">{{$user->user_type}}</span>
