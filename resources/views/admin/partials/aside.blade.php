@@ -83,7 +83,7 @@
 
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.type-of-expense') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.type-of-expense')}}" >
-                            <span class="menu-title">Manage Type Of Expanses</span>
+                            <span class="menu-title">Manage Type Of Expenses</span>
                         </a>
                     </div>
 

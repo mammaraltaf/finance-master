@@ -33,24 +33,75 @@
         var departmentChart = new Chart(ctx, {
             type: 'doughnut',
             data: {!! json_encode($departmentChart) !!},
-            options: {
-                // responsive: true,
+            // options: {
+            //     // responsive: true,
 
-                // maintainAspectRatio: false,
+            //     // maintainAspectRatio: false,
+            //     plugins: {
+            //         legend: {
+            //             position: 'top',
+            //         },
+            //         title: {
+            //             display: true,
+            //             text: 'Department Paid for Month of {{date('F')}}',
+            //             font: {
+            //                 size: 50,
+            //                 weight: 'bold'
+            //             }
+            //         },
+            //     }
+            // }
+            options: {
+                
                 plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.formattedValue;
+                            }
+                        }, titleFont: {
+                                size: 30
+                            },
+                            bodyFont: {
+                            size: 30
+                        },
+                    },
                     legend: {
                         position: 'top',
+                        labels: {
+                            font: {
+                                size: 20
+                            }
+                        }
                     },
                     title: {
                         display: true,
                         text: 'Department Paid for Month of {{date('F')}}',
                         font: {
-                            size: 50,
-                            weight: 'bold'
+                            size: 30
                         }
-                    },
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            font: {
+                                size: 50
+                            }
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            font: {
+                                size: 50
+                            }
+                        }
+                    }]
                 }
             }
+
         });
 
 
@@ -58,22 +109,74 @@
         var typeOfExpanseChart = new Chart(ctxtoe, {
             type: 'doughnut',
             data: {!! json_encode($typeOfExpanseChart) !!},
-            options: {
-                // responsive: true,
+            // options: {
+            //     // responsive: true,
 
-                // maintainAspectRatio: false,
+            //     // maintainAspectRatio: false,
+            //     plugins: {
+            //         legend: {
+            //             position: 'top',
+            //         },
+            //         title: {
+            //             display: true,
+            //             text: 'Type Of Expanse for Month of {{date('F')}}',
+            //             font: {
+            //                 size: 50,
+            //                 weight: 'bold'
+            //             }
+            //         },
+            //     }
+            // }
+            options: {
+                
                 plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.formattedValue;
+                            }
+                        },
+                        titleFont: {
+                                size: 30
+                            },
+                            bodyFont: {
+                            size: 30
+                        },
+                        
+                    },
                     legend: {
                         position: 'top',
+                        labels: {
+                            font: {
+                                size: 20
+                            }
+                        }
                     },
                     title: {
                         display: true,
-                        text: 'Type Of Expanse for Month of {{date('F')}}',
+                        text: 'Type Of Expense for Month of {{date('F')}}',
                         font: {
-                            size: 50,
-                            weight: 'bold'
+                            size: 30
                         }
-                    },
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            font: {
+                                size: 20
+                            }
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            font: {
+                                size: 20
+                            }
+                        }
+                    }]
                 }
             }
         });
@@ -82,18 +185,68 @@
         var yearChart = new Chart(ctxyear, {
             type: 'bar',
             data: {!! json_encode($yearChart) !!},
+            // options: {
+            //     responsive: true,
+            //     plugins: {
+            //         legend: {
+            //             position: 'top',
+            //         },
+            //         title: {
+            //             display: true,
+            //             text: '{{date('Y')}} Expanse',
+            //         }
+            //     }
+            // },
             options: {
-                responsive: true,
+                
                 plugins: {
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.formattedValue;
+                            }
+                        }, titleFont: {
+                                size: 20
+                            },
+                            bodyFont: {
+                            size: 20
+                        },
+                    },
                     legend: {
                         position: 'top',
+                        labels: {
+                            font: {
+                                size: 20
+                            }
+                        }
                     },
                     title: {
                         display: true,
                         text: '{{date('Y')}} Expanse',
+                        font: {
+                            size: 30
+                        }
                     }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            font: {
+                                size: 20
+                            }
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            font: {
+                                size: 20
+                            }
+                        }
+                    }]
                 }
-            },
+            }
         });
 
 
