@@ -364,7 +364,7 @@
     <!--end::Body-->
 @endsection
 @section('script')
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -374,7 +374,14 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
 
     <script type="text/javascript">
-     $('#suppliertable').DataTable();
+    //  $('#suppliertable').DataTable();
+    $(document).ready(function() {
+    $('#suppliertable').DataTable({
+        "order": [[0, "desc"]]
+        });
+    });
+
+
         $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);

@@ -18,6 +18,10 @@
             background: -o-linear-gradient(top, #585858 0%, #1755ba 100%)!important;
             /* background: linear-gradient(to bottom, #585858 0%, #111 100%); */
         }
+        .dataTables_length {
+            margin-right: 10px;
+        }
+       
         /* .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
             background-color: blue!important;
         } */
@@ -315,6 +319,7 @@
         });
         $(document).ready(function () {
             $('#suppliertable').DataTable({
+                'order': [1, 'desc'],   
                 dom: 'Blfrtip',
                 lengthChange: true,
                 buttons: [
