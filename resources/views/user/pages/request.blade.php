@@ -478,6 +478,27 @@
             });
         });
 
+        $(document).ready(function() {
+            var maxLength = 500; 
+            var description = $('#description');
+            var counter = $('<span class="char-count">0/' + maxLength + ' Characters</span>').insertAfter(description);
+            var submitBtn = $('button[name="button"]');
+            
+            description.on('input', function() {
+                var length = description.val().length;
+                counter.text(length + '/' + maxLength + ' Characters');
+                
+                if (length > maxLength) {
+                    description.addClass('is-invalid');
+                    submitBtn.prop('disabled', true);
+                } else {
+                    description.removeClass('is-invalid');
+                    submitBtn.prop('disabled', false);
+                }
+            });
+        });
+
+
         //=============================
         // Edit Document Preview Start
         //=============================
@@ -576,9 +597,9 @@
                 // log the button name to the console
                 console.log(buttonId);
 
-	var url = "{{ route('user.filter', ':id') }}";
-	url = url.replace(':id', buttonId);
-	location.href = url;
+                var url = "{{ route('user.filter', ':id') }}";
+                url = url.replace(':id', buttonId);
+                location.href = url;
             });
         });
 
