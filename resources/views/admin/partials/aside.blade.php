@@ -139,6 +139,11 @@
                                <span class="menu-title">Manage Company</span>
                             </a>
                         </div>
+                        <div class="menu-item">
+                        <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::Admin.'.users') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::Admin.'.users')}}" >
+                               <span class="menu-title">Manage Users</span>
+                            </a>
+                        </div>
                         @endhasanyrole
 
                     @role(\App\Classes\Enums\UserTypesEnum::User)

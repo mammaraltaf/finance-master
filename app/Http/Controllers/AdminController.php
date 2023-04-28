@@ -110,5 +110,22 @@ public function editCompanyPost(Request $request, $id)
         return redirect()->back()->with('error', $e->getMessage());
     }
 }
-
+public function users()
+    {
+        try{
+            $user = Auth::user(); 
+            $company_id = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
+            $user_ids = CompanyUser::where([
+                ['company_id', $company_id],
+                ['user_id','!=', $user->id]
+                ])
+                ->get('user_id');
+                $users = User::whereIn('id', $user_ids)->get();
+                $roles = Role::where('name','!=',UserTypesEnum::SuperAdmin)->get();
+            return view('admin.pages.users', compact('users','roles'));
+        }
+        catch(Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
 }
