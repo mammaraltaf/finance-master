@@ -42,7 +42,7 @@
           <thead>
             <tr>
                 <th>ID</th>
-                <th>Request Created At</th>
+                <th> Created At</th>
                 <th>Initiator</th>
                 <th>Company</th>
                 <th>Department</th>

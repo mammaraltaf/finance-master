@@ -33,7 +33,7 @@ class AdminController extends Controller
 
         $user = Auth::user();
         $company = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
-        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->where('company_id', $company)->get();
+        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->where('company_id', $company)->orderBy('request_flows.created_at', 'desc')->get();
        return view('admin.pages.requests', compact('requests'));
     }
     public function payments(Request $request)
@@ -45,6 +45,7 @@ class AdminController extends Controller
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->where('company_id', $company)
             ->whereBetween('created_at', [$start, $end])
+            ->orderBy('request_flows.created_at', 'desc')
             ->get();
         return view('admin.pages.requests', compact('requests'));
     }
@@ -121,7 +122,7 @@ public function users()
                 ['user_id','!=', $user->id]
                 ])
                 ->get('user_id');
-                $users = User::whereIn('id', $user_ids)->get();
+                $users = User::whereIn('id', $user_ids)->orderBy('created_at', 'desc')->get();
                 
                 $roles = Role::whereNotIn('name',[UserTypesEnum::SuperAdmin,UserTypesEnum::Admin])->get();
             return view('admin.pages.users', compact('users','roles'));
@@ -176,7 +177,6 @@ public function users()
     {
 //        $this->authorize('edit user');
         $user = User::where('id',$id)->first();
-        dd($user);
         return response()->json($user);
 
     }
