@@ -40,7 +40,7 @@
       <div class="overflow-auto">
         <table id="reviewDocument" name="reviewDocument" class="table table-striped table-bordered" cellspacing="0">
           <thead>
-            <tr>
+            <tr class="text-nowrap">
               <th>ID</th>
                 <th>Initiator</th>
                 <th>Created At</th>
@@ -110,6 +110,7 @@
  <script>
       $(document).ready(function() {
         $('#reviewDocument').DataTable({
+          'order':[[2,'desc']],
           dom: 'Blfrtip',
           lengthChange: true,
           buttons: [ 

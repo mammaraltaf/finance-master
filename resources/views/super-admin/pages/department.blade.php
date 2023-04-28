@@ -105,6 +105,7 @@
             {{-- <table id="departmentTable" name="departmentTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
+                    <th class="d-none">Created AT</th>
                     <th>ID / Software</th>
                     <th>Name</th>
                     <th>Action</th>
@@ -113,6 +114,7 @@
                 <tbody>
                 @foreach($departments as $department)
                     <tr class="text-center">
+                        <td class="d-none">{{\Carbon\Carbon::parse($department['created_at']) ?? ''}}</td>
                         <td>{{$department->id_software}}</td>
                         <td>{{$department->name}}</td>
 

@@ -40,10 +40,10 @@
       <div class="overflow-auto">
         <table id="reviewDocument" name="reviewDocument" class="table table-striped table-bordered" cellspacing="0">
           <thead>
-            <tr>
+            <tr class="text-nowrap">
                 <th>ID</th>
-                <th> Created At</th>
                 <th>Initiator</th>
+                <th> Created At</th>
                 <th>Company</th>
                 <th>Department</th>
                 <th>Supplier</th>
@@ -62,8 +62,8 @@
             @foreach($requests as $request)
                 <tr class="text-nowrap text-center" data-status="{{$request['action']}}">
                     <td>{{$request['id'] ?? ''}}</td>
-                    <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request['initiator'] ?? ''}}</td>
+                    <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request['compname'] ?? ''}}</td>
                     <td>{{$request['depname'] ?? ''}}</td>
                     <td>{{$request['supname'] ?? ''}}</td>
@@ -112,7 +112,7 @@
  <script>
       $(document).ready(function() {
         $('#reviewDocument').DataTable({
-          'order':[[0,'desc']],
+          'order':[[2,'desc']],
           dom: 'Blfrtip',
           lengthChange: true,
           buttons: [

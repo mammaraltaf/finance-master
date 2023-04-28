@@ -139,9 +139,9 @@
                 {{-- <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
+                    <th class="d-none">Created At</th>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Created At</th>
                     <th>Email</th>
                     <th>Type</th>
                     <th>Status</th>
@@ -151,9 +151,9 @@
                 <tbody>
                 @foreach($users as $user)
                     <tr class="text-center">
-                        <td>{{$user->id}}</td>
+                        <td class="d-none">{{\Carbon\Carbon::parse($user['created_at']) ?? ''}}</td>
+                        <td>{{$user->id ?? ''}}</td>
                         <td>{{$user->name}}</td>
-                        <td>{{\Carbon\Carbon::parse($user['created_at']) ?? ''}}</td>
                         <td>{{$user->email}}</td>
                         <td>
                             <span class="badge badge-success">{{$user->user_type}}</span>
@@ -249,7 +249,7 @@
                         <div class="modal-body" style="text-align: center;">
 
                             Are you sure you want to unblock ?
-                            <input type="hidden" name="id" class="user-unblock" id="blockid" value=""/>
+                            <input type="hidden" name="id" class="user-block" id="blockid" value=""/>
                         </div>
                         <div class="modal-footer" style="text-align: center;">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -411,7 +411,7 @@
         });
 
             $('#categoryTable').DataTable({
-                "order": [[ 0, "desc" ]]
+                'order':[[0,'desc']],
                 dom: 'Bfrtip',
                 buttons: [
                     'copyHtml5',
@@ -456,7 +456,7 @@
                                 selectElement.append('<option class="overflow-auto h-100" dropdown-menu show" value="{{$company->id}}">{{$company->name}}</option>');
                             }
                         @endforeach
-
+                        
                         companySelects.append(selectElement);
                     } else {
                         // Add multiple select dropdown for company
@@ -504,13 +504,13 @@
                         $.each(resDepartments, function(index, department) {
                             selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
                         });
-
+                        
 
                         @foreach($departments as $department)
                             if(resDepartments.filter(d=> d.id === {{$department->id}}).length===0)
                                 selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
                         @endforeach
-
+                        
                         departmentSelects.append(selectElement);
                         $('#edit-departments').multiselect({
                             nonSelectedText: 'Select Departments',
@@ -540,7 +540,7 @@
                 @foreach($companies as $company)
                 selectElement.append('<option class="dropdown-menu show" value="{{$company->id}}">{{$company->name}}</option>');
                 @endforeach
-
+                
                 companySelects.append(selectElement);
             } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
                 // Add multiple select dropdown for company
@@ -595,7 +595,7 @@
             }
         });
 
-
+        
 
 
 

@@ -100,6 +100,7 @@
                 {{-- <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
+                    <th class="d-none">Created At</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Type</th>
@@ -110,6 +111,7 @@
                 <tbody>
                 @foreach($users as $user)
                     <tr class="text-center">
+                        <td>{{\Carbon\Carbon::parse($user['created_at']) ?? ''}}</td>
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
                         <td>
