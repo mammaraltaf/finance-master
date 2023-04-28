@@ -213,7 +213,9 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#appointmentTable').DataTable();
+            $('#appointmentTable').DataTable({
+                "order": [[ 0, "desc" ]]
+            });
         });
 
         {{--$('body').on('click', '#sendToProviders', function () {--}}

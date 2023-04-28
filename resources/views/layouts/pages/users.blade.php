@@ -117,7 +117,9 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#categoryTable').DataTable();
+            $('#categoryTable').DataTable({
+                'order': [[0, 'desc']],
+            });
         });
         $('body').on('click', '#categoryEdit', function () {
             var category_id = $(this).data('id');

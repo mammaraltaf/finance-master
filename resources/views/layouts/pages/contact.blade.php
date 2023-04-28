@@ -138,7 +138,9 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#appointmentTable').DataTable();
+            $('#appointmentTable').DataTable({
+                "order": [[ 0, "desc" ]]
+            });
         });
         $('body').on('click', '#completeAppointment', function () {
             var appointment_id = $(this).data('id');
