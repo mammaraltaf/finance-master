@@ -38,7 +38,7 @@
                         <h1 class="modal-title">Add New User</h1>
                     </div>
                     <div class="modal-body">
-                        <form id="add-user" method="POST" action=""
+                        <form id="add-user" method="POST" action="{{route('admin.add-user-post')}}"
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
@@ -77,29 +77,7 @@
 
                                
 
-                               
-
-                                <label class="control-label">Department</label>
-                                <div class="department-selects">
-                                </div>
-                                {{-- <div id='multi-dept' class="">
-                                    <select id="departments" name="department" class="form-control" multiple
-                                            aria-placeholder="Select department" required>
-                                         @foreach($departments as $department)
-                                            <option value="{{$department->id}}">{{$department->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div> --}}
-                                {{-- <div id='single-dept' class="">
-                                    <select id="department" name="department[]" class="form-control"
-                                            aria-placeholder="Select department" required>
-                                        <option value="">Select Department</option>
-                                        @foreach($departments as $department)
-                                            <option value="{{$department->id}}">{{$department->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div> --}}
-                                <br>
+            
 
                             </div>
 
@@ -291,25 +269,7 @@
                             <div class="edit-department-selects">
                             </div>
 
-                            {{-- <div id="edit-single-dept" class="">
-                                <select name="department" class="form-control" aria-placeholder="Select department"
-                                        required>
-                                    <option value="">Select Department</option>
-                                    @foreach($departments as $department)
-                                        <option
-                                            value="{{$department->name}}" {{ $department->name == $user->department? 'selected' : '' }}>{{$department->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
-                            {{-- <div id="edit-multi-dept" class="">
-                                <select id="edit-departments" name="department" multiple class="form-control"
-                                        aria-placeholder="Select department" required>
-                                    @foreach($departments as $department)
-                                        <option
-                                            value="{{$department->name}}" {{ $department->name == $user->department? 'selected' : '' }}>{{$department->name}}</option>
-                                    @endforeach
-                                </select>
-                            </div> --}}
+                           
                             <br>
                             <label class="control-label">Password</label>
                             <div>
@@ -389,10 +349,10 @@
 
         $('body').on('click', '#userEdit', function () {
             var user_id = $(this).data('id');
-            // console.log(user_id);
+             console.log(user_id);
             $.ajax({
                 type: "GET",
-                url: "{{url('/super-admin/edit-user/')}}" + '/' + user_id,
+                url: "{{url('/admin/edit-user/')}}" + '/' + user_id,
                 success: function (response) {
                     console.log(response);
                     $('#name').val(response.name);
@@ -402,121 +362,13 @@
                     $('#userFormEdit').attr('action', "{{url('/super-admin/edit-user/')}}" + '/' + user_id);
                     // Preload companies dropdown
                    
-                                // Preload departments dropdown
-                    var resDepartments = response.departments;
-                    var departmentSelects = $('.edit-department-selects');
-
-                    // Remove any existing select elements
-                    departmentSelects.empty();
-
-                    if (response.user_type === 'admin') {
-                        // Add single select dropdown for department
-                        var selectElement = $('<select name="department[]" class="form-control">');
-                        selectElement.append('<option value="">Select Department</option>');
-                        $.each(resDepartments, function(index, department) {
-                            selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
-                        });
-                        @foreach($departments as $department)
-                            if(resDepartments.filter(d=> d.id === {{$department->id}}).length===0)
-                                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
-                        @endforeach
-                        departmentSelects.append(selectElement);
-                    } else{
-                        // Add multiple select dropdown for department
-                        var selectElement = $('<select id="edit-departments" name="department[]" multiple class="form-control">');
-                        $.each(resDepartments, function(index, department) {
-                            selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
-                        });
-
-
-                        @foreach($departments as $department)
-                            if(resDepartments.filter(d=> d.id === {{$department->id}}).length===0)
-                                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
-                        @endforeach
-
-                        departmentSelects.append(selectElement);
-                        $('#edit-departments').multiselect({
-                            nonSelectedText: 'Select Departments',
-                            buttonWidth: '100%',
-                            maxHeight: 300
-                        });
-                    }
+                        
                 }
             });
         });
 
 
 
-
-        // company select field
-        $('select[name="type"]').on('change', function() {
-            var selectedRole = $(this).val();
-            var companySelects = $('.company-selects');
-
-            // Remove any existing select elements
-            companySelects.empty();
-
-            if (selectedRole === 'admin') {
-                // Add single select dropdown for company
-                var selectElement = $('<select name="company[]" class=" form-control">');
-                selectElement.append('<option value="">Select Company</option>');
-                @foreach($companies as $company)
-                selectElement.append('<option class="dropdown-menu show" value="{{$company->id}}">{{$company->name}}</option>');
-                @endforeach
-
-                companySelects.append(selectElement);
-            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
-                // Add multiple select dropdown for company
-                var selectElement = $('<select id="companies" name="company[]" multiple class="form-control">');
-                @foreach($companies as $company)
-                selectElement.append('<option value="{{$company->id}}">{{$company->name}}</option>');
-                @endforeach
-                companySelects.append(selectElement);
-                $(document).ready(function() {
-                $('#companies').multiselect({
-                nonSelectedText: 'Select Company',
-                // enableFiltering: true,
-                // enableCaseInsensitiveFiltering: true,
-                buttonWidth: '100%',
-                maxHeight: 300
-                });
-            });
-            }
-        });
-        // department select field
-        $('select[name="type"]').on('change', function() {
-            var selectedRole = $(this).val();
-            var departmentSelects = $('.department-selects');
-
-            // Remove any existing select elements
-            departmentSelects.empty();
-
-            if (selectedRole === 'admin') {
-                // Add single select dropdown for company
-                var selectElement = $('<select name="department[]" class="form-control">');
-                selectElement.append('<option value="">Select Department</option>');
-                @foreach($departments as $department)
-                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
-                @endforeach
-                departmentSelects.append(selectElement);
-            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
-                // Add multiple select dropdown for company
-                var selectElement = $('<select id="departments" name="department[]" multiple class="form-control">');
-                @foreach($departments as $department)
-                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
-                @endforeach
-                departmentSelects.append(selectElement);
-                $(document).ready(function() {
-                $('#departments').multiselect({
-                nonSelectedText: 'Select Departments',
-                // enableFiltering: true,
-                // enableCaseInsensitiveFiltering: true,
-                buttonWidth: '100%',
-                maxHeight: 300
-                });
-            });
-            }
-        });
 
 
 

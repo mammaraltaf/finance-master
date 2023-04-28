@@ -105,8 +105,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/edit-company/{id}', [AdminController::class, 'editCompany'])->name('edit-company');
         Route::post('/edit-company/{id}', [AdminController::class, 'editCompanyPost'])->name('edit-company-post');
         Route::get('/users', [AdminController::class, 'users'])->name('users');
-        // Route::post('/add-user', [SuperAdminController::class, 'userPost'])->name('add-user-post');
-        // Route::get('/edit-user/{id}', [SuperAdminController::class, 'editUser'])->name('edit-user');
+        Route::post('/add-user', [AdminController::class, 'userPost'])->name('add-user-post');
+        Route::get('/edit-user/{id}', [AdminController::class, 'editUser'])->name('edit-user');
         // Route::post('/edit-user/{id}', [SuperAdminController::class, 'editUserPost'])->name('edit-user-post');
         // Route::post('/delete-user', [SuperAdminController::class, 'deleteUser'])->name('delete-user');
         // Route::post('/block-user', [SuperAdminController::class, 'blockUser'])->name('block-user');

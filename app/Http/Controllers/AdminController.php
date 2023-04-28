@@ -5,11 +5,13 @@ use App\Classes\Enums\StatusEnum;
 use App\Models\Company;
 use App\Models\CompanyUser;
 use App\Models\RequestFlow;
+use App\Models\DepartmentUser;
 use App\Models\TypeOfExpanse;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use App\Classes\Enums\UserTypesEnum;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
@@ -120,11 +122,62 @@ public function users()
                 ])
                 ->get('user_id');
                 $users = User::whereIn('id', $user_ids)->get();
-                $roles = Role::where('name','!=',UserTypesEnum::SuperAdmin)->get();
+                
+                $roles = Role::whereNotIn('name',[UserTypesEnum::SuperAdmin,UserTypesEnum::Admin])->get();
             return view('admin.pages.users', compact('users','roles'));
         }
         catch(Exception $e){
             return redirect()->back()->with('error', $e->getMessage());
         }
+    }
+
+    public function userPost(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'name' => 'required',
+                'email' => 'required | unique:users,email',
+                'type' => 'required',
+                'password' => 'required'
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+
+            $users = User::create([
+                'name' => $input['name'],
+                'email' => $input['email'],
+                'password' => Hash::make($input['password']),
+                'original_password' => $input['password'],
+                'user_type' => $input['type'],
+            ]);
+            $user = Auth::user(); 
+          
+            $companyIds = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
+           
+            $users->companies()->attach($companyIds);
+           
+
+            $users->assignRole($input['type']);
+
+            if ($users) {
+                return redirect()->back()->with('success', 'User registered successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+    public function editUser($id)
+    {
+//        $this->authorize('edit user');
+        $user = User::where('id',$id)->first();
+        dd($user);
+        return response()->json($user);
+
     }
 }

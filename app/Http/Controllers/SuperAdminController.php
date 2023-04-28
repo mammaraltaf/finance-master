@@ -208,7 +208,7 @@ class SuperAdminController extends Controller
 
             $company = Company::create([
                 'logo' => $logo,
-                'id_software' => Str::random(10),
+                'id_software' => $input['id_software'],
                 'tax_id' => $input['tax_id'],
                 'name' => $input['company_name'],
                 'slug' => Str::slug($input['company_name']),
@@ -310,7 +310,7 @@ class SuperAdminController extends Controller
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
-//                'id_software' => 'unique:type_of_expanses,id_software',
+                'id_software' => 'required | unique:type_of_expanses,id_software',
                 'name' => 'required',
                 'accounting_id' => 'required',
             ]);
@@ -320,7 +320,7 @@ class SuperAdminController extends Controller
             }
 
             $typeOfExpense = TypeOfExpanse::create([
-                'id_software' => Str::random(10),
+                'id_software' => $input['id_software'],
                 'name' => $input['name'],
                 'accounting_id' => $input['accounting_id'],
             ]);
@@ -347,7 +347,7 @@ class SuperAdminController extends Controller
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
-//                'id_software' => 'unique:type_of_expanses,id_software,' . $id,
+                'id_software' => 'required | unique:type_of_expanses,id_software,' . $id,
                 'name' => 'required',
                 'accounting_id' => 'required',
             ]);
@@ -357,6 +357,7 @@ class SuperAdminController extends Controller
             }
 
             $typeOfExpense = TypeOfExpanse::find($id);
+            $typeOfExpense->id_software = $input['id_software'];
             $typeOfExpense->name = $input['name'];
             $typeOfExpense->accounting_id = $input['accounting_id'];
             $typeOfExpense->save();
@@ -394,7 +395,7 @@ class SuperAdminController extends Controller
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
-//                'id_software' => 'unique:departments,id_software',
+                'id_software' => 'required | unique:departments,id_software',
                 'name' => 'required',
             ]);
 
@@ -403,7 +404,7 @@ class SuperAdminController extends Controller
             }
 
             $department = Department::create([
-                'id_software' =>Str::random(10),
+                'id_software' => $input['id_software'],
                 'name' => $input['name'],
                 'user_id' => auth()->user()->id,
             ]);
@@ -429,7 +430,7 @@ class SuperAdminController extends Controller
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
-//                'id_software' => 'unique:departments,id_software,' . $id,
+                'id_software' => 'required | unique:departments,id_software,' . $id,
                 'name' => 'required',
             ]);
 
@@ -438,6 +439,7 @@ class SuperAdminController extends Controller
             }
 
             $department = Department::find($id);
+            $department->id_software = $input['id_software'];
             $department->name = $input['name'];
             $department->save();
 

@@ -20,6 +20,7 @@ use App\Models\RequestFlow;
 use App\Models\supplier_bank;
 use App\Models\Company;
 use App\Models\Department;
+use App\Models\DepartmentUser;
 use App\Models\TypeOfExpanse;
 use Illuminate\Support\Facades\Auth;
 use File;
@@ -116,7 +117,10 @@ class UserController extends Controller
         $companies = Company::where('slug', Session::get('url-slug'))->get();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
 
-        $departments = Department::all();
+        $departments = DepartmentUser::where('user_id', Auth::user()->id)
+        ->rightJoin('departments','departments.id','=','department_user.department_id')
+        ->select('departments.*')
+        ->get();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
         return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
