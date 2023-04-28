@@ -107,10 +107,10 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/users', [AdminController::class, 'users'])->name('users');
         Route::post('/add-user', [AdminController::class, 'userPost'])->name('add-user-post');
         Route::get('/edit-user/{id}', [AdminController::class, 'editUser'])->name('edit-user');
-        //Route::post('/edit-user/{id}', [AdminController::class, 'editUserPost'])->name('edit-user-post');
-         Route::post('/delete-user', [AdminController::class, 'deleteUser'])->name('delete-user');
-        // Route::post('/block-user', [SuperAdminController::class, 'blockUser'])->name('block-user');
-        // Route::post('/unblock-user', [SuperAdminController::class, 'unblockUser'])->name('unblock-user');
+        Route::post('/edit-user/{id}', [AdminController::class, 'editUserPost'])->name('edit-user-post');
+        Route::post('/delete-user', [AdminController::class, 'deleteUser'])->name('delete-user');
+        Route::post('/block-user', [AdminController::class, 'blockUser'])->name('block-user');
+        Route::post('/unblock-user', [AdminController::class, 'unblockUser'])->name('unblock-user');
     });
 
     /*User Routes*/

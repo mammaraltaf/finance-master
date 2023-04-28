@@ -172,7 +172,7 @@
     <div class="modal fade modal2" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <form id="categoryForm" method="POST" action=""
+                <form id="categoryForm" method="POST" action="{{route('admin.block-user')}}"
                       enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header" style="text-align: center;">
@@ -197,7 +197,7 @@
         <div class="modal fade modal3" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
             <div class="modal-dialog modal-sm" role="document">
                 <div class="modal-content">
-                    <form id="categoryForm" method="POST" action=""
+                    <form id="categoryForm" method="POST" action="{{route('admin.unblock-user')}}"
                           enctype="multipart/form-data">
                         @csrf
                         <div class="modal-header" style="text-align: center;">
@@ -256,21 +256,9 @@
                                 </select>
                             </div>
                             <br>
-                            <label class="control-label">Company</label>
-                            <div class="edit-company-selects">
-                            </div>
-                           
-                           
+                            
 
-
-                            <br>
-
-                            <label class="control-label">Department</label>
-                            <div class="edit-department-selects">
-                            </div>
-
-                           
-                            <br>
+                          
                             <label class="control-label">Password</label>
                             <div>
                                 <input type="text" name="password" id="password"
@@ -359,7 +347,7 @@
                     $('#email').val(response.email);
                     $('#password').val(response.original_password);
                     $('select[name="type"]').val(response.user_type).trigger('change');
-                    $('#userFormEdit').attr('action', "{{url('/super-admin/edit-user/')}}" + '/' + user_id);
+                    $('#userFormEdit').attr('action', "{{url('/admin/edit-user/')}}" + '/' + user_id);
                     // Preload companies dropdown
                    
                         

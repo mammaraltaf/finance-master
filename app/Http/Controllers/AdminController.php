@@ -122,7 +122,7 @@ public function users()
                 ['user_id','!=', $user->id]
                 ])
                 ->get('user_id');
-                $users = User::whereIn('id', $user_ids)->orderBy('created_at', 'desc')->get();
+                $users = User::whereIn('id', $user_ids)->withTrashed()->orderBy('created_at', 'desc')->get();
                 
                 $roles = Role::whereNotIn('name',[UserTypesEnum::SuperAdmin,UserTypesEnum::Admin])->get();
             return view('admin.pages.users', compact('users','roles'));
@@ -180,11 +180,63 @@ public function users()
         return response()->json($user);
 
     }
+   
+    public function editUserPost(Request $request, $id){
+                try{
+                    $input = $request->all();
+                    $validator = Validator::make($input, [
+                        'name' => 'required',
+                        'email' => 'required | unique:users,email,'.$id,
+                        'type' => 'required',
+                        'password' => 'required'
+                    ]);
+        
+                    if ($validator->fails()) {
+                        return redirect()->back()->withErrors($validator)->withInput();
+                    }
+                    $user = Auth::user(); 
+          
+                    $user = User::find($id);
+                    $user->name = $input['name'];
+                    $user->email = $input['email'];
+                    $user->user_type = $input['type'];
+                    $user->password = Hash::make($input['password']);
+                    $user->original_password = $input['password'];
+                    $user->save();
+        
+                    $companyIds = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
+                    $user->companies()->sync($companyIds);
+        
+                    if($user){
+                        return redirect()->back()->with('success', 'User updated successfully');
+                    }
+        
+                    return redirect()->back()->with('error', 'Something went wrong');
+                }
+                catch (Exception $e) {
+                    return redirect()->back()->with('error', $e->getMessage());
+                }
+            }
+            public function blockUser(Request $request)
+    {
+        $user = User::where('id', $request->id)->first();
+        $user->status = StatusEnum::Blocked;
+        $user->save();
+        $user->delete();
+        return redirect()->back()->with('success', 'User status updated successfully');
+    }
+    public function unblockUser(Request $request)
+    {
+        $user = User::where('id', $request->id)->withTrashed()->first();
+        $user->status = StatusEnum::Active;
+        $user->deleted_at = null;
+        $user->save();
+        return redirect()->back()->with('success', 'User status updated successfully');
+    }
     public function deleteUser(Request $request)
     {
 //        $this->authorize('delete user');
         $user = User::where('id', $request->id)->first();
-        dd($user);
         $user->delete();
         $user->syncRoles([]);
         return redirect()->back()->with('success', 'User deleted successfully');

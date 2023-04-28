@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\Department;
 use App\Models\Supplier;
 use App\Models\TypeOfExpanse;
+use App\Models\CompanyUser;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -174,7 +175,11 @@ class SuperAdminController extends Controller
     public function company()
     {
         $companies = Company::all();
-        $admins = User::where('user_type', UserTypesEnum::Admin)->get();
+        $all_admins=User::where('user_type', UserTypesEnum::Admin)->get('id');
+       $taken_admins=CompanyUser::whereIn('user_id',$all_admins)->get('id');
+        $admins = User::where('user_type', UserTypesEnum::Admin)
+        // ->where('id','!=',$taken_admins)
+        ->get();
         return view('super-admin.pages.company', compact('companies','admins'));
     }
 
