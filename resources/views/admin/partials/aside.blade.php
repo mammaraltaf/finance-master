@@ -145,6 +145,18 @@
                                <span class="menu-title">Manage Users</span>
                             </a>
                         </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::Admin.'.type-of-expense') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::Admin.'.type-of-expense')}}" >
+                                <span class="menu-title">Manage Type Of Expenses</span>
+                            </a>
+                        </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::Admin.'.department') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::Admin.'.department')}}" >
+                                <span class="menu-title">Manage Departments</span>
+                            </a>
+                        </div>
                         @endhasanyrole
 
                     @role(\App\Classes\Enums\UserTypesEnum::User)

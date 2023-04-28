@@ -108,10 +108,14 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/add-user', [AdminController::class, 'userPost'])->name('add-user-post');
         Route::get('/edit-user/{id}', [AdminController::class, 'editUser'])->name('edit-user');
         Route::post('/edit-user/{id}', [AdminController::class, 'editUserPost'])->name('edit-user-post');
-        Route::post('/delete-user', [AdminController::class, 'deleteUser'])->name('delete-user');
-        Route::post('/block-user', [AdminController::class, 'blockUser'])->name('block-user');
-        Route::post('/unblock-user', [AdminController::class, 'unblockUser'])->name('unblock-user');
-    });
+         Route::post('/delete-user', [AdminController::class, 'deleteUser'])->name('delete-user');
+         Route::post('/block-user', [AdminController::class, 'blockUser'])->name('block-user');
+         Route::post('/unblock-user', [AdminController::class, 'unblockUser'])->name('unblock-user');
+
+         Route::get('/type-of-expense', [AdminController::class, 'typeOfExpense'])->name('type-of-expense');
+         Route::get('/department', [AdminController::class, 'departments'])->name('department');
+
+     });
 
     /*User Routes*/
     Route::group([
