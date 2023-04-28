@@ -180,4 +180,13 @@ public function users()
         return response()->json($user);
 
     }
+    public function deleteUser(Request $request)
+    {
+//        $this->authorize('delete user');
+        $user = User::where('id', $request->id)->first();
+        dd($user);
+        $user->delete();
+        $user->syncRoles([]);
+        return redirect()->back()->with('success', 'User deleted successfully');
+    }
 }

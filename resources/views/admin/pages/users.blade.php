@@ -147,7 +147,7 @@
     <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <form id="categoryForm" method="POST" action=""
+                <form id="categoryForm" method="POST" action="{{route('admin.delete-user')}}"
                       enctype="multipart/form-data">
                     @csrf
                     <div class="modal-header" style="text-align: center;">

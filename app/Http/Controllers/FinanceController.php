@@ -66,7 +66,7 @@ class FinanceController extends Controller
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
             ->whereIn('action', [ActionEnum::FINANCE_REJECT,ActionEnum::FINANCE_ACCEPT])
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-        return view('finance.pages.accepted', compact('requests'));
+            return view('finance.pages.accepted', compact('requests'));
     }
 
 
