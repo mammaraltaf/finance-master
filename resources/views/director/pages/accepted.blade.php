@@ -60,7 +60,7 @@
           <tbody>
             @foreach($requests as $request)
                 <tr class="text-nowrap text-center" data-status="{{$request['action']}}">
-                  <td>{{$request->id}}</td>
+                  <td>{{$request['id']}}</td>
                     <td>{{$request['initiator'] ?? ''}}</td>
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request['compname'] ?? ''}}</td>

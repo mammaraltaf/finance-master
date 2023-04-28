@@ -57,11 +57,14 @@ class ManagerController extends Controller
     }
     public function payments(Request $request)
     {
+        $user = Auth::user();
+        $companyIds = $user->companies->pluck('id')->toArray();
         $input = $request->all();
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::FinanceOk])
-            ->whereBetween('created_at', [$start, $end])
+        ->whereIn('company_id', $companyIds)
+           ->whereBetween('created_at', [$start, $end])
             ->get();
         return view('manager.pages.requests', compact('requests'));
     }
@@ -113,11 +116,14 @@ class ManagerController extends Controller
     }
     public function logs()
     {
+        $user = Auth::user();
+        $companyIds = $user->companies->pluck('id')->toArray();
         $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
             ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
             ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
             ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
+            ->whereIn('company_id', $companyIds)
             ->whereIn('action', [ActionEnum::MANAGER_REJECT, ActionEnum::MANAGER_ACCEPT])
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('manager.pages.accepted', compact('requests'));

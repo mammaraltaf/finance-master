@@ -283,6 +283,8 @@
                 <thead>
                     <tr class="text-nowrap text-center">
                         <th>Initiator</th>
+                        <th>Created At</td>
+                    
                         <th>Company</th>
                         <th>Department</th>
                         <th>Supplier</th>
@@ -303,6 +305,7 @@
                     @foreach($requests as $request)
                         <tr class="text-nowrap text-center" data-status="{{$request['status']}}">
                             <td>{{$request->initiator}}</td>
+                            <td>{{$request->created_at}}</td>
                             <td>{{$request->company->name}}</td>
                             <td>{{$request->department->name}}</td>
                             <td>{{$request->supplier->supplier_name}}</td>
