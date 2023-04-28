@@ -71,6 +71,9 @@
                             $companyName = $companyName->name;
                         }
                     @endphp
+                    @if(!is_null($companyName->logo))
+                        <img src="{{asset('image/'.$companyName->logo)}}" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                    @endif
                     @if($companyName)
                         <div class="p-2" style="float: left">
                            <h5>Selected Company: </h5> <h5 class="text-dark fw-bolder fs-3 mb-0">{{$companyName->name ?? ''}}</h5>

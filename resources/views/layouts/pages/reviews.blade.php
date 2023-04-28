@@ -245,7 +245,9 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#example').DataTable();
+            $('#example').DataTable({
+                'order': [[0, 'desc']]
+            });
         });
         $('body').on('click', '#editReview', function () {
             var review_id = $(this).data('id');

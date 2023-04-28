@@ -186,7 +186,9 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#departmentTable').DataTable();
+            $('#departmentTable').DataTable({
+                "order": [[ 0, "desc" ]]
+            });
         });
         $('body').on('click', '#departmentEdit', function () {
             var department_id = $(this).data('id');

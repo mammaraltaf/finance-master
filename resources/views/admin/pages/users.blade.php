@@ -322,6 +322,7 @@
         });
 
             $('#categoryTable').DataTable({
+                'order': [[0, 'desc']],
                 dom: 'Bfrtip',
                 buttons: [
                     'copyHtml5',

@@ -277,7 +277,7 @@
           }
         }],
 
-        'order': [1, 'asc'],
+        'order': [1, 'desc'],
         dom: 'Blfrtip',
         lengthChange: true,
         buttons: [

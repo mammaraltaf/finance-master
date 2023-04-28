@@ -189,7 +189,9 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#typeOfExpenseTable').DataTable();
+            $('#typeOfExpenseTable').DataTable({
+                "order": [[ 0, "desc" ]]
+            });
         });
         $('body').on('click', '#typeOfExpenseEdit', function () {
             var typeOfExpanse_id = $(this).data('id');

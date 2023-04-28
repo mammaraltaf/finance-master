@@ -282,7 +282,9 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#companyTable').DataTable();
+            $('#companyTable').DataTable({
+                'order': [[0, 'desc']],
+            });
         });
 
         //Edit Company Get Req
