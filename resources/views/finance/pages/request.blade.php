@@ -187,7 +187,7 @@
     <script>
         $(document).ready(function () {
             $('#suppliertable').DataTable({
-                'order': [[0, 'desc']],
+                'order': [[2, 'desc']],
                 dom: 'Blfrtip',
                 lengthChange: true,
                 buttons: [

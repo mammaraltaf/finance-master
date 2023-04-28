@@ -39,10 +39,11 @@
         <form id="submit-btn" action="" method=""  >
             <table name="accounting" id="accounting" class="display px-2 table table-striped table-bordered " style="width:100%">
               <thead>
-                <tr>
+                <tr class="text-nowrap">
                   <th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
-                  <th>ids</th>
-                  <th>Initiator</th>
+                      <th>ids</th>
+                      <th>Initiator</th>
+                      <th>Created At</th>
                       <th>Company</th>
                       <th>Department</th>
                       <th>Supplier</th>
@@ -63,6 +64,7 @@
                         <td><input type="checkbox" name="id[]" value="{{ $request->id }}"></td>
                         <td>{{ $request->id }}</td>
                           <td>{{$request->initiator ?? ''}}</td>
+                        <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                           <td>{{$request->company->name ?? ''}}</td>
                           <td>{{$request->department->name ?? ''}}</td>
                           <td>{{$request->supplier->supplier_name ?? ''}}</td>
@@ -277,7 +279,7 @@
           }
         }],
 
-        'order': [1, 'desc'],
+        'order': [3, 'desc'],
         dom: 'Blfrtip',
         lengthChange: true,
         buttons: [

@@ -105,6 +105,7 @@
             {{-- <table id="typeOfExpenseTable" name="typeOfExpenseTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-center">
+                    <th class="d-none">Created At</th>
                     <th>ID / Software</th>
                     <th>Name</th>
                     <th>Accounting ID</th>
@@ -114,6 +115,7 @@
                 <tbody>
                 @foreach($typeOfExpenses as $typeOfExpense)
                     <tr class="text-center">
+                        <td class="d-none">{{\Carbon\Carbon::parse($typeOfExpense['created_at']) ?? ''}}</td>
                         <td>{{$typeOfExpense->id_software}}</td>
                         <td>{{$typeOfExpense->name}}</td>
                         <td>{{$typeOfExpense->accounting_id}}</td>

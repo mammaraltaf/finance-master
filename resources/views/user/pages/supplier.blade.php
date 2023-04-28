@@ -158,6 +158,7 @@
                 {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
+                    <th class="d-none">Created At</th>
                     <th>ID Software</th>
                     <th>Tax ID</th>
                     <th>Supplier Name</th>
@@ -174,6 +175,7 @@
                 <tbody>
                 @foreach($suppliers as $supplier)
                     <tr class="text-nowrap text-center">
+                        <td class="d-none">{{\Carbon\Carbon::parse($supplier['created_at']) ?? ''}}</td>
                         <td>{{$supplier['id_software']}}</td>
                         <td>{{$supplier['tax_id']}}</td>
                         <td>{{$supplier['supplier_name']}}</td>
@@ -319,7 +321,7 @@
         });
         $(document).ready(function () {
             $('#suppliertable').DataTable({
-                'order': [1, 'desc'],   
+                'order': [0, 'desc'],   
                 dom: 'Blfrtip',
                 lengthChange: true,
                 buttons: [

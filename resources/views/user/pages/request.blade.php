@@ -377,7 +377,7 @@
     //  $('#suppliertable').DataTable();
     $(document).ready(function() {
     $('#suppliertable').DataTable({
-        "order": [[0, "desc"]]
+        "order": [[1, "desc"]]
         });
     });
 
