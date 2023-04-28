@@ -197,7 +197,9 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#example').DataTable();
+            $('#example').DataTable({
+                'order': [[0, 'desc']],
+            });
             // Hide div by setting display to none
             $("#categoryDropdown").on('change',function() {
                 var id = $(this).children(":selected").data('id');

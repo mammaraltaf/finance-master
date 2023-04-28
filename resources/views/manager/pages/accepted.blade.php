@@ -110,6 +110,7 @@
  <script>
       $(document).ready(function() {
         $('#reviewDocument').DataTable({
+          'order':[[0,'desc']],
           dom: 'Blfrtip',
           lengthChange: true,
           buttons: [ 
