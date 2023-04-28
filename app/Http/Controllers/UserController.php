@@ -113,7 +113,7 @@ class UserController extends Controller
             ->where('user_id', $user->id)
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
-            })->get();
+            })->orderBy('created_at', 'desc')->get();
         $companies = Company::where('slug', Session::get('url-slug'))->get();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
 
@@ -389,11 +389,13 @@ public function filter($id){
             ->where('user_id', $user->id)
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
-            })->where('status','submitted-for-review')->get();
+            })->where('status','submitted-for-review')->orderBy('created_at', 'desc')->get();
         $companies = Company::where('slug', Session::get('url-slug'))->get();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-
-        $departments = Department::all();
+        $departments = DepartmentUser::where('user_id', Auth::user()->id)
+        ->rightJoin('departments','departments.id','=','department_user.department_id')
+        ->select('departments.*')
+        ->get();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
         return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
@@ -404,11 +406,13 @@ public function filter($id){
             ->where('user_id', $user->id)
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
-            })->whereIn('status',['finance-rejected','manager-rejected','director-rejected','rejected'])->get();
+            })->whereIn('status',['finance-rejected','manager-rejected','director-rejected','rejected'])->orderBy('created_at', 'desc')->get();
         $companies = Company::where('slug', Session::get('url-slug'))->get();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-
-        $departments = Department::all();
+        $departments = DepartmentUser::where('user_id', Auth::user()->id)
+        ->rightJoin('departments','departments.id','=','department_user.department_id')
+        ->select('departments.*')
+        ->get();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
         return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
@@ -419,11 +423,13 @@ public function filter($id){
             ->where('user_id', $user->id)
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
-            })->where('status','finance-ok')->get();
+            })->where('status','finance-ok')->orderBy('created_at', 'desc')->get();
         $companies = Company::where('slug', Session::get('url-slug'))->get();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-
-        $departments = Department::all();
+        $departments = DepartmentUser::where('user_id', Auth::user()->id)
+        ->rightJoin('departments','departments.id','=','department_user.department_id')
+        ->select('departments.*')
+        ->get();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
         return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
@@ -434,11 +440,13 @@ public function filter($id){
             ->where('user_id', $user->id)
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
-            })->whereIn('status',['manager-confirmed','director-confirmed','confirmed-partially'])->get();
+            })->whereIn('status',['manager-confirmed','director-confirmed','confirmed-partially'])->orderBy('created_at', 'desc')->get();
         $companies = Company::where('slug', Session::get('url-slug'))->get();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-
-        $departments = Department::all();
+        $departments = DepartmentUser::where('user_id', Auth::user()->id)
+        ->rightJoin('departments','departments.id','=','department_user.department_id')
+        ->select('departments.*')
+        ->get();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
         return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
@@ -449,11 +457,13 @@ public function filter($id){
             ->where('user_id', $user->id)
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
-            })->where('status','paid')->get();
+            })->where('status','paid')->orderBy('created_at', 'desc')->get();
         $companies = Company::where('slug', Session::get('url-slug'))->get();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-
-        $departments = Department::all();
+        $departments = DepartmentUser::where('user_id', Auth::user()->id)
+        ->rightJoin('departments','departments.id','=','department_user.department_id')
+        ->select('departments.*')
+        ->get();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
         return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));

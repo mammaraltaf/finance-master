@@ -41,6 +41,7 @@ class FinanceController extends Controller
             ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
             ->whereStatus(StatusEnum::SubmittedForReview)
+            ->orderBy('request_flows.created_at', 'desc')
             ->get();
 
         return view('finance.pages.request', compact('requests'));
@@ -57,6 +58,7 @@ class FinanceController extends Controller
         ->whereIn('company_id', $companyIds)
         ->whereIn('status', [StatusEnum::SubmittedForReview])
             ->whereBetween('created_at', [$start, $end])
+            ->orderBy('request_flows.created_at', 'desc')
             ->get();
         return view('finance.pages.request', compact('requests'));
     }
@@ -72,7 +74,7 @@ class FinanceController extends Controller
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
             ->whereIn('request_flows.company_id', $companyIds)
             ->whereIn('action', [ActionEnum::FINANCE_REJECT,ActionEnum::FINANCE_ACCEPT])
-            
+            ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*','request_flows.id as reqid', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
            return view('finance.pages.accepted', compact('requests'));
     }
@@ -93,6 +95,7 @@ class FinanceController extends Controller
             ->whereIn('request_flows.company_id', $companyIds)
             ->whereIn('action', [ActionEnum::FINANCE_REJECT, ActionEnum::FINANCE_ACCEPT])
             ->whereBetween('log_actions.created_at', [$start, $end])
+            ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('finance.pages.accepted', compact('requests'));
     }

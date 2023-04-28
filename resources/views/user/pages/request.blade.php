@@ -291,10 +291,11 @@
                         <th>Type of Expense</th>
                         <th>Currency</th>
                         <th>Amount</th>
-                        <th>Description</th>
+                       
                         <th>Basis</th>
                         <th>Due Date of Payment</th>
                         <th>Due Date</th>
+                        <th>Description</th>
                         <th>Status</th>
                         @hasanyrole('super-admin|accounting')
                         <th>Actions</th>
@@ -312,7 +313,7 @@
                             <td>{{$request->typeOfExpense->name}}</td>
                             <td>{{$request->currency}}</td>
                             <td>{{$request->amount}}</td>
-                            <td>{{$request->description}}</td>
+                           
                             <td><?php
                                 if(isset($request['basis'])){
                                     $files=explode(',',$request['basis']);
@@ -325,6 +326,7 @@
                                 ?></td>
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
+                            <td>{{$request->description}}</td>
                             <td>{{$request['status']}}</td>
 
                         </tr>

@@ -40,6 +40,7 @@ class DirectorController extends Controller
             ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
             ->whereIn('status', [StatusEnum::ManagerConfirmed, StatusEnum::ThresholdExceeded])
+            ->orderBy('request_flows.created_at', 'desc')
             ->get();
 
 
@@ -57,6 +58,7 @@ class DirectorController extends Controller
         ->whereIn('company_id', $companyIds)
             ->whereIn('status', [StatusEnum::FinanceOk, StatusEnum::ManagerConfirmed])
             ->whereBetween('created_at', [$start, $end])
+            ->orderBy('request_flows.created_at', 'desc')
             ->get();
         return view('director.pages.requests', compact('requests'));
     }
@@ -71,6 +73,7 @@ class DirectorController extends Controller
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
             ->whereIn('action', [ActionEnum::DIRECTOR_REJECT,ActionEnum::DIRECTOR_ACCEPT])
             ->whereIn('company_id', $companyIds)
+            ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('director.pages.accepted', compact('requests'));
     }
@@ -90,6 +93,7 @@ class DirectorController extends Controller
             ->whereIn('company_id', $companyIds)
               ->whereIn('action', [ActionEnum::DIRECTOR_REJECT, ActionEnum::DIRECTOR_ACCEPT])
             ->whereBetween('log_actions.created_at', [$start, $end])
+            ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('director.pages.accepted', compact('requests'));
     }

@@ -33,6 +33,7 @@ class ManagerController extends Controller
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
             ->whereIn('action', [ActionEnum::MANAGER_REJECT, ActionEnum::MANAGER_ACCEPT])
             ->whereBetween('log_actions.created_at', [$start, $end])
+            ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('manager.pages.accepted', compact('requests'));
     }
@@ -52,6 +53,7 @@ class ManagerController extends Controller
             ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
             ->whereStatus(StatusEnum::FinanceOk)
+            ->orderBy('request_flows.created_at', 'desc')
             ->get();
         return view('manager.pages.requests', compact('requests'));
     }
@@ -65,6 +67,7 @@ class ManagerController extends Controller
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::FinanceOk])
         ->whereIn('company_id', $companyIds)
            ->whereBetween('created_at', [$start, $end])
+           ->orderBy('request_flows.created_at', 'desc')
             ->get();
         return view('manager.pages.requests', compact('requests'));
     }
@@ -125,6 +128,7 @@ class ManagerController extends Controller
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
             ->whereIn('company_id', $companyIds)
             ->whereIn('action', [ActionEnum::MANAGER_REJECT, ActionEnum::MANAGER_ACCEPT])
+            ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('manager.pages.accepted', compact('requests'));
     }
