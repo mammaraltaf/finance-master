@@ -35,7 +35,7 @@
     <div class="container-fluid">
 
         <!-- Document List -->
-      <div class="row">
+      <div class="row overflow-auto">
         <form id="submit-btn" action="" method=""  >
             <table name="accounting" id="accounting" class="display px-2 table table-striped table-bordered " style="width:100%">
               <thead>
@@ -126,7 +126,9 @@
             </div>
           </div>
       </div>
-
+    <div id="loader" style="display:none;">
+        <iframe src="https://gifer.com/embed/1amw" width=480 height=480.000 frameBorder="0" allowFullScreen></iframe><p><a href="https://gifer.com">via GIFER</a></p>
+    </div>
 
 
 @endsection
@@ -369,6 +371,8 @@
         })
         var bulkIds = ids.join(',');
         var url = "{{url('accounting/bulk-pay-or-reject/')}}";
+            $('#loader').show();
+
             $.ajax({
                 type: "POST",
                 url: url,
@@ -377,11 +381,13 @@
                     action:'pay'
                 },
                 success:function (response){
+                    $('#loader').hide();
                     if(response.success === 'success'){
                         toastr.success("Bulk Requests Paid successfully!", "Finance Alert");
                         location.reload();
                     }
                     else{
+                        $('#loader').hide();
                         toastr.error("Something went wrong!", "Finance Alert");
                     }
                 }

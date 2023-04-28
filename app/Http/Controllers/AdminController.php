@@ -29,14 +29,14 @@ class AdminController extends Controller
     public function viewrequests()
     {
 
-        $user = Auth::user(); 
+        $user = Auth::user();
         $company = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->where('company_id', $company)->get();
        return view('admin.pages.requests', compact('requests'));
     }
     public function payments(Request $request)
     {
-        $user = Auth::user(); 
+        $user = Auth::user();
         $company = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
         $input = $request->all();
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
@@ -48,7 +48,7 @@ class AdminController extends Controller
     }
     public function company()
     {
-        $user = Auth::user(); 
+        $user = Auth::user();
         $company_id = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
         $companys = Company::where('id',$company_id)->get();
         $admin = User::where('id', $user->id)->get();
@@ -89,7 +89,6 @@ public function editCompanyPost(Request $request, $id)
         }
 
         $company = Company::find($id);
-        $company->id_software = $input['id_software'];
         $company->tax_id = $input['tax_id'];
         $company->name = $input['company_name'];
         $company->slug = Str::slug($input['company_name']);

@@ -1,6 +1,6 @@
 @extends('admin.admin.app')
 @section('pageTitle')
-    Type Of Expanse
+    Type Of Expense
 @endsection
 @section('content')
     <!--begin::Header-->
@@ -8,7 +8,7 @@
     <br>
     <div class="card-header pt-5">
         <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1">Manage Type of Expanse</span>
+            <span class="card-label fw-bolder fs-3 mb-1">Manage Type of Expense</span>
         </h3>
     </div>
     <div class="card-toolbar">
@@ -18,7 +18,7 @@
     <div class="card-body py-3">
         <div class="row">
             <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalLoginForm">
-                Add Type of Expanse
+                Add Type of Expense
             </button>
         </div>
         <!-- Modal HTML Markup -->
@@ -26,7 +26,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title">Add Type of Expanse</h1>
+                        <h1 class="modal-title">Add Type of Expense</h1>
                     </div>
                     <div class="modal-body">
                         <form id="categoryForm" method="POST" action="{{route('super-admin.type-of-expense-post')}}"
@@ -50,7 +50,7 @@
 
                             <div class="form-group">
                                 <div>
-                                    <button type="submit" class="btn btn-success">Add Type Of Expanse</button>
+                                    <button type="submit" class="btn btn-success">Add Type Of Expense</button>
                                 </div>
                             </div>
                         </form>
@@ -63,7 +63,7 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title">Edit Type Of Expanse</h1>
+                        <h1 class="modal-title">Edit Type Of Expense</h1>
                     </div>
                     <div class="modal-body">
                         <form id="companyFormEdit" method="POST" action=""
@@ -90,7 +90,7 @@
 
                             <div class="form-group">
                                 <div>
-                                    <button type="submit" class="btn btn-success">Update Type Of Expanse</button>
+                                    <button type="submit" class="btn btn-success">Update Type Of Expense</button>
                                 </div>
                             </div>
                         </form>

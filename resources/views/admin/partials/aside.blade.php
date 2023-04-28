@@ -83,7 +83,7 @@
 
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.type-of-expense') ? 'active' : '' }}" href="{{route(\App\Classes\Enums\UserTypesEnum::SuperAdmin.'.type-of-expense')}}" >
-                            <span class="menu-title">Manage Type Of Expanses</span>
+                            <span class="menu-title">Manage Type Of Expenses</span>
                         </a>
                     </div>
 
@@ -127,7 +127,8 @@
                             </a>
                         </div>
                         @endhasanyrole
-                        @hasanyrole('director|manager|admin')
+{{--                        @hasanyrole('director|manager|admin')--}}
+                        @hasanyrole('admin')
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.viewrequests') ? 'active' : '' }}"
                                href="{{url(auth()->user()->user_type.'/'.'viewrequests')}}" >

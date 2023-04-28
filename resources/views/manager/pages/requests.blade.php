@@ -45,8 +45,10 @@
 
             {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable dt-responsive" cellspacing="0"> --}}
             <thead>
-            <tr>
+            <tr class="text-nowrap">
+                <th>ID</th>
                 <th>Initiator</th>
+                <th>Created At</th>
                 <th>Company</th>
                 <th>Department</th>
                 <th>Supplier</th>
@@ -63,8 +65,10 @@
             </thead>
             <tbody>
             @foreach($requests as $request)
-                <tr>
+                <tr class="text-nowrap">
+                    <td>{{$request->id ?? ''}}</td>
                     <td>{{$request->initiator ?? ''}}</td>
+                    <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
                     <td>{{$request->supplier->supplier_name ?? ''}}</td>
