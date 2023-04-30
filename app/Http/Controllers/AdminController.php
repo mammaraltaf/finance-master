@@ -246,7 +246,7 @@ class AdminController extends Controller
     public function typeOfExpense()
     {
         $typeOfExpenses = TypeOfExpanse::all();
-        return view('super-admin.pages.type-of-expense', compact('typeOfExpenses'));
+        return view('admin.pages.type-of-expense', compact('typeOfExpenses'));
     }
 
     public function departments()
@@ -255,6 +255,156 @@ class AdminController extends Controller
         $departmentIds = $user->departments->pluck('id')->toArray();
         $departments = Department::whereIn('id', $departmentIds)->get();
         $users = User::where('user_type',UserTypesEnum::User)->get();
-        return view('super-admin.pages.department', compact('departments','users'));
+        return view('admin.pages.department', compact('departments','users'));
+    }
+
+    public function departmentsPost(Request $request)
+    {
+        try {
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'id_software' => 'unique:departments,id_software',
+                'name' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $department = Department::create([
+                'id_software' => $input['id_software'] ?? Str::random(10),
+                'name' => $input['name'],
+                'user_id' => auth()->user()->id,
+            ]);
+
+            if ($department) {
+                return redirect()->back()->with('success', 'Department created successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+
+    public function editDepartment($id)
+    {
+        $department = Department::find($id);
+        return response()->json($department);
+    }
+
+    public function editDepartmentPost(Request $request, $id)
+    {
+        try {
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'id_software' => 'unique:departments,id_software,' . $id,
+                'name' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $department = Department::find($id);
+            $department->id_software = $input['id_software'] ?? Str::random(10);
+            $department->name = $input['name'];
+            $department->save();
+
+            if ($department) {
+                return redirect()->back()->with('success', 'Department updated successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function deleteDepartment(Request $request)
+    {
+        try {
+            Department::where('id',$request->id)->delete();
+            return redirect()->back()->with('success','Department deleted Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function typeOfExpensePost(Request $request)
+    {
+//        $this->authorize('create type of expense');
+        try {
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'name' => 'required',
+                'accounting_id' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $typeOfExpense = TypeOfExpanse::create([
+                'id_software' => $input['id_software'] ?? Str::random(10),
+                'name' => $input['name'],
+                'accounting_id' => $input['accounting_id'],
+            ]);
+
+            if ($typeOfExpense) {
+                return redirect()->back()->with('success', 'Type of expense created successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function editTypeOfExpense($id)
+    {
+        $typeOfExpense = TypeOfExpanse::find($id);
+        return response()->json($typeOfExpense);
+    }
+
+    public function editTypeOfExpensePost(Request $request, $id)
+    {
+//        $this->authorize('edit type of expense');
+        try {
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'name' => 'required',
+                'accounting_id' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $typeOfExpense = TypeOfExpanse::find($id);
+            $typeOfExpense->id_software = $input['id_software'] ?? Str::random(10);
+            $typeOfExpense->name = $input['name'];
+            $typeOfExpense->accounting_id = $input['accounting_id'];
+            $typeOfExpense->save();
+
+            if ($typeOfExpense) {
+                return redirect()->back()->with('success', 'Type of expense updated successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function deleteTypeOfExpense(Request $request)
+    {
+        try {
+            TypeOfExpanse::where('id',$request->id)->delete();
+            return redirect()->back()->with('success','Type of expense deleted Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 }

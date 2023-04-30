@@ -41,9 +41,11 @@ class SuperAdminController extends Controller
             $users = User::where('user_type','!=',UserTypesEnum::SuperAdmin)->withTrashed()->orderBy('created_at', 'desc')->get();
 //            $roles = Role::whereIn('name',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
             $roles = Role::where('name','!=',UserTypesEnum::SuperAdmin)->get();
+            $companies = Company::all();
+            $departments = Department::all();
 
-            $companies = Company::doesntHave('users')->get();
-            $departments = Department::doesntHave('users')->get();
+//            $companies = Company::doesntHave('users')->get();
+//            $departments = Department::doesntHave('users')->get();
 
             return view('super-admin.pages.users', compact('users','roles','companies','departments'));
         }

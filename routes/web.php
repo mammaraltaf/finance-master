@@ -113,7 +113,16 @@ Route::group(['middleware'=>'auth'],function (){
          Route::post('/unblock-user', [AdminController::class, 'unblockUser'])->name('unblock-user');
 
          Route::get('/type-of-expense', [AdminController::class, 'typeOfExpense'])->name('type-of-expense');
+         Route::post('/type-of-expense', [AdminController::class, 'typeOfExpensePost'])->name('type-of-expense-post');
+         Route::get('/edit-type-of-expense/{id}', [AdminController::class, 'editTypeOfExpense'])->name('edit-type-of-expense');
+         Route::post('/edit-type-of-expense/{id}', [AdminController::class, 'editTypeOfExpensePost'])->name('edit-type-of-expense-post');
+         Route::post('/delete-type-of-expense', [AdminController::class, 'deleteTypeOfExpense'])->name('delete-type-of-expense');
+
          Route::get('/department', [AdminController::class, 'departments'])->name('department');
+         Route::post('/department', [AdminController::class, 'departmentsPost'])->name('department-post');
+         Route::get('/edit-department/{id}', [AdminController::class, 'editDepartment'])->name('edit-department');
+         Route::post('/edit-department/{id}', [AdminController::class, 'editDepartmentPost'])->name('edit-department-post');
+         Route::post('/delete-department', [AdminController::class, 'deleteDepartment'])->name('delete-department');
 
      });
 
