@@ -161,7 +161,7 @@
         type: "GET",
         url: "{{url('accounting/payment/')}}" + '/' + request_id,
         success: function (response) {
-          console.log(response);
+          // console.log(response);
           $('#id').val(response.id);
           $('#amount').val(response.amount_in_gel);
           $('#directorAcceptRejectForm').attr('action', "{{url('accounting/payment/')}}" + '/' + request_id);
@@ -373,7 +373,7 @@
         })
         var bulkIds = ids.join(',');
         var url = "{{url('accounting/bulk-pay-or-reject/')}}";
-            $('#loader').show();
+            // $('#loader').show();
 
             $.ajax({
                 type: "POST",
@@ -383,13 +383,13 @@
                     action:'pay'
                 },
                 success:function (response){
-                    $('#loader').hide();
+                    // $('#loader').hide();
                     if(response.success === 'success'){
                         toastr.success("Bulk Requests Paid successfully!", "Finance Alert");
                         location.reload();
                     }
                     else{
-                        $('#loader').hide();
+                        // $('#loader').hide();
                         toastr.error("Something went wrong!", "Finance Alert");
                     }
                 }

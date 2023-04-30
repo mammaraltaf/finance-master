@@ -292,12 +292,12 @@
         //Edit Company Get Req
         $('body').on('click', '#companyEdit', function () {
             var company_id = $(this).data('id');
-            console.log(company_id);
+            // console.log(company_id);
             $.ajax({
                 type: "GET",
                 url: "{{url('/super-admin/edit-company/')}}"+'/'+company_id,
                 success:function (response){
-                    console.log(response)
+                    // console.log(response)
                 $('#company_id').val(company_id);
                     $('#id_software').val(response.id_software);
                     $('#tax_id').val(response.tax_id);
@@ -308,7 +308,7 @@
                     // $('#avatar-upload').val(null);
                     var userType = response.users[0].id;
                     $('#user-id').val(userType);
-                    console.log("User type", userType)
+                    // console.log("User type", userType)
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
 
                     $('#logoedit').attr('src', response.logo);
@@ -340,7 +340,6 @@
 
             });
 
-
         });
 
         $('#edit-avatar-upload').on('change', function() {
@@ -366,12 +365,12 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    console.log("response::::::",response);
-                    console.log("form", formData);
+                    // console.log("response::::::",response);
+                    // console.log("form", formData);
 
                 },
                 error: function(xhr, status, error) {
-                    console.log(error);
+                    // console.log(error);
                 }
             });
         });

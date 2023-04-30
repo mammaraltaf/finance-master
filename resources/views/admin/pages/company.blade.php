@@ -32,7 +32,7 @@
     <!--end::Header-->
     <!--begin::Body-->
     <div class="card-body py-3">
-       
+
         {{--Edit Modal--}}
         <div id="ModalEdit" class="modal fade">
             <div class="modal-dialog" role="document">
@@ -46,19 +46,14 @@
                             @csrf
                             <input type="hidden" name="company_id" id="company_id">
                             <div class="avatar">
-                                <label for="edit-avatar-upload">  
+                                <label for="edit-avatar-upload">
                                   <img src='' class="img-avatar" alt="Avatar" id="logoedit">
-                                </label> 
+                                </label>
                                 <input type="file" class="d-none" id="edit-avatar-upload" name="logo" accept="image/*">
                             </div>
                             <div class="form-group">
                                 <label class="control-label">ID / Software (Must be Unique)</label>
-                                <div>
-                                    <input type="text" name="id_software" id="id_software" placeholder="Enter ID / Software"
-                                           class="form-control input-lg" required>
-                                </div>
                                 <br>
-
                                 <label class="control-label">Tax ID</label>
                                 <div>
                                     <input type="text" name="tax_id" id="tax_id" placeholder="Enter Tax ID"
@@ -86,7 +81,7 @@
                                 </div>
 
                                 <br>
-                             
+
                             </div>
 
 
@@ -100,7 +95,7 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-       
+
             <table name="companyTable" id="companyTable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
 
                 {{-- <table id="companyTable" name="companyTable" class="ui celled table allTable" style="width:100%"> --}}
@@ -134,12 +129,12 @@
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$company->id}}"
                                class="btn btn-danger delete_btn btn-sm">Delete</a> --}}
                             <i id="companyEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$company->id}}" class="fas px-1  fa-edit cursor-pointer text-primary"></i>
-                          
+
                         </td>
                     </tr>
                 @endforeach
                 </tbody>
-               
+
             </table>
         {{-- </div> --}}
     </div>
@@ -216,11 +211,11 @@
                     $('#legal_address').val(response.legal_address);
                     // $('#logoedit').attr('src',response.logo);
                     // $('#avatar-upload').val(null);
-                    var userType = response.users[0].id; 
+                    var userType = response.users[0].id;
                     $('#user-id').val(userType);
                     console.log("User type", userType)
                     $('#companyFormEdit').attr('action',"{{url('/admin/edit-company/')}}"+'/'+company_id);
-                    
+
                     $('#logoedit').attr('src', response.logo);
                     $('#edit-avatar-upload').val(null);
                     if (response.logo) {
@@ -233,9 +228,9 @@
                     // Handle logo update
                     $('#edit-avatar-upload').on('change', function() {
                         var logo = $(this)[0].files[0];
-                        
+
                         $("#edit-avatar-upload").val(logo)
-                       
+
 
                         var reader = new FileReader();
                         reader.onload = function(e) {
@@ -245,14 +240,14 @@
                         reader.readAsDataURL(logo);
                     });
 
-                    
-                }   
-                    
+
+                }
+
             });
 
 
         });
-        
+
         $('#edit-avatar-upload').on('change', function() {
             var logo = $(this)[0].files[0];
 
@@ -264,7 +259,7 @@
             reader.readAsDataURL(logo);
         });
 
-        // Edit company Post Req 
+        // Edit company Post Req
         $('body').on('click', '#submitFormBtn', function() {
             var company_id = $(this).data('id');
             console.log(company_id);
@@ -286,15 +281,15 @@
                 }
             });
         });
-    
+
 
         $(document).ready(function() {
             $('#avatar-upload').on('change', function(e) {
                 var file = e.target.files[0];
                 var reader = new FileReader();
-                
+
                 reader.readAsDataURL(file);
-                
+
                 reader.onload = function(e) {
                 $('.img-avatar').attr('src', e.target.result);
                 }

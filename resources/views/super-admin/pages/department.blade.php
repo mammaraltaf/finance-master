@@ -51,7 +51,6 @@
                                         @endforeach
                                     </select>
                                 </div>
-
                             </div>
 
                             <div class="form-group">
@@ -198,7 +197,7 @@
                 type: "GET",
                 url: "{{url('/super-admin/edit-department/')}}"+'/'+department_id,
                 success:function (response){
-                    console.log(response);
+                    // console.log(response);
                     $('#id_software').val(response.id_software);
                     $('#name').val(response.name);
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-department/')}}"+'/'+department_id);

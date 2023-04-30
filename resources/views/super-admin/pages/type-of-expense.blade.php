@@ -54,6 +54,7 @@
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
@@ -201,7 +202,7 @@
                 type: "GET",
                 url: "{{url('/super-admin/edit-type-of-expense/')}}"+'/'+typeOfExpanse_id,
                 success:function (response){
-                    console.log(response);
+                    // console.log(response);
                     $('#id_software').val(response.id_software);
                     $('#name').val(response.name);
                     $('#accounting_id').val(response.accounting_id);

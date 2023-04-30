@@ -21,7 +21,7 @@
         .dataTables_length {
             margin-right: 10px;
         }
-       
+
         /* .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
             background-color: blue!important;
         } */
@@ -88,7 +88,9 @@
 {{--                                           class="form-control input-lg" required>--}}
 {{--                                </div>--}}
 {{--                                <br>--}}
-
+                                <div>
+                                    <input type="hidden" name="id_software" value="{{ Illuminate\Support\Str::random(10) }}"  class="form-control input-lg" required>
+                                </div>
                                 <label class="control-label">Tax ID</label>
                                 <div>
                                     <input type="text" name="tax_id" placeholder="Enter tax ID "
@@ -321,7 +323,7 @@
         });
         $(document).ready(function () {
             $('#suppliertable').DataTable({
-                'order': [0, 'desc'],   
+                'order': [0, 'desc'],
                 dom: 'Blfrtip',
                 lengthChange: true,
                 buttons: [

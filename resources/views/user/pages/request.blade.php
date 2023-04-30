@@ -63,6 +63,7 @@
                                     </select>
                                 </div>
                             </div>
+
                             <div class="d-flex">
                                 <div class="form-group w-100 px-2">
                                     <label for="department">Department</label>
@@ -284,14 +285,14 @@
                     <tr class="text-nowrap text-center">
                         <th>Initiator</th>
                         <th>Created At</td>
-                    
+
                         <th>Company</th>
                         <th>Department</th>
                         <th>Supplier</th>
                         <th>Type of Expense</th>
                         <th>Currency</th>
                         <th>Amount</th>
-                       
+
                         <th>Basis</th>
                         <th>Due Date of Payment</th>
                         <th>Due Date</th>
@@ -313,7 +314,7 @@
                             <td>{{$request->typeOfExpense->name}}</td>
                             <td>{{$request->currency}}</td>
                             <td>{{$request->amount}}</td>
-                           
+
                             <td><?php
                                 if(isset($request['basis'])){
                                     $files=explode(',',$request['basis']);
@@ -432,7 +433,7 @@
             $("#currency").change(function() {
                 var currency = $(this).val();
                 var amount = $("#amount").val();
-                console.log("currency", currency)
+                // console.log("currency", currency)
                 if (currency != "GEL" && amount != "") {
                     $.ajax({
                         url: "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date="+currentDate,
@@ -459,7 +460,7 @@
             $("#edit_currency").change(function() {
                 var currency = $(this).val();
                 var amount = $("#amount2").val();
-                console.log("currency", amount, currency);
+                // console.log("currency", amount, currency);
                 if (currency != "GEL" && amount != "") {
                     $.ajax({
                         url: "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date="+currentDate,
@@ -491,15 +492,15 @@
         });
 
         $(document).ready(function() {
-            var maxLength = 500; 
+            var maxLength = 500;
             var description = $('#description');
             var counter = $('<span class="char-count">0/' + maxLength + ' Characters</span>').insertAfter(description);
             var submitBtn = $('button[name="button"]');
-            
+
             description.on('input', function() {
                 var length = description.val().length;
                 counter.text(length + '/' + maxLength + ' Characters');
-                
+
                 if (length > maxLength) {
                     description.addClass('is-invalid');
                     submitBtn.prop('disabled', true);
@@ -523,7 +524,7 @@
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
-                console.log("response", response);
+                // console.log("response", response);
                 $('#reqid').val(response.id);
                 $('#amount2').val(response.amount);
                 $('#description2').val(response.description);
@@ -607,7 +608,7 @@
                 // get the id of the clicked button
                 var buttonId = $(this).attr('id');
                 // log the button name to the console
-                console.log(buttonId);
+                // console.log(buttonId);
 
                 var url = "{{ route('user.filter', ':id') }}";
                 url = url.replace(':id', buttonId);

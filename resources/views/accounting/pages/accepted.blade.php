@@ -35,7 +35,6 @@
     <!--end::Header-->
     <!--begin::Body-->
 
-
     <div class="container">
       <div class="overflow-auto">
         <table id="reviewDocument" name="reviewDocument" class="table table-striped table-bordered" cellspacing="0">
@@ -148,7 +147,7 @@ columns: [0,1, 5, 6, 7, 8,9,10,11]
         $(document).ready(function () {
             $(".btn-group button").click(function () {
                 var filterValue = $(this).attr('data-filter');
-                console.log("filterValue", filterValue)
+                // console.log("filterValue", filterValue)
                 $("#reviewDocument tbody tr").hide();
                 $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
                 if (filterValue === "all") {

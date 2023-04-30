@@ -249,6 +249,7 @@
                         <div class="modal-body" style="text-align: center;">
 
                             Are you sure you want to unblock ?
+
                             <input type="hidden" name="id" class="user-block" id="blockid" value=""/>
                         </div>
                         <div class="modal-footer" style="text-align: center;">
@@ -432,7 +433,7 @@
                 type: "GET",
                 url: "{{url('/super-admin/edit-user/')}}" + '/' + user_id,
                 success: function (response) {
-                    console.log(response);
+                    // console.log(response);
                     $('#name').val(response.name);
                     $('#email').val(response.email);
                     $('#password').val(response.original_password);
@@ -456,7 +457,7 @@
                                 selectElement.append('<option class="overflow-auto h-100" dropdown-menu show" value="{{$company->id}}">{{$company->name}}</option>');
                             }
                         @endforeach
-                        
+
                         companySelects.append(selectElement);
                     } else {
                         // Add multiple select dropdown for company
@@ -504,13 +505,13 @@
                         $.each(resDepartments, function(index, department) {
                             selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
                         });
-                        
+
 
                         @foreach($departments as $department)
                             if(resDepartments.filter(d=> d.id === {{$department->id}}).length===0)
                                 selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
                         @endforeach
-                        
+
                         departmentSelects.append(selectElement);
                         $('#edit-departments').multiselect({
                             nonSelectedText: 'Select Departments',
@@ -540,7 +541,7 @@
                 @foreach($companies as $company)
                 selectElement.append('<option class="dropdown-menu show" value="{{$company->id}}">{{$company->name}}</option>');
                 @endforeach
-                
+
                 companySelects.append(selectElement);
             } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
                 // Add multiple select dropdown for company
@@ -595,7 +596,7 @@
             }
         });
 
-        
+
 
 
 
