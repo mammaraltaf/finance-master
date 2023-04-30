@@ -41,8 +41,10 @@ class SuperAdminController extends Controller
             $users = User::where('user_type','!=',UserTypesEnum::SuperAdmin)->withTrashed()->orderBy('created_at', 'desc')->get();
 //            $roles = Role::whereIn('name',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
             $roles = Role::where('name','!=',UserTypesEnum::SuperAdmin)->get();
-            $companies = Company::all();
-            $departments = Department::all();
+
+            $companies = Company::doesntHave('users')->get();
+            $departments = Department::doesntHave('users')->get();
+
             return view('super-admin.pages.users', compact('users','roles','companies','departments'));
         }
         catch(Exception $e){
@@ -175,12 +177,9 @@ class SuperAdminController extends Controller
     public function company()
     {
         $companies = Company::all();
-        $all_admins=User::where('user_type', UserTypesEnum::Admin)->get('id');
-       $taken_admins=CompanyUser::whereIn('user_id',$all_admins)->get('id');
-        $admins = User::where('user_type', UserTypesEnum::Admin)
-        // ->where('id','!=',$taken_admins)
-        ->get();
-        return view('super-admin.pages.company', compact('companies','admins'));
+//        $admins  = User::where('user_type',UserTypesEnum::Admin)->doesntHave('companies')->get();
+
+        return view('super-admin.pages.company', compact('companies'));
     }
 
 
@@ -196,7 +195,7 @@ class SuperAdminController extends Controller
                 'company_name' => 'required',
                 'threshold_amount' => 'required',
                 'legal_address' => 'required',
-                'user_id' => 'required',
+//                'user_id' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -221,7 +220,7 @@ class SuperAdminController extends Controller
                 'legal_address' => $input['legal_address'],
             ]);
 
-            $company->users()->attach($input['user_id']);
+//            $company->users()->attach($input['user_id']);
 
             if ($company) {
                 return redirect()->back()->with('success', 'Company created successfully');
@@ -255,7 +254,7 @@ class SuperAdminController extends Controller
                 'company_name' => 'required',
                 'threshold_amount' => 'required',
                 'legal_address' => 'required',
-                'user_id' => 'required',
+//                'user_id' => 'required',
             ]);
 
             if ($validator->fails()) {

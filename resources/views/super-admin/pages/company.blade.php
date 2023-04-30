@@ -87,15 +87,15 @@
                                     <textarea name="legal_address" cols="30" rows="10" class="form-control"></textarea>
                                 </div>
                                 <br>
-                                <label class="control-label">Select Admin</label>
-                                <div>
-                                    <select name="user_id" class="form-control">
-                                        <option value="">Select Admin</option>
-                                        @foreach($admins as $admin)
-                                            <option value="{{$admin->id}}">{{$admin->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+{{--                                <label class="control-label">Select Admin</label>--}}
+{{--                                <div>--}}
+{{--                                    <select name="user_id" class="form-control">--}}
+{{--                                        <option value="">Select Admin</option>--}}
+{{--                                        @foreach($admins as $admin)--}}
+{{--                                            <option value="{{$admin->id}}">{{$admin->name}}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
                             </div>
 
                             <div class="form-group">
@@ -154,21 +154,21 @@
                                 </div>
 
                                 <br>
-                                <label class="control-label">Select Admin</label>
-                                <div>
-                                    {{-- <select name="user_id" id="user-id" class="form-control" required>
-                                        <option value="" disabled>Select Admin</option>
-                                        @foreach($admins as $admin)
-                                            <option value="{{$admin->id}}">{{$admin->name}}</option>
-                                        @endforeach
-                                    </select> --}}
-                                    <select name="user_id" id="user-id" class="form-control" required>
-                                        <option value="" disabled>Select Admin</option>
-                                        @foreach($admins as $admin)
-                                            <option value="{{$admin->id}}">{{$admin->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+{{--                                <label class="control-label">Select Admin</label>--}}
+{{--                                <div>--}}
+{{--                                    --}}{{-- <select name="user_id" id="user-id" class="form-control" required>--}}
+{{--                                        <option value="" disabled>Select Admin</option>--}}
+{{--                                        @foreach($admins as $admin)--}}
+{{--                                            <option value="{{$admin->id}}">{{$admin->name}}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select> --}}
+{{--                                    <select name="user_id" id="user-id" class="form-control" required>--}}
+{{--                                        <option value="" disabled>Select Admin</option>--}}
+{{--                                        @foreach($admins as $admin)--}}
+{{--                                            <option value="{{$admin->id}}">{{$admin->name}}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
                             </div>
 
 
@@ -306,8 +306,8 @@
                     $('#legal_address').val(response.legal_address);
                     // $('#logoedit').attr('src',response.logo);
                     // $('#avatar-upload').val(null);
-                    var userType = response.users[0].id;
-                    $('#user-id').val(userType);
+                    // var userType = response.users[0].id;
+                    // $('#user-id').val(userType);
                     // console.log("User type", userType)
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-company/')}}"+'/'+company_id);
 

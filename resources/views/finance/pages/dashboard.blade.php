@@ -9,12 +9,19 @@
             width:600px !important;
             height:600px !important;
         }
+        .outbox{
+            text-align: center;
+        }
+        .container{
+            width: 50%;
+            display: inline-block;
+        }
     </style>
 @endsection
 @section('content')
 
     <div class="card-header pt-5">
-
+{{--@dd($yearChart)--}}
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Dashboard</span>
         </h3>
@@ -24,7 +31,12 @@
         <canvas id="departmentChart" class="w-50 h-100"></canvas>
         <canvas id="typeOfExpanseChart" class="w-50 h-100" ></canvas>
     </div>
-    <canvas id="yearChart" class="w-100" width="400" height="400"></canvas>
+    <div class="outbox">
+        <div class="container">
+    <canvas id="yearChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+
 
 @endsection
 @section('script')
@@ -52,14 +64,14 @@
             //     }
             // }
             options: {
-                
+
                 plugins: {
                     tooltip: {
                         mode: 'index',
                         intersect: false,
                         callbacks: {
                             label: function(context) {
-                                return context.dataset.label + ': ' + context.formattedValue;
+                                return context.label + ': ' + context.formattedValue;
                             }
                         }, titleFont: {
                                 size: 30
@@ -128,14 +140,14 @@
             //     }
             // }
             options: {
-                
+
                 plugins: {
                     tooltip: {
                         mode: 'index',
                         intersect: false,
                         callbacks: {
                             label: function(context) {
-                                return context.dataset.label + ': ' + context.formattedValue;
+                                return context.label + ': ' + context.formattedValue;
                             }
                         },
                         titleFont: {
@@ -144,7 +156,7 @@
                             bodyFont: {
                             size: 30
                         },
-                        
+
                     },
                     legend: {
                         position: 'top',
@@ -198,14 +210,14 @@
             //     }
             // },
             options: {
-                
+
                 plugins: {
                     tooltip: {
                         mode: 'index',
                         intersect: false,
                         callbacks: {
                             label: function(context) {
-                                return context.dataset.label + ': ' + context.formattedValue;
+                                return 'GEL: ' + context.formattedValue;
                             }
                         }, titleFont: {
                                 size: 20

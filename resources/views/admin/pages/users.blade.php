@@ -75,9 +75,9 @@
                                 </div>
                                 <br>
 
-                               
 
-            
+
+
 
                             </div>
 
@@ -100,7 +100,7 @@
                 {{-- <table id="categoryTable" name="categoryTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
-                    <th class="d-none">Created At</th>
+                    <th>Created At</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Type</th>
@@ -258,9 +258,9 @@
                                 </select>
                             </div>
                             <br>
-                            
 
-                          
+
+
                             <label class="control-label">Password</label>
                             <div>
                                 <input type="text" name="password" id="password"
@@ -352,8 +352,8 @@
                     $('select[name="type"]').val(response.user_type).trigger('change');
                     $('#userFormEdit').attr('action', "{{url('/admin/edit-user/')}}" + '/' + user_id);
                     // Preload companies dropdown
-                   
-                        
+
+
                 }
             });
         });
