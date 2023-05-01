@@ -91,9 +91,9 @@
                     <td>{{$request->status ?? ''}}</td>
                     <td>
                         <div class="d-flex">
-                            <button class="mr-2 btn btn-success" id="acceptBtn" data-id="{{$request->id}}">Accept
+                            <button class="mr-2 btn btn-success acceptBtn" id="" data-id="{{$request->id}}">Accept
                             </button>
-                            <button class="ml-2 btn btn-danger" id="rejectBtn" data-id="{{$request->id}}">Reject
+                            <button class="ml-2 btn btn-danger rejectBtn" id="" data-id="{{$request->id}}">Reject
                             </button>
                         </div>
                     </td>
@@ -227,7 +227,7 @@
                 ]
             });
 
-            $('#acceptBtn').click(function () {
+            $('.acceptBtn').click(function () {
                 let a = $(this).data('id');
                 $('.approve-request-id').val(a);
                 $('#acceptConfirmationModal').modal('show');
@@ -236,7 +236,7 @@
                 var comment = $('#acceptComment').val();
                 $('#acceptConfirmationModal').modal('hide');
             });
-            $('#rejectBtn').click(function () {
+            $('.rejectBtn').click(function () {
                 let a = $(this).data('id');
                 $('.reject-request-id').val(a);
                 $('#rejectConfirmationModal').modal('show');
