@@ -146,7 +146,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
-    <script>
+    
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -198,9 +198,10 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
       
 
         const commentTextarea = document.getElementById("document-comments");
-        const rejectButton = document.getElementByclassname(".reject-button");
+        const rejectButton = document.getElementsByClassName("reject-button")[0];
 
         rejectButton.setAttribute("disabled", "");
+
 
         commentTextarea.addEventListener("input", function() {
             if (commentTextarea.value.length > 0) {

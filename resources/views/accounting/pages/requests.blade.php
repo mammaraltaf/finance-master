@@ -109,7 +109,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form id="directorAcceptRejectForm" method="post" action="{{url('accounting/payment/')}}/{{$request_id}}">
+                <form id="directorAcceptRejectForm" method="post" action="">
 
                   @csrf
                     <input type="hidden" name="id" id="id">
