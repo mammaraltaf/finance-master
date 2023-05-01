@@ -120,8 +120,8 @@
                   </div>
 
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-danger" id="reject-button" value="reject" name="button">Reject</button>
-                    <button type="submit" class="btn btn-success" id="approve-button" value="pay" name="button">Pay</button>
+                    <button type="submit" class="btn btn-danger reject-button" id="" value="reject" name="button">Reject</button>
+                    <button type="submit" class="btn btn-success approve-button" id="approve-button" value="pay" name="button">Pay</button>
                   </div>
                 </form>
               </div>

@@ -34,9 +34,9 @@
 
     <div class="container">
       <div class="overflow-auto">
-        <table name="reviewDocument" id="reviewDocument" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+        {{-- <table name="reviewDocument" id="reviewDocument" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%"> --}}
 
-        {{-- <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable dt-responsive" cellspacing="0"> --}}
+        <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable dt-responsive" cellspacing="0">
           <thead>
             <tr>
               <th>ID</th>
@@ -123,8 +123,8 @@
                     <label class="form-check-label" for="amount-verification">Verify amount manually</label>
                   </div> -->
                   <div class="modal-footer">
-                <button type="submit" class="btn btn-danger" id="reject-button" name="reject" disabled>Reject</button>
-                <button type="submit" class="btn btn-success" id="approve-button" name="approve">Approve</button>
+                <button type="submit" class="btn btn-danger reject-button" id="" name="reject" disabled>Reject</button>
+                <button type="submit" class="btn btn-success approve-button" id="" name="approve">Approve</button>
               </div>
                 </form>
               </div>
@@ -198,7 +198,7 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
       
 
         const commentTextarea = document.getElementById("document-comments");
-        const rejectButton = document.getElementById("reject-button");
+        const rejectButton = document.getElementByClass(".reject-button");
 
         rejectButton.setAttribute("disabled", "");
 
@@ -217,10 +217,10 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
             var req_id = $(this).data('id');
             $('#id').val(req_id);
         });
-        $('body').on('click', '#reject-button', function () {
+        $('body').on('click', '.reject-button', function () {
             $('#directorAcceptRejectForm').attr('action', "{{url('director/reject')}}");
         });
-        $('body').on('click', '#approve-button', function () {
+        $('body').on('click', '.approve-button', function () {
             $('#directorAcceptRejectForm').attr('action', "{{url('director/accept')}}");
         });
     </script>

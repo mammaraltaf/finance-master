@@ -36,10 +36,10 @@
 
 
     <div class="overflow-auto px-2">
-        <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap"
-               style="width:100%">
+        {{-- <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap"
+               style="width:100%"> --}}
 
-            {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable dt-responsive" cellspacing="0"> --}}
+            <table id="suppliertable" name="suppliertable" class="ui celled table allTable dt-responsive" cellspacing="0">
             <thead>
             <tr class="text-center text-nowrap">
                 <th>ID</th>
@@ -87,9 +87,9 @@
                     <td>{{$request->status ?? ''}}</td>
                     <td>
                         <div class="d-flex">
-                            <button type="submit" class="mr-2 btn btn-success" id="acceptBtn" data-id="{{$request->id}}">Accept
+                            <button type="submit" class="mr-2 btn btn-success acceptBtn" id="" data-id="{{$request->id}}">Accept
                             </button>
-                            <button class="ml-2 btn btn-danger" id="rejectBtn" data-id="{{$request->id}}">Reject
+                            <button class="ml-2 btn btn-danger rejectBtn"  data-id="{{$request->id}}">Reject
                             </button>
                         </div>
                     </td>
@@ -218,7 +218,7 @@
                 ]
             });
 
-            $('#acceptBtn').click(function () {
+            $('.acceptBtn').click(function () {
                 console.log("accept")
                 let a = $(this).data('id');
                 $('.approve-request-id').val(a);
@@ -228,7 +228,7 @@
                 var comment = $('#acceptComment').val();
                 $('#acceptConfirmationModal').modal('hide');
             });
-            $('#rejectBtn').click(function () {
+            $('.rejectBtn').click(function () {
                 console.log("reject")
                 let a = $(this).data('id');
                 $('.reject-request-id').val(a);
