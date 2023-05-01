@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <!--begin::Header-->
-    
+
     <div class="card-header pt-5">
 
         <h3 class="card-title">
@@ -30,7 +30,7 @@
           </form> </div>
     <!--end::Header-->
     <!--begin::Body-->
-   
+
 
     <div class="container">
       <div class="overflow-auto">
@@ -128,7 +128,7 @@
               </div>
                 </form>
               </div>
-              
+
             </div>
           </div>
       </div>
@@ -142,11 +142,11 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     {{-- <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script> --}}
-    
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
-    
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -160,14 +160,14 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
- 
+
  <script>
       $(document).ready(function() {
         $('#reviewDocument').DataTable({
           'order': [[ 2, 'desc' ]],
           dom: 'Blfrtip',
           lengthChange: true,
-          buttons: [ 
+          buttons: [
 
             {
 extend: 'copy',
@@ -195,13 +195,12 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
            ]
     } );
         });
-      
+
 
         const commentTextarea = document.getElementById("document-comments");
         const rejectButton = document.getElementsByClassName("reject-button")[0];
 
         rejectButton.setAttribute("disabled", "");
-
 
         commentTextarea.addEventListener("input", function() {
             if (commentTextarea.value.length > 0) {
@@ -212,7 +211,7 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
             rejectButton.style.display = "none";
             }
         });
-       
+
 
         $('body').on('click', '#reviewBtn', function () {
             var req_id = $(this).data('id');

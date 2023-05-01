@@ -39,7 +39,7 @@ class DirectorController extends Controller
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
             ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
-            ->whereIn('status', [StatusEnum::ManagerConfirmed, StatusEnum::ThresholdExceeded])
+            ->whereIn('status', [StatusEnum::ThresholdExceeded])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 

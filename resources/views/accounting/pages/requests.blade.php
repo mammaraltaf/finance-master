@@ -110,7 +110,6 @@
               </div>
               <div class="modal-body">
                 <form id="directorAcceptRejectForm" method="post" action="">
-
                   @csrf
                     <input type="hidden" name="id" id="id">
 
@@ -149,7 +148,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
 
 
-  
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
