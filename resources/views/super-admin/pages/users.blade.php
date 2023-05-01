@@ -437,7 +437,7 @@
                 type: "GET",
                 url: "{{url('/super-admin/edit-user/')}}" + '/' + user_id,
                 success: function (response) {
-                    // console.log(response);
+                    console.log(response);
                     $('#name').val(response.name);
                     $('#email').val(response.email);
                     $('#password').val(response.original_password);
@@ -445,6 +445,7 @@
                     $('#userFormEdit').attr('action', "{{url('/super-admin/edit-user/')}}" + '/' + user_id);
                     // Preload companies dropdown
                     var resCompanies = response.companies;
+                    console.log("resCompanies", resCompanies)
 
                     var companySelects = $('.edit-company-selects');
                     companySelects.empty();

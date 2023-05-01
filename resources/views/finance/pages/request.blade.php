@@ -87,7 +87,7 @@
                     <td>{{$request->status ?? ''}}</td>
                     <td>
                         <div class="d-flex">
-                            <button class="mr-2 btn btn-success" id="acceptBtn" data-id="{{$request->id}}">Accept
+                            <button type="submit" class="mr-2 btn btn-success" id="acceptBtn" data-id="{{$request->id}}">Accept
                             </button>
                             <button class="ml-2 btn btn-danger" id="rejectBtn" data-id="{{$request->id}}">Reject
                             </button>
@@ -163,9 +163,9 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
 
+{{-- <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script> --}}
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
@@ -219,6 +219,7 @@
             });
 
             $('#acceptBtn').click(function () {
+                console.log("accept")
                 let a = $(this).data('id');
                 $('.approve-request-id').val(a);
                 $('#acceptConfirmationModal').modal('show');
@@ -228,6 +229,7 @@
                 $('#acceptConfirmationModal').modal('hide');
             });
             $('#rejectBtn').click(function () {
+                console.log("reject")
                 let a = $(this).data('id');
                 $('.reject-request-id').val(a);
                 $('#rejectConfirmationModal').modal('show');
@@ -256,4 +258,5 @@
 
         
     </script>
+    
 @endsection

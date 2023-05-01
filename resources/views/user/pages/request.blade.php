@@ -492,7 +492,7 @@
         });
 
         $(document).ready(function() {
-            var maxLength = 500;
+            var maxLength = 190;
             var description = $('#description');
             var counter = $('<span class="char-count">0/' + maxLength + ' Characters</span>').insertAfter(description);
             var submitBtn = $('button[name="button"]');
