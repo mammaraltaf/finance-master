@@ -109,7 +109,7 @@
                 </button>
               </div>
               <div class="modal-body">
-                <form id="directorAcceptRejectForm" method="post" action="">
+                <form id="directorAcceptRejectForm" method="post" action="{{url('accounting/payment/')}}/{{$request_id}}">
 
                   @csrf
                     <input type="hidden" name="id" id="id">
@@ -121,7 +121,7 @@
 
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-danger reject-button" id="" value="reject" name="button">Reject</button>
-                    <button type="submit" class="btn btn-success approve-button" id="approve-button" value="pay" name="button">Pay</button>
+                    <button type="submit" class="btn btn-success approve-button" id="" value="pay" name="button">Pay</button>
                   </div>
                 </form>
               </div>
