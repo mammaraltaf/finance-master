@@ -39,7 +39,10 @@
         <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable dt-responsive" cellspacing="0">
           <thead>
             <tr>
+            
+                <th>Action</th>
               <th>ID</th>
+              <th>Status</th>
                 <th>Initiator</th>
                 <th>Created At</th>
                 <th>Company</th>
@@ -52,14 +55,16 @@
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
-                <th>Status</th>
-                <th>Action</th>
+               
             </tr>
           </thead>
           <tbody>
             @foreach($requests as $request)
                 <tr>
+               
+                    <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
                   <td>{{$request->id}}</td>
+                  <td>{{$request->status ?? ''}}</td>
                     <td>{{$request->initiator ?? ''}}</td>
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
@@ -80,8 +85,7 @@
                                 ?></td>
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
-                    <td>{{$request->status ?? ''}}</td>
-                    <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
+                   
                 </tr>
             @endforeach
           </tbody>

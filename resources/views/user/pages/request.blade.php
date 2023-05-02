@@ -283,6 +283,11 @@
             <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                 <thead>
                     <tr class="text-nowrap text-center">
+                   
+                        @hasanyrole('super-admin|accounting')
+                        <th>Actions</th>
+                        @endhasanyrole
+                        <th>Status</th>
                         <th>Initiator</th>
                         <th>Created At</td>
 
@@ -297,16 +302,14 @@
                         <th>Due Date of Payment</th>
                         <th>Due Date</th>
                         <th>Description</th>
-                        <th>Status</th>
-                        @hasanyrole('super-admin|accounting')
-                        <th>Actions</th>
-                        @endhasanyrole
+                       
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($requests as $request)
                         <tr class="text-nowrap text-center" data-status="{{$request['status']}}">
-                            <td>{{$request->initiator}}</td>
+                        <td style="float:left">{{$request['status']}}</td> 
+                        <td>{{$request->initiator}}</td>
                             <td>{{$request->created_at}}</td>
                             <td>{{$request->company->name}}</td>
                             <td>{{$request->department->name}}</td>
@@ -328,7 +331,7 @@
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request->description}}</td>
-                            <td>{{$request['status']}}</td>
+                           
 
                         </tr>
                     @endforeach

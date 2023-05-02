@@ -43,6 +43,7 @@
           <thead>
             <tr class="text-nowrap">
               <th>ID</th>
+              <th>Action</th>
                 <th>Initiator</th>
                 <th>Created At</th>
                 <th>Company</th>
@@ -55,13 +56,14 @@
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
-                <th>Action</th>
+                
             </tr>
           </thead>
           <tbody>
             @foreach($requests as $request)
                 <tr class="text-nowrap text-center" data-status="{{$request['action']}}">
                   <td>{{$request['id']}}</td>
+                  <td>{{$request['action'] ?? ''}}</td>
                     <td>{{$request['initiator'] ?? ''}}</td>
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request['compname'] ?? ''}}</td>
@@ -82,7 +84,7 @@
                                 ?></td>
                     <td>{{$request['payment_date'] ?? ''}}</td>
                     <td>{{$request['submission_date'] ?? ''}}</td>
-                    <td>{{$request['action'] ?? ''}}</td>
+                   
                             </tr>
             @endforeach
           </tbody>
