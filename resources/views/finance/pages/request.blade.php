@@ -7,6 +7,12 @@
 @endsection
 @section('content')
     <!--begin::Header-->
+    <style>
+        .acceptBtn, .rejectBtn {
+            font-size: 10px;
+            padding: 4px 6px !important;
+        }
+    </style>
    
     <div class="card-header pt-5">
 
@@ -67,9 +73,9 @@
                   
                     <td>
                         <div class="d-flex">
-                            <button type="submit" class="mr-2 btn btn-sm btn-success acceptBtn" id="" data-id="{{$request->id}}">Accept
+                            <button type="submit" class="mr-2 btn btn-success acceptBtn" id="" data-id="{{$request->id}}">Accept
                             </button>
-                            <button class="ml-2 btn btn-sm btn-danger rejectBtn"  data-id="{{$request->id}}">Reject
+                            <button class="ml-2 btn btn-danger rejectBtn"  data-id="{{$request->id}}">Reject
                             </button>
                         </div>
                     </td>

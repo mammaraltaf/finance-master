@@ -3,6 +3,13 @@
 @section('pageTitle')
 @endsection
 @section('content')
+
+<style>
+    .acceptBtn, .rejectBtn {
+        font-size: 10px;
+        padding: 4px 6px !important;
+    }
+</style>
     
     <div class="card-header pt-5">
 
