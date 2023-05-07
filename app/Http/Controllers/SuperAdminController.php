@@ -149,39 +149,49 @@ class SuperAdminController extends Controller
     public function deleteUser(Request $request)
     {
 //        $this->authorize('delete user');
-        $user = User::where('id', $request->id)->first();
-        $user->forceDelete();
-        $user->syncRoles([]);
-        return redirect()->back()->with('success', 'User deleted successfully');
+     try{
+         $user = User::where('id', $request->id)->first();
+         $user->forceDelete();
+         $user->syncRoles([]);
+         return redirect()->back()->with('success', 'User deleted successfully');
+     }
+        catch(Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function blockUser(Request $request)
     {
-        $user = User::where('id', $request->id)->first();
-        $user->status = StatusEnum::Blocked;
-        $user->save();
-        $user->delete();
-        return redirect()->back()->with('success', 'User status updated successfully');
+        try{
+            $user = User::where('id', $request->id)->first();
+            $user->status = StatusEnum::Blocked;
+            $user->save();
+            $user->delete();
+            return redirect()->back()->with('success', 'User status updated successfully');
+        }
+        catch (Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     public function unblockUser(Request $request)
     {
-        dd($request->all());
-        $user = User::where('id', $request->id)->withTrashed()->first();
-        $user->status = StatusEnum::Active;
-        $user->deleted_at = null;
-        $user->save();
-        return redirect()->back()->with('success', 'User status updated successfully');
+        try{
+            $user = User::where('id', $request->id)->withTrashed()->first();
+            $user->status = StatusEnum::Active;
+            $user->deleted_at = null;
+            $user->save();
+            return redirect()->back()->with('success', 'User status updated successfully');
+        }
+        catch (Exception $e){
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
-
-
-
 
     public function company()
     {
         $companies = Company::all();
 //        $admins  = User::where('user_type',UserTypesEnum::Admin)->doesntHave('companies')->get();
-
         return view('super-admin.pages.company', compact('companies'));
     }
 
