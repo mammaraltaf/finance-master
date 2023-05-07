@@ -3,6 +3,96 @@
 @section('pageTitle')
 @endsection
 @section('content')
+<style>
+  .bog-logo{
+    background-color: #ffff; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+    position: relative;
+    overflow: hidden;
+  }
+  .bog-logo img {
+    width: 100% !important;
+    height: 100% !important;
+    transition: transform 0.3s ease-in-out;
+  }
+    .bog-logo:hover {
+      transform: translateY(-5px);
+      background-color: #f4f4f4;
+    }
+
+    .bog-logo:hover img {
+      transform: scale(1.1);
+    }
+
+    .bog-logo:before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .bog-logo:hover:before {
+      opacity: 1;
+    }
+
+    .bog-logo:hover img {
+      transform: translateY(-5px) scale(1.1);
+    }
+   /* TBC Logo */
+    .tbc-logo {
+      background-color: #00a3e0;
+      padding: 10px 20px; 
+      border: none; 
+      border-radius: 5px;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tbc-logo img {
+      width: 160px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .tbc-logo:hover {
+      transform: translateY(-5px);
+      background-color: #0094d1;
+    }
+
+    .tbc-logo:hover img {
+      ransform: scale(1.1);
+    }
+
+    .tbc-logo:before {
+      content: "";
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+
+    .tbc-logo:hover:before {
+      opacity: 1;
+    }
+
+    .tbc-logo:hover img {
+      transform: translateY(-5px) scale(1.1);
+    }
+</style>
 
     <div class="card-header pt-5">
 
@@ -135,6 +225,16 @@
     <div id="loader" style="display:none;">
         <iframe src="https://gifer.com/embed/1amw" width=480 height=480.000 frameBorder="0" allowFullScreen></iframe><p><a href="https://gifer.com">via GIFER</a></p>
     </div>
+    <div class="mt-4">
+        <button class="bog-logo mx-2">
+          <img src="{{ asset('image/bog-logo.svg') }}" alt="Website 1 Logo">
+      </button>
+      
+      <button class="tbc-logo mx-2">
+          <img src="{{ asset('image/tbc-logo.svg') }}" alt="Website 2 Logo">
+      </button>
+      
+    </div>
 
 
 @endsection
@@ -174,7 +274,7 @@
         type: "GET",
         url: "{{url('accounting/payment/')}}" + '/' + request_id,
         success: function (response) {
-          // console.log(response);
+          console.log(response);
           $('#id').val(response.id);
           $('#amount').val(response.amount_in_gel);
           $('#directorAcceptRejectForm').attr('action', "{{url('accounting/payment/')}}" + '/' + request_id);
