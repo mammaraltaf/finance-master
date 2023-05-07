@@ -249,7 +249,7 @@
 
                             Are you sure you want to unblock ?
 
-                            <input type="hidden" name="id" class="user-block" id="blockid" value=""/>
+                            <input type="hidden" name="id" class="user-unblock" id="blockid" value=""/>
                         </div>
                         <div class="modal-footer" style="text-align: center;">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -398,6 +398,7 @@
            var a = $(this).data('id');
            $('.user-block').val(a);
        });
+       
 
          $('.unblock_btn').click(function () {
               var a = $(this).data('id');
