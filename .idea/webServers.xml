@@ -9,6 +9,13 @@
           </advancedOptions>
         </fileTransfer>
       </webServer>
+      <webServer id="5c14aec7-e62a-4005-8036-80cded0f9aec" name="http://qdmpaymentsge.co/" url="http://qdmpaymentsge.co">
+        <fileTransfer host="qdmpaymentsge.co" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
     </option>
   </component>
 </project>

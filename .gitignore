@@ -32,3 +32,7 @@ public/image/16820163543.jpg
 public/image/16820164061.jpg
 *.xml
 *.zip
+*.xml
+.idea/webServers.xml
+.idea/deployment.xml
+*.zip

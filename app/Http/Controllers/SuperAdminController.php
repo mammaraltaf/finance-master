@@ -150,7 +150,7 @@ class SuperAdminController extends Controller
     {
 //        $this->authorize('delete user');
         $user = User::where('id', $request->id)->first();
-        $user->delete();
+        $user->forceDelete();
         $user->syncRoles([]);
         return redirect()->back()->with('success', 'User deleted successfully');
     }
@@ -166,6 +166,7 @@ class SuperAdminController extends Controller
 
     public function unblockUser(Request $request)
     {
+        dd($request->all());
         $user = User::where('id', $request->id)->withTrashed()->first();
         $user->status = StatusEnum::Active;
         $user->deleted_at = null;
