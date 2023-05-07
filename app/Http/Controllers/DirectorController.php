@@ -102,12 +102,12 @@ class DirectorController extends Controller
     {
         try{
             $requestFlow = RequestFlow::with('company')->find($request->id);
-            if ($requestFlow->amount_in_gel > $requestFlow->company->threshold_amount) {
-                $requestFlow->status = StatusEnum::ConfirmedPartially;
-            }
-            else {
+            // if ($requestFlow->amount_in_gel > $requestFlow->company->threshold_amount) {
+            //     $requestFlow->status = StatusEnum::ConfirmedPartially;
+            // }
+            // else {
                 $requestFlow->status = StatusEnum::DirectorConfirmed;
-            }
+            //}
             $requestFlow->comment = $request->comment ?? null ;
             $requestFlow->save();
             $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::DIRECTOR_ACCEPT);
