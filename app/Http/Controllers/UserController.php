@@ -79,7 +79,7 @@ class UserController extends Controller
             }
 
             $supplier_data = Supplier::create([
-                'id_software' =>  Str::random(10),
+                'id_software' => Str::random(10),
                 'tax_id' => $input['tax_id'],
                 'supplier_name' => $input['name'],
                 // 'bank_id' => $input['bank_id'],
@@ -104,26 +104,6 @@ class UserController extends Controller
     {
         $user = Supplier::find($id);
         return response()->json($user);
-    }
-
-    public function request()
-    {
-        $user = Auth::user();
-        $requests = RequestFlow::with('company')
-            ->where('user_id', $user->id)
-            ->whereHas('company', function ($query) {
-                $query->where('slug', Session::get('url-slug'));
-            })->orderBy('created_at', 'desc')->get();
-        $companies = Company::where('slug', Session::get('url-slug'))->get();
-        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-
-        $departments = DepartmentUser::where('user_id', Auth::user()->id)
-        ->rightJoin('departments','departments.id','=','department_user.department_id')
-        ->select('departments.*')
-        ->get();
-        $suppliers = supplier::all();
-        $expenses = TypeOfExpanse::all();
-        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
     }
 
     public function updatesupplier(Request $request, $id)
@@ -175,7 +155,6 @@ class UserController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-
 
     public function addrequest(Request $request)
     {
@@ -261,7 +240,6 @@ class UserController extends Controller
         }
     }
 
-
     public function editrequest($id)
     {
         $requested = RequestFlow::find($id);
@@ -289,9 +267,9 @@ class UserController extends Controller
             if (isset($_POST['button'])) {
                 $status = $_POST['button'];
             }
-           // dd($input);
-           if($input['basis3']==null){
-             $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
+            // dd($input);
+            if ($input['basis3'] == null) {
+                $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
                 $files = explode(',', $all_files);
                 foreach ($files as $file) {
                     if (File::exists(public_path('basis/' . $file))) {
@@ -310,46 +288,46 @@ class UserController extends Controller
                     $basis = implode(',', $files);
                 }
 
-        }else{
-            $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
-            $existing_files = explode(',', $all_files);
-            $keep=explode(',',$input['basis3']);
-            //dd($keep);
-            if (isset($input['basis'])) {
-                $files = [];
-                if ($request->hasfile('basis')) {
-                    foreach ($request->file('basis') as $file) {
-                        $name = time() . rand(1, 50) . '.' . $file->extension();
-                        $file->move(public_path('basis'), $name);
-                        $files[] = $name;
+            } else {
+                $all_files = RequestFlow::where('id', $request->id)->pluck('basis')->first();
+                $existing_files = explode(',', $all_files);
+                $keep = explode(',', $input['basis3']);
+                //dd($keep);
+                if (isset($input['basis'])) {
+                    $files = [];
+                    if ($request->hasfile('basis')) {
+                        foreach ($request->file('basis') as $file) {
+                            $name = time() . rand(1, 50) . '.' . $file->extension();
+                            $file->move(public_path('basis'), $name);
+                            $files[] = $name;
+                        }
+                    }
+                    $basis = implode(',', array_merge($files, $keep));
+
+                } else {
+                    $basis = implode(',', $keep);
+                }
+
+
+                $removed = array_diff($existing_files, $keep);
+                //    print_r($existing_files);
+                //    echo "<br>";
+                //    print_r($keep);
+                //    echo "<br>";
+                //    print_r($files);
+                //    echo "<br>";
+                //    print_r($removed);
+                //    echo "<br>";
+                //    print_r($basis);
+                //    exit();
+                foreach ($removed as $remove) {
+                    if (File::exists(public_path('basis/' . $remove))) {
+                        File::delete(public_path('basis/' . $remove));
                     }
                 }
-                $basis=implode(',',array_merge($files,$keep));
 
-            }else{
-$basis=implode(',',$keep);
+
             }
-
-
-            $removed=array_diff($existing_files,$keep);
-    //    print_r($existing_files);
-    //    echo "<br>";
-    //    print_r($keep);
-    //    echo "<br>";
-    //    print_r($files);
-    //    echo "<br>";
-    //    print_r($removed);
-    //    echo "<br>";
-    //    print_r($basis);
-    //    exit();
-            foreach ($removed as $remove) {
-                if (File::exists(public_path('basis/' . $remove))) {
-                    File::delete(public_path('basis/' . $remove));
-                }
-            }
-
-
-        }
             $request = RequestFlow::find($id);
 
             $request->company_id = $input['company'];
@@ -362,9 +340,9 @@ $basis=implode(',',$keep);
             $request->description = $input['description'];
             $request->payment_date = $input['due-date-payment2'];
             $request->submission_date = $input['due-date2'];
-           if(isset($basis)){
-            $request->basis = $basis;
-           }
+            if (isset($basis)) {
+                $request->basis = $basis;
+            }
             $request->status = $status;
             $request->save();
 
@@ -380,93 +358,111 @@ $basis=implode(',',$keep);
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
-public function filter($id){
-    if($id=="all"){
-       return $this->request();
-    }else if($id=="review"){
+
+    public function filter($id)
+    {
+        if ($id == "all") {
+            return $this->request();
+        } else if ($id == "review") {
+            $user = Auth::user();
+            $requests = RequestFlow::with('company')
+                ->where('user_id', $user->id)
+                ->whereHas('company', function ($query) {
+                    $query->where('slug', Session::get('url-slug'));
+                })->where('status', 'submitted-for-review')->orderBy('created_at', 'desc')->get();
+            $companies = Company::where('slug', Session::get('url-slug'))->get();
+            $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+            $departments = DepartmentUser::where('user_id', Auth::user()->id)
+                ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+                ->select('departments.*')
+                ->get();
+            $suppliers = supplier::all();
+            $expenses = TypeOfExpanse::all();
+            return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+        } else if ($id == "rejected") {
+            $user = Auth::user();
+            $requests = RequestFlow::with('company')
+                ->where('user_id', $user->id)
+                ->whereHas('company', function ($query) {
+                    $query->where('slug', Session::get('url-slug'));
+                })->whereIn('status', ['finance-rejected', 'manager-rejected', 'director-rejected', 'rejected'])->orderBy('created_at', 'desc')->get();
+            $companies = Company::where('slug', Session::get('url-slug'))->get();
+            $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+            $departments = DepartmentUser::where('user_id', Auth::user()->id)
+                ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+                ->select('departments.*')
+                ->get();
+            $suppliers = supplier::all();
+            $expenses = TypeOfExpanse::all();
+            return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+        } else if ($id == "finance") {
+            $user = Auth::user();
+            $requests = RequestFlow::with('company')
+                ->where('user_id', $user->id)
+                ->whereHas('company', function ($query) {
+                    $query->where('slug', Session::get('url-slug'));
+                })->where('status', 'finance-ok')->orderBy('created_at', 'desc')->get();
+            $companies = Company::where('slug', Session::get('url-slug'))->get();
+            $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+            $departments = DepartmentUser::where('user_id', Auth::user()->id)
+                ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+                ->select('departments.*')
+                ->get();
+            $suppliers = supplier::all();
+            $expenses = TypeOfExpanse::all();
+            return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+        } else if ($id == "confirmed") {
+            $user = Auth::user();
+            $requests = RequestFlow::with('company')
+                ->where('user_id', $user->id)
+                ->whereHas('company', function ($query) {
+                    $query->where('slug', Session::get('url-slug'));
+                })->whereIn('status', ['manager-confirmed', 'director-confirmed', 'confirmed-partially'])->orderBy('created_at', 'desc')->get();
+            $companies = Company::where('slug', Session::get('url-slug'))->get();
+            $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+            $departments = DepartmentUser::where('user_id', Auth::user()->id)
+                ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+                ->select('departments.*')
+                ->get();
+            $suppliers = supplier::all();
+            $expenses = TypeOfExpanse::all();
+            return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+        } else {
+            $user = Auth::user();
+            $requests = RequestFlow::with('company')
+                ->where('user_id', $user->id)
+                ->whereHas('company', function ($query) {
+                    $query->where('slug', Session::get('url-slug'));
+                })->where('status', 'paid')->orderBy('created_at', 'desc')->get();
+            $companies = Company::where('slug', Session::get('url-slug'))->get();
+            $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+            $departments = DepartmentUser::where('user_id', Auth::user()->id)
+                ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+                ->select('departments.*')
+                ->get();
+            $suppliers = supplier::all();
+            $expenses = TypeOfExpanse::all();
+            return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+        }
+    }
+
+    public function request()
+    {
         $user = Auth::user();
         $requests = RequestFlow::with('company')
             ->where('user_id', $user->id)
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
-            })->where('status','submitted-for-review')->orderBy('created_at', 'desc')->get();
+            })->orderBy('created_at', 'desc')->get();
         $companies = Company::where('slug', Session::get('url-slug'))->get();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+
         $departments = DepartmentUser::where('user_id', Auth::user()->id)
-        ->rightJoin('departments','departments.id','=','department_user.department_id')
-        ->select('departments.*')
-        ->get();
+            ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+            ->select('departments.*')
+            ->get();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
         return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
     }
-    else if($id=="rejected"){
-        $user = Auth::user();
-        $requests = RequestFlow::with('company')
-            ->where('user_id', $user->id)
-            ->whereHas('company', function ($query) {
-                $query->where('slug', Session::get('url-slug'));
-            })->whereIn('status',['finance-rejected','manager-rejected','director-rejected','rejected'])->orderBy('created_at', 'desc')->get();
-        $companies = Company::where('slug', Session::get('url-slug'))->get();
-        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        $departments = DepartmentUser::where('user_id', Auth::user()->id)
-        ->rightJoin('departments','departments.id','=','department_user.department_id')
-        ->select('departments.*')
-        ->get();
-        $suppliers = supplier::all();
-        $expenses = TypeOfExpanse::all();
-        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
-    }
-    else if($id=="finance"){
-        $user = Auth::user();
-        $requests = RequestFlow::with('company')
-            ->where('user_id', $user->id)
-            ->whereHas('company', function ($query) {
-                $query->where('slug', Session::get('url-slug'));
-            })->where('status','finance-ok')->orderBy('created_at', 'desc')->get();
-        $companies = Company::where('slug', Session::get('url-slug'))->get();
-        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        $departments = DepartmentUser::where('user_id', Auth::user()->id)
-        ->rightJoin('departments','departments.id','=','department_user.department_id')
-        ->select('departments.*')
-        ->get();
-        $suppliers = supplier::all();
-        $expenses = TypeOfExpanse::all();
-        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
-    }
-    else if($id=="confirmed"){
-        $user = Auth::user();
-        $requests = RequestFlow::with('company')
-            ->where('user_id', $user->id)
-            ->whereHas('company', function ($query) {
-                $query->where('slug', Session::get('url-slug'));
-            })->whereIn('status',['manager-confirmed','director-confirmed','confirmed-partially'])->orderBy('created_at', 'desc')->get();
-        $companies = Company::where('slug', Session::get('url-slug'))->get();
-        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        $departments = DepartmentUser::where('user_id', Auth::user()->id)
-        ->rightJoin('departments','departments.id','=','department_user.department_id')
-        ->select('departments.*')
-        ->get();
-        $suppliers = supplier::all();
-        $expenses = TypeOfExpanse::all();
-        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
-    }
-    else{
-        $user = Auth::user();
-        $requests = RequestFlow::with('company')
-            ->where('user_id', $user->id)
-            ->whereHas('company', function ($query) {
-                $query->where('slug', Session::get('url-slug'));
-            })->where('status','paid')->orderBy('created_at', 'desc')->get();
-        $companies = Company::where('slug', Session::get('url-slug'))->get();
-        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        $departments = DepartmentUser::where('user_id', Auth::user()->id)
-        ->rightJoin('departments','departments.id','=','department_user.department_id')
-        ->select('departments.*')
-        ->get();
-        $suppliers = supplier::all();
-        $expenses = TypeOfExpanse::all();
-        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
-    }
-}
 }

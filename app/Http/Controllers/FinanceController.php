@@ -40,7 +40,8 @@ class FinanceController extends Controller
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
             ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
-            ->whereStatus(StatusEnum::SubmittedForReview)
+//            ->whereStatus(StatusEnum::SubmittedForReview)
+            ->whereStatus(StatusEnum::ManagerConfirmed)
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 

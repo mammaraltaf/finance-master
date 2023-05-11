@@ -12,6 +12,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
+        "rap2hpoutre/fast-excel": "^5.2",
         "spatie/laravel-permission": "^5.9"
     },
     "require-dev": {

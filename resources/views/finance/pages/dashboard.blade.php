@@ -236,7 +236,7 @@
                     },
                     title: {
                         display: true,
-                        text: '{{date('Y')}} Expanse',
+                        text: '{{date('Y')}} Expense',
                         font: {
                             size: 30
                         }

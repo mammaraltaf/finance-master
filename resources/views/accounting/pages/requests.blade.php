@@ -5,9 +5,9 @@
 @section('content')
 <style>
   .bog-logo{
-    background-color: #ffff; 
-    padding: 10px 20px; 
-    border: none; 
+    background-color: #ffff;
+    padding: 10px 20px;
+    border: none;
     border-radius: 5px;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
     transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
@@ -50,8 +50,8 @@
    /* TBC Logo */
     .tbc-logo {
       background-color: #00a3e0;
-      padding: 10px 20px; 
-      border: none; 
+      padding: 10px 20px;
+      border: none;
       border-radius: 5px;
       box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
       transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
@@ -132,7 +132,7 @@
               <thead>
                 <tr class="text-nowrap">
                   <th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
-                  
+
                       <th>Action</th>
                   <th>ID</th>
                   <th>Status</th>
@@ -148,14 +148,14 @@
                       <th>Basis (file attachment title)</th>
                       <th>Due Date of Payment</th>
                       <th>Due Date</th>
-                     
+
                   </tr>
                   </thead>
                   <tbody>
                     @foreach($requests as $request)
                       <tr class="text-center">
                         <td><input type="checkbox" name="id[]" value="{{ $request->id }}"></td>
-                       
+
                           <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
                         <td>{{ $request->id }}</td>
                         <td>{{$request->status ?? ''}}</td>
@@ -179,7 +179,7 @@
                                       ?></td>
                           <td>{{$request->payment_date ?? ''}}</td>
                           <td>{{$request->submission_date ?? ''}}</td>
-                         
+
                       </tr>
                   @endforeach
 
@@ -226,14 +226,14 @@
         <iframe src="https://gifer.com/embed/1amw" width=480 height=480.000 frameBorder="0" allowFullScreen></iframe><p><a href="https://gifer.com">via GIFER</a></p>
     </div>
     <div class="mt-4">
-        <button class="bog-logo mx-2">
-          <img src="{{ asset('image/bog-logo.svg') }}" alt="Website 1 Logo">
+        <button class="bog-logo mx-2" value="BOG">
+          <img src="{{ asset('image/bog-logo.svg') }}" alt="BOG Logo">
       </button>
-      
-      <button class="tbc-logo mx-2">
-          <img src="{{ asset('image/tbc-logo.svg') }}" alt="Website 2 Logo">
+
+      <button class="tbc-logo mx-2" value="TBC">
+          <img src="{{ asset('image/tbc-logo.svg') }}" alt="TBC Logo">
       </button>
-      
+
     </div>
 
 

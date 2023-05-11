@@ -52,7 +52,8 @@ class ManagerController extends Controller
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
             ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
-            ->whereStatus(StatusEnum::FinanceOk)
+//            ->whereStatus(StatusEnum::FinanceOk)
+            ->whereStatus(StatusEnum::SubmittedForReview)
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
         return view('manager.pages.requests', compact('requests'));

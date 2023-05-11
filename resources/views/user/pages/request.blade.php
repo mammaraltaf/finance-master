@@ -2,6 +2,19 @@
 @section('pageTitle')
     Requests
 @endsection
+@section('styles')
+    <style>
+        .no-arrow::-webkit-outer-spin-button,
+        .no-arrow::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .no-arrow {
+            -moz-appearance: textfield;
+        }
+    </style>
+@endsection
 @section('content')
 
     <!--begin::Header-->
@@ -106,7 +119,7 @@
                             <div class="d-flex">
                                 <div class="form-group w-100 px-2">
                                     <label for="amount">Amount</label>
-                                    <input type="number" class="form-control" id="amount" name="amount" required>
+                                    <input type="number" step="any" class="form-control no-arrow" id="amount" name="amount" required>
                                 </div>
                                 <div class="form-group w-100 px-2">
                                     <label for="gel-amount">Amount in GEL:</label>
@@ -283,7 +296,7 @@
             <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
                 <thead>
                     <tr class="text-nowrap text-center">
-                   
+
                         @hasanyrole('super-admin|accounting')
                         <th>Actions</th>
                         @endhasanyrole
@@ -302,13 +315,13 @@
                         <th>Due Date of Payment</th>
                         <th>Due Date</th>
                         <th>Description</th>
-                       
+
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($requests as $request)
                         <tr class="text-nowrap text-center" data-status="{{$request['status']}}">
-                        <td style="float:left">{{$request['status']}}</td> 
+                        <td style="float:left">{{$request['status']}}</td>
                         <td>{{$request->initiator}}</td>
                             <td>{{$request->created_at}}</td>
                             <td>{{$request->company->name}}</td>
@@ -331,7 +344,7 @@
                             <td>{{$request['payment_date']}}</td>
                             <td>{{$request['submission_date']}}</td>
                             <td>{{$request->description}}</td>
-                           
+
 
                         </tr>
                     @endforeach

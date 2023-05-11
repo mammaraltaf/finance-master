@@ -14,6 +14,7 @@ use App\Models\LogAction;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class AccountingController extends Controller
 {
@@ -48,7 +49,8 @@ class AccountingController extends Controller
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
             ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
-            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])
+//            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])
+            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::FinanceOk])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 
@@ -79,18 +81,17 @@ class AccountingController extends Controller
     public function bulkPayOrReject(Request $request)
     {
         try {
+            $validator = Validator::make($request->all(), [
+                'bulkIds' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json(['error' => $validator->errors()->all()]);
+            }
+
+            $totalIds = explode(',', $request->bulkIds);
+
             if ($request->action == 'pay') {
-                $validator = Validator::make($request->all(), [
-                    'bulkIds' => 'required',
-                ]);
-
-                if ($validator->fails()) {
-                    return response()->json(['error' => $validator->errors()->all()]);
-                }
-
-                $totalIds = explode(',', $request->bulkIds);
-//                $requestSingle = RequestFlow::whereIn('id', $totalIds)->update(['status' => StatusEnum::Paid]);
-
                 foreach ($totalIds as $id) {
                     $requestSingle = RequestFlow::find($id);
                     $requestSingle->status = StatusEnum::Paid;
@@ -103,17 +104,6 @@ class AccountingController extends Controller
             }
             /*Rejected*/
             elseif ($request->action == 'reject') {
-                $validator = Validator::make($request->all(), [
-                    'bulkIds' => 'required',
-                ]);
-
-                if ($validator->fails()) {
-                    return response()->json(['error' => $validator->errors()->all()]);
-                }
-
-                $totalIds = explode(',', $request->bulkIds);
-//                $requestSingle = RequestFlow::whereIn('id', $totalIds)->update(['status' => StatusEnum::Rejected]);
-
                     foreach ($totalIds as $id) {
                         $requestSingle = RequestFlow::find($id);
                         $requestSingle->status = StatusEnum::Rejected;
@@ -125,12 +115,38 @@ class AccountingController extends Controller
                     return response()->json(['success' => 'reject']);
 //                    return response()->json(['success' => 'Bulk Requests Rejected successfully.']);
                 }
+                elseif ($request->action == 'BOG'){
+                    $fastExcel = new FastExcel();
+                    $sheet = $fastExcel->sheet(asset('files/BOG.xlsx'));
+
+                    $idArray = explode(',', $request->bulkIds);
+                    $selectedRequests = RequestFlow::whereIn('id', $idArray)->get();
+                    $rowIndex = 2; // Start at row 2 (assuming the first row is a header)
+                    foreach ($selectedRequests as $row) {
+                        $sheet->setCellValue('A' . $rowIndex, $row->column1);
+                        $sheet->setCellValue('B' . $rowIndex, $row->column2);
+                        // ...
+                        $rowIndex++;
+                    }
+//                    $sheet->export('BOG.xlsx');
+                    // Create a streamed response with the Excel file
+                    $response = new StreamedResponse(function() use ($fastExcel) {
+                        $fastExcel->download('filename.xlsx');
+                    });
+
+                    // Set the content type and headers
+                    $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+                    $response->headers->set('Content-Disposition', 'attachment; filename="filename.xlsx"');
+
+                    return $response;
+                }
+
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
 
 
-       
+
         $input = $request->all();
         $ids = $input['ids'];
         $action = $input['action'];
