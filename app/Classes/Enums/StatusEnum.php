@@ -14,6 +14,7 @@ class StatusEnum
     public const FinanceOk = 'finance-ok';
 
     public const ThresholdExceeded = 'threshold-exceeded';
+    public const ManagerThresholdExceeded = 'manager-threshold-exceeded';
     public const ManagerConfirmed = 'manager-confirmed';       //when manager accept it
     public const DirectorConfirmed = 'director-confirmed';       //when director accept it
 

@@ -41,7 +41,7 @@ class FinanceController extends Controller
             ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
 //            ->whereStatus(StatusEnum::SubmittedForReview)
-            ->whereStatus(StatusEnum::ManagerConfirmed)
+            ->whereIn('status', [StatusEnum::ManagerConfirmed, StatusEnum::ManagerThresholdExceeded])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 

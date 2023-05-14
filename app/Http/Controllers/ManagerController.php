@@ -78,7 +78,7 @@ class ManagerController extends Controller
         try{
             $requestFlow = RequestFlow::with('company')->find($request->id);
             if (($requestFlow->amount_in_gel) > ($requestFlow->company->threshold_amount)) {
-                $requestFlow->status = StatusEnum::ThresholdExceeded;
+                $requestFlow->status = StatusEnum::ManagerThresholdExceeded;
             }
             else {
                 $requestFlow->status = StatusEnum::ManagerConfirmed;
