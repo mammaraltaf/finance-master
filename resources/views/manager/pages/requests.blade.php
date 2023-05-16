@@ -10,7 +10,7 @@
         padding: 4px 6px !important;
     }
 </style>
-    
+
     <div class="card-header pt-5">
 
         <h3 class="card-title">
@@ -34,26 +34,26 @@
             </div>
             </div>
           </form> </div>
-         
+
     <!--begin::Body-->
 
 
     <div class="container-fluid">
 
-    
+
       <!-- Document List -->
-     
+
       <div class="container">
       <div class="overflow-auto">
-     
-     
+
+
       <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap"
                style="width:100%">
 
             {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable dt-responsive" cellspacing="0"> --}}
             <thead>
             <tr class="text-nowrap">
-            
+
                 <th>Actions</th>
                 <th>ID</th>
                 <th>Status</th>
@@ -69,7 +69,7 @@
                 <th>Basis</th>
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
-               
+
             </tr>
             </thead>
             <tbody>
@@ -85,7 +85,8 @@
                     </td>
                     <td>{{$request->id ?? ''}}</td>
                     <td>{{$request->status ?? ''}}</td>
-                    <td>{{$request->initiator ?? ''}}</td>
+                    <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
+
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
@@ -106,8 +107,8 @@
                             ?></td>
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
-                    
-                   
+
+
                 </tr>
             @endforeach
             </tbody>
@@ -115,9 +116,9 @@
 
         </table>
         </div>
-      </div> 
-      
-     
+      </div>
+
+
          <!-- Confirmation Modal -->
     <div class="modal fade" id="acceptConfirmationModal" tabindex="-1" aria-labelledby="acceptConfirmationModalLabel"
          aria-hidden="true">
@@ -175,7 +176,7 @@
             </div>
         </div>
     </div>
-    
+
   </div>
 
 

@@ -159,7 +159,7 @@
                           <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
                         <td>{{ $request->id }}</td>
                         <td>{{$request->status ?? ''}}</td>
-                          <td>{{$request->initiator ?? ''}}</td>
+                          <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
                         <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                           <td>{{$request->company->name ?? ''}}</td>
                           <td>{{$request->department->name ?? ''}}</td>

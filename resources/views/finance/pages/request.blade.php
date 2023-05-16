@@ -13,7 +13,7 @@
             padding: 4px 6px !important;
         }
     </style>
-   
+
     <div class="card-header pt-5">
 
         <h3 class="card-title">
@@ -48,7 +48,7 @@
             <table id="suppliertable" name="suppliertable" class="ui celled table allTable dt-responsive" cellspacing="0">
             <thead>
             <tr class="text-center text-nowrap">
-               
+
                 <th>Actions</th>
                 <th>ID</th>
                 <th>Status</th>
@@ -64,13 +64,13 @@
                 <th>Basis</th>
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
-               
+
             </tr>
             </thead>
             <tbody>
             @foreach($requests as $request)
                 <tr class="text-center text-nowrap">
-                  
+
                     <td>
                         <div class="d-flex">
                             <button type="submit" class="mr-2 btn btn-success acceptBtn" id="" data-id="{{$request->id}}">Accept
@@ -81,7 +81,8 @@
                     </td>
                     <td>{{$request->id}}</td>
                     <td>{{$request->status ?? ''}}</td>
-                    <td>{{$request->initiator ?? ''}}</td>
+                    <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
+
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
@@ -102,8 +103,8 @@
                             ?></td>
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
-                   
-                    
+
+
                 </tr>
             @endforeach
             </tbody>
@@ -267,7 +268,7 @@
             }
         });
 
-        
+
     </script>
-    
+
 @endsection

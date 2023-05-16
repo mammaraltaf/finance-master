@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <!--begin::Header-->
-    
+
     <div class="card-header pt-5">
 
         <h3 class="card-title">
@@ -30,7 +30,7 @@
           </form> </div>
     <!--end::Header-->
     <!--begin::Body-->
-   
+
 
     <div class="container">
       <div class="overflow-auto">
@@ -53,7 +53,7 @@
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
-               
+
                 <!-- <th>Action</th> -->
             </tr>
           </thead>
@@ -62,7 +62,8 @@
                 <tr>
                   <td>{{$request->id}}</td>
                   <td>{{$request->status ?? ''}}</td>
-                    <td>{{$request->initiator ?? ''}}</td>
+                    <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
+
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
@@ -82,7 +83,7 @@
                                 ?></td>
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
-                  
+
                     <!-- <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td> -->
                 </tr>
             @endforeach
@@ -130,10 +131,10 @@
               </div>
                 </form>
               </div>
-              
+
             </div>
           </div>
-      </div> --> 
+      </div> -->
   </div>
 
 
@@ -144,7 +145,7 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-    
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
@@ -162,14 +163,14 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
- 
+
  <script>
       $(document).ready(function() {
         $('#reviewDocument').DataTable({
           'order': [[2, 'desc']],
           dom: 'Blfrtip',
           lengthChange: true,
-          buttons: [ 
+          buttons: [
 
             {
 extend: 'copy',
@@ -197,7 +198,7 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
            ]
     } );
         });
-      
+
 
     </script>
 
