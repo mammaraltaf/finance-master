@@ -188,6 +188,18 @@
             </table>
             <button  type="button" id="rejectBtn" class="btn btn-danger rejectall">Reject Selected</button>
             <button  type="button" id="payBtn" class="btn btn-success payall">Pay Selected</button>
+            <div style="float: right !important;">
+                <button class="bog-logo mx-2" value="BOG">
+                    <img src="{{ asset('image/bog-logo.svg') }}" alt="BOG Logo">
+                </button>
+
+                <button class="tbc-logo mx-2" value="TBC">
+                    <img src="{{ asset('image/tbc-logo.svg') }}" alt="TBC Logo">
+                </button>
+
+            </div>
+            <br>
+            <br>
         </form>
       </div>
     </div>
@@ -225,16 +237,7 @@
     <div id="loader" style="display:none;">
         <iframe src="https://gifer.com/embed/1amw" width=480 height=480.000 frameBorder="0" allowFullScreen></iframe><p><a href="https://gifer.com">via GIFER</a></p>
     </div>
-    <div class="mt-4">
-        <button class="bog-logo mx-2" value="BOG">
-          <img src="{{ asset('image/bog-logo.svg') }}" alt="BOG Logo">
-      </button>
 
-      <button class="tbc-logo mx-2" value="TBC">
-          <img src="{{ asset('image/tbc-logo.svg') }}" alt="TBC Logo">
-      </button>
-
-    </div>
 
 
 @endsection
