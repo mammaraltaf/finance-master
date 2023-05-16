@@ -50,7 +50,7 @@ class AccountingController extends Controller
             ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
 //            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])
-            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::FinanceOk])
+            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::FinanceOk, StatusEnum::FinanceThresholdExceeded])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 

@@ -120,7 +120,12 @@ class FinanceController extends Controller
     {
         try{
             $requestFlow = RequestFlow::find($request->id);
-            $requestFlow->status = StatusEnum::FinanceOk;
+            if (($requestFlow->amount_in_gel) > ($requestFlow->company->threshold_amount)) {
+                $requestFlow->status = StatusEnum::FinanceThresholdExceeded;
+            }
+            else {
+                $requestFlow->status = StatusEnum::FinanceOk;
+            }
             $requestFlow->comment = $request->comment ?? null ;
             $requestFlow->save();
             $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::FINANCE_ACCEPT);
