@@ -127,7 +127,7 @@
         <!-- Document List -->
       <div class="row overflow-auto">
         <form id="submit-btn" action="" method=""  >
-            <table name="accounting" id="accounting" class="table table-striped table-bordered dt-responsive nowrap"
+            <table name="accounting" id="accounting" class="table table-striped table-bordered  nowrap"
             style="width:100%">
               <thead>
                 <tr class="text-nowrap">
@@ -135,19 +135,19 @@
 
                       <th>Action</th>
                   <th>ID</th>
-                  <th>Status</th>
+                  <!-- <th>Status</th> -->
                       <th>Initiator</th>
                       <th>Created At</th>
                       <th>Company</th>
                       <th>Department</th>
                       <th>Supplier</th>
                       <th>Type of Expense</th>
-                      <th>Currency</th>
+                      <!-- <th>Currency</th> -->
                       <th>Amount In Gel</th>
-                      <th>Description</th>
+                      <!-- <th>Description</th>
                       <th>Basis (file attachment title)</th>
                       <th>Due Date of Payment</th>
-                      <th>Due Date</th>
+                      <th>Due Date</th> -->
 
                   </tr>
                   </thead>
@@ -158,28 +158,16 @@
 
                           <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
                         <td>{{ $request->id }}</td>
-                        <td>{{$request->status ?? ''}}</td>
+                        <!-- <td>{{$request->status ?? ''}}</td> -->
                           <td>{{$request->initiator ?? ''}}</td>
                         <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                           <td>{{$request->company->name ?? ''}}</td>
                           <td>{{$request->department->name ?? ''}}</td>
                           <td>{{$request->supplier->supplier_name ?? ''}}</td>
                           <td>{{$request->typeOfExpense->name ?? ''}}</td>
-                          <td>{{$request->currency ?? ''}}</td>
+                          <!-- <td>{{$request->currency ?? ''}}</td> -->
                           <td>{{$request->amount_in_gel ?? ''}}</td>
-                          <td>{{$request->description ?? ''}}</td>
-                          <td><?php if(isset($request->basis)){
-                                          $files=explode(',',$request->basis);
-                                          foreach($files as $file){ ?>
-                                          <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
-
-                                      <?php  }   }else{
-                                        echo "No document available";
-                                      }
-                                      ?></td>
-                          <td>{{$request->payment_date ?? ''}}</td>
-                          <td>{{$request->submission_date ?? ''}}</td>
-
+                         
                       </tr>
                   @endforeach
 

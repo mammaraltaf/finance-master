@@ -10,6 +10,7 @@ use App\Models\TypeOfExpanse;
 use App\Models\CompanyUser;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -31,7 +32,48 @@ class SuperAdminController extends Controller
         $departments = Department::count();
         $suppliers = Supplier::count();
         $typeOfExpanse = TypeOfExpanse::count();
-        return view('super-admin.pages.dashboard', compact('users','companies','departments','suppliers','typeOfExpanse'));
+        $user_id=Auth::user()->id;
+        return view('super-admin.pages.dashboard', compact('user_id','users','companies','departments','suppliers','typeOfExpanse'));
+    }
+    public function changepassword(Request $request){
+        $input = $request->all();
+        try {
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'id' => 'required',
+                'currentPassword' => 'required',
+                'password' => 'required',
+                'passwordConfirm' => 'required'
+            ]);
+    
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+    
+            $user = User::find($input['id']);
+          $oldpass=$input['currentPassword'];
+          $newpass=$input['password'];
+        $confirm=$input['passwordConfirm'];
+        if($oldpass==$user->original_password){
+    if($newpass==$confirm){
+    $user['original_password']=$newpass;
+    $user['password']=Hash::make($newpass);
+    $check=$user->save();
+    if ($check) {
+        return redirect()->back()->with('success', 'Password updated successfully');
+    }else{
+        return redirect()->back()->with('error', 'Something went wrong');
+    }
+    
+    }else{
+        return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
+    }
+        }else{
+            return redirect()->back()->with('error', 'Current password is wrong.Please try again.');
+        }
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
 
     /*-------------Users-------------*/

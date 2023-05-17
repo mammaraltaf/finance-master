@@ -52,7 +52,7 @@ Route::group(['middleware'=>'auth'],function (){
         'as' => UserTypesEnum::SuperAdmin.'.',
     ], function () {
         Route::get('/dashboard', [SuperAdminController::class, 'dashboard'])->name('dashboard');
-
+        Route::post('/changepassword', [SuperAdminController::class, 'changepassword'])->name('changepassword');
         /*Manage Users*/
         Route::get('/users', [SuperAdminController::class, 'users'])->name('users');
         Route::post('/add-user', [SuperAdminController::class, 'userPost'])->name('add-user-post');
@@ -111,7 +111,7 @@ Route::group(['middleware'=>'auth'],function (){
          Route::post('/delete-user', [AdminController::class, 'deleteUser'])->name('delete-user');
          Route::post('/block-user', [AdminController::class, 'blockUser'])->name('block-user');
          Route::post('/unblock-user', [AdminController::class, 'unblockUser'])->name('unblock-user');
-
+         Route::post('/changepassword', [AdminController::class, 'changepassword'])->name('changepassword');
          Route::get('/type-of-expense', [AdminController::class, 'typeOfExpense'])->name('type-of-expense');
          Route::post('/type-of-expense', [AdminController::class, 'typeOfExpensePost'])->name('type-of-expense-post');
          Route::get('/edit-type-of-expense/{id}', [AdminController::class, 'editTypeOfExpense'])->name('edit-type-of-expense');
@@ -145,7 +145,8 @@ Route::group(['middleware'=>'auth'],function (){
             Route::get('/edit-request/{id}', [UserController::class, 'editrequest'])->name('edit-request');
             Route::post('/edit-request/{id}', [UserController::class, 'updaterequest'])->name('edit-request-post');
             Route::get('/filter/{id}',[UserController::class,'filter'])->name('filter');
-            //        });
+            Route::post('/changepassword', [UserController::class, 'changepassword'])->name('changepassword');
+            //        }); 
     });
 
 
@@ -164,6 +165,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/payments', [FinanceController::class, 'payments'])->name('payments');
         Route::get('/logs', [FinanceController::class, 'logs'])->name('logs');
         Route::post('/logfilters', [FinanceController::class, 'logfilters'])->name('logfilters');
+        Route::post('/changepassword', [FinanceController::class, 'changepassword'])->name('changepassword');
     });
 
 
@@ -180,6 +182,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/payments', [ManagerController::class, 'payments'])->name('payments');
         Route::get('/logs', [ManagerController::class, 'logs'])->name('logs');
         Route::post('/logfilters', [ManagerController::class, 'logfilters'])->name('logfilters');
+        Route::post('/changepassword', [ManagerController::class, 'changepassword'])->name('changepassword');
+  
     });
 
 
@@ -196,6 +200,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/reject', [DirectorController::class, 'rejectRequest'])->name('reject');
         Route::post('/accept', [DirectorController::class, 'approveRequest'])->name('accept');
         Route::post('/payments', [DirectorController::class, 'payments'])->name('payments');
+        Route::post('/changepassword', [DirectorController::class, 'changepassword'])->name('changepassword');
     });
 
 
@@ -213,7 +218,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/payment/{id}', [AccountingController::class, 'pay'])->name('payment-post');
         Route::post('/payments', [AccountingController::class, 'payments'])->name('payments');
         Route::post('/bulk-pay-or-reject', [AccountingController::class, 'bulkPayOrReject'])->name('bulk-pay-or-reject');
-
+        Route::post('/changepassword', [AccountingController::class, 'changepassword'])->name('changepassword');
         Route::post('/logfilters', [AccountingController::class, 'logfilters'])->name('logfilters');
         Route::get('/edit-supplier/{id}', [AccountingController::class, 'editsupplier'])->name('edit-supplier');
         Route::post('/edit-supplier/{id}', [AccountingController::class, 'updatesupplier'])->name('edit-supplier-post');

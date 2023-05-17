@@ -293,60 +293,36 @@
 
             {{--All Datatable--}}
             {{-- <div class="overflow-auto"> --}}
-            <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+            <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered  nowrap" style="width:100%">
                 <thead>
-                    <tr class="text-nowrap text-center">
+                    <tr class="text-nowrap text-center" >
 
                         @hasanyrole('super-admin|accounting')
                         <th>Actions</th>
                         @endhasanyrole
-                        <th>Status</th>
+                        <th>ID</th>
                         <th>Initiator</th>
                         <th>Created At</td>
-
                         <th>Company</th>
                         <th>Department</th>
                         <th>Supplier</th>
                         <th>Type of Expense</th>
-                        <th>Currency</th>
                         <th>Amount</th>
-
-                        <th>Basis</th>
-                        <th>Due Date of Payment</th>
-                        <th>Due Date</th>
-                        <th>Description</th>
-
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($requests as $request)
-                        <tr class="text-nowrap text-center" data-status="{{$request['status']}}">
-                        <td style="float:left">{{$request['status']}}</td>
+                        <tr class="text-nowrap text-center" > 
+                            <td>{{$request->id}}</td>
                         <td>{{$request->initiator}}</td>
                             <td>{{$request->created_at}}</td>
                             <td>{{$request->company->name}}</td>
                             <td>{{$request->department->name}}</td>
                             <td>{{$request->supplier->supplier_name}}</td>
                             <td>{{$request->typeOfExpense->name}}</td>
-                            <td>{{$request->currency}}</td>
+                           
                             <td>{{$request->amount}}</td>
-
-                            <td><?php
-                                if(isset($request['basis'])){
-                                    $files=explode(',',$request['basis']);
-                                    foreach($files as $file){ ?>
-                                    <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
-
-                                <?php  }   }else{
-                                   echo "No document available";
-                                }
-                                ?></td>
-                            <td>{{$request['payment_date']}}</td>
-                            <td>{{$request['submission_date']}}</td>
-                            <td>{{$request->description}}</td>
-
-
-                        </tr>
+                        </tr> 
                     @endforeach
                     </tbody>
             </table>
@@ -375,8 +351,7 @@
             </div>
         </div>
     </div>
-
-
+   
 
     <!--end::Body-->
 @endsection

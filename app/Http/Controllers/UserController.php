@@ -45,9 +45,49 @@ class UserController extends Controller
     {
         // $this->authorize('user');
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        return view('user.pages.dashboard', compact('companies_slug'));
+        $user_id=Auth::user()->id;
+        return view('user.pages.dashboard', compact('companies_slug','user_id'));
     }
+public function changepassword(Request $request){
+    $input = $request->all();
+    try {
+        $input = $request->all();
+        $validator = Validator::make($input, [
+            'id' => 'required',
+            'currentPassword' => 'required',
+            'password' => 'required',
+            'passwordConfirm' => 'required'
+        ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        $user = User::find($input['id']);
+      $oldpass=$input['currentPassword'];
+      $newpass=$input['password'];
+    $confirm=$input['passwordConfirm'];
+    if($oldpass==$user->original_password){
+if($newpass==$confirm){
+$user['original_password']=$newpass;
+$user['password']=Hash::make($newpass);
+$check=$user->save();
+if ($check) {
+    return redirect()->back()->with('success', 'Password updated successfully');
+}else{
+    return redirect()->back()->with('error', 'Something went wrong');
+}
+
+}else{
+    return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
+}
+    }else{
+        return redirect()->back()->with('error', 'Current password is wrong.Please try again.');
+    }
+    } catch (Exception $e) {
+        return redirect()->back()->with('error', $e->getMessage());
+    }
+}
     public function supplier()
     {
         $suppliers = Supplier::all();
@@ -463,6 +503,6 @@ class UserController extends Controller
             ->get();
         $suppliers = supplier::all();
         $expenses = TypeOfExpanse::all();
-        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+        return view('user.pages.request', compact('requests' ,'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
     }
 }
