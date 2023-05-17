@@ -277,6 +277,9 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
     <script type="text/javascript">
+
+
+
         $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
