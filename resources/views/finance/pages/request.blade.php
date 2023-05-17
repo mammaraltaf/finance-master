@@ -39,7 +39,39 @@
           </form> </div>
     <!--end::Header-->
     <!--begin::Body-->
-
+    <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="rowModalLabel">Row Information</h5>
+              <button type="button" class="close close-pop-up" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- Display row data here -->
+                <p id="status"></p>
+                <p id="rowInitiator"></p>
+                <p id="rowCreatedAt"></p>
+                <p id="rowCompany"></p>
+                <p id="rowDepartment"></p>
+                <p id="rowSupplier"></p>
+                <p id="rowTypeOfExpense"></p>
+                <p id="rowCurrency"></p>
+                <p id="rowAmount"></p>
+                <p id="rowBasis"></p>
+                <p id="rowDueDatePayment"></p>
+                <p id="rowDueDate"></p>
+                <p id="rowDescription"></p>
+  
+              <!-- Add more fields as needed -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
+            </div>
+          </div>
+        </div>
+    </div>
 
     <div class="overflow-auto px-2">
         {{-- <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap"
@@ -79,7 +111,7 @@
                             </button>
                         </div>
                     </td>
-                    <td>{{$request->id}}</td>
+                    <td class="cursor-pointer">{{$request->id}}</td>
                     <td>{{$request->status ?? ''}}</td>
                     <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
 
@@ -197,6 +229,44 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
     <script>
+        $(document).ready(function() {
+        $('table#suppliertable tbody tr ').on('click', 'td:nth-child(2)', function() {
+            var row = $(this).closest('tr');
+            var status = row.find('td:nth-child(3)').text().trim();
+            var initiator = row.find('td:nth-child(4)').text().trim();
+            var createdAt = row.find('td:nth-child(5)').text().trim();
+            var company = row.find('td:nth-child(6)').text().trim();
+            var department = row.find('td:nth-child(7)').text().trim();
+            var supplier = row.find('td:nth-child(8)').text().trim();
+            var typeOfExpense = row.find('td:nth-child(9)').text().trim();
+            var currency = row.find('td:nth-child(10)').text().trim();
+            var amount = row.find('td:nth-child(11)').text().trim();
+            var basis = row.find('td:nth-child(12)').text().trim();
+            var dueDatePayment = row.find('td:nth-child(13)').text().trim();
+            var dueDate = row.find('td:nth-child(14)').text().trim();
+            var description = row.find('td:nth-child(15)').text().trim();
+
+
+            $('#status').text('Status: ' + status);
+            $('#rowInitiator').text('Initiator: ' + initiator);
+            $('#rowCreatedAt').text('Created At: ' + createdAt);
+            $('#rowCompany').text('Company: ' + company);
+            $('#rowDepartment').text('Department: ' + department);
+            $('#rowSupplier').text('Supplier: ' + supplier);
+            $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
+            $('#rowCurrency').text('Currency: ' + currency);
+            $('#rowAmount').text('Amount: ' + amount);
+            $('#rowBasis').text('Basis: ' + basis);
+            $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
+            $('#rowDueDate').text('Due Date: ' + dueDate);
+            $('#rowDescription').text('Description: ' + description);
+
+            $('#rowModal').modal('show');
+            $('.close-pop-up').click(function () {
+                $('#rowModal').modal('hide');
+            });
+        });
+  });
         $(document).ready(function () {
             $('#suppliertable').DataTable({
                 'order': [[2, 'desc']],
