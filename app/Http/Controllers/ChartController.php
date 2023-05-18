@@ -7,6 +7,7 @@ use App\Models\RequestFlow;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 class ChartController extends Controller
 {
     public function dashboard()
@@ -100,14 +101,15 @@ class ChartController extends Controller
         ];
         $user_id=Auth::user()->id;
         $user_type=Auth::user()->user_type;
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         if($user_type=="finance"){
-        return view('finance.pages.dashboard', compact('user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
+        return view('finance.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
         }elseif($user_type=="manager"){
-            return view('manager.pages.dashboard', compact('user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
+            return view('manager.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
         }elseif($user_type=="director"){
-            return view('director.pages.dashboard', compact('user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
+            return view('director.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
         }elseif($user_type=="accounting"){
-            return view('accounting.pages.dashboard', compact('user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
+            return view('accounting.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
         }else{
             dd("sorry");
         }

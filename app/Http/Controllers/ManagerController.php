@@ -41,7 +41,9 @@ class ManagerController extends Controller
     }
     public function dashboard()
     {
-        return view('manager.pages.dashboard');
+        // $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+        $user_id=Auth::user()->id;
+        return view('manager.pages.dashboard',compact('companies_slug','user_id'));
     }
     public function changepassword(Request $request){
         $input = $request->all();
@@ -89,6 +91,7 @@ class ManagerController extends Controller
 
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
+        
 //        $departmentIds = $user->departments->pluck('id')->toArray();
 
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')

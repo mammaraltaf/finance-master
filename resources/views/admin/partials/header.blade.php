@@ -59,7 +59,7 @@
 
             {{-- Company drop down list --}}
             <div class="d-flex align-items-center">
-                @role('user')
+                @role('user|manager|finance|accounting|director')
                 @if(\Illuminate\Support\Facades\Session::get('url-slug') != null)
                     @php
 //                    dd(\Illuminate\Support\Facades\Session::get('url-slug'));
@@ -80,18 +80,27 @@
                         </div>
                     @endif
                 @endif
-
+                @endrole
                 <div class="p-2">
                     <select class="form-control url_company">
                         <option value="">Select Company</option>
+                       @role('user')
                         @isset($companies_slug)
                             @foreach($companies_slug as $company)
-                                <option data-slug="{{$company->slug}}" data-url="{{url('/user/'.$company->slug.'/dashboard')}}">{{$company->name}}</option>
+                                <option data-slug="{{$company->slug}}" data-url="{{url(auth()->user()->user_type.'/'.$company->slug.'/dashboard')}}">{{$company->name}}</option>
                             @endforeach
                         @endisset
+                        @endrole
+                        @hasanyrole('manager|finance|accounting|director')
+                        @isset($companies_slug)
+                            @foreach($companies_slug as $company)
+                                <option data-slug="{{$company->slug}}" data-url="{{url(auth()->user()->user_type.'/'.'dashboard')}}">{{$company->name}}</option>
+                            @endforeach
+                        @endisset
+                        @endhasanyrole
                     </select>
                 </div>
-                @endrole
+              
                 <div class="page-title d-flex justify-content-center flex-column me-5">
                     <a class="btn btn-danger btn-sm" href="{{ route('logout') }}"
                     onclick="event.preventDefault();

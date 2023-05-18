@@ -183,7 +183,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/logs', [ManagerController::class, 'logs'])->name('logs');
         Route::post('/logfilters', [ManagerController::class, 'logfilters'])->name('logfilters');
         Route::post('/changepassword', [ManagerController::class, 'changepassword'])->name('changepassword');
-  
+        Route::get('{company?}/dashboard', [ManagerController::class, 'dashboard'])->name('company.dashboard');
     });
 
 
