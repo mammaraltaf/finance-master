@@ -166,6 +166,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/logs', [FinanceController::class, 'logs'])->name('logs');
         Route::post('/logfilters', [FinanceController::class, 'logfilters'])->name('logfilters');
         Route::post('/changepassword', [FinanceController::class, 'changepassword'])->name('changepassword');
+        Route::get('/filter/{id}',[FinanceController::class,'filtering'])->name('filtering');
     });
 
 
@@ -184,6 +185,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/logfilters', [ManagerController::class, 'logfilters'])->name('logfilters');
         Route::post('/changepassword', [ManagerController::class, 'changepassword'])->name('changepassword');
         Route::get('{company?}/dashboard', [ManagerController::class, 'dashboard'])->name('company.dashboard');
+        Route::get('/filter/{id}',[ManagerController::class,'filtering'])->name('filtering');
     });
 
 
@@ -201,6 +203,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::post('/accept', [DirectorController::class, 'approveRequest'])->name('accept');
         Route::post('/payments', [DirectorController::class, 'payments'])->name('payments');
         Route::post('/changepassword', [DirectorController::class, 'changepassword'])->name('changepassword');
+        Route::get('/filter/{id}',[DirectorController::class,'filtering'])->name('filtering');
     });
 
 
@@ -223,7 +226,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/edit-supplier/{id}', [AccountingController::class, 'editsupplier'])->name('edit-supplier');
         Route::post('/edit-supplier/{id}', [AccountingController::class, 'updatesupplier'])->name('edit-supplier-post');
         Route::get('/alldata', [AccountingController::class, 'alldata'])->name('alldata');
-
+        Route::get('/print/{id}', [AccountingController::class, 'print'])->name('print');
     });
 });
 

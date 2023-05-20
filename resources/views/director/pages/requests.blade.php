@@ -10,6 +10,10 @@
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Requests</span>
         </h3>
+        <div class="">
+        <button id="pending" class="btn btn-info active filter">Pending</button>
+        <button id="exceed" class="btn btn-info filter" >Threshold Exceeded</button>
+    </div>
     </div>
     <div class="ml-5 mt-3">
         <form action="{{route('director.payments')}}" method="post"  >
@@ -156,6 +160,12 @@
 
  <script>
       $(document).ready(function() {
+        $('.filter').click(function() {
+                var buttonId = $(this).attr('id');
+                var url = "{{ route('director.filtering', ':id') }}";
+                url = url.replace(':id', buttonId);
+                location.href = url;
+            });
         $('#reviewDocument').DataTable({
           'order': [[ 2, 'desc' ]],
           dom: 'Blfrtip',

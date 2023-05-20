@@ -10,13 +10,17 @@
         padding: 4px 6px !important;
     }
 </style>
-    
-    <div class="card-header pt-5">
 
+    <div class="card-header pt-5">
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Requests</span>
         </h3>
+        <div class="">
+        <button id="pending" class="btn btn-info active filter">Pending</button>
+        <button id="finance" class="btn btn-info filter" >Finance ok</button>
+    </div>
         </div>
+        
         <div class="ml-5 mt-3">
         <form action="{{route('manager.payments')}}" method="post"  >
    @csrf
@@ -194,6 +198,13 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script>
         $(document).ready(function () {
+            $('.filter').click(function() {
+                var buttonId = $(this).attr('id');
+                var url = "{{ route('manager.filtering', ':id') }}";
+                url = url.replace(':id', buttonId);
+                location.href = url;
+            });
+
             $('#suppliertable').DataTable({
                 'order': [[0, 'desc']],
                 dom: 'Blfrtip',

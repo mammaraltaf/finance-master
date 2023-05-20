@@ -134,6 +134,7 @@
                   <th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
 
                       <th>Action</th>
+                      <th>Print</th>
                   <th>ID</th>
                   <!-- <th>Status</th> -->
                       <th>Initiator</th>
@@ -155,9 +156,12 @@
                     @foreach($requests as $request)
                       <tr class="text-center">
                         <td><input type="checkbox" name="id[]" value="{{ $request->id }}"></td>
-
+                       
                           <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
-                        <td>{{ $request->id }}</td>
+                          <td>
+                        <a href="{{ route('accounting.print', $request->id) }}" target="_blank">Print</a>
+                      </td>
+                          <td>{{ $request->id }}</td>
                         <!-- <td>{{$request->status ?? ''}}</td> -->
                           <td>{{$request->initiator ?? ''}}</td>
                         <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
@@ -369,6 +373,11 @@
 
     // });
     $(document).ready(function() {
+//       $('.print-button').on('click', function() {
+//         var userId = $(this).data('user-id');
+// console.log(userId);
+// window.open('/accounting/print/'+ userId , '_blank');
+//     });
       var table = $('#accounting').DataTable({
         'columnDefs': [{
           'targets': 0,

@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-
+use App\Models\Company;
+use PDF;
+use Illuminate\Support\Facades\Session;
 class AccountingController extends Controller
 {
     use LogActionTrait;
@@ -40,23 +42,39 @@ class AccountingController extends Controller
         return view('user.pages.supplier', compact('suppliers'));
     }
 
-
+public function print($id){
+    $request = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+    ->where('id', $id)
+    ->get();
+    $logs = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
+    ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
+    ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
+    ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
+    ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
+    ->rightJoin('users', 'log_actions.user_id', '=', 'users.id')
+    ->where('log_actions.request_flow_id', $id)
+    ->get(['log_actions.*', 'log_actions.created_at as log_date','users.name as rolename'])->toArray();
+    $pdf = PDF::loadView('template',compact('request','logs'));
+    return $pdf->download('logs.pdf');
+}
     public function viewrequests()
     {
 //        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])->get();
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
 //        $departmentIds = $user->departments->pluck('id')->toArray();
-
+$companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
-            ->whereIn('company_id', $companyIds)
+        ->whereHas('company', function ($query) {
+            $query->where('slug', Session::get('url-slug'));
+        })
 //            ->whereIn('department_id', $departmentIds)
 //            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])
             ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::FinanceOk])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 
-        return view('accounting.pages.requests', compact('requests'));
+        return view('accounting.pages.requests', compact('requests','companies_slug'));
     }
     public function changepassword(Request $request){
         $input = $request->all();
@@ -111,12 +129,15 @@ class AccountingController extends Controller
         $input = $request->all();
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])
-        ->whereIn('company_id', $companyIds)
+        ->whereHas('company', function ($query) {
+            $query->where('slug', Session::get('url-slug'));
+        })
         ->whereBetween('created_at', [$start, $end])
         ->orderBy('request_flows.created_at', 'desc')
             ->get();
-        return view('accounting.pages.requests', compact('requests'));
+        return view('accounting.pages.requests', compact('requests','companies_slug'));
     }
 
     public function bulkPayOrReject(Request $request)
@@ -203,6 +224,10 @@ class AccountingController extends Controller
     {
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+        $comp_slug=Session::get('url-slug');
+        $comp_id=Company::where('slug',$comp_slug)->pluck('id')->first();
+        $req_logs_ids = RequestFlow::where('company_id', $comp_id)->pluck('id')->toArray();
         $input = $request->all();
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
@@ -211,12 +236,12 @@ class AccountingController extends Controller
             ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
             ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
-            ->whereIn('company_id', $companyIds)
+            ->whereIn('request_flows.id', $req_logs_ids)
               ->whereIn('action', [ActionEnum::ACCOUNTING_REJECT, ActionEnum::ACCOUNTING_ACCEPT])
             ->whereBetween('log_actions.created_at', [$start, $end])
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-        return view('accounting.pages.accepted', compact('requests'));
+        return view('accounting.pages.accepted', compact('requests','companies_slug'));
     }
 
     public function alldata()
@@ -229,16 +254,20 @@ class AccountingController extends Controller
     {
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
+        $comp_slug=Session::get('url-slug');
+        $comp_id=Company::where('slug',$comp_slug)->pluck('id')->first();
+        $req_logs_ids = RequestFlow::where('company_id', $comp_id)->pluck('id')->toArray();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
             ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
             ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
             ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
-            ->whereIn('company_id', $companyIds)
+            ->whereIn('request_flows.id', $req_logs_ids)
             ->whereIn('action', [ActionEnum::ACCOUNTING_REJECT, ActionEnum::ACCOUNTING_ACCEPT])
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-        return view('accounting.pages.accepted', compact('requests'));
+        return view('accounting.pages.accepted', compact('requests','companies_slug'));
     }
 
     public function pay(Request $request, $id)

@@ -8,11 +8,13 @@ use App\Classes\Enums\UserTypesEnum;
 use App\Jobs\AcceptOrRejectRequest;
 use App\Models\RequestFlow;
 use App\Traits\LogActionTrait;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\LogAction;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Session;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 class FinanceController extends Controller
@@ -77,55 +79,70 @@ class FinanceController extends Controller
 //            ->get();
         $companyIds = $user->companies->pluck('id')->toArray();
 //        $departmentIds = $user->departments->pluck('id')->toArray();
-
+$companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
-            ->whereIn('company_id', $companyIds)
+        ->whereHas('company', function ($query) {
+            $query->where('slug', Session::get('url-slug'));
+        })
+           // ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
 //            ->whereStatus(StatusEnum::SubmittedForReview)
             ->whereStatus(StatusEnum::ManagerConfirmed)
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 
-        return view('finance.pages.request', compact('requests'));
+        return view('finance.pages.request', compact('requests','companies_slug'));
     }
 
     public function payments(Request $request)
     {
         $user = Auth::user();
         $input = $request->all();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
         $companyIds = $user->companies->pluck('id')->toArray();
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
-        ->whereIn('company_id', $companyIds)
+        //->whereIn('company_id', $companyIds)
+        ->whereHas('company', function ($query) {
+            $query->where('slug', Session::get('url-slug'));
+        })
         ->whereIn('status', [StatusEnum::SubmittedForReview])
             ->whereBetween('created_at', [$start, $end])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
-        return view('finance.pages.request', compact('requests'));
+        return view('finance.pages.request', compact('requests','companies_slug'));
     }
 
     public function logs()
     {
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
+        $comp_slug=Session::get('url-slug');
+        $comp_id=Company::where('slug',$comp_slug)->pluck('id')->first();
+        $req_logs_ids = RequestFlow::where('company_id', $comp_id)->pluck('id')->toArray();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
             ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
             ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
             ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
-            ->whereIn('request_flows.company_id', $companyIds)
+            // ->whereIn('request_flows.company_id', $companyIds)
+            ->whereIn('request_flows.id', $req_logs_ids)
             ->whereIn('action', [ActionEnum::FINANCE_REJECT,ActionEnum::FINANCE_ACCEPT])
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*','request_flows.id as reqid', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-           return view('finance.pages.accepted', compact('requests'));
+           return view('finance.pages.accepted', compact('requests','companies_slug'));
     }
 
 
     public function logfilters(Request $request)
     {
         $user = Auth::user();
-        $companyIds = $user->companies->pluck('id')->toArray();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+        $comp_slug=Session::get('url-slug');
+        $comp_id=Company::where('slug',$comp_slug)->pluck('id')->first();
+        $req_logs_ids = RequestFlow::where('company_id', $comp_id)->pluck('id')->toArray();
         $input = $request->all();
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
@@ -134,12 +151,12 @@ class FinanceController extends Controller
             ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
             ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
-            ->whereIn('request_flows.company_id', $companyIds)
+            ->whereIn('request_flows.id', $req_logs_ids)
             ->whereIn('action', [ActionEnum::FINANCE_REJECT, ActionEnum::FINANCE_ACCEPT])
             ->whereBetween('log_actions.created_at', [$start, $end])
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-        return view('finance.pages.accepted', compact('requests'));
+        return view('finance.pages.accepted', compact('requests','companies_slug'));
     }
 //    public function getNewRequests()
 //    {
@@ -200,4 +217,21 @@ class FinanceController extends Controller
             return redirect()->back()->withErrors($e->getMessage());
         }
     }
+    public function filtering($id)
+    {
+        if ($id == "pending") {
+            return $this->requestFinance();
+        } else if ($id == "review") {
+            $user = Auth::user();
+    $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+            $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })
+                ->whereStatus(StatusEnum::SubmittedForReview)
+                ->orderBy('request_flows.created_at', 'desc')
+                ->get();
+            return view('finance.pages.request', compact('requests','companies_slug'));
+                 } 
+}
 }

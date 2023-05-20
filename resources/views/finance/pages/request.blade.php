@@ -19,6 +19,10 @@
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Requests</span>
         </h3>
+        <div class="">
+        <button id="pending" class="btn btn-info active filter">Pending</button>
+        <button id="review" class="btn btn-info filter" > Submitted for Review</button>
+    </div>
     </div>
     <div class="ml-5 mt-3">
         <form action="{{route('finance.payments')}}" method="post"  >
@@ -185,6 +189,12 @@
 
     <script>
         $(document).ready(function () {
+            $('.filter').click(function() {
+                var buttonId = $(this).attr('id');
+                var url = "{{ route('finance.filtering', ':id') }}";
+                url = url.replace(':id', buttonId);
+                location.href = url;
+            });
             $('#suppliertable').DataTable({
                 'order': [[2, 'desc']],
                 dom: 'Blfrtip',
