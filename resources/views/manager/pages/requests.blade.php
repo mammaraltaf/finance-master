@@ -12,11 +12,15 @@
 </style>
 
     <div class="card-header pt-5">
-
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Requests</span>
         </h3>
+        <div class="">
+        <button id="pending" class="btn btn-info active filter">Pending</button>
+        <button id="finance" class="btn btn-info filter" >Finance ok</button>
+    </div>
         </div>
+        
         <div class="ml-5 mt-3">
         <form action="{{route('manager.payments')}}" method="post"  >
    @csrf
@@ -42,9 +46,7 @@
 
 
       <!-- Document List -->
-<<<<<<< Updated upstream
 
-=======
       <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -78,7 +80,6 @@
           </div>
         </div>
     </div>
->>>>>>> Stashed changes
       <div class="container">
       <div class="overflow-auto">
 
@@ -92,20 +93,20 @@
 
                 <th>Actions</th>
                 <th>ID</th>
-                <th>Status</th>
+                <!-- <th>Status</th> -->
                 <th>Initiator</th>
                 <th>Created At</th>
                 <th>Company</th>
                 <th>Department</th>
                 <th>Supplier</th>
                 <th>Type of Expense</th>
-                <th>Currency</th>
+                <!-- <th>Currency</th> -->
                 <th>Amount In Gel</th>
-                <th>Description</th>
+                <!-- <th>Description</th>
                 <th>Basis</th>
                 <th>Due Date of Payment</th>
-                <th>Due Date</th>
-
+                <th>Due Date</th> -->
+               
             </tr>
             </thead>
             <tbody>
@@ -119,32 +120,19 @@
                             </button>
                         </div>
                     </td>
-                    <td class="cursor-pointer">{{$request->id ?? ''}}</td>
-                    <td>{{$request->status ?? ''}}</td>
+                    <td>{{$request->id ?? ''}}</td>
+                    <!-- <td>{{$request->status ?? ''}}</td> -->
                     <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
-
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
                     <td>{{$request->supplier->supplier_name ?? ''}}</td>
                     <td>{{$request->typeOfExpense->name ?? ''}}</td>
-                    <td>{{$request->currency ?? ''}}</td>
+                    <!-- <td>{{$request->currency ?? ''}}</td> -->
                     <td>{{$request->amount_in_gel ?? ''}}</td>
-                    <td>{{$request->description ?? ''}}</td>
-                    <td><?php if (isset($request->basis)){
-                            $files = explode(',', $request->basis);
-                        foreach ($files as $file){ ?>
-                        <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
-
-                        <?php }
-                        } else {
-                            echo "No document available";
-                        }
-                            ?></td>
-                    <td>{{$request->payment_date ?? ''}}</td>
-                    <td>{{$request->submission_date ?? ''}}</td>
-
-
+                    
+                    
+                   
                 </tr>
             @endforeach
             </tbody>
@@ -281,6 +269,13 @@
         });
   });
         $(document).ready(function () {
+            $('.filter').click(function() {
+                var buttonId = $(this).attr('id');
+                var url = "{{ route('manager.filtering', ':id') }}";
+                url = url.replace(':id', buttonId);
+                location.href = url;
+            });
+
             $('#suppliertable').DataTable({
                 'order': [[0, 'desc']],
                 dom: 'Blfrtip',

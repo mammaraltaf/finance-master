@@ -10,6 +10,10 @@
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Requests</span>
         </h3>
+        <div class="">
+        <button id="pending" class="btn btn-info active filter">Pending</button>
+        <button id="exceed" class="btn btn-info filter" >Threshold Exceeded</button>
+    </div>
     </div>
     <div class="ml-5 mt-3">
         <form action="{{route('director.payments')}}" method="post"  >
@@ -68,7 +72,7 @@
       <div class="overflow-auto">
         {{-- <table name="reviewDocument" id="reviewDocument" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%"> --}}
 
-        <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable dt-responsive" cellspacing="0">
+        <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable" cellspacing="0">
           <thead>
             <tr>
 <<<<<<< Updated upstream
@@ -76,21 +80,21 @@
 =======
 >>>>>>> Stashed changes
                 <th>Action</th>
-                <th>ID</th>
-                <th>Status</th>
+              <th>ID</th>
+              <th>Status</th>
                 <th>Initiator</th>
                 <th>Created At</th>
                 <th>Company</th>
                 <th>Department</th>
                 <th>Supplier</th>
                 <th>Type of Expense</th>
-                <th>Currency</th>
+                <!-- <th>Currency</th> -->
                 <th>Amount In Gel</th>
-                <th>Description</th>
+                <!-- <th>Description</th>
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
-
+               
             </tr>
           </thead>
           <tbody>
@@ -101,11 +105,6 @@
 <<<<<<< Updated upstream
                   <td>{{$request->id}}</td>
                   <td>{{$request->status ?? ''}}</td>
-                    <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
-
-=======
-                    <td class="cursor-pointer">{{$request->id}}</td>
-                    <td>{{$request->status ?? ''}}</td>
                     <td>{{$request->initiator ?? ''}}</td>
 >>>>>>> Stashed changes
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
@@ -113,7 +112,7 @@
                     <td>{{$request->department->name ?? ''}}</td>
                     <td>{{$request->supplier->supplier_name ?? ''}}</td>
                     <td>{{$request->typeOfExpense->name ?? ''}}</td>
-                    <td>{{$request->currency ?? ''}}</td>
+                    <!-- <td>{{$request->currency ?? ''}}</td> -->
                     <td>{{$request->amount_in_gel ?? ''}}</td>
                     <td>{{$request->description ?? ''}}</td>
                     <td><?php if(isset($request->basis)){
@@ -127,7 +126,7 @@
                                 ?></td>
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
-
+                   
                 </tr>
             @endforeach
           </tbody>
@@ -248,6 +247,12 @@ $(document).ready(function() {
         });
   });
       $(document).ready(function() {
+        $('.filter').click(function() {
+                var buttonId = $(this).attr('id');
+                var url = "{{ route('director.filtering', ':id') }}";
+                url = url.replace(':id', buttonId);
+                location.href = url;
+            });
         $('#reviewDocument').DataTable({
           'order': [[ 2, 'desc' ]],
           dom: 'Blfrtip',
