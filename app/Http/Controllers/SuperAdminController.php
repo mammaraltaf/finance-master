@@ -272,6 +272,8 @@ class SuperAdminController extends Controller
                 'name' => $input['company_name'],
                 'slug' => Str::slug($input['company_name']),
                 'threshold_amount' => $input['threshold_amount'],
+                'bog' => $input['bog'],
+                'tbc' => $input['tbc'],
                 'legal_address' => $input['legal_address'],
             ]);
 
@@ -329,6 +331,8 @@ class SuperAdminController extends Controller
             $company->slug = Str::slug($input['company_name']);
             $company->threshold_amount = $input['threshold_amount'];
             $company->legal_address = $input['legal_address'];
+            $company->bog = $input['bog'];
+            $company->tbc = $input['tbc'];
             if(isset($logo)){
                 $company->logo = $logo;
             }

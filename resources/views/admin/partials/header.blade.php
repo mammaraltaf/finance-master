@@ -82,23 +82,27 @@
                 @endif
                 @endrole
                 <div class="p-2">
-                    <select class="form-control url_company">
-                        <option value="">Select Company</option>
                        @role('user')
+                       <select class="form-control url_company">
+                       <option value="">Select Company</option>
                         @isset($companies_slug)
                             @foreach($companies_slug as $company)
                                 <option data-slug="{{$company->slug}}" data-url="{{url(auth()->user()->user_type.'/'.$company->slug.'/dashboard')}}">{{$company->name}}</option>
                             @endforeach
                         @endisset
+                        </select>
                         @endrole
                         @hasanyrole('manager|finance|accounting|director')
+                        <select class="form-control url_company">
+                        <option value="">Select Company</option>
                         @isset($companies_slug)
                             @foreach($companies_slug as $company)
                                 <option data-slug="{{$company->slug}}" data-url="{{url(auth()->user()->user_type.'/'.'dashboard')}}">{{$company->name}}</option>
                             @endforeach
                         @endisset
+                        </select>
                         @endhasanyrole
-                    </select>
+                    
                 </div>
               
                 <div class="page-title d-flex justify-content-center flex-column me-5">

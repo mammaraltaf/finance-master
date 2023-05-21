@@ -28,7 +28,8 @@ class AdminController extends Controller
     public function dashboard()
     {
         $user_id=Auth::user()->id;
-        return view('admin.pages.dashboard', compact('user_id'));
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+        return view('admin.pages.dashboard', compact('user_id','companies_slug'));
     }
     public function changepassword(Request $request){
         $input = $request->all();
