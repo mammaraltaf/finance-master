@@ -118,21 +118,23 @@ class AccountingController extends Controller
                 return response()->json(['success' => 'reject']);
 //                    return response()->json(['success' => 'Bulk Requests Rejected successfully.']);
             } elseif ($request->action == 'bog') {
-//                    $bogRows = RequestFlow::whereIn('id',$totalIds)->get();
-
-                $bogRows = RequestFlow::leftJoin('companies', 'companies.id', '=', 'request_flows.company_id')
-                    ->leftJoin('suppliers', 'suppliers.id', '=', 'request_flows.supplier_id')
-                    ->whereIn('request_flows.id', $totalIds)
-                    ->select(
-                        'request_flows.amount_in_gel',
-                        'companies.name as company_name',
-                        'suppliers.supplier_name',
-                        'suppliers.bank_account'
-                    )
-                    ->get();
+                // Get the data
+                $bogRows = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('id', $totalIds)->get();
+                // Format the data
+                $formattedExportData = $bogRows->map(function ($requestData) {
+                    return [
+                        'company_bank_account_number' => $requestData->company->bog_account_number,
+                        '','',
+                        'supplier_bank_account' => $requestData->supplier->bank_account,
+                        'supplier_name' => $requestData->supplier->supplier_name,
+                        '',
+                        'cost of goods/services',
+                        'amount_in_gel'=> $requestData->amount_in_gel,
+                    ];
+                });
 
                 // Export the data using the YourModelExport class
-                $export = new RequestExport(StatusEnum::BOG_EXPORT_COLUMNS, StatusEnum::BOG_EXPORT, $bogRows);
+                $export = new RequestExport(StatusEnum::BOG_EXPORT_COLUMNS, StatusEnum::BOG_EXPORT, $formattedExportData);
                 $now = now();
                 $now = str_replace(array(":", "-", ' '), "", $now);
                 $filename = 'BOG_Payment_' . $now . '.xlsx';
@@ -147,21 +149,26 @@ class AccountingController extends Controller
                     'file_url' => $url
                 ]);
             } elseif ($request->action == 'tbc') {
-                $tbcRows = RequestFlow::leftJoin('companies', 'companies.id', '=', 'request_flows.company_id')
-                    ->leftJoin('suppliers', 'suppliers.id', '=', 'request_flows.supplier_id')
-                    ->whereIn('request_flows.id', $totalIds)
-                    ->select(
-                        'request_flows.amount_in_gel',
-                        'companies.name as company_name',
-                        'suppliers.supplier_name',
-                        'suppliers.bank_account'
-                    )
-                    ->get();
-                $export = new RequestExport(StatusEnum::TBC_EXPORT_COLUMNS, StatusEnum::TBC_EXPORT, $tbcRows);
+                // Get the data
+                $tbcRows = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('id', $totalIds)->get();
+                // Format the data
+                $formattedExportData = $tbcRows->map(function ($requestData) {
+                    return [
+                        '',
+                        'supplier_bank_account' => $requestData->supplier->bank_account,
+                        'supplier_name' => $requestData->supplier->supplier_name,
+                        '',
+                        'amount_in_gel'=> $requestData->amount_in_gel,
+                        'cost of goods/services',
+                        '','','','',
+                    ];
+                });
+
                 // Export the data using the YourModelExport class
+                $export = new RequestExport([StatusEnum::TBC_EXPORT_COLUMNS,StatusEnum::TBC_EXPORT_COLUMNS_2], StatusEnum::TBC_EXPORT, $formattedExportData);
                 $now = now();
                 $now = str_replace(array(":", "-", ' '), "", $now);
-                $filename = 'TBC_Payment_' . $now . '.xml';
+                $filename = 'TBC_Payment_' . $now . '.xlsx';
                 $path = storage_path('app/public/' . $filename);
                 $url = asset(str_replace('\\', '/', str_replace(storage_path('app/public'), 'storage', $path)));
 
@@ -173,20 +180,6 @@ class AccountingController extends Controller
                     'file_url' => $url
                 ]);
 
-
-//                    $data = [
-//                        ['Data 1', 'Data 2', 'Data 3'],
-//                        // Add more rows of data as needed
-//                    ];
-//
-//                    // Export the data to an Excel file
-//                    $export = new DataExport($data);
-//                    $filePath = 'path/to/save/excel_file.xlsx';
-//                    Excel::store($export, $filePath, 'xlsx');
-//
-//                    // Convert the Excel file to XML format
-//                    $xmlFilePath = 'path/to/save/xml_file.xml';
-//                    Excel::store($export, $xmlFilePath, 'xml');
             }
             elseif ($request->action == 'fx') {
                 foreach ($totalIds as $id) {
