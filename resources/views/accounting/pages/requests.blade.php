@@ -193,9 +193,9 @@
                           <td>
                         <a href="{{ route('accounting.print', $request->id) }}" target="_blank">Print</a>
                       </td>
-                          <td>{{ $request->id }}</td>
+                          <td class="cursor-pointer">{{ $request->id }}</td>
                         <!-- <td>{{$request->status ?? ''}}</td> -->
-                          <td>{{$request->initiator ?? ''}}</td>
+                          <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
                         <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                           <td>{{$request->company->name ?? ''}}</td>
                           <td>{{$request->department->name ?? ''}}</td>

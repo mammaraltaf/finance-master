@@ -82,12 +82,12 @@ class RolesAndPermissionsSeeder extends Seeder
 
         /*Assign Role*/
         User::find(1)->assignRole($superadmin);
-//        User::find(2)->assignRole($admin);
-//        User::find(3)->assignRole($user);
-//        User::find(4)->assignRole($accounting);
-//        User::find(5)->assignRole($finance);
-//        User::find(6)->assignRole($manager);
-//        User::find(7)->assignRole($director);
+       User::find(2)->assignRole($admin);
+       User::find(3)->assignRole($user);
+       User::find(4)->assignRole($accounting);
+       User::find(5)->assignRole($finance);
+       User::find(6)->assignRole($manager);
+       User::find(7)->assignRole($director);
 
     }
 }
