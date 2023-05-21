@@ -120,7 +120,39 @@
     </div>
 
     <!--begin::Body-->
+    <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rowModalLabel">Row Information</h5>
+            <button type="button" class="close close-pop-up" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Display row data here -->
+              <p id="status"></p>
+              <p id="rowInitiator"></p>
+              <p id="rowCreatedAt"></p>
+              <p id="rowCompany"></p>
+              <p id="rowDepartment"></p>
+              <p id="rowSupplier"></p>
+              <p id="rowTypeOfExpense"></p>
+              <p id="rowCurrency"></p>
+              <p id="rowAmount"></p>
+              <p id="rowBasis"></p>
+              <p id="rowDueDatePayment"></p>
+              <p id="rowDueDate"></p>
+              <p id="rowDescription"></p>
 
+            <!-- Add more fields as needed -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
+          </div>
+        </div>
+      </div>
+  </div>
 
     <div class="container-fluid">
 
@@ -161,9 +193,9 @@
                           <td>
                         <a href="{{ route('accounting.print', $request->id) }}" target="_blank">Print</a>
                       </td>
-                          <td>{{ $request->id }}</td>
+                          <td class="cursor-pointer">{{ $request->id }}</td>
                         <!-- <td>{{$request->status ?? ''}}</td> -->
-                          <td>{{$request->initiator ?? ''}}</td>
+                          <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
                         <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                           <td>{{$request->company->name ?? ''}}</td>
                           <td>{{$request->department->name ?? ''}}</td>
@@ -180,6 +212,18 @@
             </table>
             <button  type="button" id="rejectBtn" class="btn btn-danger rejectall">Reject Selected</button>
             <button  type="button" id="payBtn" class="btn btn-success payall">Pay Selected</button>
+            <div style="float: right !important;">
+                <button class="bog-logo mx-2" value="BOG">
+                    <img src="{{ asset('image/bog-logo.svg') }}" alt="BOG Logo">
+                </button>
+
+                <button class="tbc-logo mx-2" value="TBC">
+                    <img src="{{ asset('image/tbc-logo.svg') }}" alt="TBC Logo">
+                </button>
+
+            </div>
+            <br>
+            <br>
         </form>
       </div>
     </div>
@@ -217,16 +261,7 @@
     <div id="loader" style="display:none;">
         <iframe src="https://gifer.com/embed/1amw" width=480 height=480.000 frameBorder="0" allowFullScreen></iframe><p><a href="https://gifer.com">via GIFER</a></p>
     </div>
-    <div class="mt-4">
-        <button class="bog-logo mx-2" value="BOG">
-          <img src="{{ asset('image/bog-logo.svg') }}" alt="BOG Logo">
-      </button>
 
-      <button class="tbc-logo mx-2" value="TBC">
-          <img src="{{ asset('image/tbc-logo.svg') }}" alt="TBC Logo">
-      </button>
-
-    </div>
 
 
 @endsection
@@ -260,6 +295,45 @@
 <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css" rel="stylesheet" />
 <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
     <script type="text/javascript">
+      $(document).ready(function() {
+        $('table#accounting tbody tr').on('click', 'td:nth-child(3)', function() {
+            var row = $(this).closest('tr');
+            var status = row.find('td:nth-child(4)').text().trim();
+            var initiator = row.find('td:nth-child(5)').text().trim();
+            var createdAt = row.find('td:nth-child(6)').text().trim();
+            var company = row.find('td:nth-child(7)').text().trim();
+            var department = row.find('td:nth-child(8)').text().trim();
+            var supplier = row.find('td:nth-child(9)').text().trim();
+            var typeOfExpense = row.find('td:nth-child(10)').text().trim();
+            var currency = row.find('td:nth-child(11)').text().trim();
+            var amount = row.find('td:nth-child(12)').text().trim();
+            var basis = row.find('td:nth-child(13)').text().trim();
+            var dueDatePayment = row.find('td:nth-child(14)').text().trim();
+            var dueDate = row.find('td:nth-child(15)').text().trim();
+            var description = row.find('td:nth-child(16)').text().trim();
+
+
+            $('#status').text('Status: ' + status);
+            $('#rowInitiator').text('Initiator: ' + initiator);
+            $('#rowCreatedAt').text('Created At: ' + createdAt);
+            $('#rowCompany').text('Company: ' + company);
+            $('#rowDepartment').text('Department: ' + department);
+            $('#rowSupplier').text('Supplier: ' + supplier);
+            $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
+            $('#rowCurrency').text('Currency: ' + currency);
+            $('#rowAmount').text('Amount: ' + amount);
+            $('#rowBasis').text('Basis: ' + basis);
+            $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
+            $('#rowDueDate').text('Due Date: ' + dueDate);
+            $('#rowDescription').text('Description: ' + description);
+
+            $('#rowModal').modal('show');
+            $('.close-pop-up').click(function () {
+                $('#rowModal').modal('hide');
+            });
+        });
+    });
+
       $('body').on('click', '#reviewBtn', function () {
         var request_id = $(this).data('id');
         $.ajax({
@@ -275,103 +349,11 @@
       });
     });
 
-    // $(document).ready(function () {
-    //   var selectedCheckboxes = [];
-    //   var table = $('#accounting').DataTable({
-    //     'columnDefs': [
-    //       {
-    //         'targets': [0],
-    //         'checkboxes': {
-    //           'selectRow': true,
-    //           'selectCallback': function (nodes, selected) {
-    //             console.log("selected",nodes);
-    //             if (selected) {
-    //               $('#payBtn').removeAttr('disabled');
-    //               $('#rejectBtn').removeAttr('disabled');
-    //             } else {
-    //               $('#payBtn').attr('disabled', 'disabled');
-    //               $('#rejectBtn').attr('disabled', 'disabled');
-    //             }
-    //           },
+   
 
+   
 
-    //           'selectAllCallback': function (nodes, selected, indeterminate) {
-    //             if (selected) {
-    //               $('#payBtn').removeAttr('disabled');
-    //               $('#rejectBtn').removeAttr('disabled');
-    //             } else {
-    //               $('#payBtn').attr('disabled', 'disabled');
-    //               $('#rejectBtn').attr('disabled', 'disabled');
-    //             }
-    //           }
-    //         }
-    //       }
-    //     ],
-    //     'select': {
-    //       'style': 'multi'
-    //     },
-    //     'order': [[1, 'asc']],
-    //     dom: 'Blfrtip',
-    //     lengthChange: true,
-    //     buttons: [
-    //       {
-    //         extend: 'copy',
-    //         exportOptions: {
-    //           columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-    //         }
-    //       },
-    //       {
-    //         extend: 'excel',
-    //         orientation : 'landscape',
-    //         pageSize : 'LEGAL',
-    //         exportOptions: {
-    //           columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-    //         }
-    //       },
-    //       {
-    //         extend: 'pdf',
-    //         orientation : 'landscape',
-    //         pageSize : 'LEGAL',
-    //         exportOptions: {
-    //           columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-    //         }
-    //       },
-    //       'colvis'
-    //     ]
-    //   });
-
-    //   $('#rejectBtn').on('click', function () {
-
-    //     console.log("aaaaaa",table);
-    //     var selectedRows = table.rows({selected: true}).data();
-    //     if (selectedRows.length > 0) {
-    //       var ids = selectedRows.toArray().map(function (row) {
-    //         return row[1];
-    //       });
-    //       // var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
-    //       // $('#submit-btn').attr('action', url);
-    //       // $('#submit-btn').submit();
-    //       console.log("ids",ids);
-    //     }
-    //   });
-
-    //   $('#payBtn').on('click', function () {
-    //     var selectedRows = table.rows({selected: true}).data();
-    //     console.log("selectedRows>>>>>",selectedRows)
-    //     if (selectedRows.length > 0) {
-    //       var ids = selectedRows.toArray().map(function (row) {
-    //         return row[1];
-    //       });
-    //       console.log(ids);
-    //       // var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');
-    //       // $('#submit-btn').attr('action', url);
-    //       // $('#submit-btn').submit();
-    //       // console.log("url",url);
-    //     }
-    //   });
-
-
-    // });
+ 
     $(document).ready(function() {
 //       $('.print-button').on('click', function() {
 //         var userId = $(this).data('user-id');
