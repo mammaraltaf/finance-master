@@ -5,14 +5,17 @@ namespace App\Http\Controllers;
 use App\Classes\Enums\ActionEnum;
 use App\Classes\Enums\StatusEnum;
 use App\Classes\Enums\UserTypesEnum;
+use App\Exports\RequestExport;
 use App\Jobs\AcceptOrRejectRequest;
 use App\Models\RequestFlow;
 use App\Models\Supplier;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Traits\LogActionTrait;
 use App\Models\LogAction;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +23,9 @@ use App\Models\User;
 use App\Models\Company;
 use PDF;
 use Illuminate\Support\Facades\Session;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpParser\Node\Stmt\Switch_;
+
 class AccountingController extends Controller
 {
     use LogActionTrait;
@@ -163,50 +169,111 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
                 }
 
                 return response()->json(['success' => 'success']);
-            }
-            /*Rejected*/
+            } /*Rejected*/
             elseif ($request->action == 'reject') {
-                    foreach ($totalIds as $id) {
-                        $requestSingle = RequestFlow::find($id);
-                        $requestSingle->status = StatusEnum::Rejected;
-                        $requestSingle->save();
-                        $this->logActionCreate(Auth::id(), $id, ActionEnum::ACCOUNTING_REJECT);
-                        AcceptOrRejectRequest::dispatch($requestSingle);
-                    }
+                foreach ($totalIds as $id) {
+                    $requestSingle = RequestFlow::find($id);
+                    $requestSingle->status = StatusEnum::Rejected;
+                    $requestSingle->save();
+                    $this->logActionCreate(Auth::id(), $id, ActionEnum::ACCOUNTING_REJECT);
+                    AcceptOrRejectRequest::dispatch($requestSingle);
+                }
 
-                    return response()->json(['success' => 'reject']);
+                return response()->json(['success' => 'reject']);
 //                    return response()->json(['success' => 'Bulk Requests Rejected successfully.']);
-                }
-                elseif ($request->action == 'BOG'){
-                    $fastExcel = new FastExcel();
-                    $sheet = $fastExcel->sheet(asset('files/BOG.xlsx'));
+            } elseif ($request->action == 'bog') {
+                // Get the data
+                $bogRows = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('id', $totalIds)->get();
+                // Format the data
+                $formattedExportData = $bogRows->map(function ($requestData) {
+                    return [
+                        'company_bank_account_number' => $requestData->company->bog_account_number,
+                        '','',
+                        'supplier_bank_account' => $requestData->supplier->bank_account,
+                        'supplier_name' => $requestData->supplier->supplier_name,
+                        '',
+                        'cost of goods/services',
+                        'amount_in_gel'=> $requestData->amount_in_gel,
+                    ];
+                });
 
-                    $idArray = explode(',', $request->bulkIds);
-                    $selectedRequests = RequestFlow::whereIn('id', $idArray)->get();
-                    $rowIndex = 2; // Start at row 2 (assuming the first row is a header)
-                    foreach ($selectedRequests as $row) {
-                        $sheet->setCellValue('A' . $rowIndex, $row->column1);
-                        $sheet->setCellValue('B' . $rowIndex, $row->column2);
-                        // ...
-                        $rowIndex++;
+                // Export the data using the YourModelExport class
+                $export = new RequestExport(StatusEnum::BOG_EXPORT_COLUMNS, StatusEnum::BOG_EXPORT, $formattedExportData);
+                $now = now();
+                $now = str_replace(array(":", "-", ' '), "", $now);
+                $filename = 'BOG_Payment_' . $now . '.xlsx';
+                $path = storage_path('app/public/' . $filename);
+                $url = asset(str_replace('\\', '/', str_replace(storage_path('app/public'), 'storage', $path)));
+
+                Excel::store($export, $filename, 'public');
+
+                return response()->json([
+                    'success' => 'success',
+                    'file_name' => $filename,
+                    'file_url' => $url
+                ]);
+            } elseif ($request->action == 'tbc') {
+                // Get the data
+                $tbcRows = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('id', $totalIds)->get();
+                // Format the data
+                $formattedExportData = $tbcRows->map(function ($requestData) {
+                    return [
+                        '',
+                        'supplier_bank_account' => $requestData->supplier->bank_account,
+                        'supplier_name' => $requestData->supplier->supplier_name,
+                        '',
+                        'amount_in_gel'=> $requestData->amount_in_gel,
+                        'cost of goods/services',
+                        '','','','',
+                    ];
+                });
+
+                // Export the data using the YourModelExport class
+                $export = new RequestExport([StatusEnum::TBC_EXPORT_COLUMNS,StatusEnum::TBC_EXPORT_COLUMNS_2], StatusEnum::TBC_EXPORT, $formattedExportData);
+                $now = now();
+                $now = str_replace(array(":", "-", ' '), "", $now);
+                $filename = 'TBC_Payment_' . $now . '.xlsx';
+                $path = storage_path('app/public/' . $filename);
+                $url = asset(str_replace('\\', '/', str_replace(storage_path('app/public'), 'storage', $path)));
+
+                Excel::store($export, $filename, 'public');
+
+                return response()->json([
+                    'success' => 'success',
+                    'file_name' => $filename,
+                    'file_url' => $url
+                ]);
+
+            }
+            elseif ($request->action == 'fx') {
+                foreach ($totalIds as $id) {
+                    $requestSingle = RequestFlow::find($id);
+                    if ($requestSingle->currency != 'GEL') {
+                        switch ($requestSingle->currency) {
+                            case 'USD':
+                                $currency = 'USD';
+                                $amount = $requestSingle->amount;
+                                $updatedGelAmount = $this->getUpdatedFXRates($currency, $amount);
+                                $requestSingle->amount_in_gel = $updatedGelAmount;
+                                $requestSingle->save();
+                                break;
+                            case 'EUR':
+                                $currency = 'EUR';
+                                $amount = $requestSingle->amount;
+                                $updatedGelAmount = $this->getUpdatedFXRates($currency, $amount);
+                                $requestSingle->amount_in_gel = $updatedGelAmount;
+                                $requestSingle->save();
+                                break;
+                        }
                     }
-//                    $sheet->export('BOG.xlsx');
-                    // Create a streamed response with the Excel file
-                    $response = new StreamedResponse(function() use ($fastExcel) {
-                        $fastExcel->download('filename.xlsx');
-                    });
 
-                    // Set the content type and headers
-                    $response->headers->set('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-                    $response->headers->set('Content-Disposition', 'attachment; filename="filename.xlsx"');
-
-                    return $response;
+                    return response()->json(['success' => 'success']);
                 }
+            }
 
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
-
 
 
         $input = $request->all();
@@ -218,6 +285,24 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
             $this->dispatch(new AcceptOrRejectRequest($request, $action, $user));
         }
         return response()->json(['success' => 'Requests updated successfully.']);
+    }
+
+    public function getUpdatedFXRates($currency, $amount){
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $url = "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date=".$currentDate;
+        $client = new Client();
+        $response = $client->request('GET', $url);
+        $body = $response->getBody()->getContents();
+        $data = json_decode($body);
+        switch ($currency){
+            case 'USD':
+                $updatedGelAmount = $amount * $data[0]->currencies[40]->rate;
+                break;
+            case 'EUR':
+                $updatedGelAmount = $amount * $data[0]->currencies[13]->rate;
+                break;
+        }
+        return $updatedGelAmount;
     }
 
     public function logfilters(Request $request)
