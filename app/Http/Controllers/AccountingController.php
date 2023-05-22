@@ -51,7 +51,7 @@ class AccountingController extends Controller
 public function print($id){
     $request = RequestFlow::with('company', 'supplier', 'typeOfExpense')
     ->where('id', $id)
-    ->get();
+   -> first();
     $logs = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
     ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
     ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')

@@ -56,25 +56,10 @@
 			}
 </style>
 <body>
-<?php 
-  echo $request;
-  ?>
-          <br>
-          <?php  
-foreach($logs as $a){
-    print_r( $a);
-    echo "<br>";
-}
 
-?>
 	<div class="header">
-        <div class="headerNumber">01</div>
         <div class="listingDetail">
-            <h2>Heading</h2>
-            <p>
-                Lorem Ipsum is simply dummy text of the printing and
-                typesetting industry
-            </p>
+            <h2>Request No. <?php echo $request->id; ?></h2>
         </div>
     </div>
 
