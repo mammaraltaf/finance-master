@@ -30,6 +30,9 @@
           </form> </div>
     <!--end::Header-->
     <!--begin::Body-->
+<<<<<<< Updated upstream
+
+=======
     <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -63,6 +66,7 @@
         </div>
     </div>
   </div>
+>>>>>>> Stashed changes
 
     <div class="container">
       <div class="overflow-auto">
