@@ -34,7 +34,39 @@
           </form> </div>
     <!--end::Header-->
     <!--begin::Body-->
+    <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rowModalLabel">Row Information</h5>
+            <button type="button" class="close close-pop-up" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Display row data here -->
+              <p id="status"></p>
+              <p id="rowInitiator"></p>
+              <p id="rowCreatedAt"></p>
+              <p id="rowCompany"></p>
+              <p id="rowDepartment"></p>
+              <p id="rowSupplier"></p>
+              <p id="rowTypeOfExpense"></p>
+              <p id="rowCurrency"></p>
+              <p id="rowAmount"></p>
+              <p id="rowBasis"></p>
+              <p id="rowDueDatePayment"></p>
+              <p id="rowDueDate"></p>
+              <p id="rowDescription"></p>
 
+            <!-- Add more fields as needed -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
+          </div>
+        </div>
+      </div>
+  </div>
 
     <div class="container">
       <div class="overflow-auto">
@@ -43,7 +75,6 @@
         <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable" cellspacing="0">
           <thead>
             <tr>
-            
                 <th>Action</th>
               <th>ID</th>
               <!-- <th>Status</th> -->
@@ -65,11 +96,22 @@
           <tbody>
             @foreach($requests as $request)
                 <tr>
-               
+
                     <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
+<<<<<<< Updated upstream
                   <td>{{$request->id}}</td>
+<<<<<<< HEAD
                   <!-- <td>{{$request->status ?? ''}}</td> -->
+=======
+                  <td>{{$request->status ?? ''}}</td>
+                    <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
+
+=======
+                    <td class="cursor-pointer">{{$request->id}}</td>
+                    <td>{{$request->status ?? ''}}</td>
+>>>>>>> f128d15e02ff2eb5befab820eeb16beac159c7fa
                     <td>{{$request->initiator ?? ''}}</td>
+>>>>>>> Stashed changes
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
@@ -77,8 +119,24 @@
                     <td>{{$request->typeOfExpense->name ?? ''}}</td>
                     <!-- <td>{{$request->currency ?? ''}}</td> -->
                     <td>{{$request->amount_in_gel ?? ''}}</td>
+<<<<<<< HEAD
+                  
                    
-                   
+=======
+                    <td>{{$request->description ?? ''}}</td>
+                    <td><?php if(isset($request->basis)){
+                                    $files=explode(',',$request->basis);
+                                    foreach($files as $file){ ?>
+                                    <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+
+                                <?php  }   }else{
+                                   echo "No document available";
+                                }
+                                ?></td>
+                    <td>{{$request->payment_date ?? ''}}</td>
+                    <td>{{$request->submission_date ?? ''}}</td>
+
+>>>>>>> f128d15e02ff2eb5befab820eeb16beac159c7fa
                 </tr>
             @endforeach
           </tbody>
@@ -159,6 +217,45 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
  <script>
+
+$(document).ready(function() {
+        $('table#reviewDocument tbody tr ').on('click', 'td:nth-child(2)', function() {
+            var row = $(this).closest('tr');
+            var status = row.find('td:nth-child(2)').text().trim();
+            var initiator = row.find('td:nth-child(3)').text().trim();
+            var createdAt = row.find('td:nth-child(4)').text().trim();
+            var company = row.find('td:nth-child(5)').text().trim();
+            var department = row.find('td:nth-child(6)').text().trim();
+            var supplier = row.find('td:nth-child(7)').text().trim();
+            var typeOfExpense = row.find('td:nth-child(8)').text().trim();
+            var currency = row.find('td:nth-child(9)').text().trim();
+            var amount = row.find('td:nth-child(10)').text().trim();
+            var basis = row.find('td:nth-child(11)').text().trim();
+            var dueDatePayment = row.find('td:nth-child(12)').text().trim();
+            var dueDate = row.find('td:nth-child(13)').text().trim();
+            var description = row.find('td:nth-child(14)').text().trim();
+
+
+            $('#status').text('Status: ' + status);
+            $('#rowInitiator').text('Initiator: ' + initiator);
+            $('#rowCreatedAt').text('Created At: ' + createdAt);
+            $('#rowCompany').text('Company: ' + company);
+            $('#rowDepartment').text('Department: ' + department);
+            $('#rowSupplier').text('Supplier: ' + supplier);
+            $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
+            $('#rowCurrency').text('Currency: ' + currency);
+            $('#rowAmount').text('Amount: ' + amount);
+            $('#rowBasis').text('Basis: ' + basis);
+            $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
+            $('#rowDueDate').text('Due Date: ' + dueDate);
+            $('#rowDescription').text('Description: ' + description);
+
+            $('#rowModal').modal('show');
+            $('.close-pop-up').click(function () {
+                $('#rowModal').modal('hide');
+            });
+        });
+  });
       $(document).ready(function() {
         $('.filter').click(function() {
                 var buttonId = $(this).attr('id');
