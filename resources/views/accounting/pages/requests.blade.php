@@ -212,12 +212,13 @@
             </table>
             <button  type="button" id="rejectBtn" class="btn btn-danger rejectall">Reject Selected</button>
             <button  type="button" id="payBtn" class="btn btn-success payall">Pay Selected</button>
+            <button  type="button" id="fxBtn" class="btn btn-primary fx">Update FX Selected</button>
             <div style="float: right !important;">
-                <button class="bog-logo mx-2" value="BOG">
+                <button class="bog-logo mx-2" type="button" id="bogBtn" value="BOG">
                     <img src="{{ asset('image/bog-logo.svg') }}" alt="BOG Logo">
                 </button>
 
-                <button class="tbc-logo mx-2" value="TBC">
+                <button class="tbc-logo mx-2" id="tbcBtn" value="TBC">
                     <img src="{{ asset('image/tbc-logo.svg') }}" alt="TBC Logo">
                 </button>
 
@@ -349,11 +350,11 @@
       });
     });
 
-   
 
-   
 
- 
+
+
+
     $(document).ready(function() {
 //       $('.print-button').on('click', function() {
 //         var userId = $(this).data('user-id');
@@ -454,6 +455,41 @@
       });
 
         // Handle click on "Pay All" button
+        $('#fxBtn').on('click', function() {
+        var selectedIds = [];
+
+        $('input[name="id[]"]:checked').each(function() {
+          selectedIds.push($(this).attr('value'));
+        });
+        var ids=selectedIds.map(input=>{
+          return $(input).attr('value');
+        })
+        var bulkIds = ids.join(',');
+        var url = "{{url('accounting/bulk-pay-or-reject/')}}";
+            // $('#loader').show();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    bulkIds:bulkIds,
+                    action:'fx'
+                },
+                success:function (response){
+                    // $('#loader').hide();
+                    if(response.success === 'success'){
+                        toastr.success("Request FX Updated successfully!", "Finance Alert");
+                        location.reload();
+                    }
+                    else{
+                        // $('#loader').hide();
+                        toastr.error("Something went wrong!", "Finance Alert");
+                    }
+                }
+            });
+          // $('#submit-btn').attr('action', url);
+          // $('#submit-btn').submit();
+        });
         $('#payBtn').on('click', function() {
         var selectedIds = [];
 
@@ -490,6 +526,85 @@
           // $('#submit-btn').submit();
         });
 
+        // Handle click on "Pay All" button
+        $('#bogBtn').on('click', function() {
+            var selectedIds = [];
+
+            $('input[name="id[]"]:checked').each(function() {
+                selectedIds.push($(this).attr('value'));
+            });
+            var ids=selectedIds.map(input=>{
+                return $(input).attr('value');
+            })
+            var bulkIds = ids.join(',');
+            var url = "{{url('accounting/bulk-pay-or-reject/')}}";
+            // $('#loader').show();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    bulkIds:bulkIds,
+                    action:'bog'
+                },
+                success:function (response){
+                    if(response.success === 'success'){
+                        var file_name = response.file_name;
+                        var file_url = response.file_url;
+                        var a = document.createElement('a');
+                        a.href = file_url;
+                        a.download = file_name;
+                        a.click();
+                        toastr.success(file_name + " Exported Successfully!", "Finance Alert");
+                    }
+                    else{
+                        toastr.error("Something went wrong!", "Finance Alert");
+                    }
+                }
+            });
+            // $('#submit-btn').attr('action', url);
+            // $('#submit-btn').submit();
+        });
+
+        // Handle click on "Pay All" button
+        $('#tbcBtn').on('click', function() {
+            var selectedIds = [];
+
+            $('input[name="id[]"]:checked').each(function() {
+                selectedIds.push($(this).attr('value'));
+            });
+            var ids=selectedIds.map(input=>{
+                return $(input).attr('value');
+            })
+            var bulkIds = ids.join(',');
+            var url = "{{url('accounting/bulk-pay-or-reject/')}}";
+            // $('#loader').show();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    bulkIds:bulkIds,
+                    action:'tbc'
+                },
+                success:function (response){
+                    if(response.success === 'success'){
+                        var file_name = response.file_name;
+                        var file_url = response.file_url;
+                        var a = document.createElement('a');
+                        a.href = file_url;
+                        a.download = file_name;
+                        a.click();
+                        toastr.success(file_name + " Exported Successfully!", "Finance Alert");
+                    }
+                    else{
+                        toastr.error("Something went wrong!", "Finance Alert");
+                    }
+                }
+            });
+            // $('#submit-btn').attr('action', url);
+            // $('#submit-btn').submit();
+        });
     });
 
 
