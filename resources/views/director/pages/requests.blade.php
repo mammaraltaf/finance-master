@@ -84,14 +84,12 @@
           <thead>
             <tr>
                 <th>Action</th>
-<<<<<<< HEAD
+
               <th>ID</th>
               <th>Status</th>
-=======
-<<<<<<< HEAD
+
               <th>ID</th>
               <!-- <th>Status</th> -->
->>>>>>> hellonisma
                 <th>Initiator</th>
                 <th>Created At</th>
                 <th>Company</th>
@@ -103,17 +101,9 @@
                 <!-- <th>Description</th>
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
-<<<<<<< HEAD
                 <th>Due Date</th>
-               
-=======
-<<<<<<< HEAD
                 <th>Due Date</th> -->
-               
-=======
                 <th>Due Date</th>
-
-
             </tr>
           </thead>
           <tbody>
@@ -122,20 +112,13 @@
 
                     <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
                   <td>{{$request->id}}</td>
-<<<<<<< HEAD
-<<<<<<< HEAD
                   <!-- <td>{{$request->status ?? ''}}</td> -->
-=======
+
                   <td>{{$request->status ?? ''}}</td>
                     <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
-
-=======
                     <td class="cursor-pointer">{{$request->id}}</td>
                     <td>{{$request->status ?? ''}}</td>
->>>>>>> f128d15e02ff2eb5befab820eeb16beac159c7fa
->>>>>>> hellonisma
                     <td>{{$request->initiator ?? ''}}</td>
->>>>>>> Stashed changes
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
@@ -143,11 +126,6 @@
                     <td>{{$request->typeOfExpense->name ?? ''}}</td>
                     <!-- <td>{{$request->currency ?? ''}}</td> -->
                     <td>{{$request->amount_in_gel ?? ''}}</td>
-<<<<<<< HEAD
-                  
-                   
-=======
->>>>>>> hellonisma
                     <td>{{$request->description ?? ''}}</td>
                     <td><?php if(isset($request->basis)){
                                     $files=explode(',',$request->basis);
@@ -160,12 +138,6 @@
                                 ?></td>
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
-<<<<<<< HEAD
-                   
-=======
-
->>>>>>> f128d15e02ff2eb5befab820eeb16beac159c7fa
->>>>>>> hellonisma
                 </tr>
             @endforeach
           </tbody>
