@@ -74,7 +74,18 @@
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
-
+                                <label class="control-label">BOG Account Number</label>
+                                <div>
+                                    <input type="text" name="bog" id="bog" placeholder="Enter BOG Account Number"
+                                           class="form-control input-lg" >
+                                </div>
+                                <br>
+                                <label class="control-label">TBC Account Number</label>
+                                <div>
+                                    <input type="text" name="tbc" id="tbc" placeholder="Enter BOG Account Number"
+                                           class="form-control input-lg" >
+                                </div>
+                                <br>
                                 <label class="control-label">Legal Address</label>
                                 <div>
                                     <textarea name="legal_address" id="legal_address" cols="30" rows="10" class="form-control"></textarea>
@@ -108,6 +119,8 @@
                     <th>Tax ID</th>
                     <th>Company Name</th>
                     <th>Threshold Amount</th>
+                    <th>BOG</th>
+                    <th>TBC</th>
                     <th>Legal Address</th>
                     <th>Action</th>
                 </tr>
@@ -122,6 +135,8 @@
                         <td>{{$company->tax_id}}</td>
                         <td>{{$company->name}}</td>
                         <td>{{$company->threshold_amount}}</td>
+                        <td>{{$company->bog_account_number}}</td>
+                        <td>{{$company->tbc_account_number}}</td>
                         <td>{{$company->legal_address}}</td>
 
                           <td>
@@ -209,6 +224,8 @@
                     $('#company_name').val(response.name);
                     $('#threshold_amount').val(response.threshold_amount);
                     $('#legal_address').val(response.legal_address);
+                    $('#bog').val(response.bog_account_number);
+                    $('#tbc').val(response.tbc_account_number);
                     // $('#logoedit').attr('src',response.logo);
                     // $('#avatar-upload').val(null);
                     var userType = response.users[0].id;

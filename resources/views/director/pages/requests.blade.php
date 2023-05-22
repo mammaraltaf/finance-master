@@ -104,7 +104,7 @@
                   <!-- <td>{{$request->status ?? ''}}</td> -->
 =======
                   <td>{{$request->status ?? ''}}</td>
-                    <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
+                    <td title="{{ $request->initiator }}">{{ $request->initiator }}</td>
 
 =======
                     <td class="cursor-pointer">{{$request->id}}</td>

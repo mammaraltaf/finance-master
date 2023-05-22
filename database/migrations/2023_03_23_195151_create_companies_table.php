@@ -21,8 +21,8 @@ class CreateCompaniesTable extends Migration
             $table->string('name')->nullable();
             $table->string('slug')->nullable();
             $table->double('threshold_amount', 8, 2)->default(0);
-            $table->string('bog')->nullable();
-            $table->string('tbc')->nullable();
+            $table->string('bog_account_number')->nullable();
+            $table->string('tbc_account_number')->nullable();
             $table->text('legal_address')->nullable();
             $table->timestamps();
         });
