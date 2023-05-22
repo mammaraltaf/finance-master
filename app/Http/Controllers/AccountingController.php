@@ -48,41 +48,45 @@ class AccountingController extends Controller
         return view('user.pages.supplier', compact('suppliers'));
     }
 
-public function print($id){
-    $request = RequestFlow::with('company', 'supplier', 'typeOfExpense')
-    ->where('id', $id)
-   -> first();
-    $logs = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
-    ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
-    ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
-    ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
-    ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
-    ->rightJoin('users', 'log_actions.user_id', '=', 'users.id')
-    ->where('log_actions.request_flow_id', $id)
-    ->get(['log_actions.*', 'log_actions.created_at as log_date','users.name as rolename'])->toArray();
-    $pdf = PDF::loadView('template',compact('request','logs'));
-    return $pdf->download('logs.pdf');
-}
+    public function print($id)
+    {
+        $request = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+            ->where('id', $id)
+            ->first();
+        $logs = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
+            ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
+            ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
+            ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
+            ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
+            ->rightJoin('users', 'log_actions.user_id', '=', 'users.id')
+            ->where('log_actions.request_flow_id', $id)
+            ->get(['log_actions.*', 'log_actions.created_at as log_date', 'users.name as rolename'])->toArray();
+        $pdf = PDF::loadView('template', compact('request', 'logs'));
+        return $pdf->download('logs.pdf');
+    }
+
     public function viewrequests()
     {
 //        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])->get();
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
 //        $departmentIds = $user->departments->pluck('id')->toArray();
-$companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
-        ->whereHas('company', function ($query) {
-            $query->where('slug', Session::get('url-slug'));
-        })
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })
 //            ->whereIn('department_id', $departmentIds)
 //            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])
-            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::FinanceOk, StatusEnum::FinanceThresholdExceeded])
+            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::FinanceOk])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 
-        return view('accounting.pages.requests', compact('requests','companies_slug'));
+        return view('accounting.pages.requests', compact('requests', 'companies_slug'));
     }
-    public function changepassword(Request $request){
+
+    public function changepassword(Request $request)
+    {
         $input = $request->all();
         try {
             $input = $request->all();
@@ -92,36 +96,37 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
                 'password' => 'required',
                 'passwordConfirm' => 'required'
             ]);
-    
+
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-    
+
             $user = User::find($input['id']);
-          $oldpass=$input['currentPassword'];
-          $newpass=$input['password'];
-        $confirm=$input['passwordConfirm'];
-        if($oldpass==$user->original_password){
-    if($newpass==$confirm){
-    $user['original_password']=$newpass;
-    $user['password']=Hash::make($newpass);
-    $check=$user->save();
-    if ($check) {
-        return redirect()->back()->with('success', 'Password updated successfully');
-    }else{
-        return redirect()->back()->with('error', 'Something went wrong');
-    }
-    
-    }else{
-        return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
-    }
-        }else{
-            return redirect()->back()->with('error', 'Current password is wrong.Please try again.');
-        }
+            $oldpass = $input['currentPassword'];
+            $newpass = $input['password'];
+            $confirm = $input['passwordConfirm'];
+            if ($oldpass == $user->original_password) {
+                if ($newpass == $confirm) {
+                    $user['original_password'] = $newpass;
+                    $user['password'] = Hash::make($newpass);
+                    $check = $user->save();
+                    if ($check) {
+                        return redirect()->back()->with('success', 'Password updated successfully');
+                    } else {
+                        return redirect()->back()->with('error', 'Something went wrong');
+                    }
+
+                } else {
+                    return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
+                }
+            } else {
+                return redirect()->back()->with('error', 'Current password is wrong.Please try again.');
+            }
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
     public function payment($id)
     {
         $requests_data = RequestFlow::find($id);
@@ -137,13 +142,13 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])
-        ->whereHas('company', function ($query) {
-            $query->where('slug', Session::get('url-slug'));
-        })
-        ->whereBetween('created_at', [$start, $end])
-        ->orderBy('request_flows.created_at', 'desc')
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })
+            ->whereBetween('created_at', [$start, $end])
+            ->orderBy('request_flows.created_at', 'desc')
             ->get();
-        return view('accounting.pages.requests', compact('requests','companies_slug'));
+        return view('accounting.pages.requests', compact('requests', 'companies_slug'));
     }
 
     public function bulkPayOrReject(Request $request)
@@ -188,12 +193,12 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
                 $formattedExportData = $bogRows->map(function ($requestData) {
                     return [
                         'company_bank_account_number' => $requestData->company->bog_account_number,
-                        '','',
+                        '', '',
                         'supplier_bank_account' => $requestData->supplier->bank_account,
                         'supplier_name' => $requestData->supplier->supplier_name,
                         '',
                         'cost of goods/services',
-                        'amount_in_gel'=> $requestData->amount_in_gel,
+                        'amount_in_gel' => $requestData->amount_in_gel,
                     ];
                 });
 
@@ -222,14 +227,14 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
                         'supplier_bank_account' => $requestData->supplier->bank_account,
                         'supplier_name' => $requestData->supplier->supplier_name,
                         '',
-                        'amount_in_gel'=> $requestData->amount_in_gel,
+                        'amount_in_gel' => $requestData->amount_in_gel,
                         'cost of goods/services',
-                        '','','','',
+                        '', '', '', '',
                     ];
                 });
 
                 // Export the data using the YourModelExport class
-                $export = new RequestExport([StatusEnum::TBC_EXPORT_COLUMNS,StatusEnum::TBC_EXPORT_COLUMNS_2], StatusEnum::TBC_EXPORT, $formattedExportData);
+                $export = new RequestExport([StatusEnum::TBC_EXPORT_COLUMNS, StatusEnum::TBC_EXPORT_COLUMNS_2], StatusEnum::TBC_EXPORT, $formattedExportData);
                 $now = now();
                 $now = str_replace(array(":", "-", ' '), "", $now);
                 $filename = 'TBC_Payment_' . $now . '.xlsx';
@@ -244,8 +249,7 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
                     'file_url' => $url
                 ]);
 
-            }
-            elseif ($request->action == 'fx') {
+            } elseif ($request->action == 'fx') {
                 foreach ($totalIds as $id) {
                     $requestSingle = RequestFlow::find($id);
                     if ($requestSingle->currency != 'GEL') {
@@ -287,14 +291,15 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         return response()->json(['success' => 'Requests updated successfully.']);
     }
 
-    public function getUpdatedFXRates($currency, $amount){
+    public function getUpdatedFXRates($currency, $amount)
+    {
         $currentDate = Carbon::now()->format('Y-m-d');
-        $url = "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date=".$currentDate;
+        $url = "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date=" . $currentDate;
         $client = new Client();
         $response = $client->request('GET', $url);
         $body = $response->getBody()->getContents();
         $data = json_decode($body);
-        switch ($currency){
+        switch ($currency) {
             case 'USD':
                 $updatedGelAmount = $amount * $data[0]->currencies[40]->rate;
                 break;
@@ -310,8 +315,8 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        $comp_slug=Session::get('url-slug');
-        $comp_id=Company::where('slug',$comp_slug)->pluck('id')->first();
+        $comp_slug = Session::get('url-slug');
+        $comp_id = Company::where('slug', $comp_slug)->pluck('id')->first();
         $req_logs_ids = RequestFlow::where('company_id', $comp_id)->pluck('id')->toArray();
         $input = $request->all();
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
@@ -322,11 +327,11 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
             ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
             ->whereIn('request_flows.id', $req_logs_ids)
-              ->whereIn('action', [ActionEnum::ACCOUNTING_REJECT, ActionEnum::ACCOUNTING_ACCEPT])
+            ->whereIn('action', [ActionEnum::ACCOUNTING_REJECT, ActionEnum::ACCOUNTING_ACCEPT])
             ->whereBetween('log_actions.created_at', [$start, $end])
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-        return view('accounting.pages.accepted', compact('requests','companies_slug'));
+        return view('accounting.pages.accepted', compact('requests', 'companies_slug'));
     }
 
     public function alldata()
@@ -339,8 +344,8 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
     {
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
-        $comp_slug=Session::get('url-slug');
-        $comp_id=Company::where('slug',$comp_slug)->pluck('id')->first();
+        $comp_slug = Session::get('url-slug');
+        $comp_id = Company::where('slug', $comp_slug)->pluck('id')->first();
         $req_logs_ids = RequestFlow::where('company_id', $comp_id)->pluck('id')->toArray();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
@@ -352,7 +357,7 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
             ->whereIn('action', [ActionEnum::ACCOUNTING_REJECT, ActionEnum::ACCOUNTING_ACCEPT])
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-        return view('accounting.pages.accepted', compact('requests','companies_slug'));
+        return view('accounting.pages.accepted', compact('requests', 'companies_slug'));
     }
 
     public function pay(Request $request, $id)

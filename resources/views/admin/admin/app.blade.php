@@ -3,7 +3,8 @@
 <!--begin::Head-->
 <head>
     <base href="">
-    <title>Finance</title>
+{{--    <title>Finance</title>--}}
+    <title>Expense Management</title>
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
