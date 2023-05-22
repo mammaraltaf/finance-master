@@ -140,6 +140,8 @@ class AdminController extends Controller
             $company->slug = Str::slug($input['company_name']);
             $company->threshold_amount = $input['threshold_amount'];
             $company->legal_address = $input['legal_address'];
+            $company->bog_account_number = $input['bog'];
+            $company->tbc_account_number = $input['tbc'];
             if(isset($logo)){
                 $company->logo = $logo;
             }

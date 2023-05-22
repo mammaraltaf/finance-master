@@ -67,6 +67,14 @@
         </div>
       </div>
   </div>
+            <!-- Add more fields as needed -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
+          </div>
+        </div>
+      </div>
+  </div>
 
     <div class="container">
       <div class="overflow-auto">
@@ -75,10 +83,6 @@
         <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable" cellspacing="0">
           <thead>
             <tr>
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
                 <th>Action</th>
 <<<<<<< HEAD
               <th>ID</th>
@@ -87,10 +91,6 @@
 <<<<<<< HEAD
               <th>ID</th>
               <!-- <th>Status</th> -->
-=======
-                <th>ID</th>
-                <th>Status</th>
->>>>>>> f128d15e02ff2eb5befab820eeb16beac159c7fa
 >>>>>>> hellonisma
                 <th>Initiator</th>
                 <th>Created At</th>
@@ -113,8 +113,7 @@
 =======
                 <th>Due Date</th>
 
->>>>>>> f128d15e02ff2eb5befab820eeb16beac159c7fa
->>>>>>> hellonisma
+
             </tr>
           </thead>
           <tbody>
@@ -122,11 +121,8 @@
                 <tr>
 
                     <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
-<<<<<<< Updated upstream
                   <td>{{$request->id}}</td>
 <<<<<<< HEAD
-                  <td>{{$request->status ?? ''}}</td>
-=======
 <<<<<<< HEAD
                   <!-- <td>{{$request->status ?? ''}}</td> -->
 =======
@@ -148,9 +144,7 @@
                     <!-- <td>{{$request->currency ?? ''}}</td> -->
                     <td>{{$request->amount_in_gel ?? ''}}</td>
 <<<<<<< HEAD
-=======
-<<<<<<< HEAD
-                   
+                  
                    
 =======
 >>>>>>> hellonisma

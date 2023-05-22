@@ -234,8 +234,8 @@
                         <td>{{$company->tax_id}}</td>
                         <td>{{$company->name}}</td>
                         <td>{{$company->threshold_amount}}</td>
-                        <td>{{$company->bog}}</td>
-                        <td>{{$company->tbc}}</td>
+                        <td>{{$company->bog_account_number}}</td>
+                        <td>{{$company->tbc_account_number}}</td>
                         <td>{{$company->legal_address}}</td>
 
                           <td>
@@ -335,8 +335,8 @@
                     $('#company_name').val(response.name);
                     $('#threshold_amount').val(response.threshold_amount);
                     $('#legal_address').val(response.legal_address);
-                    $('#bog').val(response.bog);
-                    $('#tbc').val(response.tbc);
+                    $('#bog').val(response.bog_account_number);
+                    $('#tbc').val(response.tbc_account_number);
                     // $('#logoedit').attr('src',response.logo);
                     // $('#avatar-upload').val(null);
                     // var userType = response.users[0].id;
