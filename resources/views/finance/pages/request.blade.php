@@ -76,7 +76,7 @@
           </div>
         </div>
     </div>
-
+    <div class="container">
     <div class="overflow-auto px-2">
         {{-- <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered dt-responsive nowrap"
                style="width:100%"> --}}
