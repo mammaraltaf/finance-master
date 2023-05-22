@@ -5,6 +5,11 @@
 @section('content')
     <!--begin::Header-->
     <style>
+        .dot {
+            width: 10px;
+            height: 10px;
+        }
+
         /* .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
         } */
         ul.pagination .paginate_button:hover {
@@ -152,6 +157,32 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         @endrole
+
+        <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="rowModalLabel">Row Information</h5>
+                  <button type="button" class="close close-pop-up" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    <p id="rowIdSoftware"></p>
+                    <p id="rowTaxId"></p>
+                    <p id="rowSupplierName"></p>
+                    <p id="rowBankId"></p>
+                    <p id="rowBankName"></p>
+                    <p id="rowBankAccount"></p>
+                    <p id="rowBankSwift"></p>
+                    <p id="rowAccountingId"></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
+                </div>
+              </div>
+            </div>
+        </div>
         <div class="overflow-auto">
 
             {{--All Datatable--}}
@@ -160,7 +191,7 @@
                 {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
-                    <th class="d-none">Created At</th>
+                    <th class="">+</th>
                     <th>ID Software</th>
                     <th>Tax ID</th>
                     <th>Supplier Name</th>
@@ -176,8 +207,11 @@
                 </thead>
                 <tbody>
                 @foreach($suppliers as $supplier)
-                    <tr class="text-nowrap text-center">
-                        <td class="d-none">{{\Carbon\Carbon::parse($supplier['created_at']) ?? ''}}</td>
+                    <tr class=" text-nowrap text-center">
+                        <td class="cursor-pointer">
+                            <div class="rounded-circle bg-primary dot"></div>
+                            <div class="d-none">{{\Carbon\Carbon::parse($supplier['created_at']) ?? ''}}</div>
+                        </td>
                         <td>{{$supplier['id_software']}}</td>
                         <td>{{$supplier['tax_id']}}</td>
                         <td>{{$supplier['supplier_name']}}</td>
@@ -191,12 +225,6 @@
                             <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}"
                                data-user_type="{{auth()->user()->user_type}}"
                                class="fas px-1 fa-edit delete_btn cursor-pointer text-primary"></i>
-
-
-                            {{--                            <a href="" class="btn btn-primary btn-sm" id="userEdit" data-toggle="modal"--}}
-                            {{--                               data-target="#ModalEdit" data-id="{{$supplier->id}}">Edit</a>--}}
-{{--                            <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$supplier->id}}"--}}
-{{--                               class="btn btn-danger delete_btn btn-sm">Delete</a>--}}
                         </td>
                         @endhasanyrole
                     </tr>
@@ -286,6 +314,7 @@
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
+<!-- Modal Popup -->
 
     </div><!-- /.modal -->
 
@@ -315,7 +344,39 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
     <script type="text/javascript">
+    $(document).ready(function() {
+        $('table#suppliertable tbody tr td:first-child').on('click', function() {
+            var row = $(this).closest('tr');
+            var idSoftware = row.find('td:nth-child(2)').text().trim();
+            var taxId= row.find('td:nth-child(3)').text().trim();
+            var supplierName = row.find('td:nth-child(4)').text().trim();
+            var bankId = row.find('td:nth-child(5)').text().trim();
+            var bankName = row.find('td:nth-child(6)').text().trim();
+            var bankAccount = row.find('td:nth-child(7)').text().trim();
+            var bankSwift = row.find('td:nth-child(8)').text().trim();
+            var accountingId = row.find('td:nth-child(9)').text().trim();
+
+            $('#rowIdSoftware').text('ID Software: ' + idSoftware);
+            $('#rowTaxId').text('Tax ID: ' + taxId);
+            $('#rowSupplierName').text('Supplier Name: ' + supplierName);
+            $('#rowBankId').text('Bank ID: ' + bankId);
+            $('#rowBankName').text('Bank Name: ' + bankName);
+            $('#rowBankAccount').text('Bank Account: ' + bankAccount);
+            $('#rowBankSwift').text('Bank Swift: ' + bankSwift);
+            $('#rowAccountingId').text('Accounting ID: ' + accountingId);
+         
+
+            $('#rowModal').modal('show');
+            $('.close-pop-up').click(function () {
+                $('#rowModal').modal('hide');
+            });
+        });
+    });
 
         $('.delete_btn').click(function () {
             var a = $(this).data('id');

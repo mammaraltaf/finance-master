@@ -67,6 +67,14 @@
         </div>
       </div>
   </div>
+            <!-- Add more fields as needed -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
+          </div>
+        </div>
+      </div>
+  </div>
 
     <div class="container">
       <div class="overflow-auto">
@@ -98,13 +106,13 @@
                 <tr>
 
                     <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
-<<<<<<< Updated upstream
                   <td>{{$request->id}}</td>
+<<<<<<< HEAD
 <<<<<<< HEAD
                   <!-- <td>{{$request->status ?? ''}}</td> -->
 =======
                   <td>{{$request->status ?? ''}}</td>
-                    <td title="{{ $request->initiator }}">{{ $request->initiator }}</td>
+                    <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
 
 =======
                     <td class="cursor-pointer">{{$request->id}}</td>

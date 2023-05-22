@@ -34,7 +34,38 @@
     </div>
     <!--end::Header-->
     <!--begin::Body-->
-   
+    <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rowModalLabel">Row Information</h5>
+            <button type="button" class="close close-pop-up" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+              <p id="rowId"></p>
+              <p id="rowAction"></p>
+              <p id="rowActionDate"></p>
+              <p id="rowInitiator"></p>
+              <p id="rowCreated"></p>
+              <p id="rowCompany"></p>
+              <p id="rowDepartment"></p>
+              <p id="rowSupplier"></p>
+              <p id="rowTypeofExpense"></p>
+              <p id="rowCurrency"></p>
+              <p id="rowAmountInGel"></p>
+              <p id="rowDescription"></p>
+              <p id="rowBasis"></p>
+              <p id="rowDueDatePayment"></p>
+              <p id="rowDueDate"></p> 
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
+          </div>
+        </div>
+      </div>
+  </div>
 
     <div class="container">
       <div class="overflow-auto">
@@ -62,7 +93,7 @@
           <tbody>
             @foreach($requests as $request)
                 <tr class="text-nowrap text-center" data-status="{{$request['action']}}">
-                  <td>{{$request['id']}}</td>
+                  <td class="cursor-pointer">{{$request['id']}}</td>
                   <td>{{$request['action'] ?? ''}}</td>
                     <td>{{$request['initiator'] ?? ''}}</td>
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
@@ -99,8 +130,8 @@
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+{{-- <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script> --}}
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
 <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
@@ -122,6 +153,48 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
  
  <script>
+   $(document).ready(function() {
+        $('table#reviewDocument tbody tr td:first-child').on('click', function() {
+            var row = $(this).closest('tr');
+            var id = row.find('td:nth-child(1)').text().trim();
+            var action = row.find('td:nth-child(2)').text().trim();
+            var actionDate = row.find('td:nth-child(3)').text().trim();
+            var initiator = row.find('td:nth-child(4)').text().trim();
+            var createdAt = row.find('td:nth-child(5)').text().trim();
+            var company = row.find('td:nth-child(6)').text().trim();
+            var department = row.find('td:nth-child(7)').text().trim();
+            var supplier = row.find('td:nth-child(8)').text().trim();
+            var typeOfExpense = row.find('td:nth-child(9)').text().trim();
+            var currency = row.find('td:nth-child(10)').text().trim();
+            var amount = row.find('td:nth-child(11)').text().trim();
+            var description = row.find('td:nth-child(15)').text().trim();
+            var basis = row.find('td:nth-child(12)').text().trim();
+            var dueDatePayment = row.find('td:nth-child(13)').text().trim();
+            var dueDate = row.find('td:nth-child(14)').text().trim();
+
+
+            $('#rowId').text('Id: ' + id);
+            $('#rowAction').text('Action: ' + action);
+            $('#rowActionDate').text('Action Date: ' + actionDate);
+            $('#rowInitiator').text('Initiator: ' + initiator);
+            $('#rowCreatedAt').text('Created At: ' + createdAt);
+            $('#rowCompany').text('Company: ' + company);
+            $('#rowDepartment').text('Department: ' + department);
+            $('#rowSupplier').text('Supplier: ' + supplier);
+            $('#rowTypeofExpense').text('Type Of Expense: ' + typeOfExpense);
+            $('#rowCurrency').text('Currency: ' + currency);
+            $('#rowAmountInGel').text('Amount In Gel: ' + amount);
+            $('#rowDescription').text('Description: ' + description);
+            $('#rowBasis').text('Basis: ' + basis);
+            $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
+            $('#rowDueDate').text('Due Date: ' + dueDate);
+
+            $('#rowModal').modal('show');
+            $('.close-pop-up').click(function () {
+                $('#rowModal').modal('hide');
+            });
+        });
+    });
       $(document).ready(function() {
         $('#reviewDocument').DataTable({
           'order':[[2,'desc']],

@@ -85,7 +85,7 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
             $query->where('slug', Session::get('url-slug'));
         })
 //            ->whereIn('department_id', $departmentIds)
-            ->whereIn('status', [StatusEnum::ThresholdExceeded])
+            ->whereIn('status', [StatusEnum::ThresholdExceeded, StatusEnum::FinanceThresholdExceeded])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 

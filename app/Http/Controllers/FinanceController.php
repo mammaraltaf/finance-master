@@ -87,7 +87,7 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
            // ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
 //            ->whereStatus(StatusEnum::SubmittedForReview)
-            ->whereStatus(StatusEnum::ManagerConfirmed)
+            ->whereIn('status', [StatusEnum::ManagerConfirmed, StatusEnum::ManagerThresholdExceeded])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 
@@ -178,7 +178,12 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
     {
         try{
             $requestFlow = RequestFlow::find($request->id);
-            $requestFlow->status = StatusEnum::FinanceOk;
+            if (($requestFlow->amount_in_gel) > ($requestFlow->company->threshold_amount)) {
+                $requestFlow->status = StatusEnum::FinanceThresholdExceeded;
+            }
+            else {
+                $requestFlow->status = StatusEnum::FinanceOk;
+            }
             $requestFlow->comment = $request->comment ?? null ;
             $requestFlow->save();
             $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::FINANCE_ACCEPT);

@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <!--begin::Header-->
-    
+
     <div class="card-header pt-5">
 
         <h3 class="card-title">
@@ -30,7 +30,43 @@
           </form> </div>
     <!--end::Header-->
     <!--begin::Body-->
-   
+<<<<<<< Updated upstream
+
+=======
+    <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rowModalLabel">Row Information</h5>
+            <button type="button" class="close close-pop-up" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Display row data here -->
+              <p id="status"></p>
+              <p id="rowInitiator"></p>
+              <p id="rowCreatedAt"></p>
+              <p id="rowCompany"></p>
+              <p id="rowDepartment"></p>
+              <p id="rowSupplier"></p>
+              <p id="rowTypeOfExpense"></p>
+              <p id="rowCurrency"></p>
+              <p id="rowAmount"></p>
+              <p id="rowBasis"></p>
+              <p id="rowDueDatePayment"></p>
+              <p id="rowDueDate"></p>
+              <p id="rowDescription"></p>
+
+            <!-- Add more fields as needed -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
+          </div>
+        </div>
+    </div>
+  </div>
+>>>>>>> Stashed changes
 
     <div class="container">
       <div class="overflow-auto">
@@ -60,9 +96,10 @@
           <tbody>
             @foreach($requests as $request)
                 <tr>
-                  <td>{{$request->id}}</td>
+                  <td class="cursor-pointer">{{$request->id}}</td>
                   <td>{{$request->status ?? ''}}</td>
-                    <td>{{$request->initiator ?? ''}}</td>
+                    <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
+
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
@@ -122,10 +159,10 @@
               </div>
                 </form>
               </div>
-              
+
             </div>
           </div>
-      </div> --> 
+      </div> -->
   </div>
 
 
@@ -136,7 +173,7 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
-    
+
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
@@ -154,14 +191,53 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
- 
+
  <script>
+  $(document).ready(function() {
+        $('table#reviewDocument tbody tr td:first-child').on('click', function() {
+            var row = $(this).closest('tr');
+            var status = row.find('td:nth-child(2)').text().trim();
+            var initiator = row.find('td:nth-child(3)').text().trim();
+            var createdAt = row.find('td:nth-child(4)').text().trim();
+            var company = row.find('td:nth-child(5)').text().trim();
+            var department = row.find('td:nth-child(6)').text().trim();
+            var supplier = row.find('td:nth-child(7)').text().trim();
+            var typeOfExpense = row.find('td:nth-child(8)').text().trim();
+            var currency = row.find('td:nth-child(9)').text().trim();
+            var amount = row.find('td:nth-child(10)').text().trim();
+            var basis = row.find('td:nth-child(11)').text().trim();
+            var dueDatePayment = row.find('td:nth-child(12)').text().trim();
+            var dueDate = row.find('td:nth-child(13)').text().trim();
+            var description = row.find('td:nth-child(14)').text().trim();
+
+
+            $('#status').text('Status: ' + status);
+            $('#rowInitiator').text('Initiator: ' + initiator);
+            $('#rowCreatedAt').text('Created At: ' + createdAt);
+            $('#rowCompany').text('Company: ' + company);
+            $('#rowDepartment').text('Department: ' + department);
+            $('#rowSupplier').text('Supplier: ' + supplier);
+            $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
+            $('#rowCurrency').text('Currency: ' + currency);
+            $('#rowAmount').text('Amount: ' + amount);
+            $('#rowBasis').text('Basis: ' + basis);
+            $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
+            $('#rowDueDate').text('Due Date: ' + dueDate);
+            $('#rowDescription').text('Description: ' + description);
+
+            $('#rowModal').modal('show');
+            $('.close-pop-up').click(function () {
+                $('#rowModal').modal('hide');
+            });
+        });
+  });
+
       $(document).ready(function() {
         $('#reviewDocument').DataTable({
           'order': [[2, 'desc']],
           dom: 'Blfrtip',
           lengthChange: true,
-          buttons: [ 
+          buttons: [
 
             {
 extend: 'copy',
@@ -189,7 +265,7 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
            ]
     } );
         });
-      
+
 
     </script>
 
