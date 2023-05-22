@@ -75,18 +75,9 @@
         <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable" cellspacing="0">
           <thead>
             <tr>
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
                 <th>Action</th>
-<<<<<<< HEAD
               <th>ID</th>
               <!-- <th>Status</th> -->
-=======
-                <th>ID</th>
-                <th>Status</th>
->>>>>>> f128d15e02ff2eb5befab820eeb16beac159c7fa
                 <th>Initiator</th>
                 <th>Created At</th>
                 <th>Company</th>
@@ -98,13 +89,8 @@
                 <!-- <th>Description</th>
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
-<<<<<<< HEAD
                 <th>Due Date</th> -->
                
-=======
-                <th>Due Date</th>
-
->>>>>>> f128d15e02ff2eb5befab820eeb16beac159c7fa
             </tr>
           </thead>
           <tbody>
