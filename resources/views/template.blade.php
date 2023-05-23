@@ -4,115 +4,43 @@
     <title>Print Log Details</title>
 </head>
 <body>
+    <?php
+echo $request;
+echo "<br>";
 
-	<div class="header">
-        <div class="listingDetail">
-            <h2>Request No. <?php echo $request->id; ?></h2>
-        </div>
-    </div>
+foreach ($logs as $a) {
+    print_r($a);
+    echo "<br>";
+}
+?>
 
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Initiator</th>
-                <th>Company ID</th>
-                <th>Department ID</th>
-                <th>Spplier ID</th>
-                <th>Expense Type ID</th>
-                <th>Currency</th>
-      <th>Submission Date</th>
-      <th>Comment</th>
-      <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="title">1</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td class="date">May 15, 2023</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-            </tr>
-            <tr>
-                <td class="title">1</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td class="date">May 15, 2023</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-            </tr>
-            <tr>
-                <td class="title">1</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td class="date">May 15, 2023</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-            </tr>
-            <tr>
-                <td class="title">1</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td class="date">May 15, 2023</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-            </tr>
-            <tr>
-                <td class="title">1</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td class="date">May 15, 2023</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-            </tr>
-            <tr>
-                <td class="title">1</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td class="date">May 15, 2023</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-            </tr>
-            <tr>
-                <td class="title">1</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-                <td class="date">May 15, 2023</td>
-                <td>John Doe</td>
-                <td>John Doe</td>
-            </tr>
-            <!-- Add more rows as needed -->
-        </tbody>
+<br>
+<h4>Approval History Information</h4>
+<p>Approval Status: 1 of 1 received</p>
+
+    <table class="table">
+    <thead>
+        <tr>
+            <th>Action</th>
+            <th>User ID</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach($request as $req)
+        <tr>
+            <td><?php echo $req->action; ?></td>
+            <td><?php echo $req->user_id; ?></td>
+            <td><?php echo $req->date; ?></td>
+            <td><?php echo $req->time; ?></td>
+        </tr>
+        @endforeach
+    </tbody>
     </table>
+        <p>Initiator: <?php echo $req->initiator; ?></p>
+        <p>Manager: <?php echo $req->manager; ?></p>
+        <p>Finance: <?php echo $req->finance; ?></p>
+        <p>Director: <?php echo $req->director; ?></p>
 </body>
 </html>

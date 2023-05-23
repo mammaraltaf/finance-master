@@ -5,13 +5,6 @@
 @section('content')
     <!--begin::Header-->
     <style>
-        .dot {
-            width: 10px;
-            height: 10px;
-        }
-
-        /* .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
-        } */
         ul.pagination .paginate_button:hover {
             color: white !important;
             /* border: 1px solid #111; */
@@ -26,10 +19,6 @@
         .dataTables_length {
             margin-right: 10px;
         }
-
-        /* .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
-            background-color: blue!important;
-        } */
     </style>
     <br>
     <div class="card-header pt-5">
@@ -208,9 +197,16 @@
                 <tbody>
                 @foreach($suppliers as $supplier)
                     <tr class=" text-nowrap text-center">
-                        <td class="cursor-pointer">
+                        {{-- <td class="cursor-pointer">
                             <div class="rounded-circle bg-primary dot"></div>
                             <div class="d-none">{{\Carbon\Carbon::parse($supplier['created_at']) ?? ''}}</div>
+                        </td> --}}
+                        <td class="cursor-pointer text-xl bg-primary" 
+                            style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">
+                            +
+                            <div class="d-none">
+                                {{\Carbon\Carbon::parse($supplier['created_at']) ?? ''}}
+                            </div>
                         </td>
                         <td>{{$supplier['id_software']}}</td>
                         <td>{{$supplier['tax_id']}}</td>

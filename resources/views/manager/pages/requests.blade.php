@@ -120,7 +120,7 @@
                             </button>
                         </div>
                     </td>
-                    <td class="cursor-pointer">{{$request->id ?? ''}}</td>
+                    <td class="cursor-pointer text-center bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request->id ?? ''}}</td>
                     <!-- <td>{{$request->status ?? ''}}</td> -->
                     <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
 
