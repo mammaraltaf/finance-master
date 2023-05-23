@@ -48,12 +48,13 @@
               <p id="rowDepartment"></p>
               <p id="rowSupplier"></p>
               <p id="rowTypeOfExpense"></p>
-              <p id="rowCurrency"></p>
+              <p id="rowAmountInGel"></p>
               <p id="rowAmount"></p>
               <p id="rowBasis"></p>
               <p id="rowDueDatePayment"></p>
               <p id="rowDueDate"></p>
               <p id="rowDescription"></p>
+
 
             <!-- Add more fields as needed -->
           </div>
@@ -92,7 +93,7 @@
           <tbody>
             @foreach($requests as $request)
                 <tr>
-                  <td class="cursor-pointer">{{$request->id}}</td>
+                  <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
                   <td>{{$request->status ?? ''}}</td>
                     <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
 
@@ -214,7 +215,7 @@
             $('#rowDepartment').text('Department: ' + department);
             $('#rowSupplier').text('Supplier: ' + supplier);
             $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
-            $('#rowCurrency').text('Currency: ' + currency);
+            $('#rowAmountInGel').text('Amount in Gel: ' + currency);
             $('#rowAmount').text('Amount: ' + amount);
             $('#rowBasis').text('Basis: ' + basis);
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);

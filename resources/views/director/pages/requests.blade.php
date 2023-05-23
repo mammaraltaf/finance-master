@@ -4,76 +4,82 @@
 @endsection
 @section('content')
     <!--begin::Header-->
-
+    <style>
+      .dataTables_length {
+          margin-right: 10px;
+      }
+      div.dt-buttons {
+          margin-top: 10px;
+      }
+    </style>
+    {{-- Generate Start--}}
     <div class="card-header pt-5">
-
-        <h3 class="card-title">
-            <span class="card-label fw-bolder fs-3 mb-1">Requests</span>
-        </h3>
-        <div class="">
+      <h3 class="card-title">
+        <span class="card-label fw-bolder fs-3 mb-1">Requests</span>
+      </h3>
+      <div class="">
         <button id="pending" class="btn btn-info active filter">Pending</button>
-        <button id="exceed" class="btn btn-info filter" >Threshold Exceeded</button>
+        <button id="exceed" class="btn btn-info filter">Threshold Exceeded</button>
+      </div>
     </div>
-    </div>
+    
     <div class="ml-5 mt-3">
-        <form action="{{route('director.payments')}}" method="post"  >
-   @csrf
+      <form action="{{route('director.payments')}}" method="post">
+        @csrf
         <div class="form-row">
-              <div class="form-group col-md-3">
-                <label for="start-date">Start Date</label>
-                <input type="date" class="form-control" id="start-date" name="start-date" required>
-              </div>
-              <div class="form-group col-md-3">
-                <label for="end-date">End Date</label>
-                <input type="date" class="form-control" id="end-date" name="end-date" required>
-              </div>
-              <div class="form-group col-md-3 mt-7">
-              <input type="submit" class="btn btn-sm btn-primary" id="dates" value="Generate">
-            </div>
-            </div>
-          </form> </div>
-    <!--end::Header-->
-    <!--begin::Body-->
-    <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="rowModalLabel">Row Information</h5>
-            <button type="button" class="close close-pop-up" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+          <div class="form-group col-md-3">
+            <label for="start-date">Start Date</label>
+            <input type="date" class="form-control" id="start-date" name="start-date" required>
           </div>
-          <div class="modal-body">
-            <!-- Display row data here -->
-              <p id="status"></p>
-              <p id="rowInitiator"></p>
-              <p id="rowCreatedAt"></p>
-              <p id="rowCompany"></p>
-              <p id="rowDepartment"></p>
-              <p id="rowSupplier"></p>
-              <p id="rowTypeOfExpense"></p>
-              <p id="rowCurrency"></p>
-              <p id="rowAmount"></p>
-              <p id="rowBasis"></p>
-              <p id="rowDueDatePayment"></p>
-              <p id="rowDueDate"></p>
-              <p id="rowDescription"></p>
+          <div class="form-group col-md-3">
+            <label for="end-date">End Date</label>
+            <input type="date" class="form-control" id="end-date" name="end-date" required>
+          </div>
+          <div class="form-group col-md-3 mt-7">
+            <input type="submit" class="btn btn-sm btn-primary" id="dates" value="Generate">
+          </div>
+        </div>
+      </form> 
+    </div>
+    
+    {{-- <div class="modal-footer">
+      <button type="button" class="btn btn-secondary close-pop-up">Close</button>
+    </div> --}}
+    
+    
+    {{-- Generate End --}}
+  <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="rowModalLabel">Row Information</h5>
+          <button type="button" class="close close-pop-up" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Display row data here -->
+            <p id="status"></p>
+            <p id="rowInitiator"></p>
+            <p id="rowCreatedAt"></p>
+            <p id="rowCompany"></p>
+            <p id="rowDepartment"></p>
+            <p id="rowSupplier"></p>
+            <p id="rowTypeOfExpense"></p>
+            <p id="rowCurrency"></p>
+            <p id="rowAmount"></p>
+            <p id="rowBasis"></p>
+            <p id="rowDueDatePayment"></p>
+            <p id="rowDueDate"></p>
+            <p id="rowDescription"></p>
 
-            <!-- Add more fields as needed -->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
-          </div>
+          <!-- Add more fields as needed -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
         </div>
       </div>
-  </div>
-            <!-- Add more fields as needed -->
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
-          </div>
-        </div>
-      </div>
+    </div>
   </div>
 
     <div class="container">
@@ -116,7 +122,7 @@
 
                   <td>{{$request->status ?? ''}}</td>
                     <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
-                    <td class="cursor-pointer">{{$request->id}}</td>
+                    <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
                     <td>{{$request->status ?? ''}}</td>
                     <td>{{$request->initiator ?? ''}}</td>
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>

@@ -335,8 +335,8 @@
                     <p id="rowDepartment"></p>
                     <p id="rowSupplier"></p>
                     <p id="rowTypeOfExpense"></p>
-                    <p id="rowCurrency"></p>
                     <p id="rowAmount"></p>
+                    <p id="rowCurrency"></p>
                     <p id="rowBasis"></p>
                     <p id="rowDueDatePayment"></p>
                     <p id="rowDueDate"></p>
@@ -375,8 +375,8 @@
                     <tbody>
                     @foreach($requests as $request)
                         <tr class="text-nowrap text-center" > 
-                            <td>{{$request->id}}</td>
-                        <td>{{$request->initiator}}</td>
+                            <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
+                            <td>{{$request->initiator}}</td>
                             <td>{{$request->created_at}}</td>
                             <td>{{$request->company->name}}</td>
                             <td>{{$request->department->name}}</td>
@@ -461,8 +461,8 @@ href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
             var department = row.find('td:nth-child(5)').text().trim();
             var supplier = row.find('td:nth-child(6)').text().trim();
             var typeOfExpense = row.find('td:nth-child(7)').text().trim();
-            var currency = row.find('td:nth-child(8)').text().trim();
-            var amount = row.find('td:nth-child(9)').text().trim();
+            var amount = row.find('td:nth-child(8)').text().trim();
+            var currency = row.find('td:nth-child(9)').text().trim();
             var basis = row.find('td:nth-child(10)').text().trim();
             var dueDatePayment = row.find('td:nth-child(11)').text().trim();
             var dueDate = row.find('td:nth-child(12)').text().trim();
@@ -476,8 +476,8 @@ href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
             $('#rowDepartment').text('Department: ' + department);
             $('#rowSupplier').text('Supplier: ' + supplier);
             $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
-            $('#rowCurrency').text('Currency: ' + currency);
             $('#rowAmount').text('Amount: ' + amount);
+            $('#rowCurrency').text('Currency: ' + currency);
             $('#rowBasis').text('Basis: ' + basis);
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
