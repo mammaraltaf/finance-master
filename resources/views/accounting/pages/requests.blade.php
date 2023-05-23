@@ -140,10 +140,10 @@
               <p id="rowTypeOfExpense"></p>
               <p id="rowCurrency"></p>
               <p id="rowAmount"></p>
+              <p id="rowDescription"></p>
               <p id="rowBasis"></p>
               <p id="rowDueDatePayment"></p>
               <p id="rowDueDate"></p>
-              <p id="rowDescription"></p>
 
             <!-- Add more fields as needed -->
           </div>
@@ -169,19 +169,19 @@
                       
                       <th>ID</th>
                       <th>Print</th>
-                  <!-- <th>Status</th> -->
+                      <th>Status</th> 
                       <th>Initiator</th>
                       <th>Created At</th>
                       <th>Company</th>
                       <th>Department</th>
                       <th>Supplier</th>
                       <th>Type of Expense</th>
-                      <!-- <th>Currency</th> -->
+                      <th>Currency</th>
                       <th>Amount In Gel</th>
-                      <!-- <th>Description</th>
+                      <th>Description</th>
                       <th>Basis (file attachment title)</th>
                       <th>Due Date of Payment</th>
-                      <th>Due Date</th> -->
+                      <th>Due Date</th> 
 
                   </tr>
                   </thead>
@@ -195,15 +195,19 @@
                         <a href="{{ route('accounting.print', $request->id) }}" target="_blank">Print</a>
                       </td>
                           <!-- <td class="cursor-pointer">{{ $request->id }}</td> -->
-                        <!-- <td>{{$request->status ?? ''}}</td> -->
+                        <td>{{$request->status ?? ''}}</td> 
                           <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
-                        <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
+                          <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                           <td>{{$request->company->name ?? ''}}</td>
                           <td>{{$request->department->name ?? ''}}</td>
                           <td>{{$request->supplier->supplier_name ?? ''}}</td>
                           <td>{{$request->typeOfExpense->name ?? ''}}</td>
-                          <!-- <td>{{$request->currency ?? ''}}</td> -->
+                          <td>{{$request->currency ?? ''}}</td> 
                           <td>{{$request->amount_in_gel ?? ''}}</td>
+                          <td>{{$request->description ?? ''}}</td>
+                          <td>{{$request->basis ?? ''}}</td>
+                          <td>{{$request->due_date_payment ?? ''}}</td>
+                          <td>{{$request->due_date ?? ''}}</td>
                          
                       </tr>
                   @endforeach
@@ -300,19 +304,20 @@
       $(document).ready(function() {
         $('table#accounting tbody tr').on('click', 'td:nth-child(3)', function() {
             var row = $(this).closest('tr');
-            var status = row.find('td:nth-child(4)').text().trim();
-            var initiator = row.find('td:nth-child(5)').text().trim();
-            var createdAt = row.find('td:nth-child(6)').text().trim();
-            var company = row.find('td:nth-child(7)').text().trim();
-            var department = row.find('td:nth-child(8)').text().trim();
-            var supplier = row.find('td:nth-child(9)').text().trim();
-            var typeOfExpense = row.find('td:nth-child(10)').text().trim();
-            var currency = row.find('td:nth-child(11)').text().trim();
-            var amount = row.find('td:nth-child(12)').text().trim();
-            var basis = row.find('td:nth-child(13)').text().trim();
-            var dueDatePayment = row.find('td:nth-child(14)').text().trim();
-            var dueDate = row.find('td:nth-child(15)').text().trim();
-            var description = row.find('td:nth-child(16)').text().trim();
+            var status = row.find('td:nth-child(5)').text().trim();
+            var initiator = row.find('td:nth-child(6)').text().trim();
+            var createdAt = row.find('td:nth-child(7)').text().trim();
+            var company = row.find('td:nth-child(8)').text().trim();
+            var department = row.find('td:nth-child(9)').text().trim();
+            var supplier = row.find('td:nth-child(10)').text().trim();
+            var typeOfExpense = row.find('td:nth-child(11)').text().trim();
+            var currency = row.find('td:nth-child(12)').text().trim();
+            var amount = row.find('td:nth-child(13)').text().trim();
+            var description = row.find('td:nth-child(14)').text().trim();
+            var basis = row.find('td:nth-child(15)').text().trim();
+            var dueDatePayment = row.find('td:nth-child(16)').text().trim();
+            var dueDate = row.find('td:nth-child(17)').text().trim();
+
 
 
             $('#status').text('Status: ' + status);
@@ -324,10 +329,10 @@
             $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
             $('#rowCurrency').text('Currency: ' + currency);
             $('#rowAmount').text('Amount: ' + amount);
+            $('#rowDescription').text('Description: ' + description);
             $('#rowBasis').text('Basis: ' + basis);
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
-            $('#rowDescription').text('Description: ' + description);
 
             $('#rowModal').modal('show');
             $('.close-pop-up').click(function () {
