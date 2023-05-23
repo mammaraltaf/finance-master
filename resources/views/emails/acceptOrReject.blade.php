@@ -25,13 +25,24 @@
                     <td>
                         <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" style="width:100%; background-color:#fff; border: 1px solid #ddd;padding: 0px 20px;">
                             <tr style="float:left;width:100%;padding: 20px 0px;">
+                                @php
+                                    $company_id = $request_data->company_id;
+                                    $company = \App\Models\Company::where('id',$company_id)->first();
+                                @endphp
+                                @if(!is_null($company->logo))
+                                    <td style="float:left;width:100%;" align="center">
+                                    <img src="{{asset('image/'.$company->logo)}}" style="width: 50px; height: 50px; border-radius: 50%; margin-right: 10px;">
+                                    </td>
+                                @endif
+                            </tr>
+                            <tr style="float:left;width:100%;padding-bottom:20px;">
                                 <td style="float:left;width:100%;" align="center">
-                                    <a style="" href=""><img style="width: 50%;" src="{{ asset('assets/logo/logo.png') }}"></a>
+                                    <h1 style="font-size: 40px;margin-top: 0px;margin-bottom: 10px;">Expense Management</h1>
                                 </td>
                             </tr>
                             <tr style="float:left;width:100%;padding-bottom:20px;">
                                 <td style="float:left;width:100%;" align="center">
-                                    <h1 style="font-size: 40px;margin-top: 0px;margin-bottom: 10px;">Request Details</h1>
+                                    <h1 style="font-size: 30px;margin-top: 0px;margin-bottom: 10px;">Request Details</h1>
                                 </td>
                             </tr>
                             <tr style="float:left;width:100%;padding-bottom:20px;">
@@ -41,7 +52,7 @@
                                         <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Initiator :</strong>{{$request_data['initiator'] ?? ''}}</p>
                                     @endisset
                                     @isset($request_data->comapny->name)
-                                        <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Company :</strong>{{$request_data->comapny->name ?? ''}}</p>
+                                        <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Company :</strong>{{$company->name ?? ''}}</p>
                                     @endisset
                                     @isset($request_data->department->name)
                                         <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Department :</strong>{{$request_data->department->name ?? ''}}</p>
@@ -59,7 +70,7 @@
                                         <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Amount :</strong>{{$request_data->amount ?? ''}}</p>
                                     @endisset
                                     @isset($request_data->amount_in_gel)
-                                        <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Amount in GEL :</strong>{{$service->amount_in_gel ?? ''}}</p>
+                                        <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Amount in GEL :</strong>{{$request_data->amount_in_gel ?? ''}}</p>
                                     @endisset
                                     @isset($request_data->payment_date)
                                         <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Due Date of Payment :</strong>{{$request_data->payment_date ?? ''}}</p>
@@ -83,7 +94,7 @@
                             </tr>
                             <tr style="float:left;width:100%;padding-bottom:20px;">
                                 <td style="float:left;width:100%;" align="left;">
-                                    <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;">Thanks,<br><strong>Finance</strong></p>
+                                    <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;">Thanks,<br><strong>Expense Management Team</strong></p>
                                 </td>
                             </tr>
                             <!--  <tr style="background: #efefef;float:left;width:100%;padding: 20px 0px;">

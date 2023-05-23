@@ -25,6 +25,7 @@ use PDF;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpParser\Node\Stmt\Switch_;
+use SimpleXMLElement;
 
 class AccountingController extends Controller
 {
@@ -219,29 +220,58 @@ class AccountingController extends Controller
                 ]);
             } elseif ($request->action == 'tbc') {
                 // Get the data
-                $tbcRows = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('id', $totalIds)->get();
-                // Format the data
-                $formattedExportData = $tbcRows->map(function ($requestData) {
-                    return [
-                        '',
-                        'supplier_bank_account' => $requestData->supplier->bank_account,
-                        'supplier_name' => $requestData->supplier->supplier_name,
-                        '',
-                        'amount_in_gel' => $requestData->amount_in_gel,
-                        'cost of goods/services',
-                        '', '', '', '',
-                    ];
-                });
+//                $tbcRows = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('id', $totalIds)->get();
+//                // Format the data
+//                $formattedExportData = $tbcRows->map(function ($requestData) {
+//                    return [
+//                        '',
+//                        'supplier_bank_account' => $requestData->supplier->bank_account,
+//                        'supplier_name' => $requestData->supplier->supplier_name,
+//                        '',
+//                        'amount_in_gel' => $requestData->amount_in_gel,
+//                        'cost of goods/services',
+//                        '', '', '', '',
+//                    ];
+//                });
+//
+//                // Export the data using the YourModelExport class
+//                $export = new RequestExport([StatusEnum::TBC_EXPORT_COLUMNS, StatusEnum::TBC_EXPORT_COLUMNS_2], StatusEnum::TBC_EXPORT, $formattedExportData);
+//                $now = now();
+//                $now = str_replace(array(":", "-", ' '), "", $now);
+//                $filename = 'TBC_Payment_' . $now . '.xlsx';
+//                $path = storage_path('app/public/' . $filename);
+//                $url = asset(str_replace('\\', '/', str_replace(storage_path('app/public'), 'storage', $path)));
+//
+//                Excel::store($export, $filename, 'public');
+//
+//                return response()->json([
+//                    'success' => 'success',
+//                    'file_name' => $filename,
+//                    'file_url' => $url
+//                ]);
 
-                // Export the data using the YourModelExport class
-                $export = new RequestExport([StatusEnum::TBC_EXPORT_COLUMNS, StatusEnum::TBC_EXPORT_COLUMNS_2], StatusEnum::TBC_EXPORT, $formattedExportData);
+                $tbcRows = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('id', $totalIds)->get();
+
+                $xmlString = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' . PHP_EOL;
+                $xmlString .= '<ns1:BatchImport xmlns:ns1="http://www.mygemini.com/schemas/mygemini">' . PHP_EOL;
+
+                foreach ($tbcRows as $requestData) {
+                    $xmlString .= '<ns1:PMTINFO>' . PHP_EOL;
+                    $xmlString .= '<ns1:ACCIBANTO>' . $requestData->supplier->bank_account . '</ns1:ACCIBANTO>' . PHP_EOL;
+                    $xmlString .= '<ns1:BENEFNAME>' . $requestData->supplier->supplier_name . '</ns1:BENEFNAME>' . PHP_EOL;
+                    $xmlString .= '<ns1:AMOUNT>' . $requestData->amount_in_gel . '</ns1:AMOUNT>' . PHP_EOL;
+                    $xmlString .= '<ns1:DESCR>cost of goods/services</ns1:DESCR>' . PHP_EOL;
+                    $xmlString .= '</ns1:PMTINFO>' . PHP_EOL;
+                }
+
+                $xmlString .= '</ns1:BatchImport>';
                 $now = now();
                 $now = str_replace(array(":", "-", ' '), "", $now);
-                $filename = 'TBC_Payment_' . $now . '.xlsx';
+                $filename = 'TBC_Payment_' . $now . '.xml';
                 $path = storage_path('app/public/' . $filename);
                 $url = asset(str_replace('\\', '/', str_replace(storage_path('app/public'), 'storage', $path)));
 
-                Excel::store($export, $filename, 'public');
+                file_put_contents($path, $xmlString);
 
                 return response()->json([
                     'success' => 'success',
