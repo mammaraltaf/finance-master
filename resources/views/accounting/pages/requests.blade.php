@@ -166,8 +166,9 @@
                   <th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
 
                       <th>Action</th>
-                      <th>Print</th>
+                      
                       <th>ID</th>
+                      <th>Print</th>
                   <!-- <th>Status</th> -->
                       <th>Initiator</th>
                       <th>Created At</th>
@@ -193,7 +194,7 @@
                           <td>
                         <a href="{{ route('accounting.print', $request->id) }}" target="_blank">Print</a>
                       </td>
-                          <td class="cursor-pointer">{{ $request->id }}</td>
+                          <!-- <td class="cursor-pointer">{{ $request->id }}</td> -->
                         <!-- <td>{{$request->status ?? ''}}</td> -->
                           <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
                         <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
@@ -297,7 +298,7 @@
 <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
-        $('table#accounting tbody tr').on('click', 'td:nth-child(4)', function() {
+        $('table#accounting tbody tr').on('click', 'td:nth-child(3)', function() {
             var row = $(this).closest('tr');
             var status = row.find('td:nth-child(4)').text().trim();
             var initiator = row.find('td:nth-child(5)').text().trim();

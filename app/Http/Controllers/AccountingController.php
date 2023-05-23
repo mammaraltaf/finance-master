@@ -61,7 +61,7 @@ class AccountingController extends Controller
             ->rightJoin('users', 'log_actions.user_id', '=', 'users.id')
             ->where('log_actions.request_flow_id', $id)
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'users.name as rolename'])->toArray();
-        $pdf = PDF::loadView('template', compact('request', 'logs'));
+            $pdf = PDF::loadView('template', compact('request', 'logs'));
         return $pdf->download($id.'.pdf');
     }
 

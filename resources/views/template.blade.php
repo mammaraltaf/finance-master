@@ -5,13 +5,15 @@
 </head>
 <body>
     <?php
-echo $request;
-echo "<br>";
+    
+// echo $request['amount_in_gel'];
+// echo "<br>";
 
-foreach ($logs as $a) {
-    print_r($a);
-    echo "<br>";
-}
+// foreach ($logs as $a) {
+//     print_r($a);
+//     echo "<br>";
+// }
+// exit();
 ?>
 
 <br>
@@ -22,25 +24,27 @@ foreach ($logs as $a) {
     <thead>
         <tr>
             <th>Action</th>
-            <th>User ID</th>
+            <th>User</th>
             <th>Date</th>
-            <th>Time</th>
+            
         </tr>
     </thead>
     <tbody>
-        @foreach($request as $req)
+        @foreach($logs as $log)
         <tr>
-            <td><?php echo $req->action; ?></td>
-            <td><?php echo $req->user_id; ?></td>
-            <td><?php echo $req->date; ?></td>
-            <td><?php echo $req->time; ?></td>
+            <td><?php echo $log['action']; ?></td>
+            <td><?php echo $log['rolename']; ?></td>
+            <td><?php  echo $log['log_date']; ?></td>
+           
         </tr>
         @endforeach
     </tbody>
     </table>
-        <p>Initiator: <?php echo $req->initiator; ?></p>
-        <p>Manager: <?php echo $req->manager; ?></p>
-        <p>Finance: <?php echo $req->finance; ?></p>
-        <p>Director: <?php echo $req->director; ?></p>
+    
+        <p>Initiator: <?php echo $request['initiator']; ?></p>
+        <p>Amount in gel: <?php echo $request['amount_in_gel']; ?></p>
+        <p>Status: <?php echo $request['status']; ?></p>
+        
+       
 </body>
 </html>
