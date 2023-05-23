@@ -190,7 +190,7 @@
                       <tr class="text-center">
                         <td><input type="checkbox" name="id[]" value="{{ $request->id }}"></td>
                           <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
-                          <td class="cursor-pointer">{{ $request->id }}</td>
+                          <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request->id  ?? ''}}</td>
                           <td>
                         <a href="{{ route('accounting.print', $request->id) }}" target="_blank">Print</a>
                       </td>
