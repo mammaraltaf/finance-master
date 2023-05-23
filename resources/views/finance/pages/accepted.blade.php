@@ -59,6 +59,8 @@
               <p id="rowBasis"></p>
               <p id="rowDueDatePayment"></p>
               <p id="rowDueDate"></p> 
+              <p id="rowAmount"></p> 
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
@@ -86,6 +88,7 @@
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
+                <th>Amount</th>
                
             </tr>
           </thead>
@@ -93,7 +96,8 @@
             
             @foreach($requests as $request)
                 <tr class="text-nowrap" data-status="{{$request['action']}}">
-                  <td class="cursor-pointer">{{$request['id']}}</td>
+                  {{-- <td class="cursor-pointer">{{$request['id']}}</td> --}}
+                  <td class="cursor-pointer text-center bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request['id'] ?? ''}}</td>
                   <td>{{$request['action'] ?? ''}}</td>
                     <td>{{$request['initiator'] ?? ''}}</td>
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
@@ -115,6 +119,7 @@
                                 ?></td>
                     <td>{{$request['payment_date'] ?? ''}}</td>
                     <td>{{$request['submission_date'] ?? ''}}</td>
+                    <td>{{$request['amount'] ?? ''}}</td>
                     
                             </tr>
             @endforeach
@@ -171,6 +176,7 @@ $(document).ready(function() {
             var basis = row.find('td:nth-child(12)').text().trim();
             var dueDatePayment = row.find('td:nth-child(13)').text().trim();
             var dueDate = row.find('td:nth-child(14)').text().trim();
+            var amount = row.find('td:nth-child(15)').text().trim();
 
 
             $('#rowId').text('Id: ' + id);
@@ -188,6 +194,7 @@ $(document).ready(function() {
             $('#rowBasis').text('Basis: ' + basis);
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
+            $('#rowAmount').text('Amount: ' + amount);
 
             $('#rowModal').modal('show');
             $('.close-pop-up').click(function () {

@@ -59,6 +59,7 @@
               <p id="rowBasis"></p>
               <p id="rowDueDatePayment"></p>
               <p id="rowDueDate"></p> 
+              <p id="rowAmount"></p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
@@ -87,13 +88,15 @@
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
+                <th>Amount</th>
                 
             </tr>
           </thead>
           <tbody>
             @foreach($requests as $request)
                 <tr class="text-nowrap text-center" data-status="{{$request['action']}}">
-                  <td class="cursor-pointer">{{$request['id']}}</td>
+                  {{-- <td class="cursor-pointer">{{$request['id']}}</td> --}}
+                  <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request['id'] ?? ''}}</td>
                   <td>{{$request['action'] ?? ''}}</td>
                     <td>{{$request['initiator'] ?? ''}}</td>
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
@@ -115,6 +118,7 @@
                                 ?></td>
                     <td>{{$request['payment_date'] ?? ''}}</td>
                     <td>{{$request['submission_date'] ?? ''}}</td>
+                    <td>{{$request['amount'] ?? ''}}</td>
                    
                             </tr>
             @endforeach
@@ -155,27 +159,28 @@
  <script>
    $(document).ready(function() {
         $('table#reviewDocument tbody tr td:first-child').on('click', function() {
-            var row = $(this).closest('tr');
+          var row = $(this).closest('tr');
             var id = row.find('td:nth-child(1)').text().trim();
             var action = row.find('td:nth-child(2)').text().trim();
-            var actionDate = row.find('td:nth-child(3)').text().trim();
-            var initiator = row.find('td:nth-child(4)').text().trim();
-            var createdAt = row.find('td:nth-child(5)').text().trim();
-            var company = row.find('td:nth-child(6)').text().trim();
-            var department = row.find('td:nth-child(7)').text().trim();
-            var supplier = row.find('td:nth-child(8)').text().trim();
-            var typeOfExpense = row.find('td:nth-child(9)').text().trim();
-            var currency = row.find('td:nth-child(10)').text().trim();
-            var amount = row.find('td:nth-child(11)').text().trim();
-            var description = row.find('td:nth-child(15)').text().trim();
+            // var actionDate = row.find('td:nth-child(3)').text().trim();
+            var initiator = row.find('td:nth-child(3)').text().trim();
+            var createdAt = row.find('td:nth-child(4)').text().trim();
+            var company = row.find('td:nth-child(5)').text().trim();
+            var department = row.find('td:nth-child(6)').text().trim();
+            var supplier = row.find('td:nth-child(7)').text().trim();
+            var typeOfExpense = row.find('td:nth-child(8)').text().trim();
+            var currency = row.find('td:nth-child(9)').text().trim();
+            var amount = row.find('td:nth-child(10)').text().trim();
+            var description = row.find('td:nth-child(11)').text().trim();
             var basis = row.find('td:nth-child(12)').text().trim();
             var dueDatePayment = row.find('td:nth-child(13)').text().trim();
             var dueDate = row.find('td:nth-child(14)').text().trim();
+            var amount = row.find('td:nth-child(15)').text().trim();
 
 
             $('#rowId').text('Id: ' + id);
             $('#rowAction').text('Action: ' + action);
-            $('#rowActionDate').text('Action Date: ' + actionDate);
+            // $('#rowActionDate').text('Action Date: ' + actionDate);
             $('#rowInitiator').text('Initiator: ' + initiator);
             $('#rowCreatedAt').text('Created At: ' + createdAt);
             $('#rowCompany').text('Company: ' + company);
@@ -188,6 +193,7 @@
             $('#rowBasis').text('Basis: ' + basis);
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
+            $('#rowAmount').text('Amount: ' + amount);
 
             $('#rowModal').modal('show');
             $('.close-pop-up').click(function () {
