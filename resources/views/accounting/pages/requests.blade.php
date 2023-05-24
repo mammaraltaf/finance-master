@@ -164,9 +164,7 @@
               <thead>
                 <tr class="text-nowrap">
                   <th><input name="select_all" value="1" id="example-select-all" type="checkbox" /></th>
-
                       <th>Action</th>
-                      
                       <th>ID</th>
                       <th>Print</th>
                       <th>Status</th> 
@@ -182,7 +180,6 @@
                       <th>Basis (file attachment title)</th>
                       <th>Due Date of Payment</th>
                       <th>Due Date</th> 
-
                   </tr>
                   </thead>
                   <tbody>
@@ -207,8 +204,7 @@
                           <td>{{$request->description ?? ''}}</td>
                           <td>{{$request->basis ?? ''}}</td>
                           <td>{{$request->due_date_payment ?? ''}}</td>
-                          <td>{{$request->due_date ?? ''}}</td>
-                         
+                          <td>{{$request->due_date ?? ''}}</td> 
                       </tr>
                   @endforeach
 

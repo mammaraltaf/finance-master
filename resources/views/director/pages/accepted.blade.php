@@ -95,7 +95,6 @@
           <tbody>
             @foreach($requests as $request)
                 <tr class="text-nowrap text-center" data-status="{{$request['action']}}">
-                  {{-- <td class="cursor-pointer">{{$request['id']}}</td> --}}
                   <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request['id'] ?? ''}}</td>
                   <td>{{$request['action'] ?? ''}}</td>
                     <td>{{$request['initiator'] ?? ''}}</td>
