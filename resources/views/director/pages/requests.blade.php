@@ -68,10 +68,11 @@
             <p id="rowTypeOfExpense"></p>
             <p id="rowCurrency"></p>
             <p id="rowAmount"></p>
+            <p id="rowAmountInGel"></p>
+            <p id="rowDescription"></p>
             <p id="rowBasis"></p>
             <p id="rowDueDatePayment"></p>
             <p id="rowDueDate"></p>
-            <p id="rowDescription"></p>
 
           <!-- Add more fields as needed -->
         </div>
@@ -88,60 +89,49 @@
 
         <table id="reviewDocument" name="reviewDocument" class="ui celled table allTable" cellspacing="0">
           <thead>
-            <tr>
+            <tr class="text-nowrap">
                 <th>Action</th>
-
-              <th>ID</th>
-              <th>Status</th>
-
-              <th>ID</th>
-              <!-- <th>Status</th> -->
+                <th>ID</th>
+                <th>Status</th>
                 <th>Initiator</th>
                 <th>Created At</th>
                 <th>Company</th>
                 <th>Department</th>
                 <th>Supplier</th>
                 <th>Type of Expense</th>
-                <!-- <th>Currency</th> -->
+                <th>Currency</th> 
+                <th>Amount</th>
                 <th>Amount In Gel</th>
-                <!-- <th>Description</th>
+                <th>Description</th>
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
-                <th>Due Date</th>
-                <th>Due Date</th> -->
                 <th>Due Date</th>
             </tr>
           </thead>
           <tbody>
             @foreach($requests as $request)
                 <tr>
-
                     <td><button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal"  data-document-id="1" data-id="{{$request->id}}">Review</button></td>
-                  <td>{{$request->id}}</td>
-                  <!-- <td>{{$request->status ?? ''}}</td> -->
-
-                  <td>{{$request->status ?? ''}}</td>
-                    <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
                     <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
                     <td>{{$request->status ?? ''}}</td>
-                    <td>{{$request->initiator ?? ''}}</td>
-                    <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
+                    <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
+                    <td>{{\Carbon\Carbon::parse($request->created_at) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
                     <td>{{$request->supplier->supplier_name ?? ''}}</td>
                     <td>{{$request->typeOfExpense->name ?? ''}}</td>
-                    <!-- <td>{{$request->currency ?? ''}}</td> -->
+                    <td>{{$request->currency ?? ''}}</td>
+                    <td>{{$request->amount ?? ''}}</td>
                     <td>{{$request->amount_in_gel ?? ''}}</td>
                     <td>{{$request->description ?? ''}}</td>
                     <td><?php if(isset($request->basis)){
-                                    $files=explode(',',$request->basis);
-                                    foreach($files as $file){ ?>
-                                    <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
-
-                                <?php  }   }else{
-                                   echo "No document available";
-                                }
-                                ?></td>
+                      $files=explode(',',$request->basis);
+                      foreach($files as $file){ ?>
+                      <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+                  <?php  }   }else{
+                     echo "No document available";
+                  }
+                  ?></td>
                     <td>{{$request->payment_date ?? ''}}</td>
                     <td>{{$request->submission_date ?? ''}}</td>
                 </tr>
@@ -228,19 +218,20 @@
 $(document).ready(function() {
         $('table#reviewDocument tbody tr ').on('click', 'td:nth-child(2)', function() {
             var row = $(this).closest('tr');
-            var status = row.find('td:nth-child(2)').text().trim();
-            var initiator = row.find('td:nth-child(3)').text().trim();
-            var createdAt = row.find('td:nth-child(4)').text().trim();
-            var company = row.find('td:nth-child(5)').text().trim();
-            var department = row.find('td:nth-child(6)').text().trim();
-            var supplier = row.find('td:nth-child(7)').text().trim();
-            var typeOfExpense = row.find('td:nth-child(8)').text().trim();
-            var currency = row.find('td:nth-child(9)').text().trim();
-            var amount = row.find('td:nth-child(10)').text().trim();
-            var basis = row.find('td:nth-child(11)').text().trim();
-            var dueDatePayment = row.find('td:nth-child(12)').text().trim();
-            var dueDate = row.find('td:nth-child(13)').text().trim();
-            var description = row.find('td:nth-child(14)').text().trim();
+            var status = row.find('td:nth-child(3)').text().trim();
+            var initiator = row.find('td:nth-child(4)').text().trim();
+            var createdAt = row.find('td:nth-child(5)').text().trim();
+            var company = row.find('td:nth-child(6)').text().trim();
+            var department = row.find('td:nth-child(7)').text().trim();
+            var supplier = row.find('td:nth-child(8)').text().trim();
+            var typeOfExpense = row.find('td:nth-child(9)').text().trim();
+            var currency = row.find('td:nth-child(10)').text().trim();
+            var amount = row.find('td:nth-child(11)').text().trim();
+            var amountInGel = row.find('td:nth-child(12)').text().trim();
+            var description = row.find('td:nth-child(13)').text().trim();
+            var basis = row.find('td:nth-child(14)').text().trim();
+            var dueDatePayment = row.find('td:nth-child(15)').text().trim();
+            var dueDate = row.find('td:nth-child(16)').text().trim();
 
 
             $('#status').text('Status: ' + status);
@@ -252,10 +243,11 @@ $(document).ready(function() {
             $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
             $('#rowCurrency').text('Currency: ' + currency);
             $('#rowAmount').text('Amount: ' + amount);
+            $('#rowAmountInGel').text('Amount In Gel: ' + amountInGel);
+            $('#rowDescription').text('Description: ' + description);
             $('#rowBasis').text('Basis: ' + basis);
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
-            $('#rowDescription').text('Description: ' + description);
 
             $('#rowModal').modal('show');
             $('.close-pop-up').click(function () {
