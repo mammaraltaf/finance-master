@@ -202,9 +202,16 @@
                           <td>{{$request->currency ?? ''}}</td> 
                           <td>{{$request->amount_in_gel ?? ''}}</td>
                           <td>{{$request->description ?? ''}}</td>
-                          <td>{{$request->basis ?? ''}}</td>
-                          <td>{{$request->due_date_payment ?? ''}}</td>
-                          <td>{{$request->due_date ?? ''}}</td> 
+                          <td><?php if(isset($request->basis)){
+                      $files=explode(',',$request->basis);
+                      foreach($files as $file){ ?>
+                      <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+                  <?php  }   }else{
+                     echo "No document available";
+                  }
+                  ?></td>
+                          <td>{{$request->payment_date ?? ''}}</td>
+                          <td>{{$request->submission_date ?? ''}}</td> 
                       </tr>
                   @endforeach
 
