@@ -31,7 +31,7 @@
     <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="changemodal" >
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
-                <form method="post" action="{{route('finance.changepassword')}}">
+                <form method="post" action="{{route(auth()->user()->user_type . '.changepassword')}}">
                     @csrf
                     <div class="modal-header" style="text-align: center;">
                         <h2 class="modal-title" id="myModalLabel">Change Password</h2>

@@ -185,9 +185,9 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('company.dashboard');
         Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
-        Route::get('/viewrequests', [ManagerController::class, 'viewrequests'])->name('viewrequests');
-        Route::post('/payments', [ManagerController::class, 'payments'])->name('payments');
-        Route::get('/logs', [ManagerController::class, 'logs'])->name('logs');
+        Route::get('{company?}/viewrequests', [ManagerController::class, 'viewrequests'])->name('viewrequests');
+        Route::post('payments', [ManagerController::class, 'payments'])->name('payments');
+        Route::get('{company?}/logs', [ManagerController::class, 'logs'])->name('logs');
         Route::post('/logfilters', [ManagerController::class, 'logfilters'])->name('logfilters');
         Route::post('/changepassword', [ManagerController::class, 'changepassword'])->name('changepassword');
 //        Route::get('{company?}/dashboard', [ManagerController::class, 'dashboard'])->name('company.dashboard');
@@ -204,8 +204,8 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/select-company', [HomeController::class, 'selectCompany'])->name('select-company');
 
         Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('company.dashboard');
-        Route::get('/logs', [DirectorController::class, 'logs'])->name('logs');
-        Route::get('/viewrequests', [DirectorController::class, 'viewrequests'])->name('viewrequests');
+        Route::get('{company?}/logs', [DirectorController::class, 'logs'])->name('logs');
+        Route::get('{company?}/viewrequests', [DirectorController::class, 'viewrequests'])->name('viewrequests');
         Route::post('/logfilters', [DirectorController::class, 'logfilters'])->name('logfilters');
         Route::post('/reject', [DirectorController::class, 'rejectRequest'])->name('reject');
         Route::post('/accept', [DirectorController::class, 'approveRequest'])->name('accept');
