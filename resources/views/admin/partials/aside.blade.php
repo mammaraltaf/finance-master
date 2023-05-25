@@ -127,7 +127,7 @@
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"
                                href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'logs')}}" >
-                                <span class="menu-title">Manage Requests</span>
+                                <span class="menu-title">Manage Logs</span>
                             </a>
                         </div>
                         @endhasanyrole
