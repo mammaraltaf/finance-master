@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Classes\Enums\StatusEnum;
+use App\Classes\Enums\UserTypesEnum;
 use App\Models\RequestFlow;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -102,15 +103,17 @@ class ChartController extends Controller
         $user_id=Auth::user()->id;
         $user_type=Auth::user()->user_type;
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        if($user_type=="finance"){
-        return view('finance.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
-        }elseif($user_type=="manager"){
-            return view('manager.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
-        }elseif($user_type=="director"){
-            return view('director.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
-        }elseif($user_type=="accounting"){
-            return view('accounting.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
-        }else{
+        if(($user_type== UserTypesEnum::User) || ($user_type== UserTypesEnum::Finance) || ($user_type== UserTypesEnum::Manager) || ($user_type== UserTypesEnum::Accounting)  || ($user_type== UserTypesEnum::Director)){
+            return view('finance.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
+        }
+//        elseif($user_type=="manager"){
+//            return view('manager.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
+//        }elseif($user_type=="director"){
+//            return view('director.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
+//        }elseif($user_type=="accounting"){
+//            return view('accounting.pages.dashboard', compact('companies_slug','user_id','user_type','requests','departmentChart','typeOfExpanseChart','yearChart'));
+//        }
+        else{
             dd("sorry");
         }
     }

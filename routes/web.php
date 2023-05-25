@@ -160,7 +160,7 @@ Route::group(['middleware'=>'auth'],function (){
     ],function (){
         Route::get('/select-company', [HomeController::class, 'selectCompany'])->name('select-company');
 
-        Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('dashboard');
+        Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('company.dashboard');
         Route::get('/request', [FinanceController::class, 'requestFinance'])->name('request');
         Route::get('/get-new-requests', [FinanceController::class, 'getNewRequests'])->name('get-new-requests');
         Route::get('/get-request-detail/{id}', [FinanceController::class, 'getRequestDetail'])->name('get-request-detail');
@@ -182,7 +182,7 @@ Route::group(['middleware'=>'auth'],function (){
     ],function (){
         Route::get('/select-company', [HomeController::class, 'selectCompany'])->name('select-company');
 
-        Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('dashboard');
+        Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('company.dashboard');
         Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
         Route::get('/viewrequests', [ManagerController::class, 'viewrequests'])->name('viewrequests');
@@ -190,7 +190,7 @@ Route::group(['middleware'=>'auth'],function (){
         Route::get('/logs', [ManagerController::class, 'logs'])->name('logs');
         Route::post('/logfilters', [ManagerController::class, 'logfilters'])->name('logfilters');
         Route::post('/changepassword', [ManagerController::class, 'changepassword'])->name('changepassword');
-        Route::get('{company?}/dashboard', [ManagerController::class, 'dashboard'])->name('company.dashboard');
+//        Route::get('{company?}/dashboard', [ManagerController::class, 'dashboard'])->name('company.dashboard');
         Route::get('/filter/{id}',[ManagerController::class,'filtering'])->name('filtering');
     });
 
@@ -203,7 +203,7 @@ Route::group(['middleware'=>'auth'],function (){
     ],function (){
         Route::get('/select-company', [HomeController::class, 'selectCompany'])->name('select-company');
 
-        Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('dashboard');
+        Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('company.dashboard');
         Route::get('/logs', [DirectorController::class, 'logs'])->name('logs');
         Route::get('/viewrequests', [DirectorController::class, 'viewrequests'])->name('viewrequests');
         Route::post('/logfilters', [DirectorController::class, 'logfilters'])->name('logfilters');
