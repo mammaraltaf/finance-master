@@ -60,8 +60,8 @@
                                     @isset($request_data->supplier->supplier_name)
                                         <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Supplier :</strong>{{$request_data->supplier->supplier_name ?? ''}}</p>
                                     @endisset
-                                    @isset($request_data->expanse_type->name)
-                                        <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Type Of Expanse :</strong>{{$request_data->expanse_type->name ?? ''}}</p>
+                                    @isset($request_data->typeOfExpense->name)
+                                        <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Type Of Expanse :</strong>{{$request_data->typeOfExpense->name ?? ''}}</p>
                                     @endisset
                                     @isset($request_data->currency)
                                         <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Currency :</strong>{{$request_data->currency ?? ''}}</p>
@@ -80,6 +80,15 @@
                                     @endisset
                                     @isset($request_data->status)
                                         <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Status :</strong>{{$request_data->status ?? ''}}</p>
+                                    @endisset
+                                    @isset($request_data->basis)
+                                        <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Basis :</strong>
+                                        <?php 
+                      $files=explode(',',$request_data->basis);
+                      foreach($files as $file){ ?>
+                      <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+                  <?php  }   
+                  ?></p>
                                     @endisset
                                     @isset($request_data->description)
                                         <p style="line-height: 25px;font-size: 16px;margin-top: 0px;font-style: italic;"><strong>Description :</strong>{{$request_data->description ?? ''}}</p>
