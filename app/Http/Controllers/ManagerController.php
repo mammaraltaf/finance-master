@@ -48,7 +48,7 @@ class ManagerController extends Controller
     }
     public function dashboard()
     {
-        // $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $user_id=Auth::user()->id;
         return view('manager.pages.dashboard',compact('companies_slug','user_id'));
     }
@@ -62,11 +62,11 @@ class ManagerController extends Controller
                 'password' => 'required',
                 'passwordConfirm' => 'required'
             ]);
-    
+
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-    
+
             $user = User::find($input['id']);
           $oldpass=$input['currentPassword'];
           $newpass=$input['password'];
@@ -81,7 +81,7 @@ class ManagerController extends Controller
     }else{
         return redirect()->back()->with('error', 'Something went wrong');
     }
-    
+
     }else{
         return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
     }
@@ -212,6 +212,6 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
                 ->orderBy('request_flows.created_at', 'desc')
                 ->get();
             return view('manager.pages.requests', compact('requests','companies_slug'));
-                 } 
+                 }
 }
 }

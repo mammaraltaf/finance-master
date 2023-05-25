@@ -39,7 +39,11 @@
             <!--begin::Menu-->
             <div class="menu menu-column menu-title-gray-800 menu-state-title-primary menu-state-icon-primary menu-state-bullet-primary menu-arrow-gray-500" id="#kt_aside_menu" data-kt-menu="true">
                 <div class="menu-item">
-                    @if(auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::User)
+                    @if((auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::User)||
+                        (auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::Finance)||
+                        (auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::Manager)||
+                        (auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::Accounting)||
+                        (auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::Director))
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.  '.company.dashboard') ? 'active' : '' }}" href="{{ route((auth()->user()->user_type. '.company.dashboard'),['company'=>\Illuminate\Support\Facades\Session::get('url-slug')])}}" >
                                 <span class="menu-title">Dashboard</span>
@@ -94,7 +98,7 @@
                     </div>
                     @endrole
 
-                    @role('user')
+                    @role('user|accounting')
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.supplier') ? 'active' : '' }}"
                            href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'supplier')}}" >
@@ -103,7 +107,7 @@
                     </div>
                     @endrole
 
-                        @hasanyrole('super-admin|accounting')
+                        @hasanyrole('super-admin')
 
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.supplier') ? 'active' : '' }}"
@@ -115,15 +119,15 @@
                         @hasanyrole('accounting|director|manager')
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.viewrequests') ? 'active' : '' }}"
-                               href="{{url(auth()->user()->user_type.'/'.'viewrequests')}}" >
+                               href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'viewrequests')}}" >
                                 <span class="menu-title">Manage Requests</span>
                             </a>
                         </div>
 
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"
-                               href="{{url(auth()->user()->user_type.'/'.'logs')}}" >
-                                <span class="menu-title">Manage Logs</span>
+                               href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'logs')}}" >
+                                <span class="menu-title">Manage Requests</span>
                             </a>
                         </div>
                         @endhasanyrole

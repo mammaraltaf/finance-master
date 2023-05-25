@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -24,5 +26,11 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function selectCompany()
+    {
+        $companies = User::where('id', Auth::user()->id)->first()->companies;
+        return view('user.pages.companylist', compact('companies'));
     }
 }

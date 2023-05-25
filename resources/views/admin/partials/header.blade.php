@@ -82,7 +82,7 @@
                 @endif
                 @endrole
                 <div class="p-2">
-                       @role('user')
+                       @role('user|manager|finance|accounting|director')
                        <select class="form-control url_company">
                        <option value="">Select Company</option>
                         @isset($companies_slug)
@@ -92,19 +92,19 @@
                         @endisset
                         </select>
                         @endrole
-                        @hasanyrole('manager|finance|accounting|director')
-                        <select class="form-control url_company">
-                        <option value="">Select Company</option>
-                        @isset($companies_slug)
-                            @foreach($companies_slug as $company)
-                                <option data-slug="{{$company->slug}}" data-url="{{url(auth()->user()->user_type.'/'.'dashboard')}}">{{$company->name}}</option>
-                            @endforeach
-                        @endisset
-                        </select>
-                        @endhasanyrole
-                    
+{{--                        @hasanyrole('manager|finance|accounting|director')--}}
+{{--                        <select class="form-control url_company">--}}
+{{--                        <option value="">Select Company</option>--}}
+{{--                        @isset($companies_slug)--}}
+{{--                            @foreach($companies_slug as $company)--}}
+{{--                                <option data-slug="{{$company->slug}}" data-url="{{url(auth()->user()->user_type.'/'.'dashboard')}}">{{$company->name}}</option>--}}
+{{--                            @endforeach--}}
+{{--                        @endisset--}}
+{{--                        </select>--}}
+{{--                        @endhasanyrole--}}
+
                 </div>
-              
+
                 <div class="page-title d-flex justify-content-center flex-column me-5">
                     <a class="btn btn-danger btn-sm" href="{{ route('logout') }}"
                     onclick="event.preventDefault();

@@ -57,8 +57,12 @@ class LoginController extends Controller
             $user = Auth::user();
             if ($user->hasRole(UserTypesEnum::SuperAdmin)) {
                 return redirect()->route('super-admin.dashboard');
-            } elseif ($user->hasRole(UserTypesEnum::User)) {
-                 return redirect()->route('user.select-company');
+            } elseif ($user->hasRole(UserTypesEnum::User)  ||
+                        $user->hasRole(UserTypesEnum::Finance)  ||
+                        $user->hasRole(UserTypesEnum::Manager)  ||
+                        $user->hasRole(UserTypesEnum::Accounting)  ||
+                        $user->hasRole(UserTypesEnum::Director)) {
+                 return redirect()->route($user->user_type.'.select-company');
             //   return redirect()->route('user.dashboard');
             } else {
                 return redirect()->route('login')
