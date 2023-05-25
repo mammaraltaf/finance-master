@@ -147,12 +147,12 @@
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+  <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+  <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
  <script>
       $(document).ready(function() {
@@ -200,6 +200,20 @@
         });
     });
       $(document).ready(function() {
+        $(".btn-group button").click(function () {
+                var filterValue = $(this).attr('data-filter');
+                // console.log("filterValue", filterValue)
+                $("#reviewDocument tbody tr").hide();
+                $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+                if (filterValue === "all") {
+                    $("#reviewDocument tbody tr").show();
+                } else {
+                    $("#reviewDocument tbody tr").hide();
+                    $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+                }
+                $(".btn-group button").removeClass("active");
+                $(this).addClass("active");
+            });
           $('#reviewDocument').DataTable({
             'order':[[2,'desc']],
             dom: 'Blfrtip',
@@ -234,22 +248,22 @@
       });
 
         // Data Filter Start
-        $(document).ready(function () {
-            $(".btn-group button").click(function () {
-                var filterValue = $(this).attr('data-filter');
-                // console.log("filterValue", filterValue)
-                $("#reviewDocument tbody tr").hide();
-                $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
-                if (filterValue === "all") {
-                    $("#reviewDocument tbody tr").show();
-                } else {
-                    $("#reviewDocument tbody tr").hide();
-                    $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
-                }
-                $(".btn-group button").removeClass("active");
-                $(this).addClass("active");
-            });
-        });
+        // $(document).ready(function () {
+        //     $(".btn-group button").click(function () {
+        //         var filterValue = $(this).attr('data-filter');
+        //         // console.log("filterValue", filterValue)
+        //         $("#reviewDocument tbody tr").hide();
+        //         $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+        //         if (filterValue === "all") {
+        //             $("#reviewDocument tbody tr").show();
+        //         } else {
+        //             $("#reviewDocument tbody tr").hide();
+        //             $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+        //         }
+        //         $(".btn-group button").removeClass("active");
+        //         $(this).addClass("active");
+        //     });
+        // });
 
     </script>
 
