@@ -358,11 +358,11 @@
 
 
     $(document).ready(function() {
-//       $('.print-button').on('click', function() {
-//         var userId = $(this).data('user-id');
-// console.log(userId);
-// window.open('/accounting/print/'+ userId , '_blank');
-//     });
+      $('.print-button').on('click', function() {
+        var userId = $(this).data('user-id');
+        console.log(userId);
+        window.open('/accounting/print/'+ userId , '_blank');
+    });
       var table = $('#accounting').DataTable({
         'columnDefs': [{
           'targets': 0,
