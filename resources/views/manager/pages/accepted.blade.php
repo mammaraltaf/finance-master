@@ -213,6 +213,20 @@
 
 
       $(document).ready(function() {
+        $(".btn-group button").click(function () {
+                var filterValue = $(this).attr('data-filter');
+                console.log("filterValue", filterValue)
+                $("#reviewDocument tbody tr").hide();
+                $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+                if (filterValue === "all") {
+                    $("#reviewDocument tbody tr").show();
+                } else {
+                    $("#reviewDocument tbody tr").hide();
+                    $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+                }
+                $(".btn-group button").removeClass("active");
+                $(this).addClass("active");
+            });
         $('#reviewDocument').DataTable({
           'order':[[0,'desc']],
           dom: 'Blfrtip',
@@ -247,22 +261,22 @@ columns: [0,1, 5, 6, 7, 8,9,10,11]
         });
       
 // Data Filter Start
-$(document).ready(function () {
-            $(".btn-group button").click(function () {
-                var filterValue = $(this).attr('data-filter');
-                console.log("filterValue", filterValue)
-                $("#reviewDocument tbody tr").hide();
-                $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
-                if (filterValue === "all") {
-                    $("#reviewDocument tbody tr").show();
-                } else {
-                    $("#reviewDocument tbody tr").hide();
-                    $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
-                }
-                $(".btn-group button").removeClass("active");
-                $(this).addClass("active");
-            });
-        });
+// $(document).ready(function () {
+//             $(".btn-group button").click(function () {
+//                 var filterValue = $(this).attr('data-filter');
+//                 console.log("filterValue", filterValue)
+//                 $("#reviewDocument tbody tr").hide();
+//                 $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+//                 if (filterValue === "all") {
+//                     $("#reviewDocument tbody tr").show();
+//                 } else {
+//                     $("#reviewDocument tbody tr").hide();
+//                     $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+//                 }
+//                 $(".btn-group button").removeClass("active");
+//                 $(this).addClass("active");
+//             });
+//         });
        
 
 
