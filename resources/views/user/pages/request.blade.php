@@ -57,13 +57,13 @@
 
 
     <div class="">
-        <button id="all" class="btn btn-info active filter">All</button>
+        <button id="all" class="btn btn-info active filter my-1">All</button>
 {{--        <button class="btn btn-info" data-filter="new">New</button>--}}
-        <button id="review" class="btn btn-info filter" >Submitted for review</button>
-        <button id="rejected" class="btn btn-info filter" >Rejected</button>
-        <button id="finance" class="btn btn-info filter" >Finance ok</button>
-        <button id="confirmed" class="btn btn-info filter" >Confirmed</button>
-        <button id="paid" class="btn btn-info filter" >Paid</button>
+        <button id="review" class="btn btn-info filter my-1" >Submitted for review</button>
+        <button id="rejected" class="btn btn-info filter my-1" >Rejected</button>
+        <button id="finance" class="btn btn-info filter my-1" >Finance ok</button>
+        <button id="confirmed" class="btn btn-info filter my-1" >Confirmed</button>
+        <button id="paid" class="btn btn-info filter my-1" >Paid</button>
     </div>
 
 
