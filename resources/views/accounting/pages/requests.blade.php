@@ -218,15 +218,15 @@
               </tbody>
 
             </table>
-            <button  type="button" id="rejectBtn" class="btn btn-danger rejectall">Reject Selected</button>
-            <button  type="button" id="payBtn" class="btn btn-success payall">Pay Selected</button>
-            <button  type="button" id="fxBtn" class="btn btn-primary fx">Update FX Selected</button>
+            <button  type="button" id="rejectBtn" class="btn btn-danger my-1 rejectall">Reject Selected</button>
+            <button  type="button" id="payBtn" class="btn btn-success my-1 payall">Pay Selected</button>
+            <button  type="button" id="fxBtn" class="btn btn-primary my-1 fx">Update FX Selected</button>
             <div style="float: right !important;">
-                <button class="bog-logo mx-2" type="button" id="bogBtn" value="BOG">
+                <button class="bog-logo my-1 mx-2" type="button" id="bogBtn" value="BOG">
                     <img src="{{ asset('image/bog-logo.svg') }}" alt="BOG Logo">
                 </button>
 
-                <button class="tbc-logo mx-2" id="tbcBtn" value="TBC">
+                <button class="tbc-logo my-1 mx-2" id="tbcBtn" value="TBC">
                     <img src="{{ asset('image/tbc-logo.svg') }}" alt="TBC Logo">
                 </button>
 

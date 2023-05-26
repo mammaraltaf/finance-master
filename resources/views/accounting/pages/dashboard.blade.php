@@ -4,7 +4,7 @@
 @endsection
 @section('styles')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
+    {{-- <style>
         canvas{
             width:600px !important;
             height:600px !important;
@@ -16,7 +16,7 @@
             width: 50%;
             display: inline-block;
         }
-    </style>
+    </style> --}}
 @endsection
 @section('content')
     <!--begin::Header-->
@@ -62,7 +62,7 @@
     </div>
     <div class="outbox">
         <div class="container">
-    <canvas id="yearChart" width="400" height="400"></canvas>
+            <canvas class="w-25 h-25" id="yearChart" width="400" height="400"></canvas>
         </div>
     </div>
 
@@ -235,7 +235,7 @@
             //         title: {
             //             display: true,
             //             text: '{{date('Y')}} Expanse',
-            //         }
+            //         }y-2
             //     }
             // },
             options: {

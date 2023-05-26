@@ -4,7 +4,7 @@
 @endsection
 @section('styles')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
+    {{-- <style>
         canvas{
             width:600px !important;
             height:600px !important;
@@ -16,7 +16,7 @@
             width: 50%;
             display: inline-block;
         }
-    </style>
+    </style> --}}
 @endsection
 @section('content')
 
