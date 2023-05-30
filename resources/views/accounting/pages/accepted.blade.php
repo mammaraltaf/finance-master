@@ -201,7 +201,7 @@
     });
       $(document).ready(function() {
           $('#reviewDocument').DataTable({
-            'order':[[3,'desc']],
+            'order':[[4,'desc']],
             dom: 'Blfrtip',
             lengthChange: true,
             buttons: [
