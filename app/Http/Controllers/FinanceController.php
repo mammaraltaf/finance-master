@@ -107,7 +107,7 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         ->whereHas('company', function ($query) {
             $query->where('slug', Session::get('url-slug'));
         })
-        ->whereIn('status', [StatusEnum::SubmittedForReview])
+        ->whereIn('status', [StatusEnum::ManagerConfirmed, StatusEnum::ManagerThresholdExceeded])
             ->whereBetween('created_at', [$start, $end])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();

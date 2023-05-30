@@ -44,7 +44,7 @@ class ManagerController extends Controller
             ->whereBetween('log_actions.created_at', [$start, $end])
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-        return view('manager.pages.accepted', compact('requests','companies_slug'));
+            return view('manager.pages.accepted', compact('requests','companies_slug'));
     }
     public function dashboard()
     {
@@ -120,7 +120,8 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $input = $request->all();
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
-        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::FinanceOk])
+        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+        ->whereStatus(StatusEnum::SubmittedForReview)
         ->whereHas('company', function ($query) {
             $query->where('slug', Session::get('url-slug'));
         })

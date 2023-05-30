@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\Company;
 use PDF;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpParser\Node\Stmt\Switch_;
@@ -63,7 +64,7 @@ class AccountingController extends Controller
             ->where('log_actions.request_flow_id', $id)
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'users.name as rolename'])->toArray();
             $pdf = PDF::loadView('template', compact('request', 'logs'));
-        return $pdf->download($id.'.pdf');
+            return $pdf->download($id.'.pdf'); 
     }
 
     public function viewrequests()
@@ -142,7 +143,8 @@ class AccountingController extends Controller
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])
+        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+        ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::FinanceOk])
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
             })

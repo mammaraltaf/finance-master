@@ -85,7 +85,12 @@
     <p>Due Date Submission: <?php echo $request['submission_date']; ?></p>
     <p>Description: <?php echo $request['description']; ?></p>
     <p>Status: <?php echo $request['status']; ?></p>
-    <?php //exit(); ?>
-       
+    <?php 
+                      $files=explode(',',$request['basis']);
+                      foreach($files as $file){ ?>
+                      <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+                  <?php  }   
+                  ?>
+    
 </body>
 </html>
