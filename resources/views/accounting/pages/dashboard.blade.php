@@ -121,7 +121,10 @@
                         display: true,
                         text: 'Department Paid for Month of {{date('F')}}',
                         font: {
-                            size: 30
+                            size: function(context) {
+                                var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                                return screenWidth < 600 ? 16 : 30;
+                            }
                         }
                     }
                 },
@@ -199,7 +202,10 @@
                         display: true,
                         text: 'Type Of Expense for Month of {{date('F')}}',
                         font: {
-                            size: 30
+                            size: function(context) {
+                                var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                                return screenWidth < 600 ? 16 : 30;
+                            }
                         }
                     }
                 },
@@ -267,7 +273,10 @@
                         display: true,
                         text: '{{date('Y')}} Expense',
                         font: {
-                            size: 30
+                            size: function(context) {
+                                var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                                return screenWidth < 600 ? 16 : 30;
+                            }
                         }
                     }
                 },
@@ -275,14 +284,20 @@
                     yAxes: [{
                         ticks: {
                             font: {
-                                size: 20
+                                size: function(context) {
+                                var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                                return screenWidth < 600 ? 12 : 30;
+                            }
                             }
                         }
                     }],
                     xAxes: [{
                         ticks: {
                             font: {
-                                size: 20
+                                size: function(context) {
+                                var screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                                return screenWidth < 600 ? 12 : 30;
+                            }
                             }
                         }
                     }]
