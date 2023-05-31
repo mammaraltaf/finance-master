@@ -108,7 +108,8 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
             $query->where('slug', Session::get('url-slug'));
         })
         ->whereIn('status', [StatusEnum::ManagerConfirmed, StatusEnum::ManagerThresholdExceeded])
-            ->whereBetween('created_at', [$start, $end])
+        ->whereDate('created_at', '>=', $start)
+        ->whereDate('created_at', '<=', $end)
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
         return view('finance.pages.request', compact('requests','companies_slug'));
@@ -153,7 +154,8 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
             ->whereIn('request_flows.id', $req_logs_ids)
             ->whereIn('action', [ActionEnum::FINANCE_REJECT, ActionEnum::FINANCE_ACCEPT])
-            ->whereBetween('log_actions.created_at', [$start, $end])
+            ->whereDate('log_actions.created_at', '>=', $start)
+            ->whereDate('log_actions.created_at', '<=', $end)
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('finance.pages.accepted', compact('requests','companies_slug'));

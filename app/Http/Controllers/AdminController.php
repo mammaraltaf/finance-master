@@ -87,7 +87,8 @@ class AdminController extends Controller
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->where('company_id', $company)
-            ->whereBetween('created_at', [$start, $end])
+        ->whereDate('created_at', '>=', $start)
+        ->whereDate('created_at', '<=', $end)
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
         return view('admin.pages.requests', compact('requests'));
