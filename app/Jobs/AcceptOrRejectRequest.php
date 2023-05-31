@@ -13,6 +13,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use App\Classes\Enums\StatusEnum;
+use App\Classes\Enums\UserTypesEnum;
 
 class AcceptOrRejectRequest implements ShouldQueue
 {
@@ -50,32 +52,53 @@ class AcceptOrRejectRequest implements ShouldQueue
         $email = User::whereId($user_id)->pluck('email')->first();
         $current_status=$request_data['status'];
        // dd($current_status);
-        switch($current_status){
-            case 'submitted-for-review':
-                $next_role="manager";
+//        switch($current_status){
+//            case 'submitted-for-review':
+//                $next_role="manager";
+//                break;
+//                case 'manager-confirmed':
+//                    $next_role="finance";
+//                    break;
+//                case 'manager-threshold-exceeded':
+//                    $next_role="finance";
+//                    break;
+//                    case 'finance-ok':
+//                        $next_role="accounting";
+//                        break;
+//                        case 'finance-threshold-exceeded':
+//                            $next_role="director";
+//                            break;
+//                            case 'director-confirmed':
+//                                $next_role="accounting";
+//                                break;
+//                                case 'threshold-exceeded':
+//                                    $next_role="director";
+//                                    break;
+//                default:
+//                $next_role="user";
+//        break;
+//        }
+        switch ($current_status) {
+            case StatusEnum::SubmittedForReview:
+                $next_role = UserTypesEnum::Manager;
                 break;
-                case 'manager-confirmed':
-                    $next_role="finance";
-                    break;        
-                case 'manager-threshold-exceeded':
-                    $next_role="finance";
-                    break;
-                    case 'finance-ok':
-                        $next_role="accounting";
-                        break;
-                        case 'finance-threshold-exceeded':         
-                            $next_role="director";
-                            break;
-                            case 'director-confirmed':  
-                                $next_role="accounting";
-                                break;
-                                case 'threshold-exceeded':
-                                    $next_role="director";
-                                    break;
-                default:
-                $next_role="user";
-        break;
+            case StatusEnum::ThresholdExceeded:
+            case StatusEnum::FinanceThresholdExceeded:
+                $next_role = UserTypesEnum::Director;
+                break;
+            case StatusEnum::ManagerConfirmed:
+            case StatusEnum::ManagerThresholdExceeded:
+                $next_role = UserTypesEnum::Finance;
+                break;
+            case StatusEnum::DirectorConfirmed:
+            case StatusEnum::FinanceOk:
+                $next_role = UserTypesEnum::Accounting;
+                break;
+
+            default:
+                $next_role = UserTypesEnum::User;
         }
+
         //dd($next_role);
        $all_users_in_company=CompanyUser::where('company_id',$request_data['company_id'])->pluck('user_id')->toArray();
        $next_person_email=User::whereIn('id',$all_users_in_company)
@@ -89,12 +112,12 @@ class AcceptOrRejectRequest implements ShouldQueue
         }
 
         Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($email) {
-            $m->from('qdmpaymentsge@qdmpaymentsge.co', config('app.name', 'APP Name'));
+            $m->from(env('MAIL_FROM_ADDRESS'), config('app.name', 'APP Name'));
             $m->to($email)->subject('Review Request');
         });
         if($next_role != "user"){
             Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($next_person_email) {
-                $m->from('qdmpaymentsge@qdmpaymentsge.co', config('app.name', 'APP Name'));
+                $m->from(env('MAIL_FROM_ADDRESS'), config('app.name', 'APP Name'));
                 $m->to($next_person_email)->subject('Review Request');
             });
         }
