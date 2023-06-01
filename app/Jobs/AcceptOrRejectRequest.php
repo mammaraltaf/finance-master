@@ -51,33 +51,7 @@ class AcceptOrRejectRequest implements ShouldQueue
         $user_id = $request_data['user_id'];
         $email = User::whereId($user_id)->pluck('email')->first();
         $current_status=$request_data['status'];
-       // dd($current_status);
-//        switch($current_status){
-//            case 'submitted-for-review':
-//                $next_role="manager";
-//                break;
-//                case 'manager-confirmed':
-//                    $next_role="finance";
-//                    break;
-//                case 'manager-threshold-exceeded':
-//                    $next_role="finance";
-//                    break;
-//                    case 'finance-ok':
-//                        $next_role="accounting";
-//                        break;
-//                        case 'finance-threshold-exceeded':
-//                            $next_role="director";
-//                            break;
-//                            case 'director-confirmed':
-//                                $next_role="accounting";
-//                                break;
-//                                case 'threshold-exceeded':
-//                                    $next_role="director";
-//                                    break;
-//                default:
-//                $next_role="user";
-//        break;
-//        }
+
         switch ($current_status) {
             case StatusEnum::SubmittedForReview:
                 $next_role = UserTypesEnum::Manager;

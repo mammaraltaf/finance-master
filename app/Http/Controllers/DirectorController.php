@@ -41,11 +41,11 @@ class DirectorController extends Controller
                 'password' => 'required',
                 'passwordConfirm' => 'required'
             ]);
-    
+
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-    
+
             $user = User::find($input['id']);
           $oldpass=$input['currentPassword'];
           $newpass=$input['password'];
@@ -60,7 +60,7 @@ class DirectorController extends Controller
     }else{
         return redirect()->back()->with('error', 'Something went wrong');
     }
-    
+
     }else{
         return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
     }
@@ -161,12 +161,7 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
     {
         try{
             $requestFlow = RequestFlow::with('company')->find($request->id);
-            // if ($requestFlow->amount_in_gel > $requestFlow->company->threshold_amount) {
-            //     $requestFlow->status = StatusEnum::ConfirmedPartially;
-            // }
-            // else {
-                $requestFlow->status = StatusEnum::DirectorConfirmed;
-            //}
+            $requestFlow->status = StatusEnum::DirectorConfirmed;
             $requestFlow->comment = $request->comment ?? null ;
             $requestFlow->save();
             $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::DIRECTOR_ACCEPT);
@@ -216,6 +211,6 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
                 ->orderBy('request_flows.created_at', 'desc')
                 ->get();
             return view('director.pages.requests', compact('requests','companies_slug'));
-                 } 
+                 }
 }
 }
