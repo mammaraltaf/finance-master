@@ -46,7 +46,7 @@
           <div class="modal-body">
               <p id="rowId"></p>
               <p id="rowAction"></p>
-              <p id="rowActionDate"></p>
+              {{-- <p id="rowActionDate"></p> --}}
               <p id="rowInitiator"></p>
               <p id="rowCreated"></p>
               <p id="rowCompany"></p>
@@ -163,16 +163,16 @@ $(document).ready(function() {
             var row = $(this).closest('tr');
             var id = row.find('td:nth-child(1)').text().trim();
             var action = row.find('td:nth-child(2)').text().trim();
-            var actionDate = row.find('td:nth-child(3)').text().trim();
-            var initiator = row.find('td:nth-child(4)').text().trim();
-            var createdAt = row.find('td:nth-child(5)').text().trim();
-            var company = row.find('td:nth-child(6)').text().trim();
-            var department = row.find('td:nth-child(7)').text().trim();
-            var supplier = row.find('td:nth-child(8)').text().trim();
-            var typeOfExpense = row.find('td:nth-child(9)').text().trim();
-            var currency = row.find('td:nth-child(10)').text().trim();
-            var amount = row.find('td:nth-child(11)').text().trim();
-            var description = row.find('td:nth-child(15)').text().trim();
+            // var actionDate = row.find('td:nth-child(3)').text().trim();
+            var initiator = row.find('td:nth-child(3)').text().trim();
+            var createdAt = row.find('td:nth-child(4)').text().trim();
+            var company = row.find('td:nth-child(5)').text().trim();
+            var department = row.find('td:nth-child(6)').text().trim();
+            var supplier = row.find('td:nth-child(7)').text().trim();
+            var typeOfExpense = row.find('td:nth-child(8)').text().trim();
+            var currency = row.find('td:nth-child(9)').text().trim();
+            var amount = row.find('td:nth-child(10)').text().trim();
+            var description = row.find('td:nth-child(11)').text().trim();
             var basis = row.find('td:nth-child(12)').text().trim();
             var dueDatePayment = row.find('td:nth-child(13)').text().trim();
             var dueDate = row.find('td:nth-child(14)').text().trim();
@@ -181,7 +181,7 @@ $(document).ready(function() {
 
             $('#rowId').text('Id: ' + id);
             $('#rowAction').text('Action: ' + action);
-            $('#rowActionDate').text('Action Date: ' + actionDate);
+            // $('#rowActionDate').text('Action Date: ' + actionDate);
             $('#rowInitiator').text('Initiator: ' + initiator);
             $('#rowCreatedAt').text('Created At: ' + createdAt);
             $('#rowCompany').text('Company: ' + company);
