@@ -64,7 +64,7 @@ class AccountingController extends Controller
             ->where('log_actions.request_flow_id', $id)
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'users.name as rolename'])->toArray();
             $pdf = PDF::loadView('template', compact('request', 'logs'));
-            return $pdf->download($id.'.pdf'); 
+            return $pdf->download($id.'.pdf');
     }
 
     public function viewrequests()
@@ -222,36 +222,6 @@ class AccountingController extends Controller
                     'file_url' => $url
                 ]);
             } elseif ($request->action == 'tbc') {
-                // Get the data
-//                $tbcRows = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('id', $totalIds)->get();
-//                // Format the data
-//                $formattedExportData = $tbcRows->map(function ($requestData) {
-//                    return [
-//                        '',
-//                        'supplier_bank_account' => $requestData->supplier->bank_account,
-//                        'supplier_name' => $requestData->supplier->supplier_name,
-//                        '',
-//                        'amount_in_gel' => $requestData->amount_in_gel,
-//                        'cost of goods/services',
-//                        '', '', '', '',
-//                    ];
-//                });
-//
-//                // Export the data using the YourModelExport class
-//                $export = new RequestExport([StatusEnum::TBC_EXPORT_COLUMNS, StatusEnum::TBC_EXPORT_COLUMNS_2], StatusEnum::TBC_EXPORT, $formattedExportData);
-//                $now = now();
-//                $now = str_replace(array(":", "-", ' '), "", $now);
-//                $filename = 'TBC_Payment_' . $now . '.xlsx';
-//                $path = storage_path('app/public/' . $filename);
-//                $url = asset(str_replace('\\', '/', str_replace(storage_path('app/public'), 'storage', $path)));
-//
-//                Excel::store($export, $filename, 'public');
-//
-//                return response()->json([
-//                    'success' => 'success',
-//                    'file_name' => $filename,
-//                    'file_url' => $url
-//                ]);
 
                 $tbcRows = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('id', $totalIds)->get();
 
@@ -477,5 +447,17 @@ class AccountingController extends Controller
         }
     }
 
+    public function deleteExportedFile(Request $request)
+    {
+        $fileName = $request->input('file_name');
+        $filePath = public_path('storage/' . $fileName);
+
+        if (file_exists($filePath)) {
+            unlink($filePath);
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['success' => false, 'error' => 'File not found']);
+        }
+    }
 
 }

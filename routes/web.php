@@ -28,6 +28,8 @@ use App\Models\User;
 |
 */
 
+Route::post('/delete-exported-file',[AccountingController::class, 'deleteExportedFile'])->name('deleteExportedFile');
+
 Route::get('/mail', function () {
     $request_data = \App\Models\RequestFlow::whereId(1)->first();
     \App\Jobs\AcceptOrRejectRequest::dispatch($request_data);
@@ -94,22 +96,20 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => UserTypesEnum::Admin . '.',
     ], function () {
 
-        Route::middleware([ThrottleRequests::class . ':1,10'])->group(function () {
-            Route::post('/payments', [AdminController::class, 'payments'])->name('payments');
-            Route::post('/edit-company/{id}', [AdminController::class, 'editCompanyPost'])->name('edit-company-post');
-            Route::post('/add-user', [AdminController::class, 'userPost'])->name('add-user-post');
-            Route::post('/edit-user/{id}', [AdminController::class, 'editUserPost'])->name('edit-user-post');
-            Route::post('/delete-user', [AdminController::class, 'deleteUser'])->name('delete-user');
-            Route::post('/block-user', [AdminController::class, 'blockUser'])->name('block-user');
-            Route::post('/unblock-user', [AdminController::class, 'unblockUser'])->name('unblock-user');
-            Route::post('/changepassword', [AdminController::class, 'changepassword'])->name('changepassword');
-            Route::post('/type-of-expense', [AdminController::class, 'typeOfExpensePost'])->name('type-of-expense-post');
-            Route::post('/edit-type-of-expense/{id}', [AdminController::class, 'editTypeOfExpensePost'])->name('edit-type-of-expense-post');
-            Route::post('/delete-type-of-expense', [AdminController::class, 'deleteTypeOfExpense'])->name('delete-type-of-expense');
-            Route::post('/department', [AdminController::class, 'departmentsPost'])->name('department-post');
-            Route::post('/edit-department/{id}', [AdminController::class, 'editDepartmentPost'])->name('edit-department-post');
-            Route::post('/delete-department', [AdminController::class, 'deleteDepartment'])->name('delete-department');
-        });
+        Route::post('/payments', [AdminController::class, 'payments'])->name('payments');
+        Route::post('/edit-company/{id}', [AdminController::class, 'editCompanyPost'])->name('edit-company-post');
+        Route::post('/add-user', [AdminController::class, 'userPost'])->name('add-user-post');
+        Route::post('/edit-user/{id}', [AdminController::class, 'editUserPost'])->name('edit-user-post');
+        Route::post('/delete-user', [AdminController::class, 'deleteUser'])->name('delete-user');
+        Route::post('/block-user', [AdminController::class, 'blockUser'])->name('block-user');
+        Route::post('/unblock-user', [AdminController::class, 'unblockUser'])->name('unblock-user');
+        Route::post('/changepassword', [AdminController::class, 'changepassword'])->name('changepassword');
+        Route::post('/type-of-expense', [AdminController::class, 'typeOfExpensePost'])->name('type-of-expense-post');
+        Route::post('/edit-type-of-expense/{id}', [AdminController::class, 'editTypeOfExpensePost'])->name('edit-type-of-expense-post');
+        Route::post('/delete-type-of-expense', [AdminController::class, 'deleteTypeOfExpense'])->name('delete-type-of-expense');
+        Route::post('/department', [AdminController::class, 'departmentsPost'])->name('department-post');
+        Route::post('/edit-department/{id}', [AdminController::class, 'editDepartmentPost'])->name('edit-department-post');
+        Route::post('/delete-department', [AdminController::class, 'deleteDepartment'])->name('delete-department');
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
         Route::get('/viewrequests', [AdminController::class, 'viewrequests'])->name('viewrequests');
         Route::get('/company', [AdminController::class, 'company'])->name('company');
@@ -130,14 +130,13 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => UserTypesEnum::User . '.',
     ], function () {
 
-        Route::middleware([ThrottleRequests::class . ':1,10'])->group(function () {
-            Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
-            Route::post('/delete-supplier', [UserController::class, 'deletesupplier'])->name('delete-supplier');
-            Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
-            Route::post('/delete-request', [UserController::class, 'deleterequest'])->name('delete-request');
-            Route::post('/edit-request/{id}', [UserController::class, 'updaterequest'])->name('edit-request-post');
-            Route::post('/changepassword', [UserController::class, 'changepassword'])->name('changepassword');
-        });
+
+        Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
+        Route::post('/delete-supplier', [UserController::class, 'deletesupplier'])->name('delete-supplier');
+        Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
+        Route::post('/delete-request', [UserController::class, 'deleterequest'])->name('delete-request');
+        Route::post('/edit-request/{id}', [UserController::class, 'updaterequest'])->name('edit-request-post');
+        Route::post('/changepassword', [UserController::class, 'changepassword'])->name('changepassword');
         Route::get('/select-company', [HomeController::class, 'selectCompany'])->name('select-company');
         Route::get('{company?}/dashboard', [UserController::class, 'dashboard'])->name('company.dashboard');
         Route::get('{company?}/supplier', [UserController::class, 'supplier'])->name('supplier');
@@ -154,14 +153,11 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => UserTypesEnum::Finance . '.',
     ], function () {
 
-        Route::middleware([ThrottleRequests::class . ':1,10'])->group(function () {
-            Route::post('/approve-request', [FinanceController::class, 'approveRequest'])->name('approve-request');
-            Route::post('/reject-request', [FinanceController::class, 'rejectRequest'])->name('reject-request');
-            Route::post('/payments', [FinanceController::class, 'payments'])->name('payments');
-            Route::post('/logfilters', [FinanceController::class, 'logfilters'])->name('logfilters');
-            Route::post('/changepassword', [FinanceController::class, 'changepassword'])->name('changepassword');
-
-        });
+        Route::post('/approve-request', [FinanceController::class, 'approveRequest'])->name('approve-request');
+        Route::post('/reject-request', [FinanceController::class, 'rejectRequest'])->name('reject-request');
+        Route::post('/payments', [FinanceController::class, 'payments'])->name('payments');
+        Route::post('/logfilters', [FinanceController::class, 'logfilters'])->name('logfilters');
+        Route::post('/changepassword', [FinanceController::class, 'changepassword'])->name('changepassword');
         Route::get('/select-company', [HomeController::class, 'selectCompany'])->name('select-company');
         Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('company.dashboard');
         Route::get('/request', [FinanceController::class, 'requestFinance'])->name('request');
@@ -179,13 +175,11 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => UserTypesEnum::Manager . '.',
     ], function () {
 
-        Route::middleware([ThrottleRequests::class . ':1,10'])->group(function () {
-            Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
-            Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
-            Route::post('payments', [ManagerController::class, 'payments'])->name('payments');
-            Route::post('/logfilters', [ManagerController::class, 'logfilters'])->name('logfilters');
-            Route::post('/changepassword', [ManagerController::class, 'changepassword'])->name('changepassword');
-        });
+        Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
+        Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
+        Route::post('payments', [ManagerController::class, 'payments'])->name('payments');
+        Route::post('/logfilters', [ManagerController::class, 'logfilters'])->name('logfilters');
+        Route::post('/changepassword', [ManagerController::class, 'changepassword'])->name('changepassword');
         Route::get('/select-company', [HomeController::class, 'selectCompany'])->name('select-company');
         Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('company.dashboard');
         Route::get('{company?}/viewrequests', [ManagerController::class, 'viewrequests'])->name('viewrequests');
@@ -202,14 +196,11 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => UserTypesEnum::Director . '.',
     ], function () {
 
-        Route::middleware([ThrottleRequests::class . ':1,10'])->group(function () {
-            Route::post('/logfilters', [DirectorController::class, 'logfilters'])->name('logfilters');
-            Route::post('/reject', [DirectorController::class, 'rejectRequest'])->name('reject');
-            Route::post('/accept', [DirectorController::class, 'approveRequest'])->name('accept');
-            Route::post('/payments', [DirectorController::class, 'payments'])->name('payments');
-            Route::post('/changepassword', [DirectorController::class, 'changepassword'])->name('changepassword');
-        });
-
+        Route::post('/logfilters', [DirectorController::class, 'logfilters'])->name('logfilters');
+        Route::post('/reject', [DirectorController::class, 'rejectRequest'])->name('reject');
+        Route::post('/accept', [DirectorController::class, 'approveRequest'])->name('accept');
+        Route::post('/payments', [DirectorController::class, 'payments'])->name('payments');
+        Route::post('/changepassword', [DirectorController::class, 'changepassword'])->name('changepassword');
         Route::get('/select-company', [HomeController::class, 'selectCompany'])->name('select-company');
         Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('company.dashboard');
         Route::get('{company?}/logs', [DirectorController::class, 'logs'])->name('logs');
@@ -224,16 +215,12 @@ Route::group(['middleware' => 'auth'], function () {
         'prefix' => UserTypesEnum::Accounting,
         'as' => UserTypesEnum::Accounting . '.',
     ], function () {
-
-        Route::middleware([ThrottleRequests::class . ':1,10'])->group(function () {
-            Route::post('/payment/{id}', [AccountingController::class, 'pay'])->name('payment-post');
-            Route::post('/payments', [AccountingController::class, 'payments'])->name('payments');
-            Route::post('/bulk-pay-or-reject', [AccountingController::class, 'bulkPayOrReject'])->name('bulk-pay-or-reject');
-            Route::post('/changepassword', [AccountingController::class, 'changepassword'])->name('changepassword');
-            Route::post('/logfilters', [AccountingController::class, 'logfilters'])->name('logfilters');
-            Route::post('/edit-supplier/{id}', [AccountingController::class, 'updatesupplier'])->name('edit-supplier-post');
-
-        });
+        Route::post('/payment/{id}', [AccountingController::class, 'pay'])->name('payment-post');
+        Route::post('/payments', [AccountingController::class, 'payments'])->name('payments');
+        Route::post('/bulk-pay-or-reject', [AccountingController::class, 'bulkPayOrReject'])->name('bulk-pay-or-reject');
+        Route::post('/changepassword', [AccountingController::class, 'changepassword'])->name('changepassword');
+        Route::post('/logfilters', [AccountingController::class, 'logfilters'])->name('logfilters');
+        Route::post('/edit-supplier/{id}', [AccountingController::class, 'updatesupplier'])->name('edit-supplier-post');
         Route::get('/select-company', [HomeController::class, 'selectCompany'])->name('select-company');
         Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('company.dashboard');
         Route::get('{company?}/supplier', [AccountingController::class, 'supplier'])->name('supplier');

@@ -89,7 +89,7 @@
                                 <br>
                                 <label class="control-label">TBC Account Number</label>
                                 <div>
-                                    <input type="text" name="tbc" placeholder="Enter BOG Account Number"
+                                    <input type="text" name="tbc" placeholder="Enter TBC Account Number"
                                            class="form-control input-lg" >
                                 </div>
                                 <br>
