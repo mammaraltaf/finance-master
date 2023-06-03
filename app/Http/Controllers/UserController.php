@@ -244,6 +244,7 @@ class UserController extends Controller
                 'amount_in_gel' => $input['amount_in_gel'],
                 'description' => $input['description'],
                 'basis' => $basis,
+                'request_link' => $input['request_link'],
                 'payment_date' => $input['due-date-payment'],
                 'submission_date' => $input['due-date'],
                 'status' => $status,

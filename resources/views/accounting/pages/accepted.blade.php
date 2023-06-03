@@ -56,6 +56,7 @@
               <p id="rowCurrency"></p>
               <p id="rowAmountInGel"></p>
               <p id="rowDescription"></p>
+              <p id="rowLink"></p>
               <p id="rowBasis"></p>
               <p id="rowDueDatePayment"></p>
               <p id="rowDueDate"></p> 
@@ -76,6 +77,7 @@
             <tr class="text-nowrap">
                 <th>ID</th>
                 <th>Action</th>
+                <th>Print</th>
                 <th>Action Date</th>
                 <th>Initiator</th>
                 <th> Created At</th>
@@ -86,6 +88,7 @@
                 <th>Currency</th>
                 <th>Amount In Gel</th>
                 <th>Description</th>
+                <th>Link</th>
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
@@ -98,7 +101,11 @@
                   <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request['id'] ?? ''}}</td>
 
                     <td>{{$request['action'] ?? ''}}</td>
+                    <td>
+                            <a href="{{ route('accounting.print', $request['id']) }}" target="_blank">Print</a>
+                        </td>
                     <td>{{$request['log_date'] ?? ''}}</td>
+                    
                     <td>{{$request['initiator'] ?? ''}}</td>
                     <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
                     <td>{{$request['compname'] ?? ''}}</td>
@@ -108,6 +115,7 @@
                     <td>{{$request['currency'] ?? ''}}</td>
                     <td>{{$request['amount_in_gel'] ?? ''}}</td>
                     <td>{{$request['description'] ?? ''}}</td>
+                    <td> <a href="{{$request['request_link']}}" target="_blank">{{$request['request_link'] ?? ''}}</a> </td>  
                     <td> <?php if(isset($request['basis'])){
                                     $files=explode(',',$request['basis']);
                                     foreach($files as $file){ ?>
@@ -170,10 +178,11 @@
             var currency = row.find('td:nth-child(10)').text().trim();
             var amount = row.find('td:nth-child(11)').text().trim();
             var description = row.find('td:nth-child(12)').text().trim();
-            var basis = row.find('td:nth-child(13)').text().trim();
-            var dueDatePayment = row.find('td:nth-child(14)').text().trim();
-            var dueDate = row.find('td:nth-child(15)').text().trim();
-            var amount = row.find('td:nth-child(16)').text().trim();
+            var link = row.find('td:nth-child(13)').text().trim();
+            var basis = row.find('td:nth-child(14)').text().trim();
+            var dueDatePayment = row.find('td:nth-child(15)').text().trim();
+            var dueDate = row.find('td:nth-child(16)').text().trim();
+            var amount = row.find('td:nth-child(17)').text().trim();
 
 
             $('#rowId').text('Id: ' + id);
@@ -188,6 +197,7 @@
             $('#rowCurrency').text('Currency: ' + currency);
             $('#rowAmountInGel').text('Amount In Gel: ' + amount);
             $('#rowDescription').text('Description: ' + description);
+            $('#rowLink').text('Link: ' + link);
             $('#rowBasis').text('Basis: ' + basis);
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);

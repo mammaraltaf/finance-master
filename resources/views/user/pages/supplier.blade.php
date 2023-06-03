@@ -176,7 +176,7 @@
 
             {{--All Datatable--}}
             <table name="suppliertable" id="suppliertable"
-                   class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+                   class="table table-striped table-bordered  nowrap" style="width:100%">
                 {{-- <table id="suppliertable" name="suppliertable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
@@ -341,7 +341,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
     <script type="text/javascript">

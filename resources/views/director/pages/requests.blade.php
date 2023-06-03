@@ -70,6 +70,7 @@
             <p id="rowAmount"></p>
             <p id="rowAmountInGel"></p>
             <p id="rowDescription"></p>
+            <p id="rowLink"></p>
             <p id="rowBasis"></p>
             <p id="rowDueDatePayment"></p>
             <p id="rowDueDate"></p>
@@ -103,6 +104,7 @@
                 <th>Amount</th>
                 <th>Amount In Gel</th>
                 <th>Description</th>
+                <th>Link</th>
                 <th>Basis (file attachment title)</th>
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
@@ -124,6 +126,7 @@
                     <td>{{$request->amount ?? ''}}</td>
                     <td>{{$request->amount_in_gel ?? ''}}</td>
                     <td>{{$request->description ?? ''}}</td>
+                    <td> <a href="{{$request->request_link}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>  
                     <td><?php if(isset($request->basis)){
                       $files=explode(',',$request->basis);
                       foreach($files as $file){ ?>
@@ -229,9 +232,10 @@ $(document).ready(function() {
             var amount = row.find('td:nth-child(11)').text().trim();
             var amountInGel = row.find('td:nth-child(12)').text().trim();
             var description = row.find('td:nth-child(13)').text().trim();
-            var basis = row.find('td:nth-child(14)').text().trim();
-            var dueDatePayment = row.find('td:nth-child(15)').text().trim();
-            var dueDate = row.find('td:nth-child(16)').text().trim();
+            var link = row.find('td:nth-child(14)').text().trim();
+            var basis = row.find('td:nth-child(15)').text().trim();
+            var dueDatePayment = row.find('td:nth-child(16)').text().trim();
+            var dueDate = row.find('td:nth-child(17)').text().trim();
 
 
             $('#status').text('Status: ' + status);
@@ -245,6 +249,7 @@ $(document).ready(function() {
             $('#rowAmount').text('Amount: ' + amount);
             $('#rowAmountInGel').text('Amount In Gel: ' + amountInGel);
             $('#rowDescription').text('Description: ' + description);
+            $('#rowLink').text('Link: ' + link);
             $('#rowBasis').text('Basis: ' + basis);
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);

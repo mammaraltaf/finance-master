@@ -51,7 +51,7 @@ class AcceptOrRejectRequest implements ShouldQueue
         $user_id = $request_data['user_id'];
         $email = User::whereId($user_id)->pluck('email')->first();
         $current_status=$request_data['status'];
-
+//dd($current_status);
         switch ($current_status) {
             case StatusEnum::SubmittedForReview:
                 $next_role = UserTypesEnum::Manager;

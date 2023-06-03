@@ -160,6 +160,10 @@
                                           required></textarea>
                             </div>
                             <div class="form-group">
+                                    <label for="gel-amount">Link:</label>
+                                    <input type="text" class="form-control" name="request_link" id="request_link" >
+                                </div>
+                            <div class="form-group">
                                 <label for="basis">Basis</label>
                                 <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
                                 <div class="d-flex justify-content-between align-items-center" id="preview"></div>
@@ -279,6 +283,10 @@
                                           required></textarea>
                             </div>
                             <div class="form-group">
+                                    <label for="link">Link:</label>
+                                    <input type="text" class="form-control" id="link" name="link" >
+                                </div>
+                            <div class="form-group">
                                 <label for="basis">Basis</label>
                                 <input type="file" class="form-control" multiple id="basis2" name="basis[]">
                                 <input type="hidden" id="basis3" name="basis3">
@@ -339,6 +347,7 @@
                     <p id="rowAmount"></p>
                     <p id="rowAmountInGel"></p>
                     <p id="rowDescription"></p>
+                    <p id="rowLink"></p>
                     <p id="rowBasis"></p>
                     <p id="rowDueDatePayment"></p>
                     <p id="rowDueDate"></p>
@@ -374,6 +383,7 @@
                         <th>Amount</th>
                         <th>Amount In Gel</th>
                         <th>Description</th>
+                        <th>Link</th>
                         <th>Basis</th>
                         <th>Due Date Payment</th>
                         <th>Due Date</th>
@@ -393,6 +403,7 @@
                             <td>{{$request->amount}}</td>
                             <td>{{$request->amount_in_gel ?? ''}}</td>
                             <td>{{$request->description ?? ''}}</td>
+                            <td> <a href="{{$request->request_link}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>  
                             <td><?php if(isset($request->basis)){
                             $files=explode(',',$request->basis);
                             foreach($files as $file){ ?>
@@ -484,9 +495,10 @@ href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
             var amount = row.find('td:nth-child(9)').text().trim();
             var amountInGel = row.find('td:nth-child(10)').text().trim();
             var description = row.find('td:nth-child(11)').text().trim();
-            var basis = row.find('td:nth-child(12)').text().trim();
-            var dueDatePayment = row.find('td:nth-child(13)').text().trim();
-            var dueDate = row.find('td:nth-child(13)').text().trim();
+            var link = row.find('td:nth-child(12)').text().trim();
+            var basis = row.find('td:nth-child(13)').text().trim();
+            var dueDatePayment = row.find('td:nth-child(14)').text().trim();
+            var dueDate = row.find('td:nth-child(15)').text().trim();
 
 
             $('#status').text('Status: ' + status);
@@ -500,6 +512,7 @@ href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
             $('#rowAmount').text('Amount: ' + amount);
             $('#rowAmountInGel').text('Amount In Gel: ' + amountInGel);
             $('#rowDescription').text('Description: ' + description);
+            $('#rowLink').text('Link: ' + link);
             $('#rowBasis').text('Basis: ' + basis);
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
