@@ -273,25 +273,12 @@
                             <input type="text" class="form-control" id="amount" name="amount" readonly>
                         </div>
 
-<<<<<<< Updated upstream
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-danger reject-button" id="" value="reject"
-                                    name="button">Reject
-                            </button>
-                            <button type="submit" class="btn btn-success approve-button" id="" value="pay"
-                                    name="button">Pay
-                            </button>
-                        </div>
-                    </form>
-                </div>
-=======
                   <div class="modal-footer">
                     <button type="button" class="btn btn-danger reject-button btnResponse" data-url="{{ url('accounting/payment/') }}" data-id="request_id" value="reject" name="button">Reject</button>
                     <button type="submit" class="btn btn-success approve-button btnResponse"  value="pay" name="button">Pay</button>
                   </div>
                 </form>
               </div>
->>>>>>> Stashed changes
 
             </div>
         </div>
@@ -377,27 +364,6 @@
                 });
             });
         });
-<<<<<<< Updated upstream
-
-        $('body').on('click', '#reviewBtn', function () {
-            var request_id = $(this).data('id');
-            $.ajax({
-                type: "GET",
-                url: "{{url('accounting/payment/')}}" + '/' + request_id,
-                success: function (response) {
-                    console.log(response);
-                    $('#id').val(response.id);
-                    $('#amount').val(response.amount_in_gel);
-                    $('#directorAcceptRejectForm').attr('action', "{{url('accounting/payment/')}}" + '/' + request_id);
-                }
-
-            });
-        });
-
-
-        $(document).ready(function () {
-=======
-    });
     
 
       $('body').on('click', '#reviewBtn', function () {
@@ -453,277 +419,11 @@
     
     
     $(document).ready(function() {
->>>>>>> Stashed changes
 //       $('.print-button').on('click', function() {
 //         var userId = $(this).data('user-id');
 // console.log(userId);
 // window.open('/accounting/print/'+ userId , '_blank');
 //     });
-<<<<<<< Updated upstream
-            var table = $('#accounting').DataTable({
-                'columnDefs': [{
-                    'targets': 0,
-                    'searchable': false,
-                    'orderable': false,
-                    'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
-                        return '<input type="checkbox" name="id[]" value="' + $('<div/>').text(data).html().replace(/"/g, '&quot;') + '" data-rowid="' + meta.row + '">';
-                    }
-                }],
-
-                'order': [3, 'desc'],
-                dom: 'Blfrtip',
-                lengthChange: true,
-                buttons: [
-                    {
-                        extend: 'copy',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-                        }
-                    },
-                    {
-                        extend: 'excel',
-                        orientation: 'landscape',
-                        pageSize: 'LEGAL',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-                        }
-                    },
-                    {
-                        extend: 'pdf',
-                        orientation: 'landscape',
-                        pageSize: 'LEGAL',
-                        exportOptions: {
-                            columns: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
-                        }
-                    },
-                    'colvis'
-                ]
-
-            });
-
-            // Handle click on "Select all" control
-            $('#example-select-all').on('click', function () {
-                // Check/uncheck all checkboxes in the table
-                var rows = table.rows({
-                    'search': 'applied'
-                }).nodes();
-                $('input[type="checkbox"]', rows).prop('checked', this.checked);
-            });
-
-            // Handle click on checkbox to set state of "Select all" control
-            $('#accounting tbody').on('change', 'input[type="checkbox"]', function () {
-                // If checkbox is not checked
-                if (!this.checked) {
-                    var el = $('#example-select-all').get(0);
-                    if (el && el.checked && ('indeterminate' in el)) {
-                        el.indeterminate = true;
-                    }
-                }
-            });
-
-            // Handle click on "Reject All" button
-            $('#rejectBtn').on('click', function () {
-                var selectedIds = [];
-                $('input[name="id[]"]:checked').each(function () {
-                    selectedIds.push($(this).attr('value'));
-                });
-                var ids = selectedIds.map(input => {
-                    return $(input).attr('value');
-                })
-                {{--var url = "{{url('accounting/payment/')}}" + '/' + ids.join(',');--}}
-                var bulkIds = ids.join(',');
-                var url = "{{url('accounting/bulk-pay-or-reject/')}}";
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        bulkIds: bulkIds,
-                        action: 'reject'
-                    },
-                    success: function (response) {
-                        if (response.success === 'reject') {
-                            toastr.success("Bulk Requests Rejected successfully!", "Finance Alert");
-                            location.reload();
-                        } else {
-                            toastr.error("Something went wrong!", "Finance Alert");
-                        }
-                    }
-                })
-            });
-
-            // Handle click on "Pay All" button
-            $('#fxBtn').on('click', function () {
-                var selectedIds = [];
-
-                $('input[name="id[]"]:checked').each(function () {
-                    selectedIds.push($(this).attr('value'));
-                });
-                var ids = selectedIds.map(input => {
-                    return $(input).attr('value');
-                })
-                var bulkIds = ids.join(',');
-                var url = "{{url('accounting/bulk-pay-or-reject/')}}";
-                // $('#loader').show();
-
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        bulkIds: bulkIds,
-                        action: 'fx'
-                    },
-                    success: function (response) {
-                        // $('#loader').hide();
-                        if (response.success === 'success') {
-                            toastr.success("Request FX Updated successfully!", "Finance Alert");
-                            location.reload();
-                        } else {
-                            // $('#loader').hide();
-                            toastr.error("Something went wrong!", "Finance Alert");
-                        }
-                    }
-                });
-                // $('#submit-btn').attr('action', url);
-                // $('#submit-btn').submit();
-            });
-            $('#payBtn').on('click', function () {
-                var selectedIds = [];
-
-                $('input[name="id[]"]:checked').each(function () {
-                    selectedIds.push($(this).attr('value'));
-                });
-                var ids = selectedIds.map(input => {
-                    return $(input).attr('value');
-                })
-                var bulkIds = ids.join(',');
-                var url = "{{url('accounting/bulk-pay-or-reject/')}}";
-                // $('#loader').show();
-
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        bulkIds: bulkIds,
-                        action: 'pay'
-                    },
-                    success: function (response) {
-                        // $('#loader').hide();
-                        if (response.success === 'success') {
-                            toastr.success("Bulk Requests Paid successfully!", "Finance Alert");
-                            location.reload();
-                        } else {
-                            // $('#loader').hide();
-                            toastr.error("Something went wrong!", "Finance Alert");
-                        }
-                    }
-                });
-                // $('#submit-btn').attr('action', url);
-                // $('#submit-btn').submit();
-            });
-
-            $('body').on('click', '#bogBtn', function () {
-                var selectedIds = [];
-
-                $('input[name="id[]"]:checked').each(function () {
-                    selectedIds.push($(this).attr('value'));
-                });
-                var ids = selectedIds.map(input => {
-                    return $(input).attr('value');
-                })
-                var bulkIds = ids.join(',');
-                var url = "{{url('accounting/bulk-pay-or-reject/')}}";
-                // $('#loader').show();
-
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        bulkIds: bulkIds,
-                        action: 'bog'
-                    },
-                    success: function (response) {
-                        if (response.success === 'success') {
-                            var file_name = response.file_name;
-                            var file_url = response.file_url;
-                            var a = document.createElement('a');
-                            a.href = file_url;
-                            a.download = file_name;
-                            a.click();
-                            toastr.success(file_name + " Exported Successfully!", "Finance Alert");
-                            $.ajax({
-                                url: '{{route('deleteExportedFile')}}',
-                                type: 'POST',
-                                data: { file_name: file_name },
-                                success: function(response) {
-                                    // Handle the response if needed
-                                },
-                                error: function(error) {
-                                    // Handle the error if needed
-                                }
-                            });
-                        } else {
-                            toastr.error("Something went wrong!", "Finance Alert");
-                        }
-                    }
-                });
-                // $('#submit-btn').attr('action', url);
-                // $('#submit-btn').submit();
-            });
-
-            // Handle click on "Pay All" button
-            $('body').on('click', '#tbcBtn', function () {
-                var selectedIds = [];
-
-                $('input[name="id[]"]:checked').each(function () {
-                    selectedIds.push($(this).attr('value'));
-                });
-                var ids = selectedIds.map(input => {
-                    return $(input).attr('value');
-                })
-                var bulkIds = ids.join(',');
-                var url = "{{url('accounting/bulk-pay-or-reject/')}}";
-                // $('#loader').show();
-
-                $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: {
-                        bulkIds: bulkIds,
-                        action: 'tbc'
-                    },
-                    success: function (response) {
-                        if (response.success === 'success') {
-                            var file_name = response.file_name;
-                            var file_url = response.file_url;
-                            var a = document.createElement('a');
-                            a.href = file_url;
-                            a.download = file_name;
-                            a.click();
-                            toastr.success(file_name + " Exported Successfully!", "Finance Alert");
-                            // Send an AJAX request to delete the file
-                            $.ajax({
-                                url: '{{route('deleteExportedFile')}}',
-                                type: 'POST',
-                                data: { file_name: file_name },
-                                success: function(response) {
-                                    // Handle the response if needed
-                                },
-                                error: function(error) {
-                                    // Handle the error if needed
-                                }
-                            });
-                        } else {
-                            toastr.error("Something went wrong!", "Finance Alert");
-                        }
-                    }
-                });
-                // $('#submit-btn').attr('action', url);
-                // $('#submit-btn').submit();
-            });
-        });
-
-=======
       var table = $('#accounting').DataTable({
         'columnDefs': [{
           'targets': 0,
@@ -1045,7 +745,6 @@
 
 
 
->>>>>>> Stashed changes
 
     </script>
 
