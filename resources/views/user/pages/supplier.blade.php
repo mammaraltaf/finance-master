@@ -201,7 +201,7 @@
                             <div class="rounded-circle bg-primary dot"></div>
                             <div class="d-none">{{\Carbon\Carbon::parse($supplier['created_at']) ?? ''}}</div>
                         </td> --}}
-                        <td class="cursor-pointer text-xl bg-primary" 
+                        <td class="cursor-pointer text-xl bg-primary"
                             style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">
                             +
                             <div class="d-none">
@@ -318,6 +318,7 @@
 @endsection
 @section('script')
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -340,10 +341,10 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    
+
     <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+
     <script type="text/javascript">
     $(document).ready(function() {
         $('table#suppliertable tbody tr td:first-child').on('click', function() {
@@ -365,7 +366,7 @@
             $('#rowBankAccount').text('Bank Account: ' + bankAccount);
             $('#rowBankSwift').text('Bank Swift: ' + bankSwift);
             $('#rowAccountingId').text('Accounting ID: ' + accountingId);
-         
+
 
             $('#rowModal').modal('show');
             $('.close-pop-up').click(function () {

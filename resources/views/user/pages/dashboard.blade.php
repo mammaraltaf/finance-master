@@ -21,7 +21,7 @@
                     </div>
                     <div class="modal-body" style="text-align: center;">
 
-                     
+
                         <input type="hidden" name="id" class="user-delete" value=""/>
                         <label>Current Password </label>
                 <input type="password" name="currentPassword" class="form-control" required>
@@ -41,6 +41,7 @@
 @endsection
 @section('script')
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 

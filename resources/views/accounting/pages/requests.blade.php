@@ -213,7 +213,7 @@
                         <td>{{$request->currency ?? ''}}</td>
                         <td>{{$request->amount_in_gel ?? ''}}</td>
                         <td>{{$request->description ?? ''}}</td>
-                        <td> <a href="{{$request->request_link}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>  
+                        <td> <a href="{{$request->request_link}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>
                         <td><?php if (isset($request->basis)){
                                 $files = explode(',', $request->basis);
                             foreach ($files as $file){ ?>
@@ -296,6 +296,7 @@
 @section('script')
 
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     {{-- <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -355,8 +356,9 @@
                 $('#rowCurrency').text('Currency: ' + currency);
                 $('#rowAmount').text('Amount: ' + amount);
                 $('#rowDescription').text('Description: ' + description);
-                $('#rowLink').text('Link: ' + link);
-                $('#rowBasis').text('Basis: ' + basis);
+                $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
+                    var baseUrl = "{{ url('/') }}";
+            $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
                 $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
                 $('#rowDueDate').text('Due Date: ' + dueDate);
 

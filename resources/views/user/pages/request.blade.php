@@ -230,7 +230,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="form-group w-100 px-2">
                                     <label for="department">Department</label>
-                                    <select class="form-control" id="department" name="department" required>
+                                    <select class="form-control department" id="department" name="department" required>
                                         <?php foreach ($departments as $department){ ?>
                                         <option
                                             value="{{$department->id}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
@@ -239,7 +239,7 @@
                                 </div>
                                 <div class="form-group w-100 px-2">
                                     <label for="supplier">Supplier</label>
-                                    <select class="form-control" id="supplier" name="supplier" required>
+                                    <select class="form-control supplier" id="supplier" name="supplier" required>
                                         <?php foreach ($suppliers as $supplier){ ?>
                                         <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
                                         <?php } ?>
@@ -249,7 +249,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="form-group w-100 px-2">
                                     <label for="expense-type">Type of Expense</label>
-                                    <select class="form-control" id="expense-type" name="expense-type" required>
+                                    <select class="form-control expense-type" id="expense-type" name="expense-type" required>
 
                                         <?php foreach ($expenses as $expense){ ?>
                                         <option value="{{$expense->id}}">{{$expense->name}}</option>
@@ -391,7 +391,7 @@
                     </thead>
                     <tbody>
                     @foreach($requests as $request)
-                        <tr class="text-nowrap text-center" > 
+                        <tr class="text-nowrap text-center" >
                             <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
                             <td>{{$request->initiator}}</td>
                             <td>{{$request->created_at}}</td>
@@ -403,7 +403,7 @@
                             <td>{{$request->amount}}</td>
                             <td>{{$request->amount_in_gel ?? ''}}</td>
                             <td>{{$request->description ?? ''}}</td>
-                            <td> <a href="{{$request->request_link}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>  
+                            <td> <a href="{{$request->request_link}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>
                             <td><?php if(isset($request->basis)){
                             $files=explode(',',$request->basis);
                             foreach($files as $file){ ?>
@@ -414,7 +414,7 @@
                                 ?></td>
                             <td>{{$request->payment_date ?? ''}}</td>
                             <td>{{$request->submission_date ?? ''}}</td>
-                        </tr> 
+                        </tr>
                     @endforeach
                     </tbody>
             </table>
@@ -443,12 +443,13 @@
             </div>
         </div>
     </div>
-   
+
 
     <!--end::Body-->
 @endsection
 @section('script')
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -482,6 +483,10 @@ href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     //     });
     // });
     $(document).ready(function() {
+        $('.department').select2();
+        $('.supplier').select2();
+        $('.expense-type').select2();
+
         $('table#suppliertable tbody tr td:first-child').on('click', function() {
             var row = $(this).closest('tr');
             // var status = row.find('td:nth-child(1)').text().trim();
@@ -512,8 +517,8 @@ href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
             $('#rowAmount').text('Amount: ' + amount);
             $('#rowAmountInGel').text('Amount In Gel: ' + amountInGel);
             $('#rowDescription').text('Description: ' + description);
-            $('#rowLink').text('Link: ' + link);
-            $('#rowBasis').text('Basis: ' + basis);
+            $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
+                        $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
 
@@ -563,7 +568,7 @@ href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
         });
     });
     </script>
-    
+
     <script type="text/javascript">
         var basisFiles2 = '';
 

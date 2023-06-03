@@ -29,7 +29,7 @@
               <input type="submit" class="btn btn-sm btn-primary" id="dates" value="Generate">
             </div>
             </div>
-          </form> 
+          </form>
 </div>
     <!--begin::Header-->
     <div class="btn-group my-4">
@@ -45,7 +45,7 @@
     </div>
     <!--end::Header-->
     <!--begin::Body-->
-   
+
     <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -119,7 +119,7 @@
                     <td>{{$request['currency'] ?? ''}}</td>
                     <td>{{$request['amount_in_gel'] ?? ''}}</td>
                     <td>{{$request['description'] ?? ''}}</td>
-                    <td> <a href="{{$request['request_link']}}" target="_blank">{{$request['request_link'] ?? ''}}</a> </td> 
+                    <td> <a href="{{$request['request_link']}}" target="_blank">{{$request['request_link'] ?? ''}}</a> </td>
                     <td> <?php if(isset($request['basis'])){
                                     $files=explode(',',$request['basis']);
                                     foreach($files as $file){ ?>
@@ -132,19 +132,20 @@
                     <td>{{$request['payment_date'] ?? ''}}</td>
                     <td>{{$request['submission_date'] ?? ''}}</td>
                     <td>{{$request['amount'] ?? ''}}</td>
-                   
+
                             </tr>
             @endforeach
           </tbody>
         </table>
       </div>
 
-      
+
 
 
 @endsection
 @section('script')
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 {{-- <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -167,7 +168,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
- 
+
  <script>
   $(document).ready(function() {
         $('table#reviewDocument tbody tr td:first-child').on('click', function() {
@@ -203,8 +204,8 @@
             $('#rowCurrency').text('Currency: ' + currency);
             $('#rowAmountInGel').text('Amount In Gel: ' + amount);
             $('#rowDescription').text('Description: ' + description);
-            $('#rowLink').text('Link: ' + link);
-            $('#rowBasis').text('Basis: ' + basis);
+            $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
+                        $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
             $('#rowAmount').text('Amount: ' + amount);
@@ -236,7 +237,7 @@
           'order':[[0,'desc']],
           dom: 'Blfrtip',
           lengthChange: true,
-          buttons: [ 
+          buttons: [
 
             {
 extend: 'copy',
@@ -264,7 +265,7 @@ columns: [0,1, 5, 6, 7, 8,9,10,11]
            ]
     } );
         });
-      
+
 // Data Filter Start
 // $(document).ready(function () {
 //             $(".btn-group button").click(function () {
@@ -282,7 +283,7 @@ columns: [0,1, 5, 6, 7, 8,9,10,11]
 //                 $(this).addClass("active");
 //             });
 //         });
-       
+
 
 
     </script>

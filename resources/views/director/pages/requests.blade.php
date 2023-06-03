@@ -22,7 +22,7 @@
         <button id="exceed" class="btn btn-info filter">Threshold Exceeded</button>
       </div>
     </div>
-    
+
     <div class="ml-5 mt-3">
       <form action="{{route('director.payments')}}" method="post">
         @csrf
@@ -39,14 +39,14 @@
             <input type="submit" class="btn btn-sm btn-primary" id="dates" value="Generate">
           </div>
         </div>
-      </form> 
+      </form>
     </div>
-    
+
     {{-- <div class="modal-footer">
       <button type="button" class="btn btn-secondary close-pop-up">Close</button>
     </div> --}}
-    
-    
+
+
     {{-- Generate End --}}
   <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -100,7 +100,7 @@
                 <th>Department</th>
                 <th>Supplier</th>
                 <th>Type of Expense</th>
-                <th>Currency</th> 
+                <th>Currency</th>
                 <th>Amount</th>
                 <th>Amount In Gel</th>
                 <th>Description</th>
@@ -126,7 +126,7 @@
                     <td>{{$request->amount ?? ''}}</td>
                     <td>{{$request->amount_in_gel ?? ''}}</td>
                     <td>{{$request->description ?? ''}}</td>
-                    <td> <a href="{{$request->request_link}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>  
+                    <td> <a href="{{$request->request_link}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>
                     <td><?php if(isset($request->basis)){
                       $files=explode(',',$request->basis);
                       foreach($files as $file){ ?>
@@ -193,6 +193,7 @@
 @endsection
 @section('script')
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     {{-- <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -249,8 +250,8 @@ $(document).ready(function() {
             $('#rowAmount').text('Amount: ' + amount);
             $('#rowAmountInGel').text('Amount In Gel: ' + amountInGel);
             $('#rowDescription').text('Description: ' + description);
-            $('#rowLink').text('Link: ' + link);
-            $('#rowBasis').text('Basis: ' + basis);
+            $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
+                        $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
 

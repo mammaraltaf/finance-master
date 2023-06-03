@@ -24,6 +24,8 @@
     <link rel="icon" type="image/x-icon" href="{{asset('assets/logo/favicon.ico')}}">
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
             integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+
+
     @yield('styles')
 </head>
 
@@ -121,6 +123,7 @@
 {{--<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>--}}
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.9/jquery.validate.js"></script>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $.ajaxSetup({

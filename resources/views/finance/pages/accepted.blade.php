@@ -59,8 +59,8 @@
               <p id="rowlink"></p>
               <p id="rowBasis"></p>
               <p id="rowDueDatePayment"></p>
-              <p id="rowDueDate"></p> 
-              <p id="rowAmount"></p> 
+              <p id="rowDueDate"></p>
+              <p id="rowAmount"></p>
 
           </div>
           <div class="modal-footer">
@@ -91,11 +91,11 @@
                 <th>Due Date of Payment</th>
                 <th>Due Date</th>
                 <th>Amount</th>
-               
+
             </tr>
           </thead>
           <tbody>
-            
+
             @foreach($requests as $request)
                 <tr class="text-nowrap" data-status="{{$request['action']}}">
                   {{-- <td class="cursor-pointer">{{$request['id']}}</td> --}}
@@ -123,19 +123,20 @@
                     <td>{{$request['payment_date'] ?? ''}}</td>
                     <td>{{$request['submission_date'] ?? ''}}</td>
                     <td>{{$request['amount'] ?? ''}}</td>
-                    
+
                             </tr>
             @endforeach
           </tbody>
         </table>
       </div>
 
-      
+
 
 
 @endsection
 @section('script')
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 {{-- <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -158,7 +159,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
- 
+
  <script>
 
 $(document).ready(function() {
@@ -195,8 +196,8 @@ $(document).ready(function() {
             $('#rowCurrency').text('Currency: ' + currency);
             $('#rowAmountInGel').text('Amount In Gel: ' + amount);
             $('#rowDescription').text('Description: ' + description);
-            $('#rowlink').text('Link: ' + link);
-            $('#rowBasis').text('Basis: ' + basis);
+            $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
+                        $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
             $('#rowAmount').text('Amount: ' + amount);
@@ -213,7 +214,7 @@ $(document).ready(function() {
           'order':[[3,'desc']],
           dom: 'Blfrtip',
           lengthChange: true,
-          buttons: [ 
+          buttons: [
 
             {
 extend: 'copy',
@@ -241,7 +242,7 @@ columns: [0,1, 5, 6, 7, 8,9,10,11]
            ]
     } );
         });
-      
+
 
          // Data Filter Start
          $(document).ready(function () {

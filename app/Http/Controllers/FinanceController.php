@@ -35,11 +35,11 @@ class FinanceController extends Controller
                 'password' => 'required',
                 'passwordConfirm' => 'required'
             ]);
-    
+
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-    
+
             $user = User::find($input['id']);
           $oldpass=$input['currentPassword'];
           $newpass=$input['password'];
@@ -54,7 +54,7 @@ class FinanceController extends Controller
     }else{
         return redirect()->back()->with('error', 'Something went wrong');
     }
-    
+
     }else{
         return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
     }
@@ -79,19 +79,19 @@ class FinanceController extends Controller
 //            ->get();
         $companyIds = $user->companies->pluck('id')->toArray();
 //        $departmentIds = $user->departments->pluck('id')->toArray();
-$companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
-        ->whereHas('company', function ($query) {
-            $query->where('slug', Session::get('url-slug'));
-        })
-           // ->whereIn('company_id', $companyIds)
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })
+            // ->whereIn('company_id', $companyIds)
 //            ->whereIn('department_id', $departmentIds)
 //            ->whereStatus(StatusEnum::SubmittedForReview)
             ->whereIn('status', [StatusEnum::ManagerConfirmed, StatusEnum::ManagerThresholdExceeded])
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
 
-        return view('finance.pages.request', compact('requests','companies_slug'));
+        return view('finance.pages.request', compact('requests', 'companies_slug'));
     }
 
     public function payments(Request $request)
@@ -239,6 +239,6 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
                 ->orderBy('request_flows.created_at', 'desc')
                 ->get();
             return view('finance.pages.request', compact('requests','companies_slug'));
-                 } 
+                 }
 }
 }

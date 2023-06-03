@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <!--begin::Header-->
-    
+
     <div class="card-header pt-5">
 
         <h3 class="card-title">
@@ -24,7 +24,7 @@
                     </div>
                     <div class="modal-body" style="text-align: center;">
 
-                     
+
                         <input type="hidden" name="id" class="user-delete" value=""/>
                         <label>Current Password </label>
                 <input type="password" name="currentPassword" class="form-control" required>
@@ -43,13 +43,14 @@
     </div>
 
     <div class="container">
-    
+
   </div>
 
 
 @endsection
 @section('script')
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+
 <script type="text/javascript">
         $(document).ready(function () {
             $('#changepass').click(function () {

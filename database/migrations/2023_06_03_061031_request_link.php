@@ -14,7 +14,7 @@ class RequestLink extends Migration
     public function up()
     {
         Schema::table('request_flows', function (Blueprint $table) {
-            $table->string('request_link');
+            $table->string('request_link')->nullable()->after('description');
         });
     }
 
