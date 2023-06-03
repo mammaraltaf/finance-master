@@ -187,7 +187,7 @@
 {{--                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>--}}
 {{--                                </div>--}}
                                 <div class='p-2'>
-                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
+                                    <button  id="submitReviewBtn" type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
                                             name="button"
                                             class="btn btn-success">{{App\Classes\Enums\StatusEnum::SubmittedForReview}}</button>
                                 </div>
@@ -482,6 +482,17 @@ href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     //     "order": [[1, "desc"]]
     //     });
     // });
+    // document.getElementById("submitReviewBtn").addEventListener("click", function() {
+    //     this.disabled = true;
+    // });
+
+    document.getElementById("submitReviewBtn").addEventListener("click", function(e) {
+        e.preventDefault();
+        var form = document.getElementById("categoryForm");
+        this.disabled = true;
+        form.submit();
+    });
+
     $(document).ready(function() {
         $('.department').select2();
         $('.supplier').select2();

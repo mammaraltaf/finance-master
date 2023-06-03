@@ -167,7 +167,7 @@
                     <h5 class="modal-title" id="acceptConfirmationModalLabel">Accept Request</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{route(UserTypesEnum::Manager.'.approve-request')}}" method="POST">
+                <form class="response-modal" action="{{route(UserTypesEnum::Manager.'.approve-request')}}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <p>Are you sure you want to accept this request?</p>
@@ -179,7 +179,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-primary" id="confirmAcceptBtn">Accept</button>
+                        <button type="submit" class="btn btn-primary btn-response" id="confirmAcceptBtn">Accept</button>
                     </div>
                 </form>
 
@@ -195,7 +195,7 @@
                     <h5 class="modal-title" id="rejectConfirmationModalLabel">Reject Request</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{route(UserTypesEnum::Manager.'.reject-request')}}" method="POST">
+                <form class="response-modal" action="{{route(UserTypesEnum::Manager.'.reject-request')}}" method="POST">
                     @csrf
                     <div class="modal-body">
                         <p>Are you sure you want to reject this request?</p>
@@ -209,7 +209,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="submit" class="btn btn-danger" id="confirmRejectBtn">Reject</button>
+                        <button type="submit" class="btn btn-danger btn-response" id="confirmRejectBtn">Reject</button>
                     </div>
                 </form>
             </div>
@@ -246,6 +246,14 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script>
+        // $(document).on("click", ".btn-response", function(e) {
+        //     e.preventDefault();
+        //     var form = $(".response-modal");
+        //     $(this).prop("disabled", true);
+        //     form.submit();
+        // });
+
+
         $(document).ready(function() {
         $('table#suppliertable tbody tr ').on('click', 'td:nth-child(2)', function() {
             var row = $(this).closest('tr');
@@ -362,6 +370,8 @@
                 rejectButton.style.display = "none";
             }
         });
+
+        
 
     </script>
 

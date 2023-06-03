@@ -178,8 +178,8 @@
                     <label class="form-check-label" for="amount-verification">Verify amount manually</label>
                   </div> -->
                   <div class="modal-footer">
-                <button type="submit" class="btn btn-danger reject-button" id="" name="reject" disabled>Reject</button>
-                <button type="submit" class="btn btn-success approve-button" id="" name="approve">Approve</button>
+                <button type="submit" class="btn btn-danger reject-button" id="btnReject" name="reject" disabled>Reject</button>
+                <button type="submit" class="btn btn-success approve-button" id="btnAccept" name="approve">Approve</button>
               </div>
                 </form>
               </div>
@@ -275,30 +275,30 @@ $(document).ready(function() {
           buttons: [
 
             {
-extend: 'copy',
-exportOptions: {
-columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-}
-},
-{
-extend: 'excel',
-orientation : 'landscape',
-                pageSize : 'LEGAL',
-exportOptions: {
-columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-}
-},
-{
-extend: 'pdf',
-orientation : 'landscape',
-                pageSize : 'LEGAL',
-exportOptions: {
-columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
-}
-},
-'colvis'
-           ]
-    } );
+          extend: 'copy',
+          exportOptions: {
+          columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+          }
+          },
+          {
+          extend: 'excel',
+          orientation : 'landscape',
+                          pageSize : 'LEGAL',
+          exportOptions: {
+          columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+          }
+          },
+          {
+          extend: 'pdf',
+          orientation : 'landscape',
+                          pageSize : 'LEGAL',
+          exportOptions: {
+          columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
+          }
+          },
+          'colvis'
+                    ]
+              } );
         });
 
 
@@ -317,17 +317,36 @@ columns: [0,1,2,3,4, 5, 6, 7, 8,9,10,11]
             }
         });
 
+        
+
 
         $('body').on('click', '#reviewBtn', function () {
             var req_id = $(this).data('id');
             $('#id').val(req_id);
         });
+        // $('body').on('click', '.reject-button', function () {
+        //     $('#directorAcceptRejectForm').attr('action', "{{url('director/reject')}}");
+        // });
+        // $('body').on('click', '.approve-button', function () {
+        //     $('#directorAcceptRejectForm').attr('action', "{{url('director/accept')}}");
+        // });
+
         $('body').on('click', '.reject-button', function () {
-            $('#directorAcceptRejectForm').attr('action', "{{url('director/reject')}}");
+          var directorAcceptRejectForm = $('#directorAcceptRejectForm');
+          directorAcceptRejectForm.attr('action', "{{url('director/reject')}}");
+          $(this).prop('disabled', true);
+          $('.approve-button').prop('disabled', true);
+          directorAcceptRejectForm.submit();
         });
-        $('body').on('click', '.approve-button', function () {
-            $('#directorAcceptRejectForm').attr('action', "{{url('director/accept')}}");
-        });
+
+    $('body').on('click', '.approve-button', function () {
+        var directorAcceptRejectForm = $('#directorAcceptRejectForm');
+        directorAcceptRejectForm.attr('action', "{{url('director/accept')}}");
+        $(this).prop('disabled', true);
+        $('.reject-button').prop('disabled', true);
+        directorAcceptRejectForm.submit();
+    });
+        
     </script>
 
 @endsection
