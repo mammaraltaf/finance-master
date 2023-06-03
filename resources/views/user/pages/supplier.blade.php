@@ -137,7 +137,7 @@
 
                             <div class="form-group">
                                 <div>
-                                    <button type="submit" class="btn btn-success">Add Supplier</button>
+                                    <button id="addSupplier" type="submit" class="btn btn-success">Add Supplier</button>
                                 </div>
                             </div>
                         </form>
@@ -345,6 +345,12 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     
     <script type="text/javascript">
+    document.getElementById("addSupplier").addEventListener("click", function(e) {
+        e.preventDefault();
+        var form = document.getElementById("categoryForm");
+        this.disabled = true;
+        form.submit();
+    });
     $(document).ready(function() {
         $('table#suppliertable tbody tr td:first-child').on('click', function() {
             var row = $(this).closest('tr');

@@ -221,6 +221,7 @@ class UserController extends Controller
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
+
             $files = [];
             if ($request->hasfile('basis')) {
                 foreach ($request->file('basis') as $file) {
