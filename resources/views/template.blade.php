@@ -36,7 +36,7 @@
 </style>
 <body>
     <?php
-    
+
 // echo ( $request['typeOfExpense']);
 // echo "<br>";
 // exit();
@@ -58,7 +58,7 @@
             <th>Action</th>
             <th>User</th>
             <th>Date</th>
-            
+
         </tr>
     </thead>
     <tbody>
@@ -67,7 +67,7 @@
             <td><?php echo $log['action']; ?></td>
             <td><?php echo $log['rolename']; ?></td>
             <td><?php  echo $log['log_date']; ?></td>
-           
+
         </tr>
         @endforeach
     </tbody>
@@ -80,18 +80,17 @@
     <p>Currency: <?php echo $request['currency']; ?></p>
     <p>Amount: <?php echo $request['amount']; ?></p>
     <p>Amount in gel: <?php echo $request['amount_in_gel']; ?></p>
-    <p>Basis: <?php  echo $request['basis']; ?></p>
     <p>Due Date Payment: <?php echo $request['payment_date']; ?></p>
     <p>Due Date Submission: <?php echo $request['submission_date']; ?></p>
     <p>Description: <?php echo $request['description']; ?></p>
-    <p>Link: <a href="{{$request['request_link']}}" target="_blank">{{$request['request_link'] ?? ''}}</a></p>
+    <p>Link: <a href="{{asset('basis/'.$request['request_link'])}}" target="_blank">{{$request['request_link'] ?? ''}}</a></p>
     <p>Status: <?php echo $request['status']; ?></p>
     <p>Basis
-    <?php 
+    <?php
                       $files=explode(',',$request['basis']);
                       foreach($files as $file){ ?>
                       <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
-                  <?php  }   
+                  <?php  }
                   ?>
     </p>
 </body>
