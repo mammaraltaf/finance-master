@@ -83,7 +83,7 @@
     <p>Due Date Payment: <?php echo $request['payment_date']; ?></p>
     <p>Due Date Submission: <?php echo $request['submission_date']; ?></p>
     <p>Description: <?php echo $request['description']; ?></p>
-    <p>Link: <a href="{{asset('basis/'.$request['request_link'])}}" target="_blank">{{$request['request_link'] ?? ''}}</a></p>
+    <p>Link: <a href="{{URL::to($request['request_link'])}}" target="_blank">{{$request['request_link'] ?? ''}}</a></p>
     <p>Status: <?php echo $request['status']; ?></p>
     <p>Basis
     <?php
@@ -95,3 +95,4 @@
     </p>
 </body>
 </html>
+

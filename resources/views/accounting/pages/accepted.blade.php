@@ -115,7 +115,7 @@
                     <td>{{$request['currency'] ?? ''}}</td>
                     <td>{{$request['amount_in_gel'] ?? ''}}</td>
                     <td>{{$request['description'] ?? ''}}</td>
-                    <td> <a href="{{$request['request_link']}}" target="_blank">{{$request['request_link'] ?? ''}}</a> </td>
+                    <td> <a href="{{URL::to($request['request_link'])}}" target="_blank">{{$request['request_link'] ?? ''}}</a> </td>
                     <td> <?php if(isset($request['basis'])){
                                     $files=explode(',',$request['basis']);
                                     foreach($files as $file){ ?>

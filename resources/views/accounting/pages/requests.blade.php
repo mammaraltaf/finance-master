@@ -213,7 +213,7 @@
                         <td>{{$request->currency ?? ''}}</td>
                         <td>{{$request->amount_in_gel ?? ''}}</td>
                         <td>{{$request->description ?? ''}}</td>
-                        <td> <a href="{{$request->request_link}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>
+                        <td> <a href="{{URL::to($request->request_link)}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>
                         <td><?php if (isset($request->basis)){
                                 $files = explode(',', $request->basis);
                             foreach ($files as $file){ ?>
@@ -364,7 +364,7 @@
                 });
             });
         });
-    
+
 
       $('body').on('click', '#reviewBtn', function () {
         var request_id = $(this).data('id');
@@ -384,7 +384,7 @@
       //     $(this).prop('disabled', true);
       //     $('.reject-button').prop('disabled', true);
       //     directorAcceptRejectForm.submit();
-      // });      
+      // });
     });
     // $('body').on('click', '#reviewBtn', function () {
     //   var request_id = $(this).data('id');
@@ -413,11 +413,11 @@
     // });
 
 
-  
 
 
-    
-    
+
+
+
     $(document).ready(function() {
 //       $('.print-button').on('click', function() {
 //         var userId = $(this).data('user-id');
@@ -551,9 +551,9 @@
           }
         });
       });
-      
 
-     
+
+
 
         // Handle click on "Pay All" button
         $('#fxBtn').on('click', function() {
@@ -659,7 +659,7 @@
           });
         });
 
-       
+
 
         // Handle click on "Pay All" button
         $('#bogBtn').on('click', function() {
