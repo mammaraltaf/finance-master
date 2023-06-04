@@ -13,6 +13,10 @@
         .no-arrow {
             -moz-appearance: textfield;
         }
+        .dropdown-menu.show{
+            width: 100% !important;
+            padding: 10px 0;
+        }
     </style>
 @endsection
 @section('content')
@@ -108,7 +112,7 @@
                             <div class="d-flex">
                                 <div class="form-group w-100 px-2">
                                     <label for="department">Department</label>
-                                    <select class="form-control" id="department" name="department" required>
+                                    <select class="form-control" id="addDepartment" name="department" multiple required>
                                         <?php foreach ($departments as $department){ ?>
                                         <option
                                             value="{{$department->id}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
@@ -117,7 +121,7 @@
                                 </div>
                                 <div class="form-group w-100 px-2">
                                     <label for="supplier">Supplier</label>
-                                    <select class="form-control" id="supplier" name="supplier" required
+                                    <select class="form-control" id="addSupplier" multiple name="supplier" required
                                             placeholder="select a supplier">
                                         <?php foreach ($suppliers as $supplier){ ?>
                                         <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
@@ -128,7 +132,7 @@
                             <div class="d-flex">
                                 <div class="form-group w-100 px-2">
                                     <label for="expense-type">Type of Expense</label>
-                                    <select class="form-control" id="expense_type" name="expense_type" required>
+                                    <select class="form-control" id="expense_type" name="expense_type" multiple required>
                                         <?php foreach ($expenses as $expense){ ?>
                                         <option value="{{$expense->id}}">{{$expense->name}}</option>
                                         <?php } ?>
@@ -469,6 +473,12 @@ href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script
+src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
+/>
 {{-- row modal --}}
 
 {{--
@@ -485,6 +495,31 @@ href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     // document.getElementById("submitReviewBtn").addEventListener("click", function() {
     //     this.disabled = true;
     // });
+    // Multi select
+            $(document).ready(function () {
+				$("#expense_type").multiselect({
+					nonSelectedText: "Type of Expense",
+					// enableFiltering: true,
+					// enableCaseInsensitiveFiltering: true,
+					buttonWidth: "200px",
+				});
+			});
+            $(document).ready(function () {
+				$("#addDepartment").multiselect({
+					nonSelectedText: "Department",
+					// enableFiltering: true,
+					// enableCaseInsensitiveFiltering: true,
+					buttonWidth: "200px",
+				});
+			});
+            $(document).ready(function () {
+				$("#addSupplier").multiselect({
+					nonSelectedText: "Supplier",
+					// enableFiltering: true,
+					// enableCaseInsensitiveFiltering: true,
+					buttonWidth: "200px",
+				});
+			});
 
     document.getElementById("submitReviewBtn").addEventListener("click", function(e) {
         e.preventDefault();
