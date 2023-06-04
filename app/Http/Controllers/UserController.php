@@ -231,9 +231,10 @@ class UserController extends Controller
                 }
             }
             $basis = implode(',', $files);
-            if (isset($_POST['button'])) {
-                $status = $_POST['button'];
-            }
+//            if (isset($_POST['button'])) {
+//                $status = $_POST['button'];
+//            }
+            $status = StatusEnum::SubmittedForReview;
             $request_data = RequestFlow::create([
                 'initiator' => $input['initiator_id'],
                 'company_id' => $input['company'],
@@ -248,13 +249,13 @@ class UserController extends Controller
                 'request_link' => $input['request_link'],
                 'payment_date' => $input['due-date-payment'],
                 'submission_date' => $input['due-date'],
-                'status' => $status,
+                'status' =>$status,
                 'user_id' => auth()->user()->id
             ]);
 
 
             if ($request_data) {
-                if ($status == StatusEnum::SubmittedForReview) {
+                if ($status == $request_data->status) {
                     $this->logActionCreate(Auth::id(), $request_data->id, 'User Request created');
                     AcceptOrRejectRequest::dispatch($request_data);
                 }

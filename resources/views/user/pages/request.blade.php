@@ -18,6 +18,7 @@
             padding: 10px 0;
         }
     </style>
+
 @endsection
 @section('content')
 
@@ -48,6 +49,52 @@
         }
         div.dt-buttons {
             margin-top: 10px;
+        }
+        .select2-container {
+            z-index: 9999;
+        }
+        /* Adjust the width of the Select2 dropdown to match Bootstrap dropdown */
+        .select2-container .select2-selection--single {
+            height: 38px;
+            width: 200px;
+            line-height: 36px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ced4da;
+        }
+
+        /* Change the background color of the Select2 dropdown toggle button */
+        .select2-container .select2-selection--single .select2-selection__arrow {
+            top: 4px;
+            right: 8px;
+            border-color: transparent;
+            background-color: #ced4da;
+        }
+
+        /* Change the color of the Select2 dropdown toggle button icon */
+        .select2-container .select2-selection--single .select2-selection__arrow::after {
+            content: "";
+            border-width: 0;
+            border-color: transparent;
+            border-style: solid;
+            border-top-width: 5px;
+            border-top-color: #495057;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Change the color of the Select2 dropdown menu */
+        .select2-container .select2-results__option--highlighted {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        /* Adjust the padding and font size of the Select2 dropdown options */
+        .select2-container .select2-results__option {
+            padding: 6px 12px;
+            font-size: 14px;
         }
     </style>
 
@@ -111,8 +158,8 @@
 
                             <div class="d-flex">
                                 <div class="form-group w-100 px-2">
-                                    <label for="department">Department</label>
-                                    <select class="form-control" id="addDepartment" name="department" multiple required>
+                                    <label for="department">Department</label><br>
+                                    <select class="form-control select2" id="addDepartment" name="department" required>
                                         <?php foreach ($departments as $department){ ?>
                                         <option
                                             value="{{$department->id}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
@@ -120,8 +167,8 @@
                                     </select>
                                 </div>
                                 <div class="form-group w-100 px-2">
-                                    <label for="supplier">Supplier</label>
-                                    <select class="form-control" id="addSupplier" multiple name="supplier" required
+                                    <label for="supplier">Supplier</label><br>
+                                    <select class="form-control select2" id="addSupplier"  name="supplier" required
                                             placeholder="select a supplier">
                                         <?php foreach ($suppliers as $supplier){ ?>
                                         <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
@@ -131,8 +178,8 @@
                             </div>
                             <div class="d-flex">
                                 <div class="form-group w-100 px-2">
-                                    <label for="expense-type">Type of Expense</label>
-                                    <select class="form-control" id="expense_type" name="expense_type" multiple required>
+                                    <label for="expense-type">Type of Expense</label><br>
+                                    <select class="form-control select2" id="expense_type" name="expense_type" required>
                                         <?php foreach ($expenses as $expense){ ?>
                                         <option value="{{$expense->id}}">{{$expense->name}}</option>
                                         <?php } ?>
@@ -452,8 +499,10 @@
     <!--end::Body-->
 @endsection
 @section('script')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
+{{--<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>--}}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -495,31 +544,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
     // document.getElementById("submitReviewBtn").addEventListener("click", function() {
     //     this.disabled = true;
     // });
-    // Multi select
-            $(document).ready(function () {
-				$("#expense_type").multiselect({
-					nonSelectedText: "Type of Expense",
-					// enableFiltering: true,
-					// enableCaseInsensitiveFiltering: true,
-					buttonWidth: "200px",
-				});
-			});
-            $(document).ready(function () {
-				$("#addDepartment").multiselect({
-					nonSelectedText: "Department",
-					// enableFiltering: true,
-					// enableCaseInsensitiveFiltering: true,
-					buttonWidth: "200px",
-				});
-			});
-            $(document).ready(function () {
-				$("#addSupplier").multiselect({
-					nonSelectedText: "Supplier",
-					// enableFiltering: true,
-					// enableCaseInsensitiveFiltering: true,
-					buttonWidth: "200px",
-				});
-			});
 
     document.getElementById("submitReviewBtn").addEventListener("click", function(e) {
         e.preventDefault();
@@ -830,6 +854,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
         // });
 
         $(document).ready(function() {
+            $('.select2').select2();
             // listen for click events on all the buttons
             $('.filter').click(function() {
                 // get the id of the clicked button
