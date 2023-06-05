@@ -5,6 +5,8 @@
 @section('content')
     <!--begin::Header-->
     <style>
+        /* .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+        } */
         ul.pagination .paginate_button:hover {
             color: white !important;
             /* border: 1px solid #111; */
@@ -16,9 +18,9 @@
             background: -o-linear-gradient(top, #585858 0%, #1755ba 100%)!important;
             /* background: linear-gradient(to bottom, #585858 0%, #111 100%); */
         }
-        .dataTables_length {
-            margin-right: 10px;
-        }
+        /* .dataTables_wrapper .dataTables_paginate .paginate_button:hover{
+            background-color: blue!important;
+        } */
     </style>
     <br>
     <div class="card-header pt-5">
@@ -82,9 +84,7 @@
 {{--                                           class="form-control input-lg" required>--}}
 {{--                                </div>--}}
 {{--                                <br>--}}
-                                <div>
-                                    <input type="hidden" name="id_software" value="{{ Illuminate\Support\Str::random(10) }}"  class="form-control input-lg" required>
-                                </div>
+
                                 <label class="control-label">Tax ID</label>
                                 <div>
                                     <input type="text" name="tax_id" placeholder="Enter tax ID "
@@ -137,7 +137,7 @@
 
                             <div class="form-group">
                                 <div>
-                                    <button id="addSupplier" type="submit" class="btn btn-success">Add Supplier</button>
+                                    <button id="" type="submit" class="btn btn-success">Add Supplier</button>
                                 </div>
                             </div>
                         </form>
@@ -218,9 +218,9 @@
                         <td>{{$supplier['accounting_id']}}</td>
                         @hasanyrole('super-admin|accounting')
                         <td>
-                            <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}"
+                            <i  id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$supplier->id}}"
                                data-user_type="{{auth()->user()->user_type}}"
-                               class="fas px-1 fa-edit delete_btn cursor-pointer text-primary"></i>
+                               class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                         </td>
                         @endhasanyrole
                     </tr>
@@ -303,14 +303,13 @@
 
                         <div class="form-group">
                             <div>
-                                <button type="submit" class="btn btn-success">Update Supplier</button>
+                                <button id="updateSupplier" type="submit" class="btn btn-success">Update Supplier</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
-<!-- Modal Popup -->
 
     </div><!-- /.modal -->
 
@@ -318,7 +317,6 @@
 @endsection
 @section('script')
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -341,18 +339,9 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
-    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
     <script type="text/javascript">
-    document.getElementById("addSupplier").addEventListener("click", function(e) {
-        e.preventDefault();
-        var form = document.getElementById("categoryForm");
-        this.disabled = true;
-        form.submit();
-    });
-    $(document).ready(function() {
+
+$(document).ready(function() {
         $('table#suppliertable tbody tr td:first-child').on('click', function() {
             var row = $(this).closest('tr');
             var idSoftware = row.find('td:nth-child(2)').text().trim();
@@ -380,14 +369,8 @@
             });
         });
     });
-
-        $('.delete_btn').click(function () {
-            var a = $(this).data('id');
-            $('.user-delete').val(a);
-        });
         $(document).ready(function () {
             $('#suppliertable').DataTable({
-                'order': [0, 'desc'],
                 dom: 'Blfrtip',
                 lengthChange: true,
                 buttons: [
@@ -418,27 +401,54 @@
                 ]
             });
         });
+        // $('body').on('click', '#userEdit', function () {
+        //     var supplier_id = $(this).data('id');
+        //     var user_type = $(this).data('user_type');
+
+        //     $.ajax({
+        //         type: "GET",
+        //         url: "{{url('/')}}/" + user_type + "/edit-supplier/" + supplier_id,
+        //         success: function (response) {
+        //             // console.log(response);
+        //             $('#id_software').val(response.id_software);
+        //             $('#name').val(response.supplier_name);
+        //             $('#tax_id').val(response.tax_id);
+        //             $('#bank_id').val(response.bank_id);
+        //             $('#bank_name').val(response.bank_name);
+        //             $('#bank_account').val(response.bank_account);
+        //             $('#bank_swift').val(response.bank_swift);
+        //             $('#accounting_id').val(response.accounting_id);
+        //             $('#userFormEdit').attr('action', "{{url('/')}}/" + user_type + "/edit-supplier/" + supplier_id);
+        //         }
+
+        //     });
+        // });
         $('body').on('click', '#userEdit', function () {
-            var supplier_id = $(this).data('id');
-            var user_type = $(this).data('user_type');
-            $.ajax({
-                type: "GET",
-                url: "{{url('/')}}/" + user_type + "/edit-supplier/" + supplier_id,
-                success: function (response) {
-                    // console.log(response);
-                    $('#id_software').val(response.id_software);
-                    $('#name').val(response.supplier_name);
-                    $('#tax_id').val(response.tax_id);
-                    $('#bank_id').val(response.bank_id);
-                    $('#bank_name').val(response.bank_name);
-                    $('#bank_account').val(response.bank_account);
-                    $('#bank_swift').val(response.bank_swift);
-                    $('#accounting_id').val(response.accounting_id);
-                    $('#userFormEdit').attr('action', "{{url('/')}}/" + user_type + "/edit-supplier/" + supplier_id);
-                }
-
-            });
+        var supplier_id = $(this).data('id');
+        var user_type = $(this).data('user_type');
+        $.ajax({
+            type: "GET",
+            url: "{{url('/')}}/" + user_type + "/edit-supplier/" + supplier_id,
+            success: function (response) {
+                // console.log(response);
+                $('#id_software').val(response.id_software);
+                $('#name').val(response.supplier_name);
+                $('#tax_id').val(response.tax_id);
+                $('#bank_id').val(response.bank_id);
+                $('#bank_name').val(response.bank_name);
+                $('#bank_account').val(response.bank_account);
+                $('#bank_swift').val(response.bank_swift);
+                $('#accounting_id').val(response.accounting_id);
+                $('#userFormEdit').attr('action', "{{url('/')}}/" + user_type + "/edit-supplier/" + supplier_id);
+            },
         });
+    });
 
+    // document.getElementById("addSupplier").addEventListener("click", function(e) {
+    //     e.preventDefault();
+    //     var form = document.getElementById("categoryForm");
+    //     this.disabled = true;
+    //     form.submit();
+    // });
     </script>
 @endsection
