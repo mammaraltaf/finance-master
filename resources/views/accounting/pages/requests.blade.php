@@ -519,8 +519,8 @@
       //     })
       // });
       $('#rejectBtn').on('click', function () {
-        var rejectButton = $(this); // Store the button element in a variable
-        rejectButton.prop('disabled', true); // Disable the Reject button
+        var rejectButton = $(this);
+        rejectButton.prop('disabled', true); 
 
         var selectedIds = [];
         $('input[name="id[]"]:checked').each(function () {
