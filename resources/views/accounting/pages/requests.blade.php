@@ -526,14 +526,18 @@
         $('input[name="id[]"]:checked').each(function () {
           selectedIds.push($(this).val());
         });
-        var ids = selectedIds.join(',');
+        var ids=selectedIds.map(input=>{
+            return $(input).attr('value');
+        })
+          var bulkIds = ids.join(',');
+          console.log("bulkIds", bulkIds);
 
         var url = "{{url('accounting/bulk-pay-or-reject/')}}";
         $.ajax({
           type: "POST",
           url: url,
           data: {
-            bulkIds: ids,
+            bulkIds: bulkIds,
             action: 'reject'
           },
           success: function (response) {
@@ -635,14 +639,17 @@
           $('input[name="id[]"]:checked').each(function () {
             selectedIds.push($(this).val());
           });
-          var ids = selectedIds.join(',');
+          var ids=selectedIds.map(input=>{
+            return $(input).attr('value');
+        })
+          var bulkIds = ids.join(',');
 
           var url = "{{url('accounting/bulk-pay-or-reject/')}}";
           $.ajax({
             type: "POST",
             url: url,
             data: {
-              bulkIds: ids,
+              bulkIds: bulkIds,
               action: 'pay'
             },
             success: function (response) {
@@ -670,6 +677,9 @@
             });
             var ids=selectedIds.map(input=>{
                 return $(input).attr('value');
+            })
+            var ids=selectedIds.map(input=>{
+            return $(input).attr('value');
             })
             var bulkIds = ids.join(',');
             var url = "{{url('accounting/bulk-pay-or-reject/')}}";
@@ -709,6 +719,9 @@
                 selectedIds.push($(this).attr('value'));
             });
             var ids=selectedIds.map(input=>{
+                return $(input).attr('value');
+            })
+             var ids=selectedIds.map(input=>{
                 return $(input).attr('value');
             })
             var bulkIds = ids.join(',');
