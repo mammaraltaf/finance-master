@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\RequestFlow;
 use App\Models\DepartmentUser;
 use App\Models\TypeOfExpanse;
+use App\Models\CompanyDepartment;
 use Exception;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
@@ -297,10 +298,12 @@ class AdminController extends Controller
     public function departments()
     {
         $user = Auth::user();
-        $departmentIds = $user->departments->pluck('id')->toArray();
-        $departments = Department::whereIn('id', $departmentIds)->get();
+        $companyId = User::where('id', Auth::user()->id)->first()->companies()->pluck('companies.id')->first();
+        // $departmentIds = $user->departments->pluck('id')->toArray();
+        $departmentIds = CompanyDepartment::where('company_id', $companyId)->pluck('department_id')->toArray();
+       $departments=Department::whereIn('id',$departmentIds)->get();
         $users = User::where('user_type',UserTypesEnum::User)->get();
-        return view('admin.pages.department', compact('departments','users'));
+        return view('admin.pages.department', compact('departments','users','companyId'));
     }
 
     public function departmentsPost(Request $request)
@@ -310,6 +313,7 @@ class AdminController extends Controller
             $validator = Validator::make($input, [
                 'id_software' => 'unique:departments,id_software',
                 'name' => 'required',
+                'company_id' => 'required',
             ]);
 
             if ($validator->fails()) {
@@ -321,6 +325,13 @@ class AdminController extends Controller
                 'name' => $input['name'],
                 'user_id' => auth()->user()->id,
             ]);
+            $company_id = $input['company_id'];
+            $department_id = $department->id;
+            $companyDepartment = new CompanyDepartment([
+                'company_id' => $company_id,
+                'department_id' => $department_id,
+            ]);
+            $companyDepartment->save();
 
             if ($department) {
                 return redirect()->back()->with('success', 'Department created successfully');

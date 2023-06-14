@@ -8,6 +8,7 @@ use App\Models\Department;
 use App\Models\Supplier;
 use App\Models\TypeOfExpanse;
 use App\Models\CompanyUser;
+use App\Models\CompanyDepartment;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -445,9 +446,10 @@ class SuperAdminController extends Controller
     public function departments()
     {
         $departments = Department::all();
+        $companies = Company::all();
 //        $users = User::whereIn('user_type',[UserTypesEnum::User,UserTypesEnum::Admin])->get();
         $users = User::where('user_type',UserTypesEnum::User)->get();
-        return view('super-admin.pages.department', compact('departments','users'));
+        return view('super-admin.pages.department', compact('departments','users','companies'));
     }
 
     public function departmentsPost(Request $request)
@@ -456,6 +458,7 @@ class SuperAdminController extends Controller
             $input = $request->all();
             $validator = Validator::make($input, [
                 'id_software' => 'unique:departments,id_software',
+                'company_id' => 'required',
                 'name' => 'required',
             ]);
 
@@ -468,6 +471,15 @@ class SuperAdminController extends Controller
                 'name' => $input['name'],
                 'user_id' => auth()->user()->id,
             ]);
+            
+            $company_id = $request->input('company_id');
+            $department_id = $department->id;
+            $companyDepartment = new CompanyDepartment([
+                'company_id' => $company_id,
+                'department_id' => $department_id,
+            ]);
+            $companyDepartment->save();
+
 
             if ($department) {
                 return redirect()->back()->with('success', 'Department created successfully');

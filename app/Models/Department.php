@@ -15,4 +15,8 @@ class Department extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function companyss()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

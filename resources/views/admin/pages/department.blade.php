@@ -34,6 +34,7 @@
                         <form id="categoryForm" method="POST" action="{{route('admin.department-post')}}"
                               enctype="multipart/form-data">
                             @csrf
+                            <input type="hidden" name="company_id" value="<?= $companyId; ?>">
                             <div class="form-group">
                                 <label class="control-label">Name</label>
                                 <div>
@@ -104,15 +105,17 @@
             {{-- <table id="departmentTable" name="departmentTable" class="ui celled table allTable" style="width:100%"> --}}
                 <thead>
                 <tr class="text-nowrap text-center">
+                    <th>S. no</th>
                     <th class="d-none">Created AT</th>
                     <th>ID / Software</th>
                     <th>Name</th>
                     <th>Action</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody> <?php $num=0; ?>
                 @foreach($departments as $department)
                     <tr class="text-center">
+                        <td><?= ++$num; ?></td>
                         <td class="d-none">{{\Carbon\Carbon::parse($department['created_at']) ?? ''}}</td>
                         <td>{{$department->id_software}}</td>
                         <td>{{$department->name}}</td>

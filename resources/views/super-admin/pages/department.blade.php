@@ -41,6 +41,15 @@
                                            class="form-control input-lg" required>
                                 </div>
                                 <br>
+                                <label class="control-label">Select Company</label>
+                                <div>
+                                    <select name="company_id" class="form-control">
+                                        <option value="">Select Company</option>
+                                        @foreach($companies as $company)
+                                            <option value="{{$company->id}}">{{$company->slug}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                                 <br>
                                 <label class="control-label">Select User</label>
                                 <div>
