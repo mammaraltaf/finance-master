@@ -13,7 +13,7 @@ class CreateCompanyDepartmentTable extends Migration
      */
     public function up()
     {
-        Schema::create('company_department', function (Blueprint $table) {
+        Schema::create('company_departments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->nullable()->constrained('companies')->onDelete('cascade');
             $table->foreignId('department_id')->nullable()->constrained('departments')->onDelete('cascade');

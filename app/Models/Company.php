@@ -25,7 +25,7 @@ class Company extends Model
         return $this->belongsToMany(User::class);
 //        return $this->belongsToMany(User::class,'companies_users','companies_id','users_id');
     }
-    public function departmentss()
+    public function departments()
     {
         return $this->hasMany(Department::class);
     }

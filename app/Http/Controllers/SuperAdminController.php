@@ -46,11 +46,11 @@ class SuperAdminController extends Controller
                 'password' => 'required',
                 'passwordConfirm' => 'required'
             ]);
-    
+
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-    
+
             $user = User::find($input['id']);
           $oldpass=$input['currentPassword'];
           $newpass=$input['password'];
@@ -65,7 +65,7 @@ class SuperAdminController extends Controller
     }else{
         return redirect()->back()->with('error', 'Something went wrong');
     }
-    
+
     }else{
         return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
     }
@@ -458,7 +458,7 @@ class SuperAdminController extends Controller
             $input = $request->all();
             $validator = Validator::make($input, [
                 'id_software' => 'unique:departments,id_software',
-                'company_id' => 'required',
+                'company_id' => 'required | numeric | exists:companies,id',
                 'name' => 'required',
             ]);
 
@@ -471,14 +471,15 @@ class SuperAdminController extends Controller
                 'name' => $input['name'],
                 'user_id' => auth()->user()->id,
             ]);
-            
-            $company_id = $request->input('company_id');
-            $department_id = $department->id;
-            $companyDepartment = new CompanyDepartment([
-                'company_id' => $company_id,
-                'department_id' => $department_id,
-            ]);
-            $companyDepartment->save();
+
+
+//            $company_id = $request->input('company_id');
+//            $department_id = $department->id;
+//            $companyDepartment = new CompanyDepartment([
+//                'company_id' => $company_id,
+//                'department_id' => $department_id,
+//            ]);
+//            $companyDepartment->save();
 
 
             if ($department) {

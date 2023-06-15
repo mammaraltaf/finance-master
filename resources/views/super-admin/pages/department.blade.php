@@ -46,20 +46,20 @@
                                     <select name="company_id" class="form-control">
                                         <option value="">Select Company</option>
                                         @foreach($companies as $company)
-                                            <option value="{{$company->id}}">{{$company->slug}}</option>
+                                            <option value="{{$company->id}}">{{$company->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <br>
-                                <label class="control-label">Select User</label>
-                                <div>
-                                    <select name="user_id" class="form-control">
-                                        <option value="">Select User</option>
-                                        @foreach($users as $user)
-                                            <option value="{{$user->id}}">{{$user->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+{{--                                <br>--}}
+{{--                                <label class="control-label">Select User</label>--}}
+{{--                                <div>--}}
+{{--                                    <select name="user_id" class="form-control">--}}
+{{--                                        <option value="">Select User</option>--}}
+{{--                                        @foreach($users as $user)--}}
+{{--                                            <option value="{{$user->id}}">{{$user->name}}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                </div>--}}
                             </div>
 
                             <div class="form-group">
@@ -83,8 +83,18 @@
                         <form id="companyFormEdit" method="POST" action=""
                               enctype="multipart/form-data">
                             @csrf
-                            <input type="hidden" name="company_id" id="company_id">
+{{--                            <input type="hidden" name="company_id" id="company_id">--}}
                             <div class="form-group">
+                                <br>
+                                <label class="control-label">Select Company</label>
+                                <div>
+                                    <select name="company_id" id="company_id_edit" class="form-control">
+                                        <option value="">Select Company</option>
+                                        @foreach($companies as $company)
+                                            <option value="{{$company->id}}">{{$company->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
 
                                 <label class="control-label">Name</label>
                                 <div>
@@ -209,6 +219,7 @@
                 success:function (response){
                     // console.log(response);
                     $('#id_software').val(response.id_software);
+                    $('#company_id_edit').prop('selectedIndex', response.company_id);
                     $('#name').val(response.name);
                     $('#companyFormEdit').attr('action',"{{url('/super-admin/edit-department/')}}"+'/'+department_id);
                 }
