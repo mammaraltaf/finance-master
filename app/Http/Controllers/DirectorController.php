@@ -129,7 +129,7 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
             ->whereIn('request_flows.id', $req_logs_ids)
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-        return view('director.pages.accepted', compact('requests','companies_slug'));
+       return view('director.pages.accepted', compact('requests','companies_slug'));
     }
 
     public function logfilters(Request $request)
@@ -154,7 +154,7 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
               ->whereDate('log_actions.created_at', '<=', $end)
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-        return view('director.pages.accepted', compact('requests','companies_slug'));
+  return view('director.pages.accepted', compact('requests','companies_slug'));
     }
 
     public function approveRequest(Request $request)

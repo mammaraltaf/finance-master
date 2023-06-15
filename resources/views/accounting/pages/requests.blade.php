@@ -435,7 +435,7 @@
           }
         }],
 
-        'order': [3, 'desc'],
+        'order': [6, 'desc'],
         dom: 'Blfrtip',
         lengthChange: true,
         buttons: [

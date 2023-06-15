@@ -107,7 +107,7 @@
                     <td>{{$request['log_date'] ?? ''}}</td>
 
                     <td>{{$request['initiator'] ?? ''}}</td>
-                    <td>{{\Carbon\Carbon::parse($request['created_at']) ?? ''}}</td>
+                    <td>{{\Carbon\Carbon::parse($request['log_date']) ?? ''}}</td>
                     <td>{{$request['compname'] ?? ''}}</td>
                     <td>{{$request['depname'] ?? ''}}</td>
                     <td>{{$request['supname'] ?? ''}}</td>
@@ -212,7 +212,7 @@
     });
       $(document).ready(function() {
           $('#reviewDocument').DataTable({
-            'order':[[4,'desc']],
+            'order':[[3,'desc']],
             dom: 'Blfrtip',
             lengthChange: true,
             buttons: [

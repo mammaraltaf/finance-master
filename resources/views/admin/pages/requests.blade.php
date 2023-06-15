@@ -247,7 +247,7 @@
 
       $(document).ready(function() {
         $('#reviewDocument').DataTable({
-            'order':[[2,'desc']],
+            'order':[[3,'desc']],
             dom: 'Blfrtip',
             lengthChange: true,
             buttons: [

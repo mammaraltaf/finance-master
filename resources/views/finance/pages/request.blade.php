@@ -290,7 +290,7 @@
                 location.href = url;
             });
             $('#suppliertable').DataTable({
-                'order': [[2, 'desc']],
+                'order': [[4, 'desc']],
                 dom: 'Blfrtip',
                 lengthChange: true,
                 buttons: [

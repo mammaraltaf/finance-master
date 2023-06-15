@@ -305,7 +305,7 @@
             });
 
             $('#suppliertable').DataTable({
-                'order': [[0, 'desc']],
+                'order': [[4, 'desc']],
                 dom: 'Blfrtip',
                 lengthChange: true,
                 buttons: [

@@ -127,8 +127,8 @@ $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         ->whereHas('company', function ($query) {
             $query->where('slug', Session::get('url-slug'));
         })
-        ->whereDate('created_at', '>=', $start)
-        ->whereDate('created_at', '<=', $end)
+        ->whereDate('request_flows.created_at', '>=', $start)
+        ->whereDate('request_flows.created_at', '<=', $end)
         //    ->whereBetween('created_at', [$start, $end])
            ->orderBy('request_flows.created_at', 'desc')
             ->get();
