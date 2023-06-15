@@ -102,7 +102,7 @@
                                 <label class="control-label">Bank ID</label>
                                 <div>
                                     <input type="text" name="bank_id" placeholder="Enter  Bank ID"
-                                           class="form-control input-lg" @role('user') disabled @endrole>
+                                           class="form-control input-lg" @role( 'user') disabled @endrole>
                                 </div>
                                 <br>
 
@@ -450,5 +450,6 @@ $(document).ready(function() {
     //     this.disabled = true;
     //     form.submit();
     // });
+
     </script>
 @endsection

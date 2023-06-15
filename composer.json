@@ -13,8 +13,9 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "rap2hpoutre/fast-excel": "^5.2",
-        "spatie/laravel-permission": "^5.9"
+        "maatwebsite/excel": "^3.1",
+        "spatie/laravel-permission": "^5.10",
+        "yajra/laravel-datatables-oracle": "^9.21"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -212,7 +212,8 @@
                             </div>
                             <div class="form-group">
                                     <label for="gel-amount">Link:</label>
-                                    <input type="text" class="form-control" name="request_link" id="request_link" >
+                                    <input type="text" class="form-control" name="request_link" id="request_links" >
+
                                 </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
@@ -454,7 +455,7 @@
                             <td>{{$request->amount}}</td>
                             <td>{{$request->amount_in_gel ?? ''}}</td>
                             <td>{{$request->description ?? ''}}</td>
-                            <td> <a href="{{URL::to($request->request_link)}}" target="_blank">{{$request->request_link ?? ''}}</a> </td>
+                            <td> <a href="{{URL::to($request->request_link)}}" target="_blank">{{URL::to($request->request_link)}}</a> </td>
                             <td><?php if(isset($request->basis)){
                             $files=explode(',',$request->basis);
                             foreach($files as $file){ ?>
