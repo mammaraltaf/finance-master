@@ -43,7 +43,7 @@ class RequestSeeder extends Seeder
                 'payment_date' => Carbon::create($year, rand(1, 4), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
                 'submission_date' => Carbon::create($year, rand(1, 4), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
                 'status' => StatusEnum::$Statuses[array_rand(StatusEnum::$Statuses)],
-                'user_id' => '3',
+                'user_id' => 3,
                 'created_at' => Carbon::create($year, rand(1, 4), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
                 'updated_at' => Carbon::create($year, rand(1, 4), rand(1, 28), rand(0, 23), rand(0, 59), rand(0, 59)),
             ]);

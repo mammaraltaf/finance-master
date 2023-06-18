@@ -35,12 +35,6 @@
                               enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
-                                <label class="control-label">Name</label>
-                                <div>
-                                    <input type="text" name="name" placeholder="Enter Name"
-                                           class="form-control input-lg" required>
-                                </div>
-                                <br>
                                 <label class="control-label">Select Company</label>
                                 <div>
                                     <select name="company_id" class="form-control">
@@ -50,6 +44,13 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <br>
+                                <label class="control-label">Name</label>
+                                <div>
+                                    <input type="text" name="name" placeholder="Enter Name"
+                                           class="form-control input-lg" required>
+                                </div>
+
 {{--                                <br>--}}
 {{--                                <label class="control-label">Select User</label>--}}
 {{--                                <div>--}}
@@ -126,6 +127,7 @@
                     <th class="d-none">Created AT</th>
                     <th>ID / Software</th>
                     <th>Name</th>
+                    <th>Company</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -135,7 +137,7 @@
                         <td class="d-none">{{\Carbon\Carbon::parse($department['created_at']) ?? ''}}</td>
                         <td>{{$department->id_software}}</td>
                         <td>{{$department->name}}</td>
-
+                        <td>{{$department->company->name}}</td>
                         <td>
                             {{-- <a href="" class="btn btn-primary btn-sm" id="departmentEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$department->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$department->id}}"

@@ -1,6 +1,7 @@
 <?php
 
 namespace Database\Seeders;
+use App\Models\Company;
 use App\Models\Department;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -21,6 +22,7 @@ class DepartmentSeeder extends Seeder
             'id'    => $i,
             'id_software' => Str::random(10),
             'name' => 'Department '.$i,
+            'company_id' => Company::all()->random()->id,
             'created_at'    => Carbon::now(),
             'updated_at'    => Carbon::now(),
         ]);

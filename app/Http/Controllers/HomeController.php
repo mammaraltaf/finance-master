@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\LogAction;
+use App\Models\RequestFlow;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,5 +34,15 @@ class HomeController extends Controller
     {
         $companies = User::where('id', Auth::user()->id)->first()->companies;
         return view('user.pages.companylist', compact('companies'));
+    }
+
+    public function requestDetail($id){
+        $requestFlow = RequestFlow::whereId($id)->first();
+        return response()->json($requestFlow);
+    }
+
+    public function logDetail($id){
+        $logs = LogAction::whereId($id)->first();
+        return response()->json($logs);
     }
 }

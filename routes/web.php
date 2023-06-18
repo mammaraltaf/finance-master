@@ -43,6 +43,10 @@ Route::get('/store-button-value/{buttonValue}', function ($buttonValue) {
 
 
 Route::group(['middleware' => 'auth'], function () {
+    /*This endpoint is created for showing pop up modal for request details*/
+    Route::get('/request-detail/{id}', [HomeController::class, 'requestDetail'])->name('request-detail');
+    /*This endpoint is created for showing pop up modal for logs*/
+    Route::get('/log-detail/{id}', [HomeController::class, 'logDetail'])->name('log-detail');
     /*Super Admin Routes*/
     Route::group([
         'middleware' => ['role:' . UserTypesEnum::SuperAdmin],

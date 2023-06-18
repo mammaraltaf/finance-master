@@ -259,11 +259,10 @@ class SuperAdminController extends Controller
             }
 
             if ($request->hasfile('logo')) {
-                $file=$request->file('logo');
-
-                    $name = time() . rand(1, 50) . '.' . $file->extension();
-                    $file->move(public_path('image'), $name);
-                    $logo = $name;
+                $file = $request->file('logo');
+                $name = time() . rand(1, 50) . '.' . $file->extension();
+                $file->move(public_path('image'), $name);
+                $logo = $name;
             }
 
             $company = Company::create([
@@ -504,6 +503,7 @@ class SuperAdminController extends Controller
             $input = $request->all();
             $validator = Validator::make($input, [
                 'id_software' => 'unique:departments,id_software,' . $id,
+                'company_id' => 'required | numeric | exists:companies,id',
                 'name' => 'required',
             ]);
 
@@ -514,6 +514,7 @@ class SuperAdminController extends Controller
             $department = Department::find($id);
             $department->id_software = $input['id_software'] ?? Str::random(10);
             $department->name = $input['name'];
+            $department->company_id = $input['company_id'];
             $department->save();
 
             if ($department) {
