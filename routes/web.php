@@ -47,6 +47,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/request-detail/{id}', [HomeController::class, 'requestDetail'])->name('request-detail');
     /*This endpoint is created for showing pop up modal for logs*/
     Route::get('/log-detail/{id}', [HomeController::class, 'logDetail'])->name('log-detail');
+    /*Get Departments based on Company IDS selected*/
+    Route::post('/get-departments', [HomeController::class, 'getDepartments'])->name('get-departments');
+
     /*Super Admin Routes*/
     Route::group([
         'middleware' => ['role:' . UserTypesEnum::SuperAdmin],
@@ -54,6 +57,7 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => UserTypesEnum::SuperAdmin . '.',
     ], function () {
         Route::get('/dashboard', [SuperAdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [SuperAdminController::class, 'profile'])->name('profile');
         Route::post('/changepassword', [SuperAdminController::class, 'changepassword'])->name('changepassword');
         /*Manage Users*/
         Route::get('/users', [SuperAdminController::class, 'users'])->name('users');
@@ -115,6 +119,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/edit-department/{id}', [AdminController::class, 'editDepartmentPost'])->name('edit-department-post');
         Route::post('/delete-department', [AdminController::class, 'deleteDepartment'])->name('delete-department');
         Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('/profile', [AdminController::class, 'profile'])->name('profile');
         Route::get('/viewrequests', [AdminController::class, 'viewrequests'])->name('viewrequests');
         Route::get('/company', [AdminController::class, 'company'])->name('company');
         Route::get('/edit-company/{id}', [AdminController::class, 'editCompany'])->name('edit-company');
@@ -134,7 +139,7 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => UserTypesEnum::User . '.',
     ], function () {
 
-
+        Route::get('/profile', [UserController::class, 'profile'])->name('profile');
         Route::post('/addsupplier', [UserController::class, 'addsupplier'])->name('addsupplier');
         Route::post('/delete-supplier', [UserController::class, 'deletesupplier'])->name('delete-supplier');
         Route::post('/addrequest', [UserController::class, 'addrequest'])->name('addrequest');
@@ -156,6 +161,8 @@ Route::group(['middleware' => 'auth'], function () {
         'prefix' => UserTypesEnum::Finance,
         'as' => UserTypesEnum::Finance . '.',
     ], function () {
+
+        Route::get('/profile', [FinanceController::class, 'profile'])->name('profile');
 
         Route::post('/approve-request', [FinanceController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [FinanceController::class, 'rejectRequest'])->name('reject-request');
@@ -179,6 +186,7 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => UserTypesEnum::Manager . '.',
     ], function () {
 
+        Route::get('/profile', [ManagerController::class, 'profile'])->name('profile');
         Route::post('/approve-request', [ManagerController::class, 'approveRequest'])->name('approve-request');
         Route::post('/reject-request', [ManagerController::class, 'rejectRequest'])->name('reject-request');
         Route::post('payments', [ManagerController::class, 'payments'])->name('payments');
@@ -200,6 +208,7 @@ Route::group(['middleware' => 'auth'], function () {
         'as' => UserTypesEnum::Director . '.',
     ], function () {
 
+        Route::get('/profile', [DirectorController::class, 'profile'])->name('profile');
         Route::post('/logfilters', [DirectorController::class, 'logfilters'])->name('logfilters');
         Route::post('/reject', [DirectorController::class, 'rejectRequest'])->name('reject');
         Route::post('/accept', [DirectorController::class, 'approveRequest'])->name('accept');
@@ -219,6 +228,7 @@ Route::group(['middleware' => 'auth'], function () {
         'prefix' => UserTypesEnum::Accounting,
         'as' => UserTypesEnum::Accounting . '.',
     ], function () {
+        Route::get('/profile', [AccountingController::class, 'profile'])->name('profile');
         Route::post('/payment/{id}', [AccountingController::class, 'pay'])->name('payment-post');
         Route::post('/payments', [AccountingController::class, 'payments'])->name('payments');
         Route::post('/bulk-pay-or-reject', [AccountingController::class, 'bulkPayOrReject'])->name('bulk-pay-or-reject');

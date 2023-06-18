@@ -36,6 +36,13 @@ class SuperAdminController extends Controller
         $user_id=Auth::user()->id;
         return view('super-admin.pages.dashboard', compact('user_id','users','companies','departments','suppliers','typeOfExpanse'));
     }
+
+    public function profile(){
+        $user_id=Auth::user()->id;
+        $user = User::find($user_id);
+        return view('super-admin.pages.profile', compact('user'));
+    }
+
     public function changepassword(Request $request){
         $input = $request->all();
         try {
@@ -105,8 +112,8 @@ class SuperAdminController extends Controller
                 'name' => 'required',
                 'email' => 'required | unique:users,email',
                 'type' => 'required',
-                'company' => 'required',
-                'department' => 'required',
+                'company' => 'required | array',
+                'department' => 'required | array',
                 'password' => 'required'
             ]);
 

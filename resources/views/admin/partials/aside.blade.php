@@ -17,6 +17,7 @@
                     <div class="flex-grow-1 me-2">
                         <!--begin::Username-->
                         <a href="#" class="text-white text-hover-primary fs-6 fw-bold">{{Auth::user()->name ?? 'User'}}</a>
+
                         <!--end::Username-->
                     </div>
                     <!--end::Info-->
@@ -174,6 +175,11 @@
 
 
             </div>
+                <div class="menu-item">
+                    <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.  '.profile') ? 'active' : '' }}" href="{{ route((auth()->user()->user_type. '.profile'))}}" >
+                        <span class="menu-title">Manage Profile</span>
+                    </a>
+                </div>
             <!--end::Menu-->
         </div>
         <!--end::Aside Menu-->

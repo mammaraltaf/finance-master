@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Classes\Enums\StatusEnum;
 use App\Models\Company;
 use App\Models\CompanyUser;
@@ -19,20 +20,23 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+
 class AdminController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'role:'.UserTypesEnum::Admin]);
+        $this->middleware(['auth', 'role:' . UserTypesEnum::Admin]);
     }
 
     public function dashboard()
     {
-        $user_id=Auth::user()->id;
+        $user_id = Auth::user()->id;
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        return view('admin.pages.dashboard', compact('user_id','companies_slug'));
+        return view('admin.pages.dashboard', compact('user_id', 'companies_slug'));
     }
-    public function changepassword(Request $request){
+
+    public function changepassword(Request $request)
+    {
         $input = $request->all();
         try {
             $input = $request->all();
@@ -42,44 +46,46 @@ class AdminController extends Controller
                 'password' => 'required',
                 'passwordConfirm' => 'required'
             ]);
-    
+
             if ($validator->fails()) {
                 return redirect()->back()->withErrors($validator)->withInput();
             }
-    
+
             $user = User::find($input['id']);
-          $oldpass=$input['currentPassword'];
-          $newpass=$input['password'];
-        $confirm=$input['passwordConfirm'];
-        if($oldpass==$user->original_password){
-    if($newpass==$confirm){
-    $user['original_password']=$newpass;
-    $user['password']=Hash::make($newpass);
-    $check=$user->save();
-    if ($check) {
-        return redirect()->back()->with('success', 'Password updated successfully');
-    }else{
-        return redirect()->back()->with('error', 'Something went wrong');
-    }
-    
-    }else{
-        return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
-    }
-        }else{
-            return redirect()->back()->with('error', 'Current password is wrong.Please try again.');
-        }
+            $oldpass = $input['currentPassword'];
+            $newpass = $input['password'];
+            $confirm = $input['passwordConfirm'];
+            if ($oldpass == $user->original_password) {
+                if ($newpass == $confirm) {
+                    $user['original_password'] = $newpass;
+                    $user['password'] = Hash::make($newpass);
+                    $check = $user->save();
+                    if ($check) {
+                        return redirect()->back()->with('success', 'Password updated successfully');
+                    } else {
+                        return redirect()->back()->with('error', 'Something went wrong');
+                    }
+
+                } else {
+                    return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
+                }
+            } else {
+                return redirect()->back()->with('error', 'Current password is wrong.Please try again.');
+            }
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
     public function viewrequests()
     {
 
         $user = Auth::user();
         $company = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->where('company_id', $company)->orderBy('request_flows.created_at', 'desc')->get();
-       return view('admin.pages.requests', compact('requests'));
+        return view('admin.pages.requests', compact('requests'));
     }
+
     public function payments(Request $request)
     {
         $user = Auth::user();
@@ -88,23 +94,25 @@ class AdminController extends Controller
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->where('company_id', $company)
-        ->whereDate('request_flows.created_at', '>=', $start)
-        ->whereDate('request_flows.created_at', '<=', $end)
+            ->whereDate('request_flows.created_at', '>=', $start)
+            ->whereDate('request_flows.created_at', '<=', $end)
             ->orderBy('request_flows.created_at', 'desc')
             ->get();
         return view('admin.pages.requests', compact('requests'));
     }
+
     public function company()
     {
         $user = Auth::user();
         $company_id = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
-        $companys = Company::where('id',$company_id)->get();
+        $companys = Company::where('id', $company_id)->get();
         $admin = User::where('id', $user->id)->get();
-        return view('admin.pages.company', compact('companys','admin'));
+        return view('admin.pages.company', compact('companys', 'admin'));
     }
+
     public function editCompany($id)
     {
-        $company = Company::with(['users'=>function($query){
+        $company = Company::with(['users' => function ($query) {
             $query->where('user_type', UserTypesEnum::Admin);
         }])
             ->where('id', $id)
@@ -114,7 +122,7 @@ class AdminController extends Controller
 
     public function editCompanyPost(Request $request, $id)
     {
-    //        $this->authorize('edit company');
+        //        $this->authorize('edit company');
         try {
             $input = $request->all();
             $validator = Validator::make($input, [
@@ -129,11 +137,11 @@ class AdminController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
             if ($request->hasfile('logo')) {
-                $file=$request->file('logo');
+                $file = $request->file('logo');
 
-                    $name = time() . rand(1, 50) . '.' . $file->extension();
-                    $file->move(public_path('image'), $name);
-                    $logo = $name;
+                $name = time() . rand(1, 50) . '.' . $file->extension();
+                $file->move(public_path('image'), $name);
+                $logo = $name;
             }
 
             $company = Company::find($id);
@@ -144,7 +152,7 @@ class AdminController extends Controller
             $company->legal_address = $input['legal_address'];
             $company->bog_account_number = $input['bog'];
             $company->tbc_account_number = $input['tbc'];
-            if(isset($logo)){
+            if (isset($logo)) {
                 $company->logo = $logo;
             }
             // $company->user_id = $input['user_id'];
@@ -159,22 +167,22 @@ class AdminController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
     public function users()
     {
-        try{
+        try {
             $user = Auth::user();
             $company_id = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
             $user_ids = CompanyUser::where([
                 ['company_id', $company_id],
-                ['user_id','!=', $user->id]
-                ])
+                ['user_id', '!=', $user->id]
+            ])
                 ->get('user_id');
-                $users = User::whereIn('id', $user_ids)->withTrashed()->orderBy('created_at', 'desc')->get();
+            $users = User::whereIn('id', $user_ids)->withTrashed()->orderBy('created_at', 'desc')->get();
 
-                $roles = Role::whereNotIn('name',[UserTypesEnum::SuperAdmin,UserTypesEnum::Admin])->get();
-            return view('admin.pages.users', compact('users','roles'));
-        }
-        catch(Exception $e){
+            $roles = Role::whereNotIn('name', [UserTypesEnum::SuperAdmin, UserTypesEnum::Admin])->get();
+            return view('admin.pages.users', compact('users', 'roles'));
+        } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
@@ -220,51 +228,53 @@ class AdminController extends Controller
             return redirect()->back()->with('error', $e->getMessage());
         }
     }
+
     public function editUser($id)
     {
 //        $this->authorize('edit user');
-        $user = User::where('id',$id)->first();
+        $user = User::where('id', $id)->first();
         return response()->json($user);
 
     }
 
-    public function editUserPost(Request $request, $id){
-                try{
-                    $input = $request->all();
-                    $validator = Validator::make($input, [
-                        'name' => 'required',
-                        'email' => 'required | unique:users,email,'.$id,
-                        'type' => 'required',
-                        'password' => 'required'
-                    ]);
+    public function editUserPost(Request $request, $id)
+    {
+        try {
+            $input = $request->all();
+            $validator = Validator::make($input, [
+                'name' => 'required',
+                'email' => 'required | unique:users,email,' . $id,
+                'type' => 'required',
+                'password' => 'required'
+            ]);
 
-                    if ($validator->fails()) {
-                        return redirect()->back()->withErrors($validator)->withInput();
-                    }
-                    $user = Auth::user();
-
-                    $user = User::find($id);
-                    $user->name = $input['name'];
-                    $user->email = $input['email'];
-                    $user->user_type = $input['type'];
-                    $user->password = Hash::make($input['password']);
-                    $user->original_password = $input['password'];
-                    $user->save();
-
-                    $companyIds = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
-                    $user->companies()->sync($companyIds);
-
-                    if($user){
-                        return redirect()->back()->with('success', 'User updated successfully');
-                    }
-
-                    return redirect()->back()->with('error', 'Something went wrong');
-                }
-                catch (Exception $e) {
-                    return redirect()->back()->with('error', $e->getMessage());
-                }
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
             }
-            public function blockUser(Request $request)
+            $user = Auth::user();
+
+            $user = User::find($id);
+            $user->name = $input['name'];
+            $user->email = $input['email'];
+            $user->user_type = $input['type'];
+            $user->password = Hash::make($input['password']);
+            $user->original_password = $input['password'];
+            $user->save();
+
+            $companyIds = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
+            $user->companies()->sync($companyIds);
+
+            if ($user) {
+                return redirect()->back()->with('success', 'User updated successfully');
+            }
+
+            return redirect()->back()->with('error', 'Something went wrong');
+        } catch (Exception $e) {
+            return redirect()->back()->with('error', $e->getMessage());
+        }
+    }
+
+    public function blockUser(Request $request)
     {
         $user = User::where('id', $request->id)->first();
         $user->status = StatusEnum::Blocked;
@@ -272,6 +282,7 @@ class AdminController extends Controller
         $user->delete();
         return redirect()->back()->with('success', 'User status updated successfully');
     }
+
     public function unblockUser(Request $request)
     {
         $user = User::where('id', $request->id)->withTrashed()->first();
@@ -280,6 +291,7 @@ class AdminController extends Controller
         $user->save();
         return redirect()->back()->with('success', 'User status updated successfully');
     }
+
     public function deleteUser(Request $request)
     {
 //        $this->authorize('delete user');
@@ -301,9 +313,9 @@ class AdminController extends Controller
         $companyId = User::where('id', Auth::user()->id)->first()->companies()->pluck('companies.id')->first();
         // $departmentIds = $user->departments->pluck('id')->toArray();
         $departmentIds = CompanyDepartment::where('company_id', $companyId)->pluck('department_id')->toArray();
-       $departments=Department::whereIn('id',$departmentIds)->get();
-        $users = User::where('user_type',UserTypesEnum::User)->get();
-        return view('admin.pages.department', compact('departments','users','companyId'));
+        $departments = Department::whereIn('id', $departmentIds)->get();
+        $users = User::where('user_type', UserTypesEnum::User)->get();
+        return view('admin.pages.department', compact('departments', 'users', 'companyId'));
     }
 
     public function departmentsPost(Request $request)
@@ -381,8 +393,8 @@ class AdminController extends Controller
     public function deleteDepartment(Request $request)
     {
         try {
-            Department::where('id',$request->id)->delete();
-            return redirect()->back()->with('success','Department deleted Successfully');
+            Department::where('id', $request->id)->delete();
+            return redirect()->back()->with('success', 'Department deleted Successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -457,8 +469,8 @@ class AdminController extends Controller
     public function deleteTypeOfExpense(Request $request)
     {
         try {
-            TypeOfExpanse::where('id',$request->id)->delete();
-            return redirect()->back()->with('success','Type of expense deleted Successfully');
+            TypeOfExpanse::where('id', $request->id)->delete();
+            return redirect()->back()->with('success', 'Type of expense deleted Successfully');
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
