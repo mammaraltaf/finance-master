@@ -129,8 +129,8 @@
                                    echo "No document available";
                                 }
                                 ?></td>
-                    <td>{{$request['payment_date'] ?? ''}}</td>
-                    <td>{{$request['submission_date'] ?? ''}}</td>
+                    <td>{{formatDate($request['payment_date']) ?? ''}}</td>
+                    <td>{{formatDate($request['submission_date']) ?? ''}}</td>
                     <td>{{$request['amount'] ?? ''}}</td>
 
                             </tr>

@@ -103,10 +103,10 @@
                   <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request['id'] ?? ''}}</td>
 
                     <td>{{$request['action'] ?? ''}}</td>
-                    <td>
-                            <a href="{{ route('accounting.print', $request['id']) }}" target="_blank">Print</a>
-                        </td>
-                    <td>{{$request['log_date'] ?? ''}}</td>
+{{--                    <td>--}}
+{{--                            <a href="{{ route('accounting.print', $request['id']) }}" target="_blank">Print</a>--}}
+{{--                        </td>--}}
+                    <td>{{formatDate($request['log_date']) ?? ''}}</td>
 
                     <td>{{$request['initiator'] ?? ''}}</td>
                     <td>{{formatDate($request['log_date']) ?? ''}}</td>
@@ -129,8 +129,8 @@
                                    echo "No document available";
                                 }
                                 ?></td>
-                    <td>{{$request['payment_date'] ?? ''}}</td>
-                    <td>{{$request['submission_date'] ?? ''}}</td>
+                    <td>{{formatDate($request['payment_date']) ?? ''}}</td>
+                    <td>{{formatDate($request['submission_date']) ?? ''}}</td>
                    <td>{{$request['amount'] ?? ''}}</td>
                             </tr>
             @endforeach
