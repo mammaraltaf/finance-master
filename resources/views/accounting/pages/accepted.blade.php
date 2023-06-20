@@ -84,7 +84,9 @@
                 <th>Company</th>
                 <th>Department</th>
                 <th>Supplier</th>
+                <th>Accounting UID of Supplier</th>
                 <th>Type of Expense</th>
+                <th>Accounting UID of Type of Expense</th>
                 <th>Currency</th>
                 <th>Amount In Gel</th>
                 <th>Description</th>
@@ -111,7 +113,9 @@
                     <td>{{$request['compname'] ?? ''}}</td>
                     <td>{{$request['depname'] ?? ''}}</td>
                     <td>{{$request['supname'] ?? ''}}</td>
+                    <td>{{$request['supacc'] ?? ''}}</td>
                     <td>{{$request['expname'] ?? ''}}</td>
+                    <td>{{$request['expacc'] ?? ''}}</td>
                     <td>{{$request['currency'] ?? ''}}</td>
                     <td>{{$request['amount_in_gel'] ?? ''}}</td>
                     <td>{{$request['description'] ?? ''}}</td>

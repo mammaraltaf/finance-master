@@ -360,8 +360,8 @@ class AccountingController extends Controller
             ->whereIn('request_flows.id', $req_logs_ids)
             ->whereIn('action', [ActionEnum::ACCOUNTING_REJECT, ActionEnum::ACCOUNTING_ACCEPT])
             ->orderBy('log_actions.created_at', 'desc')
-            ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-        return view('accounting.pages.accepted', compact('requests', 'companies_slug'));
+            ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname','suppliers.accounting_id as supacc', 'type_of_expanses.name as expname', 'type_of_expanses.accounting_id as expacc'])->toArray();
+       return view('accounting.pages.accepted', compact('requests', 'companies_slug'));
     }
 
     public function pay(Request $request, $id)

@@ -76,7 +76,7 @@
                                 <br>
 
                                 <label class="control-label">Company</label>
-                                <div class="company-selects">
+                                    <div class="company-selects">
                                 </div>
                                 {{-- <div id="single" class="">
                                     <select name="company[]" class="form-control">
@@ -97,7 +97,7 @@
                                 <br>
 
                                 <label class="control-label">Department</label>
-                                <div class="department-selects">
+                                    <div class="department-selects">
                                 </div>
                                 {{-- <div id='multi-dept' class="">
                                     <select id="departments" name="department" class="form-control" multiple
