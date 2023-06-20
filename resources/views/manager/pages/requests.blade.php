@@ -125,7 +125,7 @@
                     <td class="cursor-pointer text-center bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request->id ?? ''}}</td>
                     <td>{{$request->status ?? ''}}</td>
                     <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
-                    <td>{{\Carbon\Carbon::parse($request->created_at) ?? ''}}</td>
+                    <td>{{formatDate($request->created_at) ?? ''}}</td>
                     <td>{{$request->company->name ?? ''}}</td>
                     <td>{{$request->department->name ?? ''}}</td>
                     <td>{{$request->supplier->supplier_name ?? ''}}</td>
@@ -143,8 +143,8 @@
                      echo "No document available";
                   }
                   ?></td>
-                    <td>{{$request->payment_date ?? ''}}</td>
-                    <td>{{$request->submission_date ?? ''}}</td>
+                    <td>{{formatDate($request->payment_date) ?? ''}}</td>
+                    <td>{{formatDate($request->submission_date) ?? ''}}</td>
 
 
 

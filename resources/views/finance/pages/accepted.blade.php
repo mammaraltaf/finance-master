@@ -102,7 +102,7 @@
                   <td class="cursor-pointer text-center bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request['id'] ?? ''}}</td>
                   <td>{{$request['action'] ?? ''}}</td>
                     <td>{{$request['initiator'] ?? ''}}</td>
-                    <td>{{\Carbon\Carbon::parse($request['log_date']) ?? ''}}</td>
+                    <td>{{formatDate($request['log_date']) ?? ''}}</td>
                     <td>{{$request['compname'] ?? ''}}</td>
                     <td>{{$request['depname'] ?? ''}}</td>
                     <td>{{$request['supname'] ?? ''}}</td>

@@ -475,6 +475,7 @@ class SuperAdminController extends Controller
             $department = Department::create([
                 'id_software' => $input['id_software'] ?? Str::random(10),
                 'name' => $input['name'],
+                'company_id' => $input['company_id'],
                 'user_id' => auth()->user()->id,
             ]);
 

@@ -116,7 +116,7 @@
                 @foreach($departments as $department)
                     <tr class="text-center">
                         <td><?= ++$num; ?></td>
-                        <td class="d-none">{{\Carbon\Carbon::parse($department['created_at']) ?? ''}}</td>
+                        <td class="d-none">{{formatDate($department['created_at']) ?? ''}}</td>
                         <td>{{$department->id_software}}</td>
                         <td>{{$department->name}}</td>
 

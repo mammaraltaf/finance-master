@@ -109,7 +109,7 @@
                     <td>{{$request['log_date'] ?? ''}}</td>
 
                     <td>{{$request['initiator'] ?? ''}}</td>
-                    <td>{{\Carbon\Carbon::parse($request['log_date']) ?? ''}}</td>
+                    <td>{{formatDate($request['log_date']) ?? ''}}</td>
                     <td>{{$request['compname'] ?? ''}}</td>
                     <td>{{$request['depname'] ?? ''}}</td>
                     <td>{{$request['supname'] ?? ''}}</td>

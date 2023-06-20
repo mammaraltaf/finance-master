@@ -80,8 +80,8 @@
     <p>Currency: <?php echo $request['currency']; ?></p>
     <p>Amount: <?php echo $request['amount']; ?></p>
     <p>Amount in gel: <?php echo $request['amount_in_gel']; ?></p>
-    <p>Due Date Payment: <?php echo $request['payment_date']; ?></p>
-    <p>Due Date Submission: <?php echo $request['submission_date']; ?></p>
+    <p>Due Date Payment: <?php echo formatDate($request['payment_date']); ?></p>
+    <p>Due Date Submission: <?php echo formatDate($request['submission_date']); ?></p>
     <p>Description: <?php echo $request['description']; ?></p>
     <p>Link: <a href="{{URL::to($request['request_link'])}}" target="_blank">{{$request['request_link'] ?? ''}}</a></p>
     <p>Status: <?php echo $request['status']; ?></p>

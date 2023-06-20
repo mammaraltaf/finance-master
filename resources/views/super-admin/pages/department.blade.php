@@ -134,10 +134,10 @@
                 <tbody>
                 @foreach($departments as $department)
                     <tr class="text-center">
-                        <td class="d-none">{{\Carbon\Carbon::parse($department['created_at']) ?? ''}}</td>
+                        <td class="d-none">{{formatDate($department['created_at']) ?? ''}}</td>
                         <td>{{$department->id_software}}</td>
                         <td>{{$department->name}}</td>
-                        <td>{{$department->company->name}}</td>
+                        <td>{{isset($department->company) ? $department->company->name : null}}</td>
                         <td>
                             {{-- <a href="" class="btn btn-primary btn-sm" id="departmentEdit"  data-toggle="modal" data-target="#ModalEdit" data-id="{{$department->id}}">Edit</a>
                             <a id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$department->id}}"

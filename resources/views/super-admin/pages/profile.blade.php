@@ -228,7 +228,7 @@
                 <tbody>
                 @foreach($companies as $company)
                     <tr class="text-nowrap text-center">
-                        <td class="d-none">{{\Carbon\Carbon::parse($company['created_at']) ?? ''}}</td>
+                        <td class="d-none">{{formatDate($company['created_at']) ?? ''}}</td>
                         <td><img src="{{asset('image/'.$company->logo)}}" alt="Company Logo" width="50" height="40"></td>
                         <td>{{$company->id_software}}</td>
                         <td>{{$company->tax_id}}</td>

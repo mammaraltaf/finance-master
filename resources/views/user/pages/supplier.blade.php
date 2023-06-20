@@ -199,13 +199,13 @@
                     <tr class=" text-nowrap text-center">
                         {{-- <td class="cursor-pointer">
                             <div class="rounded-circle bg-primary dot"></div>
-                            <div class="d-none">{{\Carbon\Carbon::parse($supplier['created_at']) ?? ''}}</div>
+                            <div class="d-none">{{formatDate($supplier['created_at']) ?? ''}}</div>
                         </td> --}}
                         <td class="cursor-pointer text-xl bg-primary"
                             style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">
                             +
                             <div class="d-none">
-                                {{\Carbon\Carbon::parse($supplier['created_at']) ?? ''}}
+                                {{formatDate($supplier['created_at']) ?? ''}}
                             </div>
                         </td>
                         <td>{{$supplier['id_software']}}</td>

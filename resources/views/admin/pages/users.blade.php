@@ -111,7 +111,7 @@
                 <tbody>
                 @foreach($users as $user)
                     <tr class="text-center">
-                        <td>{{\Carbon\Carbon::parse($user['created_at']) ?? ''}}</td>
+                        <td>{{formatDate($user['created_at']) ?? ''}}</td>
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
                         <td>

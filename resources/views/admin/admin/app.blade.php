@@ -33,6 +33,7 @@
 <!--begin::Body-->
 <body id="kt_body" class="header-tablet-and-mobile-fixed aside-enabled">
 <!--begin::Main-->
+@include('update-profile')
 <!--begin::Root-->
 <div class="d-flex flex-column flex-root">
     <!--begin::Page-->

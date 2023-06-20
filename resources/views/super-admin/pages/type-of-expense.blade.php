@@ -116,7 +116,7 @@
                 <tbody>
                 @foreach($typeOfExpenses as $typeOfExpense)
                     <tr class="text-center">
-                        <td class="d-none">{{\Carbon\Carbon::parse($typeOfExpense['created_at']) ?? ''}}</td>
+                        <td class="d-none">{{formatDate($typeOfExpense['created_at']) ?? ''}}</td>
                         <td>{{$typeOfExpense->id_software}}</td>
                         <td>{{$typeOfExpense->name}}</td>
                         <td>{{$typeOfExpense->accounting_id}}</td>

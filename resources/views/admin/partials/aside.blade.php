@@ -16,10 +16,11 @@
                     <!--begin::Info-->
                     <div class="flex-grow-1 me-2">
                         <!--begin::Username-->
-                        <a href="#" class="text-white text-hover-primary fs-6 fw-bold">{{Auth::user()->name ?? 'User'}}</a>
-
+                        <a href="#" class="text-white text-hover-primary fs-6 fw-bold">{{Auth::user()->name ?? 'User'}}</a><br>
+                        <span style="color:#009ef7; font: 12px;">Role: {{Auth::user()->user_type ?? 'Role'}}</span>
                         <!--end::Username-->
                     </div>
+
                     <!--end::Info-->
                     <!--begin::User menu-->
 
@@ -33,6 +34,7 @@
         <!--end::Aside user-->
     </div>
     <!--end::Aside Toolbarl-->
+
     <!--begin::Aside menu-->
     <div class="aside-menu flex-column-fluid">
         <!--begin::Aside Menu-->
@@ -176,7 +178,7 @@
 
             </div>
                 <div class="menu-item">
-                    <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.  '.profile') ? 'active' : '' }}" href="{{ route((auth()->user()->user_type. '.profile'))}}" >
+                    <a class="menu-link" id="changepass" data-toggle="modal" data-target="#changemodal" data-id="{{auth()->user()->id}} >
                         <span class="menu-title">Manage Profile</span>
                     </a>
                 </div>

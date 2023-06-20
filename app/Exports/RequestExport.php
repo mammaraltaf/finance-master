@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class RequestExport implements FromCollection, WithHeadings
+class RequestExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     protected $exportData;
     protected $columns;
