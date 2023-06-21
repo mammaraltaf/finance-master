@@ -1,5 +1,5 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" id="changemodal" >
-    <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-dialog modal-l" role="document">
         <div class="modal-content">
             <form method="post" action="{{route(auth()->user()->user_type.'.changepassword')}}">
                 @csrf
@@ -20,6 +20,21 @@
 
                     <label><b>Role :</b></label>
                     <label>{{auth()->user()->user_type}}</label>
+                    <br>
+
+                    @php
+                        $companies = auth()->user()->companies;
+                        $departments = auth()->user()->departments;
+                        $companyNames = $companies->pluck('name')->implode(', ');
+                        $departmentNames = $departments->pluck('name')->implode(', ');
+
+                    @endphp
+                    <label><b>Company :</b></label>
+                    <label>{{$companyNames}}</label>
+                    <br>
+
+                    <label><b>Department :</b></label>
+                    <label>{{$departmentNames}}</label>
                     <br>
                     <hr>
 

@@ -212,6 +212,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/logfilters', [DirectorController::class, 'logfilters'])->name('logfilters');
         Route::post('/reject', [DirectorController::class, 'rejectRequest'])->name('reject');
         Route::post('/accept', [DirectorController::class, 'approveRequest'])->name('accept');
+        Route::post('/approve-request', [DirectorController::class, 'approveRequest'])->name('approve-request');
+        Route::post('/reject-request', [DirectorController::class, 'rejectRequest'])->name('reject-request');
         Route::post('/payments', [DirectorController::class, 'payments'])->name('payments');
         Route::post('/changepassword', [DirectorController::class, 'changepassword'])->name('changepassword');
         Route::get('/select-company', [HomeController::class, 'selectCompany'])->name('select-company');

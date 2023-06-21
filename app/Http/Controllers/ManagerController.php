@@ -101,7 +101,7 @@ class ManagerController extends Controller
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
 //        $departmentIds = $user->departments->pluck('id')->toArray();
-$companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
         ->whereHas('company', function ($query) {
             $query->where('slug', Session::get('url-slug'));

@@ -232,14 +232,6 @@
                             size: 20
                         },
                     },
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 20
-                            }
-                        }
-                    },
                     title: {
                         display: true,
                         text: '{{date('Y')}} Expense',
@@ -249,7 +241,11 @@
                                 return screenWidth < 600 ? 16 : 30;
                             }
                         }
-                    }
+                    },
+                    legend: {
+                        display: false, // Set display to false to remove the legend
+                    },
+
                 },
                 scales: {
                     yAxes: [{
