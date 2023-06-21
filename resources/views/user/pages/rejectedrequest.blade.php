@@ -168,6 +168,7 @@
                         <th>Actions</th>
                         @endhasanyrole
                         <th>ID</th>
+                        <th>Status</th>
                         <th>Initiator</th>
                         <th>Created At</td>
                         <th>Company</th>
@@ -182,7 +183,6 @@
                         <th>Basis</th>
                         <th>Due Date Payment</th>
                         <th>Due Date</th>
-                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                     </thead>
@@ -190,7 +190,7 @@
                     @foreach($requests as $request)
                         <tr class="text-nowrap text-center" >
                             <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
-                            
+                            <td>{{$request->status}}</td>
                             <td>{{$request->initiator}}</td>
                             <td>{{formatDate($request->created_at)}}</td>
                             <td>{{$request->company->name}}</td>
@@ -212,7 +212,6 @@
                                 ?></td>
                             <td>{{formatDate($request->payment_date) ?? ''}}</td>
                             <td>{{formatDate($request->submission_date) ?? ''}}</td>
-                            <td>{{$request->status}}</td>
                             <td> <td class="d-flex align-items-center justify-content-center">
                                 <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"
                                    class="fas px-1 fa-edit cursor-pointer text-primary"></i>
@@ -471,7 +470,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
 
         $(document).ready(function () {
         $('#suppliertable').DataTable({
-            "order": [[1, "desc"]],
+            "order": [[2, "desc"]],
             dom: 'Blfrtip',
             lengthChange: true,
             buttons: [

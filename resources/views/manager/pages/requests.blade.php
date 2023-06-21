@@ -73,9 +73,7 @@
                 <p id="rowDueDate"></p>
                 <p id="rowDescription"></p>
                 <p id="rowLink"></p>
-                <div id="actionbuttons">
-                    
-</div>
+
               <!-- Add more fields as needed -->
             </div>
             <div class="modal-footer">
@@ -274,7 +272,7 @@
             var basis = row.find('td:nth-child(15)').text().trim();
             var dueDatePayment = row.find('td:nth-child(16)').text().trim();
             var dueDate = row.find('td:nth-child(17)').text().trim();
-var requestId = row.find('td:nth-child(2)').text().trim();
+
 
             $('#status').text('Status: ' + status);
             $('#rowInitiator').text('Initiator: ' + initiator);
@@ -291,26 +289,12 @@ var requestId = row.find('td:nth-child(2)').text().trim();
                         $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
-            var acceptButton = $('<button>').addClass('mr-2 btn btn-success acceptBtn').attr('data-id', requestId).text('Accept');
-    var rejectButton = $('<button>').addClass('ml-2 btn btn-danger rejectBtn').attr('data-id', requestId).text('Reject');
-    $('#actionbuttons').empty().append(acceptButton, rejectButton);
+
             $('#rowModal').modal('show');
             $('.close-pop-up').click(function () {
                 $('#rowModal').modal('hide');
             });
         });
-        $('#rowModal').on('click', '.acceptBtn', function() {
-    let requestId = $(this).data('id');
-    $('.approve-request-id').val(requestId);
-    $('#acceptConfirmationModal').modal('show');
-});
-
-$('#rowModal').on('click', '.rejectBtn', function() {
-    let requestId = $(this).data('id');
-    $('.reject-request-id').val(requestId);
-    $('#rejectConfirmationModal').modal('show');
-});
-
   });
         $(document).ready(function () {
             $('.filter').click(function() {

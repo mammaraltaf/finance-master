@@ -149,7 +149,7 @@
                     <p id="rowBasis"></p>
                     <p id="rowDueDatePayment"></p>
                     <p id="rowDueDate"></p>
-<div id="actionbutton"></div>
+
                     <!-- Add more fields as needed -->
                 </div>
                 <div class="modal-footer">
@@ -340,7 +340,6 @@
                 var basis = row.find('td:nth-child(16)').text().trim();
                 var dueDatePayment = row.find('td:nth-child(17)').text().trim();
                 var dueDate = row.find('td:nth-child(18)').text().trim();
-                var requestId = row.find('td:nth-child(3)').text().trim();
 
 
                 $('#status').text('Status: ' + status);
@@ -358,22 +357,8 @@
             $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
                 $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
                 $('#rowDueDate').text('Due Date: ' + dueDate);
+
                 $('#rowModal').modal('show');
-                 $('#actionbutton').empty().append('<button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal" data-target="#document-modal" data-document-id="1" data-id="' + requestId + '">Review</button>');
-                
-
-                 $(document).on('click', '#reviewBtn', function () {
-                  $('#rowModal').modal('hide');
-    $('#document-modal').modal({
-        backdrop: 'static',
-        keyboard: false
-    });
-});
-
-$(document).on('click', '#document-modal .close', function () {
-    $('#document-modal').modal('hide');
-    $('.modal-backdrop').remove();
-});
                 $('.close-pop-up').click(function () {
                     $('#rowModal').modal('hide');
                 });
