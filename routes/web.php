@@ -152,6 +152,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('{company?}/request', [UserController::class, 'request'])->name('request');
         Route::get('/edit-request/{id}', [UserController::class, 'editrequest'])->name('edit-request');
         Route::get('/filter/{id}', [UserController::class, 'filter'])->name('filter');
+        Route::get('rejected-requests', [UserController::class, 'rejected_requests'])->name('rejected-requests');
+     
     });
 
 

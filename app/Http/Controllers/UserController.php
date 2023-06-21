@@ -279,8 +279,12 @@ class UserController extends Controller
                 }
             }
 
-            RequestFlow::where('id', $request->id)->delete();
-            return redirect()->back()->with('success', 'Request deleted Successfully');
+            $check=RequestFlow::where('id', $request->id)->delete();
+            if($check){
+                return redirect()->back()->with('success', 'Request deleted Successfully');
+            }else{
+                return redirect()->back()->with('error', $e->getMessage());
+            }
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -292,10 +296,10 @@ class UserController extends Controller
         return response()->json($requested);
     }
 
-    public function updaterequest(Request $request, $id)
+    public function updaterequest(Request $request,$id)
     {
-        try {
-            $input = $request->all();
+        try { 
+            $input = $request->all(); 
             $validator = Validator::make($input, [
                 'company' => 'required',
                 'department' => 'required',
@@ -356,16 +360,7 @@ class UserController extends Controller
 
 
                 $removed = array_diff($existing_files, $keep);
-                //    print_r($existing_files);
-                //    echo "<br>";
-                //    print_r($keep);
-                //    echo "<br>";
-                //    print_r($files);
-                //    echo "<br>";
-                //    print_r($removed);
-                //    echo "<br>";
-                //    print_r($basis);
-                //    exit();
+              
                 foreach ($removed as $remove) {
                     if (File::exists(public_path('basis/' . $remove))) {
                         File::delete(public_path('basis/' . $remove));
@@ -375,17 +370,17 @@ class UserController extends Controller
 
             }
             $request = RequestFlow::find($id);
-
             $request->company_id = $input['company'];
             $request->department_id = $input['department'];
             $request->supplier_id = $input['supplier'];
             $request->expense_type_id = $input['expense-type'];
             $request->currency = $input['currency'];
             $request->amount = $input['amount'];
-            $request->amount_in_gel = $input['gel-amount2'];
+            $request->amount_in_gel = $input['amount_in_gel'];
             $request->description = $input['description'];
             $request->payment_date = $input['due-date-payment2'];
             $request->submission_date = $input['due-date2'];
+            $request->request_link = $input['request_link'];
             if (isset($basis)) {
                 $request->basis = $basis;
             }
@@ -393,10 +388,12 @@ class UserController extends Controller
             $request->save();
 
             if ($request) {
-                if ($status == StatusEnum::SubmittedForReview) {
+                if ($status == $request->status) {
+                    $this->logActionCreate(Auth::id(), $request->id, 'User Request Re-Submitted');
                     AcceptOrRejectRequest::dispatch($request);
                 }
-                return redirect()->back()->with('success', 'Request Updated successfully');
+                return redirect()->back()->with('success', 'Request successfull');
+
             }
 
             return redirect()->back()->with('error', 'Something went wrong');
@@ -511,4 +508,26 @@ class UserController extends Controller
         $expenses = TypeOfExpanse::all();
         return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
     }
+    function rejected_requests(){
+        $user = Auth::user();
+        $requests = RequestFlow::with('company')
+            ->where('user_id', $user->id)
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })
+            ->where('status', 'like', '%rejected%')
+            ->orderBy('created_at', 'desc')->get();
+        $companies = Company::where('slug', Session::get('url-slug'))->get();
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+
+        $departments = DepartmentUser::where('user_id', Auth::user()->id)
+            ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+            ->select('departments.*')
+            ->get();
+        $suppliers = supplier::all();
+        $expenses = TypeOfExpanse::all();
+        return view('user.pages.rejectedrequest', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+    }
+ 
+
 }

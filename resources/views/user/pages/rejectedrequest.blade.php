@@ -108,13 +108,7 @@
 
 
     <div class="">
-        <button id="all" class="btn btn-info active filter my-1">All</button>
-{{--        <button class="btn btn-info" data-filter="new">New</button>--}}
-        <button id="review" class="btn btn-info filter my-1" >Submitted for review</button>
-        <button id="finance" class="btn btn-info filter my-1" >Finance ok</button>
-        <button id="confirmed" class="btn btn-info filter my-1" >Confirmed</button>
-        <button id="paid" class="btn btn-info filter my-1" >Paid</button>
-        <a class="btn btn-info my-1" href="{{ route('user.rejected-requests') }}"> Rejected Requests
+        <a class="btn btn-info ml-4" href="{{url(\App\Classes\Enums\UserTypesEnum::User.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'request')}}"> Active Requests
     </a>
     </div>
 
@@ -123,260 +117,8 @@
     <!--end::Header-->
     <!--begin::Body-->
     <div class="card-body py-3">
-        <div class="row">
-            <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#ModalLoginForm">
-                Add Request
-            </button>
-        </div>
-        <!-- Add Request Modal -->
-        <div id="ModalLoginForm" class="modal fade">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title">Add Request</h1>
-                    </div>
-                    <div class="modal-body">
-                        <form id="categoryForm" method="POST" action="{{route('user.addrequest')}}"
-                              enctype='multipart/form-data'>
-                            @csrf
-                            <div class="d-flex">
-                                <div class="form-group w-100 px-2">
-                                    <label for="initiator">Initiator</label>
-                                    <input type="text" class="form-control" id="initiator"
-                                           value="<?php echo $user->name;  ?>" readonly>
-                                    <input type="hidden" name="initiator_id" value="<?php echo $user->name;  ?>">
-                                </div>
-                                <div class="form-group w-100 px-2">
-                                    <label for="company">Company</label>
-                                    <select class="form-control" id="company" name="company" required>
-                                        <?php foreach ($companies as $company){ ?>
-                                        <option
-                                            value="{{$company->id}}" {{ $company->user_id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="d-flex">
-                                <div class="form-group w-100 px-2">
-                                    <label for="department">Department</label><br>
-                                    <select class="form-control select2" id="addDepartment" name="department" required>
-                                        <?php foreach ($departments as $department){ ?>
-                                        <option
-                                            value="{{$department->id}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="form-group w-100 px-2">
-                                    <label for="supplier">Supplier</label><br>
-                                    <select class="form-control select2" id="addSupplier"  name="supplier" required
-                                            placeholder="select a supplier">
-                                        <?php foreach ($suppliers as $supplier){ ?>
-                                        <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="form-group w-100 px-2">
-                                    <label for="expense-type">Type of Expense</label><br>
-                                    <select class="form-control select2" id="expense_type" name="expense_type" required>
-                                        <?php foreach ($expenses as $expense){ ?>
-                                        <option value="{{$expense->id}}">{{$expense->name}}</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="form-group w-100 px-2">
-                                    <label for="currency">Currency</label>
-                                    <select class="form-control currency" id="currency" name="currency" required>
-                                        <option value="">Select a currency</option>
-                                        <option value="USD">USD</option>
-                                        <option value="EUR">EUR</option>
-                                        <option value="GEL">GEL</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="form-group w-100 px-2">
-                                    <label for="amount">Amount</label>
-                                    <input type="number" step="any" class="form-control no-arrow" id="amount" name="amount" required>
-                                </div>
-                                <div class="form-group w-100 px-2">
-                                    <label for="gel-amount">Amount in GEL:</label>
-                                    <input type="text" class="form-control" name="amount_in_gel" id="gel-amount" readonly>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" id="description" name="description" rows="3"
-                                          required></textarea>
-                            </div>
-                            <div class="form-group">
-                                    <label for="gel-amount">Link:</label>
-                                    <input type="text" class="form-control" name="request_link" id="request_links" >
-
-                                </div>
-                            <div class="form-group">
-                                <label for="basis">Basis</label>
-                                <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
-                                <div class="d-flex justify-content-between align-items-center" id="preview"></div>
-                            </div>
-                            <div class="d-flex">
-                                <div class="form-group w-100 px-2">
-                                    <label for="due-date-payment">Due Date of Payment</label>
-                                    <input type="date" class="form-control" id="due-date-payment" name="due-date-payment"
-                                           min="<?php echo date('Y-m-d');?>" required>
-                                </div>
-                                <div class="form-group w-100 px-2">
-                                    <label for="due-date" class="form-label">Due Date</label>
-                                    <input type="date" class="form-control" id="due-date" name="due-date"
-                                           min="<?php echo date('Y-m-d');?>" required>
-                                </div>
-                            </div>
-                            <div class="form-group d-flex gx-5">
-{{--                                <div class='p-2'>--}}
-
-{{--                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button"--}}
-{{--                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>--}}
-{{--                                </div>--}}
-                                <div class='p-2'>
-                                    <button  id="submitReviewBtn" type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
-                                            name="button"
-                                            class="btn btn-success">{{App\Classes\Enums\StatusEnum::SubmittedForReview}}</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div>
-        <!-- /.modal -->
-        {{--Edit Modal--}}
-        <div id="ModalEdit" class="modal fade">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title">Edit Request</h1>
-                    </div>
-                    <div class="modal-body">
-                        <form id="requestFormEdit" method="POST" action=""
-                              enctype="multipart/form-data">
-                            @csrf
-
-                            <input type="hidden" name="reqid" id="reqid">
-                            <div class="d-flex align-items-center">
-                                <div class="form-group w-100 px-2">
-                                    <label for="initiator">Initiator</label>
-                                    <input type="text" class="form-control" id="initiator" name="initiator"
-                                           value="<?php echo $user->name;  ?>" readonly>
-                                </div>
-                                <div class="form-group w-100 px-2">
-                                    <label for="company">Company</label>
-                                    <select class="form-control" id="company" name="company" required>
-                                        <?php foreach ($companies as $company){ ?>
-                                        <option
-                                            value="{{$company->id}}" {{ $company->id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="form-group w-100 px-2">
-                                    <label for="department">Department</label>
-                                    <select class="form-control department" id="department" name="department" required>
-                                        <?php foreach ($departments as $department){ ?>
-                                        <option
-                                            value="{{$department->id}}" {{ $department->user_id == $user->id? 'selected' : '' }}>{{$department->name}}</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="form-group w-100 px-2">
-                                    <label for="supplier">Supplier</label>
-                                    <select class="form-control supplier" id="supplier" name="supplier" required>
-                                        <?php foreach ($suppliers as $supplier){ ?>
-                                        <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="form-group w-100 px-2">
-                                    <label for="expense-type">Type of Expense</label>
-                                    <select class="form-control expense-type" id="expense-type" name="expense-type" required>
-
-                                        <?php foreach ($expenses as $expense){ ?>
-                                        <option value="{{$expense->id}}">{{$expense->name}}</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                                <div class="form-group w-100 px-2">
-                                    <label for="currency">Currency</label>
-                                    <select class="form-control edit-current" id="edit_currency" name="currency" required>
-                                        <option value="USD">USD</option>
-                                        <option value="EUR">EUR</option>
-                                        <option value="GEL">GEL</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center">
-                                <div class="form-group w-100 px-2">
-                                    <label for="amount">Amount</label>
-                                    <input type="number" class="form-control" id="amount2" name="amount" required>
-                                </div>
-
-                                <div class="form-group w-100 px-2">
-                                    <label for="gel-amount">Amount in GEL:</label>
-                                    <input type="text" class="form-control" id="gel-amount2" name="gel-amount2" readonly>
-                                </div>
-
-                            </div>
-                            <div class="form-group">
-                                <label for="description">Description</label>
-                                <textarea class="form-control" id="description2" rows="3" name="description"
-                                          required></textarea>
-                            </div>
-                            <div class="form-group">
-                                    <label for="link">Link:</label>
-                                    <input type="text" class="form-control" id="link" name="link" >
-                                </div>
-                            <div class="form-group">
-                                <label for="basis">Basis</label>
-                                <input type="file" class="form-control" multiple id="basis2" name="basis[]">
-                                <input type="hidden" id="basis3" name="basis3">
-                                <div class="text-danger" id="fileList"></div>
-                                <div id="previousFiles">
-                                    <!-- Show previously uploaded files here -->
-                                </div>
-                            </div>
-
-                            <div class="d-flex align-items-center">
-                                <div class="form-group w-100 px-2">
-                                    <label for="due-date-payment">Due Date of Payment</label>
-                                    <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2" min='<?php echo date('Y-m-d');?>' required>
-                                </div>
-                                <div class="form-group w-100 px-2">
-                                    <label for="due-date" class="form-label">Due Date</label>
-                                    <input type="date" class="form-control" id="due-date2" name="due-date2"
-                                           min='<?php echo date('Y-m-d');?>' required>
-                                </div>
-                            </div>
-                            <div class="form-group d-flex gx-5">
-                                <div class='p-2'>
-
-                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button"
-                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>
-                                </div>
-                                <div class='p-2'>
-                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
-                                            name="button"
-                                            class="btn btn-success">{{App\Classes\Enums\StatusEnum::SubmittedForReview}}</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div>
+       
+      
 
         <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -426,6 +168,7 @@
                         <th>Actions</th>
                         @endhasanyrole
                         <th>ID</th>
+                        <th>Status</th>
                         <th>Initiator</th>
                         <th>Created At</td>
                         <th>Company</th>
@@ -440,12 +183,14 @@
                         <th>Basis</th>
                         <th>Due Date Payment</th>
                         <th>Due Date</th>
+                        <th>Action</th>
                     </tr>
                     </thead>
                     <tbody>
                     @foreach($requests as $request)
                         <tr class="text-nowrap text-center" >
                             <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
+                            <td>{{$request->status}}</td>
                             <td>{{$request->initiator}}</td>
                             <td>{{formatDate($request->created_at)}}</td>
                             <td>{{$request->company->name}}</td>
@@ -467,6 +212,11 @@
                                 ?></td>
                             <td>{{formatDate($request->payment_date) ?? ''}}</td>
                             <td>{{formatDate($request->submission_date) ?? ''}}</td>
+                            <td> <td class="d-flex align-items-center justify-content-center">
+                                <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"
+                                   class="fas px-1 fa-edit cursor-pointer text-primary"></i>
+                                <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
+                                   class="fa px-1 fa-trash delete_btn cursor-pointer text-danger" aria-hidden="true"></i></td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -496,6 +246,121 @@
             </div>
         </div>
     </div>
+
+
+    <!-- Update Request Modal -->
+<div id="ModalEdit" class="modal fade">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title">Update Request</h1>
+            </div>
+            <div class="modal-body">
+                <form id="updateForm" method="POST" action=""
+                      enctype='multipart/form-data'>
+                    @csrf
+                    <div class="d-flex">
+                        <input type="hidden" name="reqid" id="reqid" value="">
+                        <div class="form-group w-100 px-2">
+                            <label for="initiator">Initiator</label>
+                            <input type="text" class="form-control" id="initiator_update" name="initiator" value="">
+                           
+                        </div>
+                        <div class="form-group w-100 px-2">
+                            <label for="company">Company</label>
+                            <select class="form-control" id="company_update" name="company" required>
+                                <?php foreach ($companies as $company) { ?>
+                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="form-group w-100 px-2">
+                            <label for="department">Department</label><br>
+                            <select class="form-control select2" id="department_update" name="department" required>
+                                <?php foreach ($departments as $department) { ?>
+                                    <option value="{{ $department->id }}">{{ $department->name }}</option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 px-2">
+                            <label for="supplier">Supplier</label><br>
+                            <select class="form-control select2" id="supplier_update" name="supplier" required>
+                                <?php foreach ($suppliers as $supplier) { ?>
+                                    <option value="{{ $supplier->id }}">{{ $supplier->supplier_name }}</option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-group w-100 px-2">
+                            <label for="expense-type">Type of Expense</label><br>
+                            <select class="form-control select2" id="expense_type_update" name="expense-type" required>
+                                <?php foreach ($expenses as $expense) { ?>
+                                    <option value="{{ $expense->id }}">{{ $expense->name }}</option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="form-group w-100 px-2">
+                            <label for="currency">Currency</label>
+                            <select class="form-control currency" id="currency_update" name="currency" required>
+                                <option value="">Select a currency</option>
+                                <option value="USD">USD</option>
+                                <option value="EUR">EUR</option>
+                                <option value="GEL">GEL</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-group w-100 px-2">
+                            <label for="amount">Amount</label>
+                            <input type="number" step="any" class="form-control no-arrow" id="amount_update" name="amount" required>
+                        </div>
+                        <div class="form-group w-100 px-2">
+                            <label for="gel-amount">Amount in GEL:</label>
+                            <input type="text" class="form-control" name="amount_in_gel" id="gel-amount_update" readonly>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea class="form-control" id="description_update" name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="gel-amount">Link:</label>
+                        <input type="text" class="form-control" name="request_link" id="request_links_update">
+                    </div>
+                    <div class="form-group">
+                        <label for="basis">Basis</label>
+                        <input type="file" class="form-control" multiple id="basis2" name="basis[]">
+                                <input type="hidden" id="basis3" name="basis3">
+                                <div class="text-danger" id="fileList"></div>
+                                <div id="previousFiles">
+                                    <!-- Show previously uploaded files here -->
+                                </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-group w-100 px-2">
+                            <label for="due-date-payment">Due Date of Payment</label>
+                            <input type="date" class="form-control" id="due-date-payment_update" name="due-date-payment2" required>
+                        </div>
+                        <div class="form-group w-100 px-2">
+                            <label for="due-date" class="form-label">Due Date</label>
+                            <input type="date" class="form-control" id="due-date_update" name="due-date2" required>
+                        </div>
+                    </div>
+                    <div class="form-group d-flex gx-5">
+                        <div class='p-2'>
+                        <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button"
+                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>  </div>
+                    </div>
+                </form>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
 
 
     <!--end::Body-->
@@ -601,10 +466,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
         });
     });
 
-        $('.delete_btn').click(function () {
-            var a = $(this).data('id');
-            $('.user-delete').val(a);
-        });
+      
 
         $(document).ready(function () {
         $('#suppliertable').DataTable({
@@ -681,7 +543,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                     }
                 }
             });
-   
             // Preview End
 
             $("#currency").change(function() {
@@ -773,41 +634,43 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
 
 
         $('body').on('click', '#userEdit', function () {
-            var request_id = $(this).data('id');
-            $.ajax({
-                type: "GET",
-                url: "{{url('/user/edit-request/')}}" + '/' + request_id,
-                success: function (response) {
-                // console.log("response", response);
-                $('#reqid').val(response.id);
-                $('#amount2').val(response.amount);
-                $('#description2').val(response.description);
-                $('#basis2').val(removedFiles);
-                $('#due-date-payment2').val(response.payment_date);
-                $('#due-date2').val(response.submission_date);
-                $('#gel-amount2').val(response.amount_in_gel);
-
-
-                $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
-                    // Show previously uploaded files
-                    basisFiles2 = response.basis;
-                    if (response.basis) {
-                        var docs2 = [];
-                        var files = response.basis.split(',');
-                        var fileHtml = '';
-                        for (var i = 0; i < files.length; i++) {
-                        var fileName = files[i];
-                        fileHtml += '<div><a href="{{asset('basis')}}' +'/'+ fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
-                        docs2.push(fileName);
-                    }
-                        $('#previousFiles').html(fileHtml);
-                        $('#basis3').val(docs2);
-                    }
-                    $('#previousFiles').html(fileHtml);
-                    $('#basis3').val(docs2);
+    var request_id = $(this).data('id');
+    $.ajax({
+        type: "GET",
+        url: "{{ url('/user/edit-request/') }}" + '/' + request_id,
+        success: function (response) {
+            console.log(response);
+            $('#reqid').val(response.id);
+            $('#initiator_update').val(response.initiator);
+            $('#amount_update').val(response.amount);
+            $('#description_update').val(response.description);
+            $('#due-date-payment_update').val(response.payment_date);
+            $('#due-date_update').val(response.submission_date);
+            $('#gel-amount_update').val(response.amount_in_gel);
+            $('#request_links_update').val(response.request_link);
+            
+            // Set the selected values for the dropdowns
+            $('#company_update').val(response.company_id);
+            $('#department_update').val(response.department_id);
+            $('#supplier_update').val(response.supplier_id);
+            $('#expense_type_update').val(response.expense_type_id);
+            $('#currency_update').val(response.currency);
+            $('#updateForm').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+            // Show previously uploaded files
+            var basisFiles = response.basis;
+            if (basisFiles) {
+                var files = basisFiles.split(',');
+                var fileHtml = '';
+                for (var i = 0; i < files.length; i++) {
+                    var fileName = files[i];
+                    fileHtml += '<div><a href="{{ asset('basis') }}' + '/' + fileName + '" target="_blank">' + fileName + '</a> <div class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
                 }
-            })
-        })
+                $('#preview_update').html(fileHtml);
+            }
+        }
+    });
+});
+
         $('body').on('click', '.remove-file', function () {
             var fileName = $(this).data('file');
             $(this).parent().remove();
@@ -869,6 +732,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                 url = url.replace(':id', buttonId);
                 location.href = url;
             });
+
+            $('.delete_btn').click(function () {
+            var a = $(this).data('id');
+            console.log(a);
+            $('.user-delete').val(a);
+        });
         });
 
     </script>
