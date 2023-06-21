@@ -608,7 +608,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
 
         $(document).ready(function () {
         $('#suppliertable').DataTable({
-            "order": [[2, "desc"]],
+            "order": [[1, "desc"]],
             dom: 'Blfrtip',
             lengthChange: true,
             buttons: [
