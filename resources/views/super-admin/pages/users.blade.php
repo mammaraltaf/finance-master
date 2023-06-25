@@ -67,7 +67,7 @@
                                 <div>
                                     <select name="type" class="form-control" aria-placeholder="Select User Type"
                                             required>
-                                        <option value="">Select Role</option>
+                                        <option value="" selected="selected">Select Role</option>
                                         @foreach($roles as $role)
                                             <option value="{{$role->name}}">{{$role->name}}</option>
                                         @endforeach
@@ -446,14 +446,13 @@
                     $('#userFormEdit').attr('action', "{{url('/super-admin/edit-user/')}}" + '/' + user_id);
                     // Preload companies dropdown
                     var resCompanies = response.companies;
-                    console.log("resCompanies", resCompanies)
 
                     var companySelects = $('.edit-company-selects');
                     companySelects.empty();
 
-                    if (response.user_type === 'admin') {
+                    if (response.user_type === 'user') {
                         // Add single select dropdown for company
-                        var selectElement = $('<select id="edit-admin-comp"  name="company[]" class="form-control"></select>');
+                        var selectElement = $('<select id="edit-user-companies"  name="company[]" class="form-control"></select>');
                         selectElement.append('<option value="">Select Company</option>');
                         $.each(resCompanies, function(index, company) {
                             selectElement.append('<option value="' + company.id + '" selected>' + company.name + '</option>');
@@ -477,6 +476,7 @@
                             }
                         @endforeach
                         companySelects.append(selectElement);
+
                         $('#edit-companies').multiselect({
                             nonSelectedText: 'Select Company',
                             // enableFiltering: true,
@@ -493,9 +493,9 @@
                     // Remove any existing select elements
                     departmentSelects.empty();
 
-                    if (response.user_type === 'admin') {
+                    if (response.user_type === 'user') {
                         // Add single select dropdown for department
-                        var selectElement = $('<select name="department[]" class="form-control">');
+                        var selectElement = $('<select disabled="disabled" id="edit-user-departments" name="department[]" class="form-control">');
                         selectElement.append('<option value="">Select Department</option>');
                         $.each(resDepartments, function(index, department) {
                             selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
@@ -507,7 +507,8 @@
                         departmentSelects.append(selectElement);
                     } else{
                         // Add multiple select dropdown for department
-                        var selectElement = $('<select id="edit-departments" name="department[]" multiple class="form-control">');
+                        var selectElement = $('<select id="edit-departments" name="department[]" multiple="multiple" class="form-control" disabled="disabled">');
+                        selectElement.append('<option value="">Select Departments</option>');
                         $.each(resDepartments, function(index, department) {
                             selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
                         });
@@ -522,7 +523,7 @@
                         $('#edit-departments').multiselect({
                             nonSelectedText: 'Select Departments',
                             buttonWidth: '100%',
-                            maxHeight: 300
+                            maxHeight: 300,
                         });
                     }
                 }
@@ -530,7 +531,55 @@
         });
 
 
+        //on selecting companies(edit user)
 
+        $('body').on('change','#edit-companies,#edit-user-companies' ,function (event) {
+            
+            var ids=[];
+            var departmentsId='';
+
+            if(!$('#edit-companies').val()) {
+                ids=[$('#edit-user-companies').val()];
+                departmentsId='#edit-user-departments';
+                $(departmentsId).prop('disabled', false);
+            }
+            else{
+                ids=$('#edit-companies').val();
+                departmentsId='#edit-departments';
+                $(departmentsId).multiselect('enable');
+            }
+
+            $.ajax({
+
+            type: "POST",
+            url: "/get-departments",
+            data:{ids},
+            success: function(response) {
+                    
+                    let innerHtml=" ";
+                    response?.map(department=>{
+                      innerHtml+= `<option value=${department.id} >${department.name}</option>`
+                    });
+
+                    if($('#edit-companies').val())
+                    {
+                        $(departmentsId).empty();
+                        $(departmentsId).append(innerHtml);
+                        $(departmentsId).multiselect("rebuild");
+                    }
+                    else
+                    {
+                        $(departmentsId).prop('disabled', false);
+                        $(departmentsId).html(innerHtml);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+                })
+        })
+     
+ 
 
         // company select field
         $('select[name="type"]').on('change', function() {
@@ -540,18 +589,18 @@
             // Remove any existing select elements
             companySelects.empty();
 
-            if (selectedRole === 'admin') {
+            if (selectedRole === 'user') {
                 // Add single select dropdown for company
-                var selectElement = $('<select name="company[]" class=" form-control">');
+                var selectElement = $('<select name="company[]" class=" form-control " id="add-user-company">');
                 selectElement.append('<option value="">Select Company</option>');
                 @foreach($companies as $company)
                 selectElement.append('<option class="dropdown-menu show" value="{{$company->id}}">{{$company->name}}</option>');
                 @endforeach
 
                 companySelects.append(selectElement);
-            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
+            } else if (selectedRole === 'admin' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
                 // Add multiple select dropdown for company
-                var selectElement = $('<select id="companies" name="company[]" multiple class="form-control">');
+                var selectElement = $('<select id="companies" name="company[]" multiple class="form-control" id="companies">');
                 @foreach($companies as $company)
                 selectElement.append('<option value="{{$company->id}}">{{$company->name}}</option>');
                 @endforeach
@@ -575,17 +624,17 @@
             // Remove any existing select elements
             departmentSelects.empty();
 
-            if (selectedRole === 'admin') {
+            if (selectedRole === 'user') {
                 // Add single select dropdown for company
-                var selectElement = $('<select name="department[]" class="form-control">');
+                var selectElement = $('<select name="department[]" disabled="disabled" class="form-control" id="add-user-department">');
                 selectElement.append('<option value="">Select Department</option>');
                 @foreach($departments as $department)
                 selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
                 @endforeach
                 departmentSelects.append(selectElement);
-            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
+            } else if (selectedRole === 'admin' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
                 // Add multiple select dropdown for company
-                var selectElement = $('<select id="departments" name="department[]" multiple class="form-control">');
+                var selectElement = $('<select id="departments" name="department[]" multiple class="form-control" disabled> id="add-departments');
                 @foreach($departments as $department)
                 selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
                 @endforeach
@@ -600,13 +649,61 @@
                 });
             });
             }
+            //on selecting companies(edit user)
+
+        $('body').on('change','#companies,#add-user-company' ,function (event) {
+            
+            let ids=[];
+            let departmentsId='';
+
+           
+            if(!$('#companies').val()) {
+                ids=[$('#add-user-company').val()];
+                departmentsId='#add-user-department';
+                $(departmentsId).prop('disabled', false);
+            }
+            else{
+                ids=$('#companies').val();
+                departmentsId='#departments';
+                $(departmentsId).multiselect("enable");
+            }
+
+            
+            
+            $.ajax({
+
+            type: "POST",
+            url: "/get-departments",
+            data:{ids},
+            success: function(response) {
+                    let innerHtml=" ";
+                    response?.map(department=>{
+                      console.log(department?.name,department?.id);
+                      innerHtml+= `<option value=${department.id} >${department.name}</option>`
+                    });
+                    if($('#companies').val())
+                    {
+                        $(departmentsId).empty();
+                        $(departmentsId).append(innerHtml);
+                        $(departmentsId).multiselect("rebuild");
+                    }
+                    else {
+                    $(departmentsId).prop('disabled', false);
+                    $(departmentsId).html(innerHtml);
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+                })
+        })
         });
 
 
 
 
 
-
+      
 
 
 
