@@ -14,6 +14,8 @@ class UserTypesEnum{
     public const Manager = 'manager';
     public const Director = 'director';
 
+    public const Spectator = 'spectator';
+
 
     public static $USER_TYPE_COLOR =
         [

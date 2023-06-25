@@ -122,5 +122,20 @@ class UserSeeder extends Seeder
             'updated_at'    => Carbon::now(),
         ]);
 
+        /*User*/
+        User::firstOrCreate(
+            [
+                'email' => 'spectator@finance.com',
+            ],[
+            'id'    => 8,
+            'name' => UserTypesEnum::Spectator,
+            'email' => 'spectator@finance.com',
+            'password' => Hash::make('12345678'),
+            'email_verified_at' => Carbon::now(),
+            'user_type' => UserTypesEnum::Spectator,
+            'created_at'    => Carbon::now(),
+            'updated_at'    => Carbon::now(),
+        ]);
+
     }
 }
