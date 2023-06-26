@@ -616,7 +616,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                 {
                     extend: 'copy',
                     exportOptions: {
-                        columns: [0, 1, 5, 6, 7, 8, 10, 11,12]
+                        columns: ':visible'
                     }
                 },
                 {
@@ -624,7 +624,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                     orientation: 'landscape',
                     pageSize: 'LEGAL',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7,8,10,11,12]
+                        columns: ':visible'
                     }
                 },
                 {
@@ -632,7 +632,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                     orientation: 'landscape',
                     pageSize: 'LEGAL',
                     exportOptions: {
-                        columns: [0, 1, 2, 3, 4, 5, 6, 7,8,10,11,12]
+                        columns: ':visible'
                     }
                 },
                 'colvis'
