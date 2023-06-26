@@ -46,7 +46,8 @@
                         (auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::Finance)||
                         (auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::Manager)||
                         (auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::Accounting)||
-                        (auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::Director))
+                        (auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::Director)||
+                        (auth()->user()->user_type == \App\Classes\Enums\UserTypesEnum::Spectator))
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.  '.company.dashboard') ? 'active' : '' }}" href="{{ route((auth()->user()->user_type. '.company.dashboard'),['company'=>\Illuminate\Support\Facades\Session::get('url-slug')])}}" >
                                 <span class="menu-title">Dashboard</span>
@@ -109,6 +110,15 @@
                         </a>
                     </div>
                     @endrole
+
+                        @role('spectator')
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"
+                               href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'logs')}}" >
+                                <span class="menu-title">Manage Logs</span>
+                            </a>
+                        </div>
+                        @endrole
 
                         @hasanyrole('super-admin')
 

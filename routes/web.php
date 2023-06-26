@@ -15,6 +15,7 @@ use App\Http\Controllers\AccountingController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SpectatorController;
 use App\Models\User;
 
 /*
@@ -153,7 +154,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit-request/{id}', [UserController::class, 'editrequest'])->name('edit-request');
         Route::get('/filter/{id}', [UserController::class, 'filter'])->name('filter');
         Route::get('rejected-requests', [UserController::class, 'rejected_requests'])->name('rejected-requests');
-     
+
     });
 
 
@@ -249,6 +250,21 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/alldata', [AccountingController::class, 'alldata'])->name('alldata');
         Route::get('/print/{id}', [AccountingController::class, 'print'])->name('print');
     });
+});
+
+/*Accounting Routes*/
+Route::group([
+    'middleware' => ['role:' . UserTypesEnum::Spectator],
+    'prefix' => UserTypesEnum::Spectator,
+    'as' => UserTypesEnum::Spectator . '.',
+], function () {
+    Route::get('/select-company', [SpectatorController::class, 'selectCompany'])->name('select-company');
+    Route::get('{company?}/dashboard', [ChartController::class, 'dashboard'])->name('company.dashboard');
+    Route::get('{company?}/viewrequests', [SpectatorController::class, 'viewrequests'])->name('viewrequests');
+    Route::post('/changepassword', [SpectatorController::class, 'changepassword'])->name('changepassword');
+    Route::get('{company?}/logs', [SpectatorController::class, 'logs'])->name('logs');
+    Route::get('/dashboard', [SpectatorController::class, 'dashboard'])->name('dashboard');
+    Route::post('/logfilters', [SpectatorController::class, 'logfilters'])->name('logfilters');
 });
 
 Route::get('/', function () {

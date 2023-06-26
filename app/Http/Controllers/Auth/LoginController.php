@@ -61,6 +61,7 @@ class LoginController extends Controller
                         $user->hasRole(UserTypesEnum::Finance)  ||
                         $user->hasRole(UserTypesEnum::Manager)  ||
                         $user->hasRole(UserTypesEnum::Accounting)  ||
+                        $user->hasRole(UserTypesEnum::Spectator) ||
                         $user->hasRole(UserTypesEnum::Director)) {
                  return redirect()->route($user->user_type.'.select-company');
             //   return redirect()->route('user.dashboard');

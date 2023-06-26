@@ -26,6 +26,7 @@ class RolesAndPermissionsSeeder extends Seeder
         $finance = Role::create(['name' => UserTypesEnum::Finance]);
         $manager = Role::create(['name' => UserTypesEnum::Manager]);
         $director = Role::create(['name' => UserTypesEnum::Director]);
+        $spectator = Role::create(['name' => UserTypesEnum::Spectator]);
 
         /*------------------------------------------------------------------*/
         /*Company Permissions*/
@@ -88,6 +89,7 @@ class RolesAndPermissionsSeeder extends Seeder
        User::find(5)->assignRole($finance);
        User::find(6)->assignRole($manager);
        User::find(7)->assignRole($director);
+       User::find(8)->assignRole($spectator);
 
     }
 }

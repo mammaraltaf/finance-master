@@ -59,7 +59,7 @@
 
             {{-- Company drop down list --}}
             <div class="d-flex align-items-center">
-                @role('user|manager|finance|accounting|director')
+                @role('user|manager|finance|accounting|director|spectator')
                 @if(\Illuminate\Support\Facades\Session::get('url-slug') != null)
                     @php
 //                    dd(\Illuminate\Support\Facades\Session::get('url-slug'));
@@ -82,7 +82,7 @@
                 @endif
                 @endrole
                 <div class="p-2">
-                       @role('user|manager|finance|accounting|director')
+                       @role('user|manager|finance|accounting|director|spectator')
                        <select class="form-control url_company">
                        <option value="">Select Company</option>
                         @isset($companies_slug)
