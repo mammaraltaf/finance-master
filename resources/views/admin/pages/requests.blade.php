@@ -255,7 +255,7 @@
               {
               extend: 'copy',
               exportOptions: {
-              columns: [0,1, 5, 6, 7, 8,9,10,11]
+                columns: ':visible'
               }
               },
               {
@@ -263,7 +263,7 @@
               orientation : 'landscape',
                               pageSize : 'LEGAL',
               exportOptions: {
-              columns: [0,1, 5, 6, 7, 8,9,10,11]
+                columns: ':visible'
               }
               },
               {
@@ -271,7 +271,7 @@
               orientation : 'landscape',
                               pageSize : 'LEGAL',
               exportOptions: {
-              columns: [0,1, 5, 6, 7, 8,9,10,11]
+                columns: ':visible'
               }
               },
               'colvis'
