@@ -589,7 +589,7 @@
                 @endforeach
 
                 companySelects.append(selectElement);
-            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director') {
+            } else if (selectedRole === 'user' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director' || selectedRole==='spectator') {
                 // Add multiple select dropdown for company
                 var selectElement = $('<select id="companies" name="company[]" multiple class="form-control" id="companies">');
                 @foreach($companies as $company)
@@ -623,7 +623,7 @@
                 selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
                 @endforeach
                 departmentSelects.append(selectElement);
-            } else if (selectedRole === 'admin' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director' || selectedRole === 'user') {
+            } else if (selectedRole === 'admin' || selectedRole === 'accounting' || selectedRole === 'manager' || selectedRole === 'finance' || selectedRole === 'director' || selectedRole === 'user' || selectedRole==='spectator') {
                 // Add multiple select dropdown for company
                 var selectElement = $('<select id="departments" name="department[]" multiple class="form-control" disabled> id="add-departments');
                 @foreach($departments as $department)
