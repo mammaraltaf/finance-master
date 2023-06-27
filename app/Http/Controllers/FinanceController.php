@@ -98,16 +98,20 @@ class FinanceController extends Controller
         $comp_id = Company::where('slug', $comp_slug)->pluck('id')->first();
         $req_logs_ids = RequestFlow::where('company_id', $comp_id)->pluck('id')->toArray();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
-            ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
-            ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
-            ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
-            ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
-            // ->whereIn('request_flows.company_id', $companyIds)
-            ->whereIn('request_flows.id', $req_logs_ids)
-            ->whereIn('action', [ActionEnum::FINANCE_REJECT, ActionEnum::FINANCE_ACCEPT])
+        $requests = LogAction::with('requestFlow', 'requestFlow.company', 'requestFlow.supplier', 'requestFlow.typeOfExpense')
+            ->whereIn('request_flow_id', $req_logs_ids)
             ->orderBy('log_actions.created_at', 'desc')
-            ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'request_flows.id as reqid', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
+            ->get();
+//        $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
+//            ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
+//            ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
+//            ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
+//            ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
+//            // ->whereIn('request_flows.company_id', $companyIds)
+//            ->whereIn('request_flows.id', $req_logs_ids)
+//            ->whereIn('action', [ActionEnum::FINANCE_REJECT, ActionEnum::FINANCE_ACCEPT])
+//            ->orderBy('log_actions.created_at', 'desc')
+//            ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'request_flows.id as reqid', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('finance.pages.accepted', compact('requests', 'companies_slug'));
     }
 

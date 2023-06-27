@@ -97,22 +97,22 @@
           <tbody>
 
             @foreach($requests as $request)
-                <tr class="text-nowrap" data-status="{{$request['action']}}">
+                <tr class="text-nowrap" data-status="{{$request->action}}">
                   {{-- <td class="cursor-pointer">{{$request['id']}}</td> --}}
-                  <td class="cursor-pointer text-center bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request['id'] ?? ''}}</td>
-                  <td>{{$request['action'] ?? ''}}</td>
-                    <td>{{$request['initiator'] ?? ''}}</td>
-                    <td>{{formatDate($request['log_date']) ?? ''}}</td>
-                    <td>{{$request['compname'] ?? ''}}</td>
-                    <td>{{$request['depname'] ?? ''}}</td>
-                    <td>{{$request['supname'] ?? ''}}</td>
-                    <td>{{$request['expname'] ?? ''}}</td>
-                    <td>{{$request['currency'] ?? ''}}</td>
-                    <td>{{$request['amount_in_gel'] ?? ''}}</td>
-                    <td>{{$request['description'] ?? ''}}</td>
-                    <td> <a href="{{URL::to($request['request_link'])}}" target="_blank">{{$request['request_link'] ?? ''}}</a> </td>
+                  <td class="cursor-pointer text-center bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request->id ?? ''}}</td>
+                  <td>{{$request->action ?? ''}}</td>
+                    <td>{{$request->requestFlow->initiator ?? ''}}</td>
+                    <td>{{formatDate($request->created_at) ?? ''}}</td>
+                    <td>{{$request->requestFlow->company->name ?? ''}}</td>
+                    <td>{{$request->requestFlow->department->name ?? ''}}</td>
+                    <td>{{$request->requestFlow->supplier->supplier_name ?? ''}}</td>
+                    <td>{{$request->requestFlow->typeOfExpense->name ?? ''}}</td>
+                    <td>{{$request->requestFlow->currency ?? ''}}</td>
+                    <td>{{$request->requestFlow->amount_in_gel ?? ''}}</td>
+                    <td>{{$request->requestFlow->description ?? ''}}</td>
+                    <td> <a href="{{URL::to($request->requestFlow->request_link)}}" target="_blank">{{$request->requestFlow->request_link ?? ''}}</a> </td>
                     <td> <?php if(isset($request['basis'])){
-                                    $files=explode(',',$request['basis']);
+                                    $files=explode(',',$request->requestFlow->basis);
                                     foreach($files as $file){ ?>
                                     <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
 
@@ -120,9 +120,9 @@
                                    echo "No document available";
                                 }
                                 ?></td>
-                    <td>{{formatDate($request['payment_date']) ?? ''}}</td>
-                    <td>{{formatDate($request['submission_date']) ?? ''}}</td>
-                    <td>{{$request['amount'] ?? ''}}</td>
+                    <td>{{formatDate($request->requestFlow->payment_date) ?? ''}}</td>
+                    <td>{{formatDate($request->requestFlow->submission_date) ?? ''}}</td>
+                    <td>{{$request->requestFlow->amount ?? ''}}</td>
 
                             </tr>
             @endforeach

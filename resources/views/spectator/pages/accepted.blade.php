@@ -102,7 +102,7 @@
                     <td>{{formatDate($request->created_at) ?? ''}}</td>
                     <td>{{$request->requestFlow->company->name ?? ''}}</td>
                     <td>{{$request->requestFlow->department->name ?? ''}}</td>
-                    <td>{{$request->requestFlow->supplier->name ?? ''}}</td>
+                    <td>{{$request->requestFlow->supplier->supplier_name ?? ''}}</td>
                     <td>{{$request->requestFlow->typeOfExpense->name ?? ''}}</td>
                     <td>{{$request->requestFlow->currency ?? ''}}</td>
                     <td>{{$request->requestFlow->amount_in_gel ?? ''}}</td>
