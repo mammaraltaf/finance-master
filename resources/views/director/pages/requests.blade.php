@@ -101,21 +101,21 @@
                 <tr class="text-nowrap">
                     <th>Action</th>
                     <th>ID</th>
-                    <th>Status</th>
+{{--                    <th>Status</th>--}}
                     <th>Initiator</th>
-                    <th>Created At</th>
-                    <th>Company</th>
+{{--                    <th>Created At</th>--}}
+{{--                    <th>Company</th>--}}
                     <th>Department</th>
                     <th>Supplier</th>
                     <th>Type of Expense</th>
-                    <th>Currency</th>
+                    <th>CCY</th>
                     <th>Amount</th>
                     <th>Amount In Gel</th>
                     <th>Description</th>
                     <th>Link</th>
                     <th>Basis (file attachment title)</th>
-                    <th>Due Date of Payment</th>
-                    <th>Due Date</th>
+{{--                    <th>Due Date of Payment</th>--}}
+{{--                    <th>Due Date</th>--}}
                 </tr>
                 </thead>
                 <tbody>
@@ -132,10 +132,10 @@
                         </td>
                         <td class="cursor-pointer bg-primary"
                             style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
-                        <td>{{$request->status ?? ''}}</td>
+{{--                        <td>{{$request->status ?? ''}}</td>--}}
                         <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
-                        <td>{{formatDate($request->created_at) ?? ''}}</td>
-                        <td>{{$request->company->name ?? ''}}</td>
+{{--                        <td>{{formatDate($request->created_at) ?? ''}}</td>--}}
+{{--                        <td>{{$request->company->name ?? ''}}</td>--}}
                         <td>{{$request->department->name ?? ''}}</td>
                         <td>{{$request->supplier->supplier_name ?? ''}}</td>
                         <td>{{$request->typeOfExpense->name ?? ''}}</td>
@@ -154,8 +154,8 @@
                                 echo "No document available";
                             }
                                 ?></td>
-                        <td>{{formatDate($request->payment_date) ?? ''}}</td>
-                        <td>{{formatDate($request->submission_date) ?? ''}}</td>
+{{--                        <td>{{formatDate($request->payment_date) ?? ''}}</td>--}}
+{{--                        <td>{{formatDate($request->submission_date) ?? ''}}</td>--}}
                     </tr>
                 @endforeach
                 </tbody>

@@ -298,8 +298,8 @@ class UserController extends Controller
 
     public function updaterequest(Request $request,$id)
     {
-        try { 
-            $input = $request->all(); 
+        try {
+            $input = $request->all();
             $validator = Validator::make($input, [
                 'company' => 'required',
                 'department' => 'required',
@@ -360,7 +360,7 @@ class UserController extends Controller
 
 
                 $removed = array_diff($existing_files, $keep);
-              
+
                 foreach ($removed as $remove) {
                     if (File::exists(public_path('basis/' . $remove))) {
                         File::delete(public_path('basis/' . $remove));
@@ -497,37 +497,45 @@ class UserController extends Controller
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
             })->orderBy('created_at', 'desc')->get();
-        $companies = Company::where('slug', Session::get('url-slug'))->get();
-        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
 
-        $departments = DepartmentUser::where('user_id', Auth::user()->id)
-            ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
-            ->select('departments.*')
-            ->get();
-        $suppliers = supplier::all();
-        $expenses = TypeOfExpanse::all();
-        return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+        $data = $this->getSessionSetting(Session::get('url-slug'));
+        $data['requests'] = $requests;
+        $data['user'] = $user;
+
+        return view('user.pages.request', $data);
     }
-    function rejected_requests(){
+    public function rejected_requests(){
         $user = Auth::user();
-        $requests = RequestFlow::with('company')
-            ->where('user_id', $user->id)
+        $requests = RequestFlow::where('user_id', $user->id)
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
             })
             ->where('status', 'like', '%rejected%')
             ->orderBy('created_at', 'desc')->get();
-        $companies = Company::where('slug', Session::get('url-slug'))->get();
-        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
 
-        $departments = DepartmentUser::where('user_id', Auth::user()->id)
-            ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
-            ->select('departments.*')
-            ->get();
-        $suppliers = supplier::all();
-        $expenses = TypeOfExpanse::all();
-        return view('user.pages.rejectedrequest', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+        $data = $this->getSessionSetting(Session::get('url-slug'));
+        $data['requests'] = $requests;
+        $data['user'] = $user;
+
+        return view('user.pages.rejectedrequest', $data);
     }
- 
+
+
+    /*This method returns the Sesstion data bases on the url slug provided*/
+    public function getSessionSetting($urlSlug){
+            $companies = Company::where('slug', $urlSlug)->get();
+            $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+
+            $departments = DepartmentUser::where('user_id', Auth::user()->id)
+                ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+                ->select('departments.*')
+                ->get();
+
+            $suppliers = supplier::all();
+            $expenses = TypeOfExpanse::all();
+
+            return compact('companies', 'departments', 'suppliers', 'expenses', 'companies_slug');
+    }
+
 
 }

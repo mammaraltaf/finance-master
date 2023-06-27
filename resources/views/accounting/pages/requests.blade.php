@@ -172,20 +172,20 @@
                     <th>Action</th>
                     <th>ID</th>
                     <th>Print</th>
-                    <th>Status</th>
+{{--                    <th>Status</th>--}}
                     <th>Initiator</th>
-                    <th>Created At</th>
-                    <th>Company</th>
+{{--                    <th>Created At</th>--}}
+{{--                    <th>Company</th>--}}
                     <th>Department</th>
                     <th>Supplier</th>
                     <th>Type of Expense</th>
-                    <th>Currency</th>
+                    <th>CCY</th>
                     <th>Amount In Gel</th>
                     <th>Description</th>
                     <th>Link</th>
                     <th>Basis (file attachment title)</th>
-                    <th>Due Date of Payment</th>
-                    <th>Due Date</th>
+{{--                    <th>Due Date of Payment</th>--}}
+{{--                    <th>Due Date</th>--}}
                 </tr>
                 </thead>
                 <tbody>

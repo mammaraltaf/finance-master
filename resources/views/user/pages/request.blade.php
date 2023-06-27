@@ -114,7 +114,7 @@
         <button id="finance" class="btn btn-info filter my-1" >Finance ok</button>
         <button id="confirmed" class="btn btn-info filter my-1" >Confirmed</button>
         <button id="paid" class="btn btn-info filter my-1" >Paid</button>
-        <a class="btn btn-info my-1" href="{{ route('user.rejected-requests') }}"> Rejected Requests
+        <a class="btn btn-danger my-1" style="float: right" href="{{ route('user.rejected-requests') }}"> Rejected Requests
     </a>
     </div>
 
@@ -656,7 +656,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
             var currentDate = d.getFullYear() + '/' +
                 ((''+month).length<2 ? '0' : '') + month + '/' +
                 ((''+day).length<2 ? '0' : '') + day;
-           
+
             $("#basis").change(function () {
                 $("#preview").empty(); // Clear the preview div
                 if (this.files && this.files.length > 0) {
@@ -682,7 +682,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                     }
                 }
             });
-   
+
             // Preview End
 
             $("#currency").change(function() {

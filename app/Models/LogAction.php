@@ -16,8 +16,8 @@ class LogAction extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function request_flows()
+    public function requestFlow()
     {
-        return $this->belongsTo(RequestFlow::class);
+        return $this->belongsTo(RequestFlow::class, 'request_flow_id', 'id');
     }
 }

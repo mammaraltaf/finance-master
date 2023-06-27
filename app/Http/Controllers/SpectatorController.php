@@ -110,18 +110,25 @@ class SpectatorController extends Controller
         $comp_id=Company::where('slug',$comp_slug)->pluck('id')->first();
         $req_logs_ids = RequestFlow::where('company_id', $comp_id)->pluck('id')->toArray();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
-        $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
-            ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
-            ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
-            ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
-            ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
-            ->whereIn('request_flows.id', $req_logs_ids)
-            // ->whereHas('company', function ($query) {
-            //     $query->where('slug', Session::get('url-slug'));
-            // })
-            ->whereIn('action', [ActionEnum::MANAGER_REJECT, ActionEnum::MANAGER_ACCEPT])
+        $requests = LogAction::with('requestFlow', 'requestFlow.company', 'requestFlow.supplier', 'requestFlow.typeOfExpense')
+            ->whereIn('request_flow_id', $req_logs_ids)
             ->orderBy('log_actions.created_at', 'desc')
-            ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
+            ->get();
+
+//        dd($requests);
+
+//        $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
+//            ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
+//            ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
+//            ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
+//            ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
+//            ->whereIn('request_flows.id', $req_logs_ids)
+//            // ->whereHas('company', function ($query) {
+//            //     $query->where('slug', Session::get('url-slug'));
+//            // })
+//            ->whereIn('action', [ActionEnum::MANAGER_REJECT, ActionEnum::MANAGER_ACCEPT])
+//            ->orderBy('log_actions.created_at', 'desc')
+//            ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
         return view('spectator.pages.accepted', compact('requests','companies_slug'));
     }
 
@@ -135,6 +142,15 @@ class SpectatorController extends Controller
         $input = $request->all();
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
+//        $requests = LogAction::with(['requestFlow', 'requestFlow.company', 'requestFlow.supplier', 'requestFlow.typeOfExpense'])
+//            ->whereIn('request_flow_id', $req_logs_ids)
+//            ->whereDate('log_actions.created_at', '>=', $start)
+//            ->whereDate('log_actions.created_at', '<=', $end)
+////            ->whereIn('action', [ActionEnum::MANAGER_REJECT, ActionEnum::MANAGER_ACCEPT])
+//            ->orderBy('log_actions.created_at', 'desc')
+//            ->get(['log_actions.*', 'log_actions.created_at as log_date'])->toArray();
+
+
         $requests = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
             ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
             ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')

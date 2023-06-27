@@ -117,8 +117,8 @@
     <!--end::Header-->
     <!--begin::Body-->
     <div class="card-body py-3">
-       
-      
+
+
 
         <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
@@ -264,7 +264,7 @@
                         <div class="form-group w-100 px-2">
                             <label for="initiator">Initiator</label>
                             <input type="text" class="form-control" id="initiator_update" name="initiator" value="">
-                           
+
                         </div>
                         <div class="form-group w-100 px-2">
                             <label for="company">Company</label>
@@ -305,7 +305,7 @@
                         </div>
                         <div class="form-group w-100 px-2">
                             <label for="currency">Currency</label>
-                            <select class="form-control currency" id="currency_update" name="currency" required>
+                            <select class="form-control currency" id="currency" name="currency" required>
                                 <option value="">Select a currency</option>
                                 <option value="USD">USD</option>
                                 <option value="EUR">EUR</option>
@@ -466,7 +466,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
         });
     });
 
-      
+
 
         $(document).ready(function () {
         $('#suppliertable').DataTable({
@@ -634,42 +634,68 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
 
 
         $('body').on('click', '#userEdit', function () {
-    var request_id = $(this).data('id');
-    $.ajax({
-        type: "GET",
-        url: "{{ url('/user/edit-request/') }}" + '/' + request_id,
-        success: function (response) {
-            console.log(response);
-            $('#reqid').val(response.id);
-            $('#initiator_update').val(response.initiator);
-            $('#amount_update').val(response.amount);
-            $('#description_update').val(response.description);
-            $('#due-date-payment_update').val(response.payment_date);
-            $('#due-date_update').val(response.submission_date);
-            $('#gel-amount_update').val(response.amount_in_gel);
-            $('#request_links_update').val(response.request_link);
-            
-            // Set the selected values for the dropdowns
-            $('#company_update').val(response.company_id);
-            $('#department_update').val(response.department_id);
-            $('#supplier_update').val(response.supplier_id);
-            $('#expense_type_update').val(response.expense_type_id);
-            $('#currency_update').val(response.currency);
-            $('#updateForm').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
-            // Show previously uploaded files
-            var basisFiles = response.basis;
-            if (basisFiles) {
-                var files = basisFiles.split(',');
-                var fileHtml = '';
-                for (var i = 0; i < files.length; i++) {
-                    var fileName = files[i];
-                    fileHtml += '<div><a href="{{ asset('basis') }}' + '/' + fileName + '" target="_blank">' + fileName + '</a> <div class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
+            var request_id = $(this).data('id');
+            $.ajax({
+                type: "GET",
+                url: "{{ url('/user/edit-request/') }}" + '/' + request_id,
+                success: function (response) {
+                    console.log(response);
+                    $('#reqid').val(response.id);
+                    $('#initiator_update').val(response.initiator);
+                    $('#amount_update').val(response.amount);
+                    $('#description_update').val(response.description);
+                    $('#due-date-payment_update').val(response.payment_date);
+                    $('#due-date_update').val(response.submission_date);
+                    $('#gel-amount_update').val(response.amount_in_gel);
+                    $('#request_links_update').val(response.request_link);
+
+                    // Set the selected values for the dropdowns
+                    $('#company_update').prop('selectedIndex', response.company_id);
+                    $('#department_update').prop('selectedIndex', response.department_id);
+                    $('#supplier_update').prop('selectedIndex', response.supplier_id);
+                    $('#expense_type_update').prop('selectedIndex', response.expense_type_id);
+                    $('#currency').val(response.currency);
+                    $('#updateForm').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+                    // Show previously uploaded files
+                    var basisFiles = response.basis;
+                    if (basisFiles) {
+                        var files = basisFiles.split(',');
+                        var fileHtml = '';
+                        for (var i = 0; i < files.length; i++) {
+                            var fileName = files[i];
+                            fileHtml += '<div><a href="{{ asset('basis') }}' + '/' + fileName + '" target="_blank">' + fileName + '</a> <div class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
+                        }
+                        $('#preview_update').html(fileHtml);
+                    }
                 }
-                $('#preview_update').html(fileHtml);
+            });
+        });
+
+        $("#currency").change(function() {
+            var currency = $(this).val();
+            var amount = $("#amount").val();
+            // console.log("currency", currency)
+            if (currency != "GEL" && amount != "") {
+                $.ajax({
+                    url: "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date="+currentDate,
+                    dataType: "json",
+                    success: function(data) {
+                        if(currency === "USD"){
+                            var rate = data[0].currencies[40].rate;
+                        }
+                        if(currency === "EUR"){
+                            var rate = data[0].currencies[13].rate;
+                        }
+                        if (rate) {
+                            var gelAmount = amount * rate;
+                            $("#gel-amount").val(gelAmount.toFixed(2));
+                        }
+                    }
+                });
+            } else {
+                $("#gel-amount").val(amount);
             }
-        }
-    });
-});
+        });
 
         $('body').on('click', '.remove-file', function () {
             var fileName = $(this).data('file');
