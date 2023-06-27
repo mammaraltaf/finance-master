@@ -656,22 +656,23 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
             var currentDate = d.getFullYear() + '/' +
                 ((''+month).length<2 ? '0' : '') + month + '/' +
                 ((''+day).length<2 ? '0' : '') + day;
-
+           
             $("#basis").change(function () {
                 $("#preview").empty(); // Clear the preview div
                 if (this.files && this.files.length > 0) {
                     for (let i = 0; i < this.files.length; i++) {
                         let file = this.files[i];
+                        let url=URL.createObjectURL(file);
                         let reader = new FileReader();
                         reader.onload = function (e) {
                             let fileType = file.type.split('/')[0];
                             let previewItem = '';
                             if (fileType === 'image') {
-                                previewItem = '<div class="w-100"><img src="' + e.target.result + '" class="img-thumbnail" width="100%"></div>';
+                                previewItem = '<div class="w-100"><a href="'+url+'" target="_blank"><img src="' + e.target.result + '" class="img-thumbnail" width="100%"></a></div>';
                             } else if (fileType === 'application' && file.type === 'application/pdf') {
-                                previewItem = '<div class=""><embed class="p-2" src="' + e.target.result + '" type="application/pdf" width="100%"></div>';
+                                previewItem = '<div class="mt-2">   <a href="'+url+'" target="_blank"> <i class="fa-solid fa-up-right-from-square"></i> </a> <embed src="' + e.target.result + '" type="application/pdf" width="100%"></div>';
                             } else if (fileType === 'application' && file.type === 'application/msword') {
-                                previewItem = '<div><i class="far fa-file-word text-primary" style="font-size: 24px; width: 100%;"></i><embed src="' + e.target.result + '" type="application/msword" width="100%"></div>';
+                                previewItem = '<div> <a href="'+url+'" target="_blank"> <i class="fa-solid fa-up-right-from-square"></i> </a> <embed src="' + e.target.result + '" type="application/msword" width="100%"></div>';
                             } else {
                                 previewItem = '<p>' + file.name + ' - ' + file.size + ' bytes</p>';
                             }
@@ -873,3 +874,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
 
     </script>
 @endsection
+
+
+
