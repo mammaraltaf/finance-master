@@ -221,7 +221,7 @@
       $(document).ready(function() {
         $(".btn-group button").click(function () {
                 var filterValue = $(this).attr('data-filter');
-                console.log("filterValue", filterValue)
+                if(!filterValue) return;
                 $("#reviewDocument tbody tr").hide();
                 $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
                 if (filterValue === "all") {
