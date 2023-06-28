@@ -203,10 +203,10 @@
                             <a href="{{ route('accounting.print', $request->id) }}" target="_blank">Print</a>
                         </td>
                         <!-- <td class="cursor-pointer">{{ $request->id }}</td> -->
-                        <td>{{$request->status ?? ''}}</td>
+{{--                        <td>{{$request->status ?? ''}}</td>--}}
                         <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
-                        <td>{{formatDate($request['created_at']) ?? ''}}</td>
-                        <td>{{$request->company->name ?? ''}}</td>
+{{--                        <td>{{formatDate($request['created_at']) ?? ''}}</td>--}}
+{{--                        <td>{{$request->company->name ?? ''}}</td>--}}
                         <td>{{$request->department->name ?? ''}}</td>
                         <td>{{$request->supplier->supplier_name ?? ''}}</td>
                         <td>{{$request->typeOfExpense->name ?? ''}}</td>
@@ -223,8 +223,8 @@
                                 echo "No document available";
                             }
                                 ?></td>
-                        <td>{{formatDate($request->payment_date) ?? ''}}</td>
-                        <td>{{formatDate($request->submission_date) ?? ''}}</td>
+{{--                        <td>{{formatDate($request->payment_date) ?? ''}}</td>--}}
+{{--                        <td>{{formatDate($request->submission_date) ?? ''}}</td>--}}
                     </tr>
                 @endforeach
 
