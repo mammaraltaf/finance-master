@@ -324,6 +324,7 @@
             src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
     <script type="text/javascript">
       <script src="{{asset('admin/js/commonfunctions.js')}}"></script>
+    <script>
         $(document).ready(function () {
             $('table#accounting tbody tr').on('click', 'td:nth-child(3)', function () {
                 var row = $(this).closest('tr');

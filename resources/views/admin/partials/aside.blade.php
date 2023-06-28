@@ -54,11 +54,6 @@
                             </a>
                         </div>
 
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteNamed('logging') ? 'active' : '' }}" href="{{ route(('logging'),['company'=>\Illuminate\Support\Facades\Session::get('url-slug')])}}" >
-                                <span class="menu-title">Logging</span>
-                            </a>
-                        </div>
                     @else
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.dashboard') ? 'active' : '' }}" href="{{ route(auth()->user()->user_type.'.dashboard')}}" >
@@ -73,9 +68,14 @@
                                 <span class="menu-title">Manage Request</span>
                             </a>
                         </div>
+{{--                        <div class="menu-item">--}}
+{{--                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"--}}
+{{--                               href="{{url(auth()->user()->user_type.'/'.'logs')}}" >--}}
+{{--                                <span class="menu-title">Manage Logs</span>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"
-                               href="{{url(auth()->user()->user_type.'/'.'logs')}}" >
+                            <a class="menu-link {{ Route::currentRouteNamed('logging') ? 'active' : '' }}" href="{{ route(('logging'),['company'=>\Illuminate\Support\Facades\Session::get('url-slug')])}}" >
                                 <span class="menu-title">Manage Logs</span>
                             </a>
                         </div>
@@ -117,14 +117,14 @@
                     </div>
                     @endrole
 
-                        @role('spectator')
-                        <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"
-                               href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'logs')}}" >
-                                <span class="menu-title">Manage Logs</span>
-                            </a>
-                        </div>
-                        @endrole
+{{--                        @role('spectator')--}}
+{{--                        <div class="menu-item">--}}
+{{--                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"--}}
+{{--                               href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'logs')}}" >--}}
+{{--                                <span class="menu-title">Manage Logs</span>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
+{{--                        @endrole--}}
 
                         @hasanyrole('super-admin')
 
@@ -135,7 +135,7 @@
                             </a>
                         </div>
                         @endhasanyrole
-                        @hasanyrole('accounting|director|manager')
+                        @hasanyrole('accounting|director|manager|spectator')
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.viewrequests') ? 'active' : '' }}"
                                href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'viewrequests')}}" >
@@ -143,9 +143,14 @@
                             </a>
                         </div>
 
+{{--                        <div class="menu-item">--}}
+{{--                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"--}}
+{{--                               href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'logs')}}" >--}}
+{{--                                <span class="menu-title">Manage Logs</span>--}}
+{{--                            </a>--}}
+{{--                        </div>--}}
                         <div class="menu-item">
-                            <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.logs') ? 'active' : '' }}"
-                               href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'logs')}}" >
+                            <a class="menu-link {{ Route::currentRouteNamed('logging') ? 'active' : '' }}" href="{{ route(('logging'),['company'=>\Illuminate\Support\Facades\Session::get('url-slug')])}}" >
                                 <span class="menu-title">Manage Logs</span>
                             </a>
                         </div>

@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 <div class="ml-5 mt-3">
-    <form action="{{route('finance.logfilters')}}" method="post"  >
+    <form action="{{route('logFilters')}}" method="post"  >
         @csrf
         <div class="form-row">
             <div class="form-group col-md-3">
