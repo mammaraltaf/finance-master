@@ -247,7 +247,8 @@ exportOptions: {
          // Data Filter Start
          $(document).ready(function () {
             $(".btn-group button").click(function () {
-                var filterValue = $(this).attr('data-filter');
+              var filterValue = $(this).attr('data-filter');
+              if(!filterValue) return;
                 console.log("filterValue", filterValue)
                 $("#reviewDocument tbody tr").hide();
                 $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
