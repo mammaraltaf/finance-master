@@ -51,6 +51,7 @@ Route::group(['middleware' => 'auth'], function () {
     /*Get Departments based on Company IDS selected*/
     Route::post('/get-departments', [HomeController::class, 'getDepartments'])->name('get-departments');
 
+    Route::get('{company?}/logging', [HomeController::class, 'logging'])->name('logging');
     /*Super Admin Routes*/
     Route::group([
         'middleware' => ['role:' . UserTypesEnum::SuperAdmin],

@@ -53,6 +53,12 @@
                                 <span class="menu-title">Dashboard</span>
                             </a>
                         </div>
+
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteNamed('logging') ? 'active' : '' }}" href="{{ route(('logging'),['company'=>\Illuminate\Support\Facades\Session::get('url-slug')])}}" >
+                                <span class="menu-title">Logging</span>
+                            </a>
+                        </div>
                     @else
                     <div class="menu-item">
                         <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.dashboard') ? 'active' : '' }}" href="{{ route(auth()->user()->user_type.'.dashboard')}}" >

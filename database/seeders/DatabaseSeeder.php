@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             DepartmentSeeder::class,
             SupplierSeeder::class,
             TypeOfExpanseSeeder::class,
-            RequestSeeder::class
+            RequestSeeder::class,
+            LogSeeder::class
             ]);
     }
 }
