@@ -251,6 +251,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit-supplier/{id}', [AccountingController::class, 'editsupplier'])->name('edit-supplier');
         Route::get('/alldata', [AccountingController::class, 'alldata'])->name('alldata');
         Route::get('/print/{id}', [AccountingController::class, 'print'])->name('print');
+        Route::post('/reject-request', [AccountingController::class, 'rejectRequest'])->name('reject-request');
+
     });
 });
 

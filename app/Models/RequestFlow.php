@@ -10,7 +10,7 @@ class RequestFlow extends Model
     use HasFactory;
     protected $guarded = ['id'];
 
-    protected $with = ['company', 'supplier', 'typeOfExpense', 'department', 'log_actions'];
+    protected $with = ['company', 'supplier', 'typeOfExpense', 'department', 'log_actions','user'];
 
     public function company()
     {
@@ -35,5 +35,10 @@ class RequestFlow extends Model
     public function log_actions()
     {
         return $this->hasMany(LogAction::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

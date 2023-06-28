@@ -132,7 +132,7 @@
                     </div>
                 </div>
                     <div class="d-grid mb-3" style="float: right">
-                        <label><b>Version:</b>1.01</label>
+                        <label><b>Version:</b>{{config('app.version')}}</label>
                     </div>
             </div>
         </div>

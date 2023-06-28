@@ -460,4 +460,29 @@ class AccountingController extends Controller
         }
     }
 
+    public function rejectRequest(Request $request)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'comment' => 'required',
+            ]);
+
+            if ($validator->fails()) {
+                return redirect()->back()->withErrors($validator)->withInput();
+            }
+
+            $requestFlow = RequestFlow::find($request->id);
+            $requestFlow->status = StatusEnum::Rejected;
+            $requestFlow->comment = $request->comment;
+            $requestFlow->save();
+
+            $this->logActionCreate(Auth::id(), $requestFlow->id, ActionEnum::ACCOUNTING_REJECT);
+            AcceptOrRejectRequest::dispatch($requestFlow);
+
+            return redirect()->back()->with('success', 'Request Rejected Successfully');
+        } catch (Exception $e) {
+            return redirect()->back()->withErrors($e->getMessage());
+        }
+    }
+
 }

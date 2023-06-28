@@ -4,6 +4,10 @@
 @endsection
 @section('content')
     <style>
+        .acceptBtn, .rejectBtn {
+            font-size: 10px;
+            padding: 4px 6px !important;
+        }
         .bog-logo {
             background-color: #ffff;
             padding: 10px 20px;
@@ -193,9 +197,16 @@
                     <tr class="text-center">
                         <td><input type="checkbox" name="id[]" value="{{ $request->id }}"></td>
                         <td>
-                            <button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal"
-                                    data-target="#document-modal" data-document-id="1" data-id="{{$request->id}}">Review
-                            </button>
+{{--                            <button type="button" id="reviewBtn" class="btn btn-primary" data-toggle="modal"--}}
+{{--                                    data-target="#document-modal" data-document-id="1" data-id="{{$request->id}}">Review--}}
+{{--                            </button>--}}
+                            <div class="d-flex">
+                                <button type="submit" class="mr-2 btn btn-success acceptBtn" id=""
+                                        data-id="{{$request->id}}">Pay
+                                </button>
+                                <button class="ml-2 btn btn-danger rejectBtn" data-id="{{$request->id}}">Reject
+                                </button>
+                            </div>
                         </td>
                         <td class="cursor-pointer bg-primary"
                             style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;" id="details-btn">{{$request->id  ?? ''}}</td>
@@ -258,7 +269,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title" id="document-modal-label">Review Document</h2>
+                    <h2 class="modal-title" id="document-modal-label">Pay Request</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -274,7 +285,7 @@
                         </div>
 
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-danger reject-button btnResponse" data-url="{{ url('accounting/payment/') }}" data-id="request_id" value="reject" name="button">Reject</button>
+{{--                    <button type="button" class="btn btn-danger reject-button btnResponse" data-url="{{ url('accounting/payment/') }}" data-id="request_id" value="reject" name="button">Reject</button>--}}
                     <button type="submit" class="btn btn-success approve-button btnResponse"  value="pay" name="button">Pay</button>
                   </div>
                 </form>
@@ -287,7 +298,64 @@
         <iframe src="https://gifer.com/embed/1amw" width=480 height=480.000 frameBorder="0" allowFullScreen></iframe>
         <p><a href="https://gifer.com">via GIFER</a></p>
     </div>
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="acceptConfirmationModal" tabindex="-1"
+         aria-labelledby="acceptConfirmationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="acceptConfirmationModalLabel">Accept Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{route(UserTypesEnum::Finance.'.approve-request')}}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Are you sure you want to accept this request?</p>
+                        <input type="hidden" name="id" class="approve-request-id" value=""/>
+                        <div class="form-group">
+                            <label for="acceptComment">Comment (optional)</label>
+                            <textarea class="form-control" name="comment" id="acceptComment" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-success" id="confirmAcceptBtn">Pay</button>
+                    </div>
+                </form>
 
+            </div>
+        </div>
+    </div>
+    <!-- Rejection Modal -->
+    <div class="modal fade" id="rejectConfirmationModal" tabindex="-1"
+         aria-labelledby="rejectConfirmationModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="rejectConfirmationModalLabel">Reject Request</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="{{route(UserTypesEnum::Accounting.'.reject-request')}}" method="POST">
+                    @csrf
+                    <div class="modal-body">
+                        <p>Are you sure you want to reject this request?</p>
+                        <input type="hidden" name="id" class="reject-request-id" value=""/>
+                        <div class="form-group">
+                            <label for="rejectComment">Comment (compulsory)</label>
+                            <textarea class="form-control" name="comment" id="rejectComment" rows="3"
+                                      required></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-danger" id="confirmRejectBtn">Reject</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
 
@@ -322,9 +390,8 @@
           rel="stylesheet"/>
     <script type="text/javascript"
             src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/js/dataTables.checkboxes.min.js"></script>
-    <script type="text/javascript">
       <script src="{{asset('admin/js/commonfunctions.js')}}"></script>
-    <script>
+    <script type="text/javascript">
         $(document).ready(function () {
             $('table#accounting tbody tr').on('click', 'td:nth-child(3)', function () {
                 var row = $(this).closest('tr');
@@ -365,10 +432,33 @@
                     $('#rowModal').modal('hide');
                 });
             });
+
+            $('.acceptBtn').click(function () {
+                console.log("accept")
+                let a = $(this).data('id');
+                $('.approve-request-id').val(a);
+                // $('#acceptConfirmationModal').modal('show');
+                $('#document-modal').modal('show');
+            });
+            $('#confirmAcceptBtn').click(function () {
+                var comment = $('#acceptComment').val();
+                $('#acceptConfirmationModal').modal('hide');
+            });
+            $('.rejectBtn').click(function () {
+                console.log("reject")
+                let a = $(this).data('id');
+                $('.reject-request-id').val(a);
+                $('#rejectConfirmationModal').modal('show');
+            });
+            $('#confirmRejectBtn').click(function () {
+                var comment = $('#rejectComment').val();
+                $('#rejectConfirmationModal').modal('hide');
+            });
+
         });
 
 
-      $('body').on('click', '#reviewBtn', function () {
+      $('body').on('click', '.acceptBtn', function () {
         var request_id = $(this).data('id');
         $.ajax({
         type: "GET",
@@ -380,6 +470,18 @@
           $('#directorAcceptRejectForm').attr('action', "{{url('accounting/payment/')}}" + '/' + request_id);
         }
       });
+      {{--  $('body').on('click', '#reviewBtn', function () {--}}
+      {{--  var request_id = $(this).data('id');--}}
+      {{--  $.ajax({--}}
+      {{--  type: "GET",--}}
+      {{--  url: "{{url('accounting/payment/')}}" + '/' + request_id,--}}
+      {{--  success: function (response) {--}}
+      {{--    console.log(response);--}}
+      {{--    $('#id').val(response.id);--}}
+      {{--    $('#amount').val(response.amount_in_gel);--}}
+      {{--    $('#directorAcceptRejectForm').attr('action', "{{url('accounting/payment/')}}" + '/' + request_id);--}}
+      {{--  }--}}
+      {{--});--}}
       // $('.btnResponse').click(function () {
       //   var directorAcceptRejectForm = $('#directorAcceptRejectForm');
       //     directorAcceptRejectForm.attr('action', "{{url('accounting/payment/')}}" + '/' + request_id);
@@ -413,11 +515,6 @@
     //     directorAcceptRejectForm.submit();
     //   });
     // });
-
-
-
-
-
 
 
     $(document).ready(function() {
@@ -765,7 +862,7 @@
                 $("#details-modal-body").html(response);
                 console.log(response);
             }).catch((err)=>console.log(err));
-        })
+        });
 
 
     </script>
