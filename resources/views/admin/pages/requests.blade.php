@@ -98,7 +98,7 @@
             @foreach($requests as $request)
                 <tr>
                   <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;" id="details-btn">{{$request->id}}</td>
-                  <td>{{$request->status ?? ''}}</td>
+{{--                  <td>{{$request->status ?? ''}}</td>--}}
                     <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
 {{--                    <td>{{formatDate($request->created_at) ?? ''}}</td>--}}
 {{--                    <td>{{$request->company->name ?? ''}}</td>--}}
