@@ -133,7 +133,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="details-modal-body">
                     <!-- Display row data here -->
                     <p id="status"></p>
                     <p id="rowInitiator"></p>
@@ -198,7 +198,7 @@
                             </button>
                         </td>
                         <td class="cursor-pointer bg-primary"
-                            style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request->id  ?? ''}}</td>
+                            style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;" id="details-btn">{{$request->id  ?? ''}}</td>
                         <td>
                             <a href="{{ route('accounting.print', $request->id) }}" target="_blank">Print</a>
                         </td>
@@ -318,6 +318,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="{{asset('admin/js/commonfunctions.js')}}"></script>
     <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.12/css/dataTables.checkboxes.css"
           rel="stylesheet"/>
     <script type="text/javascript"
@@ -756,7 +757,14 @@
     });
 
 
-
+    $("body").on("click","#details-btn",(event)=>{
+            $("#details-modal-body").html('<h6 class="text-info">Loading...</h6>');
+            console.log(event.target.innerText);
+            getRequestById(event.target.innerText).then((response)=>{
+                $("#details-modal-body").html(response);
+                console.log(response);
+            }).catch((err)=>console.log(err));
+        })
 
 
     </script>

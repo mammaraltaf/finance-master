@@ -65,7 +65,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="details-modal-body">
                     <!-- Display row data here -->
                     <p id="status"></p>
                     <p id="rowInitiator"></p>
@@ -131,8 +131,8 @@
                             </div>
                         </td>
                         <td class="cursor-pointer bg-primary"
-                            style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
-{{--                        <td>{{$request->status ?? ''}}</td>--}}
+                            style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;" id="details-btn">{{$request->id}}</td>
+                        <td>{{$request->status ?? ''}}</td>
                         <td title="{{ $request->initiator }}">{{ getAlias($request->initiator) ?? '' }}</td>
 {{--                        <td>{{formatDate($request->created_at) ?? ''}}</td>--}}
 {{--                        <td>{{$request->company->name ?? ''}}</td>--}}
@@ -299,6 +299,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="{{asset('admin/js/commonfunctions.js')}}"></script>
 
     <script>
 
@@ -446,6 +447,15 @@
             var comment = $('#rejectComment').val();
             $('#rejectConfirmationModal').modal('hide');
         });
+
+        $("body").on("click","#details-btn",(event)=>{
+            $("#details-modal-body").html('<h6 class="text-info">Loading...</h6>');
+            console.log(event.target.innerText);
+            getRequestById(event.target.innerText).then((response)=>{
+                $("#details-modal-body").html(response);
+                console.log(response);
+            }).catch((err)=>console.log(err));
+        })
     </script>
 
 @endsection
