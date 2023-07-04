@@ -201,7 +201,7 @@
                             <td>{{$request->amount}}</td>
                             <td>{{$request->amount_in_gel ?? ''}}</td>
                             <td>{{$request->description ?? ''}}</td>
-                            <td> <a href="{{URL::to($request->request_link)}}" target="_blank">{{URL::to($request->request_link)}}</a> </td>
+                            <td> {{ $request->request_link ? '<a href="' . URL::to($request->request_link) . '" target="_blank">' . URL::to($request->request_link) . '</a>' : '' }} </td>
                             <td><?php if(isset($request->basis)){
                             $files=explode(',',$request->basis);
                             foreach($files as $file){ ?>
@@ -352,8 +352,8 @@
                     </div>
                     <div class="form-group d-flex gx-5">
                         <div class='p-2'>
-                        <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button"
-                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>  </div>
+                        <button type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}" name="button"
+                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::SubmittedForReview}}</button>  </div>
                     </div>
                 </form>
             </div>

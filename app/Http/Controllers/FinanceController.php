@@ -231,14 +231,14 @@ class FinanceController extends Controller
 //            ->whereStatus(StatusEnum::SubmittedForReview)
 //            ->get();
         $companyIds = $user->companies->pluck('id')->toArray();
-//        $departmentIds = $user->departments->pluck('id')->toArray();
+        $departmentIds = $user->departments->pluck('id')->toArray();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
             })
             // ->whereIn('company_id', $companyIds)
-//            ->whereIn('department_id', $departmentIds)
+            ->whereIn('department_id', $departmentIds)
 //            ->whereStatus(StatusEnum::SubmittedForReview)
             ->whereIn('status', [StatusEnum::ManagerConfirmed, StatusEnum::ManagerThresholdExceeded])
             ->orderBy('request_flows.created_at', 'desc')

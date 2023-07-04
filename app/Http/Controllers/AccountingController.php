@@ -72,13 +72,13 @@ class AccountingController extends Controller
 //        $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])->get();
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
-//        $departmentIds = $user->departments->pluck('id')->toArray();
+        $departmentIds = $user->departments->pluck('id')->toArray();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
             ->whereHas('company', function ($query) {
                 $query->where('slug', Session::get('url-slug'));
             })
-//            ->whereIn('department_id', $departmentIds)
+            ->whereIn('department_id', $departmentIds)
 //            ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::ManagerConfirmed])
             ->whereIn('status', [StatusEnum::DirectorConfirmed, StatusEnum::FinanceOk])
             ->orderBy('request_flows.created_at', 'desc')

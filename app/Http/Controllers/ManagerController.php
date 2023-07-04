@@ -41,16 +41,16 @@ class ManagerController extends Controller
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
             ->whereIn('request_flows.id', $req_logs_ids)
             ->whereIn('action', [ActionEnum::MANAGER_REJECT, ActionEnum::MANAGER_ACCEPT])
-           // ->whereBetween('log_actions.created_at', [$start, $end])
-             ->whereDate('log_actions.created_at', '>=', $start)
-             ->whereDate('log_actions.created_at', '<=', $end)
+            // ->whereBetween('log_actions.created_at', [$start, $end])
+            ->whereDate('log_actions.created_at', '>=', $start)
+            ->whereDate('log_actions.created_at', '<=', $end)
             ->orderBy('log_actions.created_at', 'desc')
             ->get(['log_actions.*', 'log_actions.created_at as log_date', 'request_flows.*', 'companies.name as compname', 'departments.name as depname', 'suppliers.supplier_name as supname', 'type_of_expanses.name as expname'])->toArray();
-            return view('manager.pages.accepted', compact('requests','companies_slug'));
+        return view('manager.pages.accepted', compact('requests','companies_slug'));
     }
     public function dashboard()
     {
-         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+        $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $user_id=Auth::user()->id;
         return view('manager.pages.dashboard',compact('companies_slug','user_id'));
     }
@@ -70,26 +70,26 @@ class ManagerController extends Controller
             }
 
             $user = User::find($input['id']);
-          $oldpass=$input['currentPassword'];
-          $newpass=$input['password'];
-        $confirm=$input['passwordConfirm'];
-        if($oldpass==$user->original_password){
-    if($newpass==$confirm){
-    $user['original_password']=$newpass;
-    $user['password']=Hash::make($newpass);
-    $check=$user->save();
-    if ($check) {
-        return redirect()->back()->with('success', 'Password updated successfully');
-    }else{
-        return redirect()->back()->with('error', 'Something went wrong');
-    }
+            $oldpass=$input['currentPassword'];
+            $newpass=$input['password'];
+            $confirm=$input['passwordConfirm'];
+            if($oldpass==$user->original_password){
+                if($newpass==$confirm){
+                    $user['original_password']=$newpass;
+                    $user['password']=Hash::make($newpass);
+                    $check=$user->save();
+                    if ($check) {
+                        return redirect()->back()->with('success', 'Password updated successfully');
+                    }else{
+                        return redirect()->back()->with('error', 'Something went wrong');
+                    }
 
-    }else{
-        return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
-    }
-        }else{
-            return redirect()->back()->with('error', 'Current password is wrong.Please try again.');
-        }
+                }else{
+                    return redirect()->back()->with('error', 'Passwords do not match.Please try again.');
+                }
+            }else{
+                return redirect()->back()->with('error', 'Current password is wrong.Please try again.');
+            }
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -100,14 +100,14 @@ class ManagerController extends Controller
 
         $user = Auth::user();
         $companyIds = $user->companies->pluck('id')->toArray();
-//        $departmentIds = $user->departments->pluck('id')->toArray();
+        $departmentIds = $user->departments->pluck('id')->toArray();
         $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
-        ->whereHas('company', function ($query) {
-            $query->where('slug', Session::get('url-slug'));
-        })
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })
             // ->whereIn('company_id', $companyIds)
-//            ->whereIn('department_id', $departmentIds)
+            ->whereIn('department_id', $departmentIds)
 //            ->whereStatus(StatusEnum::FinanceOk)
             ->whereStatus(StatusEnum::SubmittedForReview)
             ->orderBy('request_flows.created_at', 'desc')
@@ -123,14 +123,14 @@ class ManagerController extends Controller
         $start = Carbon::parse($input['start-date'])->toDateTimeString();
         $end = Carbon::parse($input['end-date'])->toDateTimeString();
         $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
-        ->whereStatus(StatusEnum::SubmittedForReview)
-        ->whereHas('company', function ($query) {
-            $query->where('slug', Session::get('url-slug'));
-        })
-        ->whereDate('request_flows.created_at', '>=', $start)
-        ->whereDate('request_flows.created_at', '<=', $end)
-        //    ->whereBetween('created_at', [$start, $end])
-           ->orderBy('request_flows.created_at', 'desc')
+            ->whereStatus(StatusEnum::SubmittedForReview)
+            ->whereHas('company', function ($query) {
+                $query->where('slug', Session::get('url-slug'));
+            })
+            ->whereDate('request_flows.created_at', '>=', $start)
+            ->whereDate('request_flows.created_at', '<=', $end)
+            //    ->whereBetween('created_at', [$start, $end])
+            ->orderBy('request_flows.created_at', 'desc')
             ->get();
         return view('manager.pages.requests', compact('requests','companies_slug'));
     }
@@ -193,7 +193,7 @@ class ManagerController extends Controller
             ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
             ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
             ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
-           ->whereIn('request_flows.id', $req_logs_ids)
+            ->whereIn('request_flows.id', $req_logs_ids)
             // ->whereHas('company', function ($query) {
             //     $query->where('slug', Session::get('url-slug'));
             // })
@@ -208,15 +208,15 @@ class ManagerController extends Controller
             return $this->viewrequests();
         } else if ($id == "finance") {
             $user = Auth::user();
-    $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+            $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
             $requests = RequestFlow::with('company', 'supplier', 'typeOfExpense')
-            ->whereHas('company', function ($query) {
-                $query->where('slug', Session::get('url-slug'));
-            })
+                ->whereHas('company', function ($query) {
+                    $query->where('slug', Session::get('url-slug'));
+                })
                 ->whereStatus(StatusEnum::FinanceOk)
                 ->orderBy('request_flows.created_at', 'desc')
                 ->get();
             return view('manager.pages.requests', compact('requests','companies_slug'));
-                 }
-}
+        }
+    }
 }

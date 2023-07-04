@@ -312,7 +312,13 @@ class AdminController extends Controller
         $user = Auth::user();
         $companyId = User::where('id', Auth::user()->id)->first()->companies()->pluck('companies.id')->first();
         // $departmentIds = $user->departments->pluck('id')->toArray();
-        $departmentIds = CompanyDepartment::where('company_id', $companyId)->pluck('department_id')->toArray();
+//        $departmentIds = CompanyDepartment::where('company_id', $companyId)->pluck('department_id')->toArray();
+        $departments = DepartmentUser::where('user_id', Auth::user()->id)
+            ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+            ->select('departments.*')
+            ->get();
+
+        $departmentIds = DepartmentUser::with('department')->where('user_id', Auth::user()->id)->pluck('department_id')->toArray();
         $departments = Department::whereIn('id', $departmentIds)->get();
         $users = User::where('user_type', UserTypesEnum::User)->get();
         return view('admin.pages.department', compact('departments', 'users', 'companyId'));
@@ -339,7 +345,7 @@ class AdminController extends Controller
             ]);
             $company_id = $input['company_id'];
             $department_id = $department->id;
-            $companyDepartment = new CompanyDepartment([
+            $companyDepartment = new DepartmentUser([
                 'company_id' => $company_id,
                 'department_id' => $department_id,
             ]);

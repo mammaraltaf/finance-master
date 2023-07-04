@@ -20,7 +20,9 @@ function getRequestById(id){
                 innerHtml+=`<p>Link: <a href=${`"${response?.request_link}"`} target="_blank">${response?.request_link} </a></p>`;
                 innerHtml+=`<p>Basis: <a href=${`"${response?.basis}"`} target="_blank">${response?.basis} </a> </p>`;
                 innerHtml+=`<p>Comment: ${response?.comment}</p>`;
-                return innerHtml;
+                innerHtml+=`<p>Request Status: ${response?.status}</p>`;
+                innerHtml+=`<p>User Action: ${response?.lastUserWhoTookAction}</p>`;
+     return innerHtml;
     })
 }
 
