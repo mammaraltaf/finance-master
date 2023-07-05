@@ -470,7 +470,27 @@ class UserController extends Controller
             $suppliers = supplier::all();
             $expenses = TypeOfExpanse::all();
             return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
-        } else {
+        }
+        else if (StatusEnum::ThresholdExceeded){
+            $user = Auth::user();
+            $requests = RequestFlow::with('company')
+                ->where('user_id', $user->id)
+                ->whereHas('company', function ($query) {
+                    $query->where('slug', Session::get('url-slug'));
+                })->whereIn('status',[StatusEnum::ThresholdExceeded, StatusEnum::FinanceThresholdExceeded, StatusEnum::ManagerThresholdExceeded])
+                ->orderBy('created_at', 'desc')->get();
+            $companies = Company::where('slug', Session::get('url-slug'))->get();
+            $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+            $departments = DepartmentUser::where('user_id', Auth::user()->id)
+                ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+                ->select('departments.*')
+                ->get();
+            $suppliers = supplier::all();
+            $expenses = TypeOfExpanse::all();
+            return view('user.pages.request', compact('requests', 'user', 'companies', 'departments', 'suppliers', 'expenses', 'companies_slug'));
+
+        }
+        else {
             $user = Auth::user();
             $requests = RequestFlow::with('company')
                 ->where('user_id', $user->id)

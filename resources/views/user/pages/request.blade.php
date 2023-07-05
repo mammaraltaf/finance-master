@@ -113,6 +113,7 @@
         <button id="review" class="btn btn-info filter my-1" >Submitted for review</button>
         <button id="finance" class="btn btn-info filter my-1" >Finance ok</button>
         <button id="confirmed" class="btn btn-info filter my-1" >Confirmed</button>
+        <button id="{{\App\Classes\Enums\StatusEnum::ThresholdExceeded}}" class="btn btn-info filter my-1" >Threshold Exceeded</button>
         <button id="paid" class="btn btn-info filter my-1" >Paid</button>
         <a class="btn btn-danger my-1" style="float: right" href="{{ route('user.rejected-requests') }}"> Rejected Requests
     </a>

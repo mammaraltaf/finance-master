@@ -76,10 +76,13 @@ class HomeController extends Controller
     public function logging(Request $request)
     {
         try{
+            $user = Auth::user();
+            $departmentIds = $user->departments->pluck('id')->toArray();
             $comp_slug = Session::get('url-slug');
             $comp_id = Company::where('slug', $comp_slug)->pluck('id')->first();
-            $req_logs_ids = RequestFlow::where('company_id', $comp_id)->pluck('id')->toArray();
+            $req_logs_ids = RequestFlow::where('company_id', $comp_id)->whereIn('department_id', $departmentIds)->pluck('id')->toArray();
             $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
+
             $requests = LogAction::with('requestFlow', 'requestFlow.company', 'requestFlow.supplier', 'requestFlow.typeOfExpense')
                 ->whereIn('request_flow_id', $req_logs_ids)
                 ->orderBy('log_actions.created_at', 'desc')
