@@ -214,7 +214,8 @@ class UserController extends Controller
                 'amount_in_gel' => 'required',
                 'amount' => 'required',
                 'description' => 'required',
-                'basis' => 'required',
+                'basis' => 'required|array|min:1',
+                'basis.*' => 'mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx,csv,xlsm,txt,rtf,msg',
                 'due-date-payment' => 'required',
                 'due-date' => 'required'
             ]);

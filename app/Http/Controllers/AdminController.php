@@ -172,16 +172,17 @@ class AdminController extends Controller
     {
         try {
             $user = Auth::user();
-            $company_id = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
+            $departments = $user->departments;
+            $company = $user->companies->first();
             $user_ids = CompanyUser::where([
-                ['company_id', $company_id],
+                ['company_id', $company->id],
                 ['user_id', '!=', $user->id]
             ])
                 ->get('user_id');
             $users = User::whereIn('id', $user_ids)->withTrashed()->orderBy('created_at', 'desc')->get();
 
             $roles = Role::whereNotIn('name', [UserTypesEnum::SuperAdmin, UserTypesEnum::Admin])->get();
-            return view('admin.pages.users', compact('users', 'roles'));
+            return view('admin.pages.users', compact('users', 'roles', 'company', 'departments'));
         } catch (Exception $e) {
             return redirect()->back()->with('error', $e->getMessage());
         }
@@ -215,6 +216,8 @@ class AdminController extends Controller
             $companyIds = CompanyUser::where('user_id', $user->id)->pluck('company_id')->first();
 
             $users->companies()->attach($companyIds);
+            $departmentIds = $request->input('department',[]);
+            $users->departments()->attach($departmentIds);
 
 
             $users->assignRole($input['type']);
@@ -309,25 +312,25 @@ class AdminController extends Controller
 
     public function departments()
     {
-        $user = Auth::user();
         $companyId = User::where('id', Auth::user()->id)->first()->companies()->pluck('companies.id')->first();
         // $departmentIds = $user->departments->pluck('id')->toArray();
 //        $departmentIds = CompanyDepartment::where('company_id', $companyId)->pluck('department_id')->toArray();
-        $departments = DepartmentUser::where('user_id', Auth::user()->id)
-            ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
-            ->select('departments.*')
-            ->get();
+//        $departments = DepartmentUser::where('user_id', Auth::user()->id)
+//            ->rightJoin('departments', 'departments.id', '=', 'department_user.department_id')
+//            ->select('departments.*')
+//            ->get();
 
         $departmentIds = DepartmentUser::with('department')->where('user_id', Auth::user()->id)->pluck('department_id')->toArray();
         $departments = Department::whereIn('id', $departmentIds)->get();
-        $users = User::where('user_type', UserTypesEnum::User)->get();
-        return view('admin.pages.department', compact('departments', 'users', 'companyId'));
+//        $users = User::where('user_type', UserTypesEnum::User)->get();
+        return view('admin.pages.department', compact('departments', 'companyId'));
     }
 
     public function departmentsPost(Request $request)
     {
         try {
             $input = $request->all();
+
             $validator = Validator::make($input, [
                 'id_software' => 'unique:departments,id_software',
                 'name' => 'required',
@@ -345,11 +348,10 @@ class AdminController extends Controller
             ]);
             $company_id = $input['company_id'];
             $department_id = $department->id;
-            $companyDepartment = new DepartmentUser([
-                'company_id' => $company_id,
+            $departmentUser = DepartmentUser::create([
+                'user_id' => Auth::user()->id,
                 'department_id' => $department_id,
             ]);
-            $companyDepartment->save();
 
             if ($department) {
                 return redirect()->back()->with('success', 'Department created successfully');

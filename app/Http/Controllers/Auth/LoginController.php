@@ -47,56 +47,63 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         $input = $request->all();
+
         $request->validate([
             'email' => ['required','email'],
             'password' => ['required'],
-            // 'g-recaptcha-response' => ['required', new RecaptchaRule()]
+            'g-recaptcha-response' => [$this->getRecaptchaValidationRule($request)],
         ]);
 
-        if(auth()->attempt(array('email' => $input['email'], 'password' => ($input['password'])))) {
+        if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
             $user = Auth::user();
+
             if ($user->hasRole(UserTypesEnum::SuperAdmin)) {
                 return redirect()->route('super-admin.dashboard');
             } elseif ($user->hasRole(UserTypesEnum::User)  ||
-                        $user->hasRole(UserTypesEnum::Finance)  ||
-                        $user->hasRole(UserTypesEnum::Manager)  ||
-                        $user->hasRole(UserTypesEnum::Accounting)  ||
-                        $user->hasRole(UserTypesEnum::Spectator) ||
-                        $user->hasRole(UserTypesEnum::Director)) {
-                 return redirect()->route($user->user_type.'.select-company');
-            //   return redirect()->route('user.dashboard');
+                $user->hasRole(UserTypesEnum::Finance)  ||
+                $user->hasRole(UserTypesEnum::Manager)  ||
+                $user->hasRole(UserTypesEnum::Accounting)  ||
+                $user->hasRole(UserTypesEnum::Spectator) ||
+                $user->hasRole(UserTypesEnum::Director)) {
+                return redirect()->route($user->user_type.'.select-company');
             } else {
                 return redirect()->route('login')
                     ->withErrors(['error' => 'Incorrect username or password'])
                     ->withInput($request->session()->put('data', $request->input()));
             }
-//            $user = Auth::user();
+
             return redirect(Auth::user()->user_type.RouteServiceProvider::DASHBOARD);
-
-//            switch ($user->user_type) {
-//                case UserTypesEnum::SuperAdmin:
-//                    return redirect()->route('super-admin.dashboard');
-//                case UserTypesEnum::User:
-//                    return redirect()->route('user.dashboard');
-//                default:
-//                    return redirect()->route('login')
-//                        ->withErrors(['error' => 'Incorrect username or password'])
-//                        ->withInput($request->session()->put('data', $request->input()));
-//            }
-
-//            if ($user->hasRole(UserTypesEnum::SuperAdmin)) {
-//                return redirect()->route('super-admin.dashboard');
-//            } elseif ($user->hasRole(UserTypesEnum::User)) {
-//                return redirect()->route('user.dashboard');
-//            } else {
-//                return redirect()->route('login')
-//                    ->withErrors(['error' => 'Incorrect username or password'])
-//                    ->withInput($request->session()->put('data', $request->input()));
-//            }
         }
+
+        $this->incrementLoginAttempts($request);
+
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ]);
+    }
+
+// Increment the login attempts count
+    protected function incrementLoginAttempts(Request $request)
+    {
+        $request->session()->put('loginAttempts', $this->getLoginAttempts($request) + 1);
+    }
+
+// Get the current login attempts count
+    protected function getLoginAttempts(Request $request)
+    {
+        return $request->session()->get('loginAttempts', 0);
+    }
+
+// Get the reCAPTCHA validation rule
+    protected function getRecaptchaValidationRule(Request $request)
+    {
+        $loginAttempts = $this->getLoginAttempts($request);
+
+        if ($loginAttempts >= 3) {
+            return ['required', new RecaptchaRule()];
+        }
+
+        return [];
     }
 
     public function logout(Request $request)

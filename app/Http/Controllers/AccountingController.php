@@ -200,7 +200,7 @@ class AccountingController extends Controller
                         '', '',
                         'supplier_bank_account' => $requestData->supplier->bank_account,
                         'supplier_name' => $requestData->supplier->supplier_name,
-                        '',
+                        'supplier_tax_id' => $requestData->supplier->tax_id,
                         'cost of goods/services',
                         'amount_in_gel' => $requestData->amount_in_gel,
                     ];
@@ -232,6 +232,7 @@ class AccountingController extends Controller
                     $xmlString .= '<ns1:PMTINFO>' . PHP_EOL;
                     $xmlString .= '<ns1:ACCIBANTO>' . $requestData->supplier->bank_account . '</ns1:ACCIBANTO>' . PHP_EOL;
                     $xmlString .= '<ns1:BENEFNAME>' . $requestData->supplier->supplier_name . '</ns1:BENEFNAME>' . PHP_EOL;
+                    $xmlString .= '<ns1:BENEFTAXCODE>' . $requestData->supplier->tax_id . '</ns1:BENEFTAXCODE>' . PHP_EOL;
                     $xmlString .= '<ns1:AMOUNT>' . $requestData->amount_in_gel . '</ns1:AMOUNT>' . PHP_EOL;
                     $xmlString .= '<ns1:DESCR>cost of goods/services</ns1:DESCR>' . PHP_EOL;
                     $xmlString .= '</ns1:PMTINFO>' . PHP_EOL;

@@ -9,4 +9,5 @@ class DepartmentUser extends Model
 {
     use HasFactory;
     public $table = 'department_user';
+    protected $guarded = ['id'];
 }

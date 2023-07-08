@@ -115,10 +115,16 @@
                             {{--                        </label>--}}
                             {{--                    </div>--}}
 
-                            {{--                    <div class="form-check mb-3">--}}
-                            {{--                        <div class="g-recaptcha" data-sitekey="{{env('RECAPTCHA_SITE_KEY')}}"></div>--}}
-                            {{--                        <br/>--}}
-                            {{--                    </div>--}}
+                                @php
+                                    $loginAttempts = session('loginAttempts', 0);
+                                    $showRecaptcha = ($loginAttempts >= 3);
+                                @endphp
+                                @if ($showRecaptcha)
+                                    <div class="form-check mb-3">
+                                        <div class="g-recaptcha" data-sitekey="{{env('RECAPTCHA_SITE_KEY')}}"></div>
+                                        <br/>
+                                    </div>
+                                @endif
 
                             <div class="d-grid mb-3">
                                 <button type="submit" class="btn btn-primary btn-block">{{ __('Login') }}</button>

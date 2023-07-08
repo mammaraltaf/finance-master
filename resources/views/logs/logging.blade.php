@@ -39,7 +39,8 @@
 </div>
 <!--end::Header-->
 <!--begin::Body-->
-<div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
+<div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -48,28 +49,28 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
-                <p id="rowId"></p>
-                <p id="rowAction"></p>
-                {{-- <p id="rowActionDate"></p> --}}
+            <div class="modal-body" id="details-modal-body">
+                <!-- Display row data here -->
+                <p id="status"></p>
                 <p id="rowInitiator"></p>
-                <p id="rowCreated"></p>
+                <p id="rowCreatedAt"></p>
                 <p id="rowCompany"></p>
                 <p id="rowDepartment"></p>
                 <p id="rowSupplier"></p>
-                <p id="rowTypeofExpense"></p>
+                <p id="rowTypeOfExpense"></p>
                 <p id="rowCurrency"></p>
+                <p id="rowAmount"></p>
                 <p id="rowAmountInGel"></p>
                 <p id="rowDescription"></p>
-                <p id="rowlink"></p>
+                <p id="rowLink"></p>
                 <p id="rowBasis"></p>
                 <p id="rowDueDatePayment"></p>
                 <p id="rowDueDate"></p>
-                <p id="rowAmount"></p>
 
+                <!-- Add more fields as needed -->
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
+                <button type="button" class="btn btn-secondary close-pop-up">Close</button>
             </div>
         </div>
     </div>
@@ -83,19 +84,21 @@
                 <th>ID</th>
                 <th>Action</th>
                 <th>Initiator</th>
-                <th>Created At</th>
-                <th>Company</th>
+{{--                <th>Created At</th>--}}
+{{--                <th>Company</th>--}}
                 <th>Department</th>
-                <th>Supplier</th>
                 <th>Type of Expense</th>
-                <th>Currency</th>
-                <th>Amount In Gel</th>
-                <th>Description</th>
-                <th>Link</th>
-                <th>Basis (file attachment title)</th>
-                <th>Due Date of Payment</th>
-                <th>Due Date</th>
+                <th>Supplier</th>
+                <th>CCY</th> {{--currency--}}
                 <th>Amount</th>
+                <th>Amount In Gel</th>
+                <th>Accounting UID of Type of Expense</th>
+                <th>Accounting UID of Supplier</th>
+{{--                <th>Description</th>--}}
+{{--                <th>Link</th>--}}
+{{--                <th>Basis (file attachment title)</th>--}}
+{{--                <th>Due Date of Payment</th>--}}
+{{--                <th>Due Date</th>--}}
 
             </tr>
             </thead>
@@ -104,30 +107,46 @@
             @foreach($requests as $request)
             <tr class="text-nowrap" data-status="{{$request->action}}">
                 {{-- <td class="cursor-pointer">{{$request['id']}}</td> --}}
-                <td class="cursor-pointer text-center bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;">{{$request->id ?? ''}}</td>
+                <td class="cursor-pointer bg-primary"
+                    style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;" id="details-btn">{{$request->id}}</td>
                 <td>{{$request->action ?? ''}}</td>
                 <td>{{$request->requestFlow->initiator ?? ''}}</td>
-                <td>{{formatDate($request->created_at) ?? ''}}</td>
-                <td>{{$request->requestFlow->company->name ?? ''}}</td>
+{{--                <td>{{formatDate($request->created_at) ?? ''}}</td>--}}
+{{--                <td>{{$request->requestFlow->company->name ?? ''}}</td>--}}
                 <td>{{$request->requestFlow->department->name ?? ''}}</td>
-                <td>{{$request->requestFlow->supplier->supplier_name ?? ''}}</td>
                 <td>{{$request->requestFlow->typeOfExpense->name ?? ''}}</td>
+                <td>{{$request->requestFlow->supplier->supplier_name ?? ''}}</td>
                 <td>{{$request->requestFlow->currency ?? ''}}</td>
-                <td>{{$request->requestFlow->amount_in_gel ?? ''}}</td>
-                <td>{{$request->requestFlow->description ?? ''}}</td>
-                <td> <a href="{{URL::to($request->requestFlow->request_link)}}" target="_blank">{{$request->requestFlow->request_link ?? ''}}</a> </td>
-                <td> <?php if(isset($request['basis'])){
-                        $files=explode(',',$request->requestFlow->basis);
-                        foreach($files as $file){ ?>
-                            <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
-
-                        <?php  }   }else{
-                        echo "No document available";
-                    }
-                    ?></td>
-                <td>{{formatDate($request->requestFlow->payment_date) ?? ''}}</td>
-                <td>{{formatDate($request->requestFlow->submission_date) ?? ''}}</td>
                 <td>{{$request->requestFlow->amount ?? ''}}</td>
+                <td>{{$request->requestFlow->amount_in_gel ?? ''}}</td>
+                <td>{{$request->requestFlow->typeOfExpense->id_software ?? ''}}</td>
+                <td>{{$request->requestFlow->supplier->id_software ?? ''}}</td>
+{{--                <td>{{$request->requestFlow->description ?? ''}}</td>--}}
+{{--                <td> <a href="{{URL::to($request->requestFlow->request_link)}}" target="_blank">{{$request->requestFlow->request_link ?? ''}}</a> </td>--}}
+{{--                <td>--}}
+{{--                    @if($request->requestFlow->basis)--}}
+{{--                        @foreach(explode(',',$request->requestFlow->basis) as $file)--}}
+{{--                            <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>--}}
+{{--                        @endforeach--}}
+{{--                    @else--}}
+{{--                        No document available--}}
+{{--                    @endif--}}
+
+{{--                </td>--}}
+
+
+{{--                    <a href="{{asset('basis/'.$request->requestFlow->basis)}}" target="_blank">{{$request->requestFlow->basis}}</a></td>--}}
+{{--                    <?php if(isset($request['basis'])){--}}
+{{--                    $files=explode(',',$request->requestFlow->basis);--}}
+{{--                foreach($files as $file){ ?>--}}
+{{--                <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>--}}
+
+{{--                <?php  }   }else{--}}
+{{--                    echo "No document available";--}}
+{{--                }--}}
+{{--                    ?>--}}
+{{--                <td>{{formatDate($request->requestFlow->payment_date) ?? ''}}</td>--}}
+{{--                <td>{{formatDate($request->requestFlow->submission_date) ?? ''}}</td>--}}
 
             </tr>
             @endforeach
@@ -151,7 +170,6 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap4.min.css"/>
-    <link rel="stylesheet" type="text/css"
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
@@ -164,7 +182,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-
+    <script src="{{asset('admin/js/commonfunctions.js')}}"></script>
     <script>
 
         $(document).ready(function() {
@@ -265,6 +283,15 @@
                 $(".btn-group button").removeClass("active");
                 $(this).addClass("active");
             });
+
+            $("body").on("click","#details-btn",(event)=>{
+                $("#details-modal-body").html('<h6 class="text-info">Loading...</h6>');
+                console.log(event.target.innerText);
+                getRequestById(event.target.innerText).then((response)=>{
+                    $("#details-modal-body").html(response);
+                    console.log(response);
+                }).catch((err)=>console.log(err));
+            })
         });
 
 

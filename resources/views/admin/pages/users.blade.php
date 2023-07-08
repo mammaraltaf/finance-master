@@ -75,8 +75,21 @@
                                 </div>
                                 <br>
 
+                                <label class="control-label">Company:</label>
+                                <label class="control-label"><b>{{$company->name}}</b></label>
+                                <br>
 
-
+                                <label class="control-label">Departments</label>
+                                <div>
+                                    <select name="department[]" class="form-control" aria-placeholder="Select User Type"
+                                            required multiple>
+{{--                                        <option value="">Select Department</option>--}}
+                                        @foreach($departments as $department)
+                                            <option value="{{$department->id}}">{{$department->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <br>
 
 
                             </div>
