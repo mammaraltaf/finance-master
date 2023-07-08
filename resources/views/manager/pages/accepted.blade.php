@@ -178,8 +178,6 @@
             function setTableZoom(zoomLevel) {
             $('#reviewDocument').css('zoom', zoomLevel + '%');
             }
-
-        
             $('#reviewDocument').on('wheel', function(event) {
             if (event.ctrlKey) {
                 event.preventDefault();
