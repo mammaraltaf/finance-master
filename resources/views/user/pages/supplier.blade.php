@@ -340,7 +340,28 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script type="text/javascript">
+ //zoom in and out
+ $(document).ready(function() {
+            var initialZoom = 100; 
 
+            function setTableZoom(zoomLevel) {
+            $('#suppliertable').css('zoom', zoomLevel + '%');
+            }
+
+        
+            $('#suppliertable').on('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                var delta = event.originalEvent.deltaY;
+                if (delta > 0) {
+                initialZoom -= 10; 
+                } else {
+                initialZoom += 10;
+                }
+                setTableZoom(initialZoom);
+            }
+            });
+        });
 $(document).ready(function() {
         $('table#suppliertable tbody tr td:first-child').on('click', function() {
             var row = $(this).closest('tr');

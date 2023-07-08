@@ -307,7 +307,28 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script>
     <script type="text/javascript">
 
+ //zoom in and out
+ $(document).ready(function() {
+            var initialZoom = 100; 
 
+            function setTableZoom(zoomLevel) {
+            $('#companyTable').css('zoom', zoomLevel + '%');
+            }
+
+        
+            $('#companyTable').on('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                var delta = event.originalEvent.deltaY;
+                if (delta > 0) {
+                initialZoom -= 10; 
+                } else {
+                initialZoom += 10;
+                }
+                setTableZoom(initialZoom);
+            }
+            });
+        });
 
         $('.delete_btn').click(function () {
             var a = $(this).data('id');

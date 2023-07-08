@@ -114,12 +114,10 @@
             <tbody>
             @foreach($requests as $request)
                 <tr class="text-nowrap">
-                <td>
+                    <td>
                         <div class="d-flex">
-                            <button class="mr-2 btn btn-success acceptBtn" id="" data-id="{{$request->id}}">Accept
-                            </button>
-                            <button class="ml-2 btn btn-danger rejectBtn" id="" data-id="{{$request->id}}">Reject
-                            </button>
+                            <button class="mr-2 btn btn-success acceptBtn" data-id="{{$request->id}}">Accept</button>
+                            <button class="ml-2 btn btn-danger rejectBtn" data-id="{{$request->id}}">Reject</button>
                         </div>
                     </td>
                     <td class="cursor-pointer text-center bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;" id="details-btn">{{$request->id ?? ''}}</td>
@@ -254,6 +252,28 @@
         //     form.submit();
         // });
 
+        //zoom in and out
+        $(document).ready(function() {
+            var initialZoom = 100; 
+
+            function setTableZoom(zoomLevel) {
+            $('#suppliertable').css('zoom', zoomLevel + '%');
+            }
+
+        
+            $('#suppliertable').on('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                var delta = event.originalEvent.deltaY;
+                if (delta > 0) {
+                initialZoom -= 10; 
+                } else {
+                initialZoom += 10;
+                }
+                setTableZoom(initialZoom);
+            }
+            });
+        });
 
         $(document).ready(function() {
         $('table#suppliertable tbody tr ').on('click', 'td:nth-child(2)', function() {
@@ -337,20 +357,24 @@
                 ]
             });
 
-            $('.acceptBtn').click(function () {
-                let a = $(this).data('id');
-                $('.approve-request-id').val(a);
-                $('#acceptConfirmationModal').modal('show');
+            $(document).ready(function () {
+                $(document).on('click', '.acceptBtn', function () {
+                    let requestId = $(this).data('id');
+                    $('.approve-request-id').val(requestId);
+                    $('#acceptConfirmationModal').modal('show');
+                });
+
+                $(document).on('click', '.rejectBtn', function () {
+                    let requestId = $(this).data('id');
+                    $('.reject-request-id').val(requestId);
+                    $('#rejectConfirmationModal').modal('show');
+                });
             });
             $('#confirmAcceptBtn').click(function () {
                 var comment = $('#acceptComment').val();
                 $('#acceptConfirmationModal').modal('hide');
             });
-            $('.rejectBtn').click(function () {
-                let a = $(this).data('id');
-                $('.reject-request-id').val(a);
-                $('#rejectConfirmationModal').modal('show');
-            });
+            
             $('#confirmRejectBtn').click(function () {
                 var comment = $('#rejectComment').val();
                 $('#rejectConfirmationModal').modal('hide');
