@@ -526,7 +526,7 @@
 
                     if (false) {
                         // Add single select dropdown for department
-                        var selectElement = $('<select disabled="disabled" id="edit-user-departments" name="department[]" class="form-control">');
+                        var selectElement = $('<select  id="edit-user-departments" name="department[]" class="form-control">');
                         selectElement.append('<option value="">Select Department</option>');
                         $.each(resDepartments, function(index, department) {
                             selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
@@ -538,7 +538,7 @@
                         departmentSelects.append(selectElement);
                     } else{
                         // Add multiple select dropdown for department
-                        var selectElement = $('<select id="edit-departments" name="department[]" multiple="multiple" class="form-control" disabled="disabled">');
+                        var selectElement = $('<select id="edit-departments" name="department[]" multiple="multiple" class="form-control" >');
                         selectElement.append('<option value="">Select Departments</option>');
                         $.each(resDepartments, function(index, department) {
                             selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
@@ -648,7 +648,7 @@
 
             if (false) {
                 // Add single select dropdown for company
-                var selectElement = $('<select name="department[]" disabled="disabled" class="form-control" id="add-user-department">');
+                var selectElement = $('<select name="department[]"  class="form-control" id="add-user-department">');
                 selectElement.append('<option value="">Select Department</option>');
                 @foreach($departments as $department)
                 selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
