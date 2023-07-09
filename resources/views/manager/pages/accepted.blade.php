@@ -174,7 +174,6 @@
    //zoom in and out
    $(document).ready(function() {
             var initialZoom = 100; 
-
             function setTableZoom(zoomLevel) {
             $('#reviewDocument').css('zoom', zoomLevel + '%');
             }
@@ -213,7 +212,6 @@
             var dueDate = row.find('td:nth-child(15)').text().trim();
             var amount = row.find('td:nth-child(16)').text().trim();
 
-
             $('#rowId').text('Id: ' + id);
             $('#rowAction').text('Action: ' + action);
             // $('#rowActionDate').text('Action Date: ' + actionDate);
@@ -227,7 +225,7 @@
             $('#rowAmountInGel').text('Amount In Gel: ' + amount);
             $('#rowDescription').text('Description: ' + description);
             $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
-                        $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
+            $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
             $('#rowAmount').text('Amount: ' + amount);
