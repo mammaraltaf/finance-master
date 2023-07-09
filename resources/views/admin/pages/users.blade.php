@@ -78,12 +78,13 @@
                                 <label class="control-label">Company:</label>
                                 <label class="control-label"><b>{{$company->name}}</b></label>
                                 <br>
-
+                                {{-- <label class="control-label">Department</label>
+                                    <div class="department-selects">
+                                </div> --}}
                                 <label class="control-label">Departments</label>
                                 <div>
-                                    <select name="department[]" class="form-control" aria-placeholder="Select User Type"
+                                    <select id="departments" name="department[]" class="form-control" aria-placeholder="Select User Type"
                                             required multiple>
-{{--                                        <option value="">Select Department</option>--}}
                                         @foreach($departments as $department)
                                             <option value="{{$department->id}}">{{$department->name}}</option>
                                         @endforeach
@@ -272,6 +273,9 @@
                             </div>
                             <br>
 
+                            <label class="control-label">Department</label>
+                            <div class="edit-department-selects">
+                            </div>
 
 
                             <label class="control-label">Password</label>
@@ -306,13 +310,19 @@
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
 
     <script
-        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
-    />
+    src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+<link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
+/>
     <script type="text/javascript">
-
+            $('#departments').multiselect({
+                nonSelectedText: 'Select Departments',
+                // enableFiltering: true,
+                // enableCaseInsensitiveFiltering: true,
+                buttonWidth: '100%',
+                maxHeight: 300
+                });
      //zoom in and out
      $(document).ready(function() {
             var initialZoom = 100; 
@@ -383,13 +393,35 @@
                 type: "GET",
                 url: "{{url('/admin/edit-user/')}}" + '/' + user_id,
                 success: function (response) {
-                    console.log(response);
+                    console.log("response", response);
                     $('#name').val(response.name);
                     $('#email').val(response.email);
                     $('#password').val(response.original_password);
                     $('select[name="type"]').val(response.user_type).trigger('change');
                     $('#userFormEdit').attr('action', "{{url('/admin/edit-user/')}}" + '/' + user_id);
-                    // Preload companies dropdown
+                    
+                    var resDepartments = response.departments;
+                    var departmentSelects = $('.edit-department-selects');
+
+                    departmentSelects.empty();
+                    var selectElement = $('<select id="edit-departments" name="department[]" multiple="multiple" class="form-control" >');
+                        selectElement.append('<option value="">Select Departments</option>');
+                        $.each(resDepartments, function(index, department) {
+                            selectElement.append('<option value="' + department.id + '" selected>' + department.name + '</option>');
+                        });
+
+
+                        @foreach($departments as $department)
+                            if(resDepartments.filter(d=> d.id === {{$department->id}}).length===0)
+                                selectElement.append('<option value="{{$department->id}}">{{$department->name}}</option>');
+                        @endforeach
+
+                        departmentSelects.append(selectElement);
+                        $('#edit-departments').multiselect({
+                            nonSelectedText: 'Select Departments',
+                            buttonWidth: '100%',
+                            maxHeight: 300,
+                        });
 
 
                 }
