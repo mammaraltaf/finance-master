@@ -389,7 +389,32 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
     />
+
     <script type="text/javascript">
+
+
+ //zoom in and out
+ $(document).ready(function() {
+            var initialZoom = 100; 
+
+            function setTableZoom(zoomLevel) {
+            $('#categoryTable').css('zoom', zoomLevel + '%');
+            }
+
+        
+            $('#categoryTable').on('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                var delta = event.originalEvent.deltaY;
+                if (delta > 0) {
+                initialZoom -= 10; 
+                } else {
+                initialZoom += 10;
+                }
+                setTableZoom(initialZoom);
+            }
+            });
+        });
        $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);

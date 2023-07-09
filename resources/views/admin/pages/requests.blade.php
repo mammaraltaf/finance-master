@@ -202,6 +202,30 @@
     <script src="{{asset('admin/js/commonfunctions.js')}}"></script>
 
     <script>
+       //zoom in and out
+       $(document).ready(function() {
+            var initialZoom = 100; 
+
+            function setTableZoom(zoomLevel) {
+            $('#reviewDocument').css('zoom', zoomLevel + '%');
+            }
+
+        
+            $('#reviewDocument').on('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                var delta = event.originalEvent.deltaY;
+                if (delta > 0) {
+                initialZoom -= 10; 
+                } else {
+                initialZoom += 10;
+                }
+                setTableZoom(initialZoom);
+            }
+            });
+        });
+
+
   $(document).ready(function() {
         $('table#reviewDocument tbody tr td:first-child').on('click', function() {
           var row = $(this).closest('tr');

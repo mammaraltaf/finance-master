@@ -241,6 +241,28 @@
     <script src="{{asset('admin/js/commonfunctions.js')}}"></script>
 
     <script>
+         //zoom in and out
+         $(document).ready(function() {
+            var initialZoom = 100; 
+
+            function setTableZoom(zoomLevel) {
+            $('#suppliertable').css('zoom', zoomLevel + '%');
+            }
+
+        
+            $('#suppliertable').on('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                var delta = event.originalEvent.deltaY;
+                if (delta > 0) {
+                initialZoom -= 10; 
+                } else {
+                initialZoom += 10;
+                }
+                setTableZoom(initialZoom);
+            }
+            });
+        });
         $(document).ready(function () {
             $('table#suppliertable tbody tr ').on('click', 'td:nth-child(2)', function () {
                 var row = $(this).closest('tr');

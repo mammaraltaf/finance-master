@@ -170,6 +170,27 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 
  <script>
+
+   //zoom in and out
+   $(document).ready(function() {
+            var initialZoom = 100; 
+            function setTableZoom(zoomLevel) {
+            $('#reviewDocument').css('zoom', zoomLevel + '%');
+            }
+            $('#reviewDocument').on('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                var delta = event.originalEvent.deltaY;
+                if (delta > 0) {
+                initialZoom -= 10; 
+                } else {
+                initialZoom += 10;
+                }
+                setTableZoom(initialZoom);
+            }
+            });
+        });
+
   $(document).ready(function() {
         $('table#reviewDocument tbody tr td:first-child').on('click', function() {
             var row = $(this).closest('tr');
@@ -191,7 +212,6 @@
             var dueDate = row.find('td:nth-child(15)').text().trim();
             var amount = row.find('td:nth-child(16)').text().trim();
 
-
             $('#rowId').text('Id: ' + id);
             $('#rowAction').text('Action: ' + action);
             // $('#rowActionDate').text('Action Date: ' + actionDate);
@@ -205,7 +225,7 @@
             $('#rowAmountInGel').text('Amount In Gel: ' + amount);
             $('#rowDescription').text('Description: ' + description);
             $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
-                        $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
+            $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
             $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
             $('#rowDueDate').text('Due Date: ' + dueDate);
             $('#rowAmount').text('Amount: ' + amount);
