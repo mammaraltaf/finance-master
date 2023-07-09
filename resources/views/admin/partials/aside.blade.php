@@ -135,7 +135,7 @@
                             </a>
                         </div>
                         @endhasanyrole
-                        @hasanyrole('accounting|director|manager|spectator')
+                        @hasanyrole('accounting|director|manager')
                         <div class="menu-item">
                             <a class="menu-link {{ Route::currentRouteNamed(auth()->user()->user_type.'.viewrequests') ? 'active' : '' }}"
                                href="{{url(auth()->user()->user_type.'/'.\Illuminate\Support\Facades\Session::get('url-slug').'/'.'viewrequests')}}" >
@@ -155,6 +155,13 @@
                             </a>
                         </div>
                         @endhasanyrole
+                        @role('spectator')
+                        <div class="menu-item">
+                            <a class="menu-link {{ Route::currentRouteNamed('logging') ? 'active' : '' }}" href="{{ route(('logging'),['company'=>\Illuminate\Support\Facades\Session::get('url-slug')])}}" >
+                                <span class="menu-title">Manage Logs</span>
+                            </a>
+                        </div>
+                        @endrole
 {{--                        @hasanyrole('director|manager|admin')--}}
                         @hasanyrole('admin')
                         <div class="menu-item">

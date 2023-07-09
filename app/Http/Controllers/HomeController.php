@@ -46,7 +46,7 @@ class HomeController extends Controller
         $requestFlow = RequestFlow::whereId($id)->first();
         $lastUserWhoTookAction = LogAction::where('request_flow_id', $id)->orderBy('created_at', 'desc')->pluck('user_id')->first();
         $lastUserWhoTookAction = User::where('id', $lastUserWhoTookAction)->pluck('name')->first();
-        $requestFlow->lastUserWhoTookAction = $lastUserWhoTookAction;
+        $requestFlow->lastUserWhoTookAction = $lastUserWhoTookAction ?? null;
         return response()->json($requestFlow);
     }
 
@@ -54,7 +54,7 @@ class HomeController extends Controller
         $logs = LogAction::with('requestFlow')->whereId($id)->first()->requestFlow;
         $lastUserWhoTookAction = LogAction::where('request_flow_id', $logs->id)->orderBy('created_at', 'desc')->pluck('user_id')->first();
         $lastUserWhoTookAction = User::where('id', $lastUserWhoTookAction)->pluck('name')->first();
-        $logs->lastUserWhoTookAction = $lastUserWhoTookAction;
+        $logs->lastUserWhoTookAction = $lastUserWhoTookAction ?? null;
         return response()->json($logs);
     }
 

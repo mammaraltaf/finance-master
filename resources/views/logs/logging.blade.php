@@ -92,8 +92,10 @@
                 <th>CCY</th> {{--currency--}}
                 <th>Amount</th>
                 <th>Amount In Gel</th>
+                @if(auth()->user()->user_type == UserTypesEnum::Accounting)
                 <th>Accounting UID of Type of Expense</th>
                 <th>Accounting UID of Supplier</th>
+                @endif
 {{--                <th>Description</th>--}}
 {{--                <th>Link</th>--}}
 {{--                <th>Basis (file attachment title)</th>--}}
@@ -119,8 +121,10 @@
                 <td>{{$request->requestFlow->currency ?? ''}}</td>
                 <td>{{$request->requestFlow->amount ?? ''}}</td>
                 <td>{{$request->requestFlow->amount_in_gel ?? ''}}</td>
+                @if(auth()->user()->user_type == UserTypesEnum::Accounting)
                 <td>{{$request->requestFlow->typeOfExpense->id_software ?? ''}}</td>
                 <td>{{$request->requestFlow->supplier->id_software ?? ''}}</td>
+                @endif
 {{--                <td>{{$request->requestFlow->description ?? ''}}</td>--}}
 {{--                <td> <a href="{{URL::to($request->requestFlow->request_link)}}" target="_blank">{{$request->requestFlow->request_link ?? ''}}</a> </td>--}}
 {{--                <td>--}}
@@ -187,43 +191,43 @@
 
         $(document).ready(function() {
             $('table#reviewDocument tbody tr td:first-child').on('click', function() {
-                var row = $(this).closest('tr');
-                var id = row.find('td:nth-child(1)').text().trim();
-                var action = row.find('td:nth-child(2)').text().trim();
-                // var actionDate = row.find('td:nth-child(3)').text().trim();
-                var initiator = row.find('td:nth-child(3)').text().trim();
-                var createdAt = row.find('td:nth-child(4)').text().trim();
-                var company = row.find('td:nth-child(5)').text().trim();
-                var department = row.find('td:nth-child(6)').text().trim();
-                var supplier = row.find('td:nth-child(7)').text().trim();
-                var typeOfExpense = row.find('td:nth-child(8)').text().trim();
-                var currency = row.find('td:nth-child(9)').text().trim();
-                var amount = row.find('td:nth-child(10)').text().trim();
-                var description = row.find('td:nth-child(11)').text().trim();
-                var link = row.find('td:nth-child(12)').text().trim();
-                var basis = row.find('td:nth-child(13)').text().trim();
-                var dueDatePayment = row.find('td:nth-child(14)').text().trim();
-                var dueDate = row.find('td:nth-child(15)').text().trim();
-                var amount = row.find('td:nth-child(16)').text().trim();
-
-
-                $('#rowId').text('Id: ' + id);
-                $('#rowAction').text('Action: ' + action);
-                // $('#rowActionDate').text('Action Date: ' + actionDate);
-                $('#rowInitiator').text('Initiator: ' + initiator);
-                $('#rowCreatedAt').text('Created At: ' + createdAt);
-                $('#rowCompany').text('Company: ' + company);
-                $('#rowDepartment').text('Department: ' + department);
-                $('#rowSupplier').text('Supplier: ' + supplier);
-                $('#rowTypeofExpense').text('Type Of Expense: ' + typeOfExpense);
-                $('#rowCurrency').text('Currency: ' + currency);
-                $('#rowAmountInGel').text('Amount In Gel: ' + amount);
-                $('#rowDescription').text('Description: ' + description);
-                $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
-                $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
-                $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
-                $('#rowDueDate').text('Due Date: ' + dueDate);
-                $('#rowAmount').text('Amount: ' + amount);
+                // var row = $(this).closest('tr');
+                // var id = row.find('td:nth-child(1)').text().trim();
+                // var action = row.find('td:nth-child(2)').text().trim();
+                // // var actionDate = row.find('td:nth-child(3)').text().trim();
+                // var initiator = row.find('td:nth-child(3)').text().trim();
+                // var createdAt = row.find('td:nth-child(4)').text().trim();
+                // var company = row.find('td:nth-child(5)').text().trim();
+                // var department = row.find('td:nth-child(6)').text().trim();
+                // var supplier = row.find('td:nth-child(7)').text().trim();
+                // var typeOfExpense = row.find('td:nth-child(8)').text().trim();
+                // var currency = row.find('td:nth-child(9)').text().trim();
+                // var amount = row.find('td:nth-child(10)').text().trim();
+                // var description = row.find('td:nth-child(11)').text().trim();
+                // var link = row.find('td:nth-child(12)').text().trim();
+                // var basis = row.find('td:nth-child(13)').text().trim();
+                // var dueDatePayment = row.find('td:nth-child(14)').text().trim();
+                // var dueDate = row.find('td:nth-child(15)').text().trim();
+                // var amount = row.find('td:nth-child(16)').text().trim();
+                //
+                //
+                // $('#rowId').text('Id: ' + id);
+                // $('#rowAction').text('Action: ' + action);
+                // // $('#rowActionDate').text('Action Date: ' + actionDate);
+                // $('#rowInitiator').text('Initiator: ' + initiator);
+                // $('#rowCreatedAt').text('Created At: ' + createdAt);
+                // $('#rowCompany').text('Company: ' + company);
+                // $('#rowDepartment').text('Department: ' + department);
+                // $('#rowSupplier').text('Supplier: ' + supplier);
+                // $('#rowTypeofExpense').text('Type Of Expense: ' + typeOfExpense);
+                // $('#rowCurrency').text('Currency: ' + currency);
+                // $('#rowAmountInGel').text('Amount In Gel: ' + amount);
+                // $('#rowDescription').text('Description: ' + description);
+                // $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
+                // $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
+                // $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
+                // $('#rowDueDate').text('Due Date: ' + dueDate);
+                // $('#rowAmount').text('Amount: ' + amount);
 
                 $('#rowModal').modal('show');
                 $('.close-pop-up').click(function () {
@@ -287,7 +291,7 @@
             $("body").on("click","#details-btn",(event)=>{
                 $("#details-modal-body").html('<h6 class="text-info">Loading...</h6>');
                 console.log(event.target.innerText);
-                getRequestById(event.target.innerText).then((response)=>{
+                getLogById(event.target.innerText).then((response)=>{
                     $("#details-modal-body").html(response);
                     console.log(response);
                 }).catch((err)=>console.log(err));
