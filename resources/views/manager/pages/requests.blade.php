@@ -15,10 +15,10 @@
         <h3 class="card-title">
             <span class="card-label fw-bolder fs-3 mb-1">Requests</span>
         </h3>
-        <div class="">
-        <button id="pending" class="btn btn-info active filter">Pending</button>
-        <button id="finance" class="btn btn-info filter" >Finance ok</button>
-    </div>
+{{--        <div class="">--}}
+{{--        <button id="pending" class="btn btn-info active filter">Pending</button>--}}
+{{--        <button id="finance" class="btn btn-info filter" >Finance ok</button>--}}
+{{--    </div>--}}
         </div>
 
         <div class="ml-5 mt-3">
@@ -254,19 +254,19 @@
 
         //zoom in and out
         $(document).ready(function() {
-            var initialZoom = 100; 
+            var initialZoom = 100;
 
             function setTableZoom(zoomLevel) {
             $('#suppliertable').css('zoom', zoomLevel + '%');
             }
 
-        
+
             $('#suppliertable').on('wheel', function(event) {
             if (event.ctrlKey) {
                 event.preventDefault();
                 var delta = event.originalEvent.deltaY;
                 if (delta > 0) {
-                initialZoom -= 10; 
+                initialZoom -= 10;
                 } else {
                 initialZoom += 10;
                 }
@@ -374,7 +374,7 @@
                 var comment = $('#acceptComment').val();
                 $('#acceptConfirmationModal').modal('hide');
             });
-            
+
             $('#confirmRejectBtn').click(function () {
                 var comment = $('#rejectComment').val();
                 $('#rejectConfirmationModal').modal('hide');

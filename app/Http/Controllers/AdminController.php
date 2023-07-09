@@ -236,6 +236,7 @@ class AdminController extends Controller
     {
 //        $this->authorize('edit user');
         $user = User::where('id', $id)->first();
+        $user->departments;
         return response()->json($user);
 
     }
