@@ -55,8 +55,9 @@
         }
         /* Adjust the width of the Select2 dropdown to match Bootstrap dropdown */
         .select2-container .select2-selection--single {
-            height: 38px;
-            width: 200px;
+             height: 38px;
+            /* width: 200px; */ 
+            width: 300px;
             line-height: 36px;
             font-size: 14px;
             border-radius: 4px;
@@ -95,6 +96,11 @@
         .select2-container .select2-results__option {
             padding: 6px 12px;
             font-size: 14px;
+        }
+        @media (min-width: 350px) {
+            .flex-column {
+                flex-direction: column!important;
+            }
         }
     </style>
 
@@ -158,8 +164,8 @@
                                 </div>
                             </div>
 
-                            <div class="d-flex">
-                                <div class="form-group w-100 px-2">
+                            <div class="flex-column w-100">
+                                <div class="form-group  px-2">
                                     <label for="department">Department</label><br>
                                     <select class="form-control select2" id="addDepartment" name="department" required>
                                         <?php foreach ($departments as $department){ ?>
@@ -168,7 +174,7 @@
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <div class="form-group w-100 px-2">
+                                <div class="form-group px-2">
                                     <label for="supplier">Supplier</label><br>
                                     <select class="form-control select2" id="addSupplier"  name="supplier" required
                                             placeholder="select a supplier">
@@ -178,7 +184,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-flex">
+                            <div class="d-flex flex-column">
                                 <div class="form-group w-100 px-2">
                                     <label for="expense-type">Type of Expense</label><br>
                                     <select class="form-control select2" id="expense_type" name="expense_type" required>
@@ -187,7 +193,7 @@
                                         <?php } ?>
                                     </select>
                                 </div>
-                                <div class="form-group w-100 px-2">
+                                <div class="form-group px-2">
                                     <label for="currency">Currency</label>
                                     <select class="form-control currency" id="currency" name="currency" required>
                                         <option value="">Select a currency</option>
@@ -281,7 +287,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex flex-column align-items-center">
                                 <div class="form-group w-100 px-2">
                                     <label for="department">Department</label>
                                     <select class="form-control department" id="department" name="department" required>
@@ -300,7 +306,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex flex-column align-items-center">
                                 <div class="form-group w-100 px-2">
                                     <label for="expense-type">Type of Expense</label>
                                     <select class="form-control expense-type" id="expense-type" name="expense-type" required>
@@ -458,7 +464,7 @@
                             <td>{{$request->amount_in_gel ?? ''}}</td>
                             <td>{{$request->description ?? ''}}</td>
                             <td>
-{{--                                <a href="{{URL::to($request->request_link)}}" target="_blank">{{URL::to($request->request_link)}}</a>--}}
+                                {{--                                <a href="{{URL::to($request->request_link)}}" target="_blank">{{URL::to($request->request_link)}}</a>--}}
                                 {{ $request->request_link ? '<a href="' . URL::to($request->request_link) . '" target="_blank">' . URL::to($request->request_link) . '</a>' : '' }}
                             </td>
                             <td><?php if(isset($request->basis)){
