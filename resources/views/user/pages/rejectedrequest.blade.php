@@ -269,9 +269,9 @@
                         <div class="form-group w-100 px-2">
                             <label for="company">Company</label>
                             <select class="form-control" id="company_update" name="company" required>
-                                <?php foreach ($companies as $company) { ?>
-                                    <option value="{{ $company->id }}">{{ $company->name }}</option>
-                                <?php } ?>
+                                @foreach($companies as $company)
+                                    <option value="{{$company->id}}">{{$company->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -662,8 +662,15 @@
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
-                    // console.log("response", response);
+                    console.log("response", response);
                     $('#reqid').val(response.id);
+                    $('#initiator_update').val(response.initiator);
+                    $('#company_update').prop('selectedIndex', response.company.id);
+                    $('#department_update').prop('selectedIndex', response.department_id);
+                    $('#supplier_update').prop('selectedIndex', response.supplier_id);
+                    $('#expense_type_update').prop('selectedIndex', response.expense_type_id);
+                    $('#currency').val(response.currency);
+
                     $('#amount2').val(response.amount);
                     $('#description2').val(response.description);
                     $('#basis2').val(removedFiles);
