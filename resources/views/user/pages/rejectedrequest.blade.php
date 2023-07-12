@@ -129,7 +129,7 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body" id="details-modal-body">
                   <!-- Display row data here -->
                     {{-- <p id="status"></p> --}}
                     <p id="rowInitiator"></p>
@@ -201,7 +201,7 @@
                             <td>{{$request->amount}}</td>
                             <td>{{$request->amount_in_gel ?? ''}}</td>
                             <td>{{$request->description ?? ''}}</td>
-                            <td> {{ $request->request_link ? '<a href="' . URL::to($request->request_link) . '" target="_blank">' . URL::to($request->request_link) . '</a>' : '' }} </td>
+                            <td> {!! $request->request_link ? '<a href="' . URL::to($request->request_link) . '" target="_blank">' . URL::to($request->request_link) . '</a>' : '' !!} </td>
                             <td><?php if(isset($request->basis)){
                             $files=explode(',',$request->basis);
                             foreach($files as $file){ ?>
@@ -212,7 +212,7 @@
                                 ?></td>
                             <td>{{formatDate($request->payment_date) ?? ''}}</td>
                             <td>{{formatDate($request->submission_date) ?? ''}}</td>
-                            <td> <td class="d-flex align-items-center justify-content-center">
+                            <td class="d-flex align-items-center justify-content-center">
                                 <i id="userEdit" data-toggle="modal" data-target="#ModalEdit" data-id="{{$request->id}}"
                                    class="fas px-1 fa-edit cursor-pointer text-primary"></i>
                                 <i id="deleteBtn" data-toggle="modal" data-target=".modal1" data-id="{{$request->id}}"
@@ -367,140 +367,161 @@
 @endsection
 @section('script')
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-{{--<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>--}}
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    {{--<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>--}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
 
 
-<link rel="stylesheet" type="text/css"
-href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script
-src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
-/>
-{{-- row modal --}}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="{{asset('admin/js/commonfunctions.js')}}"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
+    />
+    {{-- row modal --}}
 
-{{--
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
+    {{--
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
 
     <script type="text/javascript">
-    //  $('#suppliertable').DataTable();
-    // $(document).ready(function() {
-    // $('#suppliertable').DataTable({
-    //     "order": [[1, "desc"]]
-    //     });
-    // });
-    // document.getElementById("submitReviewBtn").addEventListener("click", function() {
-    //     this.disabled = true;
-    // });
+        //  $('#suppliertable').DataTable();
+        // $(document).ready(function() {
+        // $('#suppliertable').DataTable({
+        //     "order": [[1, "desc"]]
+        //     });
+        // });
+        // document.getElementById("submitReviewBtn").addEventListener("click", function() {
+        //     this.disabled = true;
+        // });
+        //zoom in and out
+        $(document).ready(function() {
+            var initialZoom = 100;
 
-    document.getElementById("submitReviewBtn").addEventListener("click", function(e) {
-        e.preventDefault();
-        var form = document.getElementById("categoryForm");
-        this.disabled = true;
-        form.submit();
-    });
-
-    $(document).ready(function() {
-        $('.department').select2();
-        $('.supplier').select2();
-        $('.expense-type').select2();
-
-        $('table#suppliertable tbody tr td:first-child').on('click', function() {
-            var row = $(this).closest('tr');
-            // var status = row.find('td:nth-child(1)').text().trim();
-            var initiator = row.find('td:nth-child(2)').text().trim();
-            var createdAt = row.find('td:nth-child(3)').text().trim();
-            var company = row.find('td:nth-child(4)').text().trim();
-            var department = row.find('td:nth-child(5)').text().trim();
-            var supplier = row.find('td:nth-child(6)').text().trim();
-            var typeOfExpense = row.find('td:nth-child(7)').text().trim();
-            var currency = row.find('td:nth-child(8)').text().trim();
-            var amount = row.find('td:nth-child(9)').text().trim();
-            var amountInGel = row.find('td:nth-child(10)').text().trim();
-            var description = row.find('td:nth-child(11)').text().trim();
-            var link = row.find('td:nth-child(12)').text().trim();
-            var basis = row.find('td:nth-child(13)').text().trim();
-            var dueDatePayment = row.find('td:nth-child(14)').text().trim();
-            var dueDate = row.find('td:nth-child(15)').text().trim();
+            function setTableZoom(zoomLevel) {
+                $('#suppliertable').css('zoom', zoomLevel + '%');
+            }
 
 
-            $('#status').text('Status: ' + status);
-            $('#rowInitiator').text('Initiator: ' + initiator);
-            $('#rowCreatedAt').text('Created At: ' + createdAt);
-            $('#rowCompany').text('Company: ' + company);
-            $('#rowDepartment').text('Department: ' + department);
-            $('#rowSupplier').text('Supplier: ' + supplier);
-            $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
-            $('#rowCurrency').text('Currency: ' + currency);
-            $('#rowAmount').text('Amount: ' + amount);
-            $('#rowAmountInGel').text('Amount In Gel: ' + amountInGel);
-            $('#rowDescription').text('Description: ' + description);
-            $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
-                        $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
-            $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
-            $('#rowDueDate').text('Due Date: ' + dueDate);
-
-            $('#rowModal').modal('show');
-            $('.close-pop-up').click(function () {
-                $('#rowModal').modal('hide');
+            $('#suppliertable').on('wheel', function(event) {
+                if (event.ctrlKey) {
+                    event.preventDefault();
+                    var delta = event.originalEvent.deltaY;
+                    if (delta > 0) {
+                        initialZoom -= 10;
+                    } else {
+                        initialZoom += 10;
+                    }
+                    setTableZoom(initialZoom);
+                }
             });
         });
-    });
 
 
+
+        $(document).ready(function() {
+            $('.department').select2();
+            $('.supplier').select2();
+            $('.expense-type').select2();
+
+            $('table#suppliertable tbody tr td:first-child').on('click', function() {
+                var row = $(this).closest('tr');
+                // var status = row.find('td:nth-child(1)').text().trim();
+                var initiator = row.find('td:nth-child(2)').text().trim();
+                var createdAt = row.find('td:nth-child(3)').text().trim();
+                var company = row.find('td:nth-child(4)').text().trim();
+                var department = row.find('td:nth-child(5)').text().trim();
+                var supplier = row.find('td:nth-child(6)').text().trim();
+                var typeOfExpense = row.find('td:nth-child(7)').text().trim();
+                var currency = row.find('td:nth-child(8)').text().trim();
+                var amount = row.find('td:nth-child(9)').text().trim();
+                var amountInGel = row.find('td:nth-child(10)').text().trim();
+                var description = row.find('td:nth-child(11)').text().trim();
+                var link = row.find('td:nth-child(12)').text().trim();
+                var basis = row.find('td:nth-child(13)').text().trim();
+                var dueDatePayment = row.find('td:nth-child(14)').text().trim();
+                var dueDate = row.find('td:nth-child(15)').text().trim();
+
+
+                $('#status').text('Status: ' + status);
+                $('#rowInitiator').text('Initiator: ' + initiator);
+                $('#rowCreatedAt').text('Created At: ' + createdAt);
+                $('#rowCompany').text('Company: ' + company);
+                $('#rowDepartment').text('Department: ' + department);
+                $('#rowSupplier').text('Supplier: ' + supplier);
+                $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
+                $('#rowCurrency').text('Currency: ' + currency);
+                $('#rowAmount').text('Amount: ' + amount);
+                $('#rowAmountInGel').text('Amount In Gel: ' + amountInGel);
+                $('#rowDescription').text('Description: ' + description);
+                $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
+                $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
+                $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
+                $('#rowDueDate').text('Due Date: ' + dueDate);
+
+                $('#rowModal').modal('show');
+                $('.close-pop-up').click(function () {
+                    $('#rowModal').modal('hide');
+                });
+            });
+        });
+
+        $('.delete_btn').click(function () {
+            var a = $(this).data('id');
+            $('.user-delete').val(a);
+        });
 
         $(document).ready(function () {
-        $('#suppliertable').DataTable({
-            "order": [[2, "desc"]],
-            dom: 'Blfrtip',
-            lengthChange: true,
-            buttons: [
+            $('#suppliertable').DataTable({
+                "order": [[2, "desc"]],
+                dom: 'Blfrtip',
+                lengthChange: true,
+                buttons: [
 
-                {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    orientation: 'landscape',
-                    pageSize: 'LEGAL',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdf',
-                    orientation: 'landscape',
-                    pageSize: 'LEGAL',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                'colvis'
-            ]
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    'colvis'
+                ]
+            });
         });
-    });
     </script>
 
     <script type="text/javascript">
@@ -524,16 +545,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                 if (this.files && this.files.length > 0) {
                     for (let i = 0; i < this.files.length; i++) {
                         let file = this.files[i];
+                        let url=URL.createObjectURL(file);
                         let reader = new FileReader();
                         reader.onload = function (e) {
                             let fileType = file.type.split('/')[0];
                             let previewItem = '';
                             if (fileType === 'image') {
-                                previewItem = '<div class="w-100"><img src="' + e.target.result + '" class="img-thumbnail" width="100%"></div>';
+                                previewItem = '<div class="w-100"><a href="'+url+'" target="_blank"><img src="' + e.target.result + '" class="img-thumbnail" width="100%"></a></div>';
                             } else if (fileType === 'application' && file.type === 'application/pdf') {
-                                previewItem = '<div class=""><embed class="p-2" src="' + e.target.result + '" type="application/pdf" width="100%"></div>';
+                                previewItem = '<div class="mt-2">   <a href="'+url+'" target="_blank"> <i class="fa-solid fa-up-right-from-square"></i> </a> <embed src="' + e.target.result + '" type="application/pdf" width="100%"></div>';
                             } else if (fileType === 'application' && file.type === 'application/msword') {
-                                previewItem = '<div><i class="far fa-file-word text-primary" style="font-size: 24px; width: 100%;"></i><embed src="' + e.target.result + '" type="application/msword" width="100%"></div>';
+                                previewItem = '<div> <a href="'+url+'" target="_blank"> <i class="fa-solid fa-up-right-from-square"></i> </a> <embed src="' + e.target.result + '" type="application/msword" width="100%"></div>';
                             } else {
                                 previewItem = '<p>' + file.name + ' - ' + file.size + ' bytes</p>';
                             }
@@ -543,6 +565,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                     }
                 }
             });
+
             // Preview End
 
             $("#currency").change(function() {
@@ -637,66 +660,38 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
             var request_id = $(this).data('id');
             $.ajax({
                 type: "GET",
-                url: "{{ url('/user/edit-request/') }}" + '/' + request_id,
+                url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
-                    console.log(response);
+                    // console.log("response", response);
                     $('#reqid').val(response.id);
-                    $('#initiator_update').val(response.initiator);
-                    $('#amount_update').val(response.amount);
-                    $('#description_update').val(response.description);
-                    $('#due-date-payment_update').val(response.payment_date);
-                    $('#due-date_update').val(response.submission_date);
-                    $('#gel-amount_update').val(response.amount_in_gel);
-                    $('#request_links_update').val(response.request_link);
+                    $('#amount2').val(response.amount);
+                    $('#description2').val(response.description);
+                    $('#basis2').val(removedFiles);
+                    $('#due-date-payment2').val(response.payment_date);
+                    $('#due-date2').val(response.submission_date);
+                    $('#gel-amount2').val(response.amount_in_gel);
 
-                    // Set the selected values for the dropdowns
-                    $('#company_update').prop('selectedIndex', response.company_id);
-                    $('#department_update').prop('selectedIndex', response.department_id);
-                    $('#supplier_update').prop('selectedIndex', response.supplier_id);
-                    $('#expense_type_update').prop('selectedIndex', response.expense_type_id);
-                    $('#currency').val(response.currency);
-                    $('#updateForm').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+
+                    $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
                     // Show previously uploaded files
-                    var basisFiles = response.basis;
-                    if (basisFiles) {
-                        var files = basisFiles.split(',');
+                    basisFiles2 = response.basis;
+                    if (response.basis) {
+                        var docs2 = [];
+                        var files = response.basis.split(',');
                         var fileHtml = '';
                         for (var i = 0; i < files.length; i++) {
                             var fileName = files[i];
-                            fileHtml += '<div><a href="{{ asset('basis') }}' + '/' + fileName + '" target="_blank">' + fileName + '</a> <div class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
+                            fileHtml += '<div><a href="{{asset('basis')}}' +'/'+ fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
+                            docs2.push(fileName);
                         }
-                        $('#preview_update').html(fileHtml);
+                        $('#previousFiles').html(fileHtml);
+                        $('#basis3').val(docs2);
                     }
+                    $('#previousFiles').html(fileHtml);
+                    $('#basis3').val(docs2);
                 }
-            });
-        });
-
-        $("#currency").change(function() {
-            var currency = $(this).val();
-            var amount = $("#amount").val();
-            // console.log("currency", currency)
-            if (currency != "GEL" && amount != "") {
-                $.ajax({
-                    url: "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date="+currentDate,
-                    dataType: "json",
-                    success: function(data) {
-                        if(currency === "USD"){
-                            var rate = data[0].currencies[40].rate;
-                        }
-                        if(currency === "EUR"){
-                            var rate = data[0].currencies[13].rate;
-                        }
-                        if (rate) {
-                            var gelAmount = amount * rate;
-                            $("#gel-amount").val(gelAmount.toFixed(2));
-                        }
-                    }
-                });
-            } else {
-                $("#gel-amount").val(amount);
-            }
-        });
-
+            })
+        })
         $('body').on('click', '.remove-file', function () {
             var fileName = $(this).data('file');
             $(this).parent().remove();
@@ -758,13 +753,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                 url = url.replace(':id', buttonId);
                 location.href = url;
             });
+        });
 
-            $('.delete_btn').click(function () {
-            var a = $(this).data('id');
-            console.log(a);
-            $('.user-delete').val(a);
-        });
-        });
+        $("body").on("click","#details-btn",(event)=>{
+            $("#details-modal-body").html('<h6 class="text-info">Loading...</h6>');
+            console.log(event.target.innerText);
+            getRequestById(event.target.innerText).then((response)=>{
+                $("#details-modal-body").html(response);
+                console.log(response);
+            }).catch((err)=>console.log(err));
+        })
+
 
     </script>
 @endsection

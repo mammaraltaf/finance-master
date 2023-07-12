@@ -51,6 +51,7 @@ class AcceptOrRejectRequest implements ShouldQueue
         $user_id = $request_data['user_id'];
         $email = User::whereId($user_id)->pluck('email')->first();
         $current_status=$request_data['status'];
+        $subject = $request_data['id'] ?? 'Review Request';
 //dd($current_status);
         switch ($current_status) {
             case StatusEnum::SubmittedForReview:
@@ -85,14 +86,14 @@ class AcceptOrRejectRequest implements ShouldQueue
             $email = 'mammaraltaf@gmail.com';
         }
 
-        Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($email) {
+        Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($email,$subject) {
             $m->from(env('MAIL_FROM_ADDRESS'), config('app.name', 'APP Name'));
-            $m->to($email)->subject('Review Request');
+            $m->to($email)->subject($subject);
         });
         if($next_role != "user"){
-            Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($next_person_email) {
+            Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($next_person_email,$subject) {
                 $m->from(env('MAIL_FROM_ADDRESS'), config('app.name', 'APP Name'));
-                $m->to($next_person_email)->subject('Review Request');
+                $m->to($next_person_email)->subject($subject);
             });
         }
     }

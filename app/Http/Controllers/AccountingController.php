@@ -52,17 +52,23 @@ class AccountingController extends Controller
 
     public function print($id)
     {
-        $request = RequestFlow::with('company', 'supplier', 'typeOfExpense')
+        $request = LogAction::with('requestFlow', 'user')
             ->where('id', $id)
-            ->first();
-        $logs = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
-            ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
-            ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
-            ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
-            ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
-            ->rightJoin('users', 'log_actions.user_id', '=', 'users.id')
-            ->where('log_actions.request_flow_id', $id)
-            ->get(['log_actions.*', 'log_actions.created_at as log_date', 'users.name as rolename'])->toArray();
+            ->first()->requestFlow;
+
+        $logs = LogAction::with('requestFlow', 'user')->where('request_flow_id', $request->id)->get()->toArray();
+        $request=$request->toArray();
+//        dd($logs);
+
+//        $logs = LogAction::rightJoin('request_flows', 'request_flows.id', '=', 'log_actions.request_flow_id')
+//            ->rightJoin('companies', 'request_flows.company_id', '=', 'companies.id')
+//            ->rightJoin('departments', 'request_flows.department_id', '=', 'departments.id')
+//            ->rightJoin('suppliers', 'request_flows.supplier_id', '=', 'suppliers.id')
+//            ->rightJoin('type_of_expanses', 'request_flows.expense_type_id', '=', 'type_of_expanses.id')
+//            ->rightJoin('users', 'log_actions.user_id', '=', 'users.id')
+//            ->where('log_actions.request_flow_id', $id)
+//            ->get(['log_actions.*', 'log_actions.created_at as log_date', 'users.name as rolename'])->toArray();
+
             $pdf = PDF::loadView('template', compact('request', 'logs'));
             return $pdf->download($id.'.pdf');
     }

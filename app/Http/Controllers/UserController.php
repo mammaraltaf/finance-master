@@ -244,7 +244,7 @@ class UserController extends Controller
                 'expense_type_id' => $input['expense_type'],
                 'currency' => $input['currency'],
                 'amount' => $input['amount'],
-                'amount_in_gel' => $input['amount_in_gel'],
+                'amount_in_gel' => number_format($input['amount_in_gel'],2,".",""),
                 'description' => $input['description'],
                 'basis' => $basis,
                 'request_link' => $input['request_link'],

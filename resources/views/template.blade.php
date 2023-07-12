@@ -64,27 +64,27 @@
     <tbody>
         @foreach($logs as $log)
         <tr>
-            <td><?php echo $log['action']; ?></td>
-            <td><?php echo $log['rolename']; ?></td>
-            <td><?php  echo $log['log_date']; ?></td>
+            <td>{{$log['action'] ?? ''}}</td>
+            <td>{{$log['user']['user_type'] ?? ''}}</td>
+            <td>{{($log['created_at']) ?? ''}}</td>
 
         </tr>
         @endforeach
     </tbody>
     </table>
-    <p>Initiator: <?php echo $request['initiator']; ?></p>
-    <p>Company: <?php echo $request['company']['name']; ?></p>
-    <p>Department: <?php echo $request['department']['name']; ?></p>
-    <p>Supplier: <?php echo $request['supplier']['supplier_name']; ?></p>
-    <p>Type Of Expense: <?php echo $request['typeOfExpense']['name']; ?></p>
-    <p>Currency: <?php echo $request['currency']; ?></p>
-    <p>Amount: <?php echo $request['amount']; ?></p>
-    <p>Amount in gel: <?php echo $request['amount_in_gel']; ?></p>
-    <p>Due Date Payment: <?php echo formatDate($request['payment_date']); ?></p>
-    <p>Due Date Submission: <?php echo formatDate($request['submission_date']); ?></p>
-    <p>Description: <?php echo $request['description']; ?></p>
+    <p>Initiator: {{$request['initiator'] ?? ''}}</p>
+    <p>Company: {{$request['company']['name'] ?? ''}}</p>
+    <p>Department: {{$request['department']['name'] ?? ''}}</p>
+    <p>Supplier: {{$request['supplier']['supplier_name'] ?? ''}}</p>
+    <p>Type Of Expense: {{$request['typeOfExpense']['name'] ?? ''}}</p>
+    <p>Currency: {{$request['currency'] ?? ''}}</p>
+    <p>Amount: {{$request['amount'] ?? ''}}</p>
+    <p>Amount in gel: {{$request['amount_in_gel'] ?? ''}}</p>
+    <p>Due Date Payment: {{formatDate($request['payment_date']) ?? ''}}</p>
+    <p>Due Date Submission: {{formatDate($request['submission_date']) ?? ''}}</p>
+    <p>Description: {{$request['description'] ?? ''}}</p>
     <p>Link: <a href="{{URL::to($request['request_link'])}}" target="_blank">{{$request['request_link'] ?? ''}}</a></p>
-    <p>Status: <?php echo $request['status']; ?></p>
+    <p>Status: {{$request['status'] ?? ''}}</p>
     <p>Basis
     <?php
                       $files=explode(',',$request['basis']);

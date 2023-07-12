@@ -26,9 +26,17 @@
 {{--    <button class="btn btn-info" data-filter="finance-accept">Accepted </button>--}}
 {{--    <button class="btn btn-info" data-filter="finance-reject">Rejected </button>--}}
 
+    {{--If not Accounting then We show all status in accounting we only show 2 status--}}
+    @if(auth()->user()->user_type != UserTypesEnum::Accounting)
     @foreach(\App\Classes\Enums\ActionEnum::$Statuses as $status)
-        <button class="btn btn-info" data-filter="{{$status}}">{{$status}} </button>
+        <button class="btn btn-info" data-filter="{{$status}}">{{ucwords(str_replace('-', ' ', $status))}} </button>
     @endforeach
+    @else
+        <button class="btn btn-info" data-filter="{{\App\Classes\Enums\ActionEnum::ACCOUNTING_ACCEPT}}">Accounting Accepted </button>
+        <button class="btn btn-info" data-filter="{{\App\Classes\Enums\ActionEnum::ACCOUNTING_REJECT}}">Accounting Rejected </button>
+    @endif
+
+
 
 </div>
 <div class="card-header pt-5">
@@ -83,6 +91,9 @@
             <tr class="text-nowrap">
                 <th>ID</th>
                 <th>Action</th>
+                @if(auth()->user()->user_type == UserTypesEnum::Accounting)
+                <th>Print</th>
+                @endif
                 <th>Initiator</th>
 {{--                <th>Created At</th>--}}
 {{--                <th>Company</th>--}}
@@ -95,10 +106,11 @@
                 @if(auth()->user()->user_type == UserTypesEnum::Accounting)
                 <th>Accounting UID of Type of Expense</th>
                 <th>Accounting UID of Supplier</th>
+                <th>Description</th>
+                <th>Basis</th>
+                <th>Created At</th>
                 @endif
-{{--                <th>Description</th>--}}
 {{--                <th>Link</th>--}}
-{{--                <th>Basis (file attachment title)</th>--}}
 {{--                <th>Due Date of Payment</th>--}}
 {{--                <th>Due Date</th>--}}
 
@@ -108,10 +120,15 @@
 
             @foreach($requests as $request)
             <tr class="text-nowrap" data-status="{{$request->action}}">
-                {{-- <td class="cursor-pointer">{{$request['id']}}</td> --}}
+{{--                 <td class="cursor-pointer">{{$request['id']}}</td>--}}
                 <td class="cursor-pointer bg-primary"
-                    style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;" id="details-btn">{{$request->id}}</td>
+                    style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;" id="details-btn" data-id="{{$request->id}}">{{$request->request_flow_id}}</td>
                 <td>{{$request->action ?? ''}}</td>
+                @if(auth()->user()->user_type == UserTypesEnum::Accounting)
+                <td>
+                    <a href="{{ route('accounting.print', $request['id']) }}" target="_blank">Print</a>
+                 </td>
+                @endif
                 <td>{{$request->requestFlow->initiator ?? ''}}</td>
 {{--                <td>{{formatDate($request->created_at) ?? ''}}</td>--}}
 {{--                <td>{{$request->requestFlow->company->name ?? ''}}</td>--}}
@@ -122,21 +139,23 @@
                 <td>{{$request->requestFlow->amount ?? ''}}</td>
                 <td>{{$request->requestFlow->amount_in_gel ?? ''}}</td>
                 @if(auth()->user()->user_type == UserTypesEnum::Accounting)
-                <td>{{$request->requestFlow->typeOfExpense->id_software ?? ''}}</td>
-                <td>{{$request->requestFlow->supplier->id_software ?? ''}}</td>
-                @endif
-{{--                <td>{{$request->requestFlow->description ?? ''}}</td>--}}
-{{--                <td> <a href="{{URL::to($request->requestFlow->request_link)}}" target="_blank">{{$request->requestFlow->request_link ?? ''}}</a> </td>--}}
-{{--                <td>--}}
-{{--                    @if($request->requestFlow->basis)--}}
-{{--                        @foreach(explode(',',$request->requestFlow->basis) as $file)--}}
-{{--                            <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>--}}
-{{--                        @endforeach--}}
-{{--                    @else--}}
-{{--                        No document available--}}
-{{--                    @endif--}}
+                <td>{{$request->requestFlow->typeOfExpense->accounting_id ?? ''}}</td>
+                <td>{{$request->requestFlow->supplier->accounting_id ?? ''}}</td>
+                <td>{{$request->requestFlow->description ?? ''}}</td>
+                    <td>
+                        @if($request->requestFlow->basis)
+                            @foreach(explode(',',$request->requestFlow->basis) as $file)
+                                <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
+                            @endforeach
+                        @else
+                            No document available
+                        @endif
 
-{{--                </td>--}}
+                    </td>
+                <td>{{formatDate($request->requestFlow->created_at) ?? ''}}</td>
+                @endif
+{{--                <td> <a href="{{URL::to($request->requestFlow->request_link)}}" target="_blank">{{$request->requestFlow->request_link ?? ''}}</a> </td>--}}
+
 
 
 {{--                    <a href="{{asset('basis/'.$request->requestFlow->basis)}}" target="_blank">{{$request->requestFlow->basis}}</a></td>--}}
@@ -166,7 +185,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
-    
+
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
     <link rel="stylesheet" type="text/css"
         href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.dataTables.min.css" />
@@ -267,24 +286,43 @@
 
         // Data Filter Start
         $(document).ready(function () {
+            // $(".btn-group button").click(function () {
+            //     var filterValue = $(this).attr('data-filter');
+            //     console.log("filterValue", filterValue);
+            //
+            //     if (filterValue === "all") {
+            //         $("#reviewDocument tbody tr").show();
+            //     } else {
+            //         $("#reviewDocument tbody tr").hide();
+            //         $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+            //     }
+            //
+            //     $(".btn-group button").removeClass("active");
+            //     $(this).addClass("active");
+            // });
             $(".btn-group button").click(function () {
                 var filterValue = $(this).attr('data-filter');
-                console.log("filterValue", filterValue)
-                $("#reviewDocument tbody tr").hide();
-                $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+                console.log("filterValue", filterValue);
+
+                var table = $('#reviewDocument').DataTable();
+
                 if (filterValue === "all") {
-                    $("#reviewDocument tbody tr").show();
+                    table.search('').draw();
                 } else {
-                    $("#reviewDocument tbody tr").hide();
-                    $("#reviewDocument tbody tr[data-status='" + filterValue + "']").show();
+                    table.search(filterValue).draw();
                 }
+
                 $(".btn-group button").removeClass("active");
                 $(this).addClass("active");
             });
 
+
+
             $("body").on("click","#details-btn",(event)=>{
                 $("#details-modal-body").html('<h6 class="text-info">Loading...</h6>');
+                var dataId = $(event.target).attr("data-id");
                 console.log(event.target.innerText);
+                console.log(dataId);
                 getLogById(event.target.innerText).then((response)=>{
                     $("#details-modal-body").html(response);
                     console.log(response);

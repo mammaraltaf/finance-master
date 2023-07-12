@@ -56,7 +56,7 @@
         /* Adjust the width of the Select2 dropdown to match Bootstrap dropdown */
         .select2-container .select2-selection--single {
              height: 38px;
-            /* width: 200px; */ 
+            /* width: 200px; */
             width: 300px;
             line-height: 36px;
             font-size: 14px;
@@ -163,7 +163,6 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="flex-column w-100">
                                 <div class="form-group  px-2">
                                     <label for="department">Department</label><br>
@@ -465,7 +464,7 @@
                             <td>{{$request->description ?? ''}}</td>
                             <td>
                                 {{--                                <a href="{{URL::to($request->request_link)}}" target="_blank">{{URL::to($request->request_link)}}</a>--}}
-                                {{ $request->request_link ? '<a href="' . URL::to($request->request_link) . '" target="_blank">' . URL::to($request->request_link) . '</a>' : '' }}
+                                {!! $request->request_link ? '<a href="' . URL::to($request->request_link) . '" target="_blank">' . URL::to($request->request_link) . '</a>' : '' !!}
                             </td>
                             <td><?php if(isset($request->basis)){
                             $files=explode(',',$request->basis);
@@ -559,19 +558,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
     // });
      //zoom in and out
      $(document).ready(function() {
-            var initialZoom = 100; 
+            var initialZoom = 100;
 
             function setTableZoom(zoomLevel) {
             $('#suppliertable').css('zoom', zoomLevel + '%');
             }
 
-        
+
             $('#suppliertable').on('wheel', function(event) {
             if (event.ctrlKey) {
                 event.preventDefault();
                 var delta = event.originalEvent.deltaY;
                 if (delta > 0) {
-                initialZoom -= 10; 
+                initialZoom -= 10;
                 } else {
                 initialZoom += 10;
                 }
