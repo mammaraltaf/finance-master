@@ -3,6 +3,27 @@
 @section('pageTitle')
 @endsection
 @section('content')
+<style>
+    .overflow-auto::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .overflow-auto {
+            max-height: 400px;
+        }
+</style>
 <div class="ml-5 mt-3">
     <form action="{{route('logFilters')}}" method="post"  >
         @csrf
@@ -201,6 +222,28 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="{{asset('admin/js/commonfunctions.js')}}"></script>
     <script>
+        //zoom in and out
+        $(document).ready(function() {
+            var initialZoom = 100;
+
+            function setTableZoom(zoomLevel) {
+            $('#reviewDocument').css('zoom', zoomLevel + '%');
+            }
+
+
+            $('#reviewDocument').on('wheel', function(event) {
+            if (event.ctrlKey) {
+                event.preventDefault();
+                var delta = event.originalEvent.deltaY;
+                if (delta > 0) {
+                initialZoom -= 10;
+                } else {
+                initialZoom += 10;
+                }
+                setTableZoom(initialZoom);
+            }
+            });
+        });
 
         $(document).ready(function() {
             $('table#reviewDocument tbody tr td:first-child').on('click', function() {

@@ -99,6 +99,25 @@
         .tbc-logo:hover img {
             transform: translateY(-5px) scale(1.1);
         }
+  .overflow-auto::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .overflow-auto {
+            max-height: 400px;
+        }
     </style>
 
     <div class="card-header pt-5">

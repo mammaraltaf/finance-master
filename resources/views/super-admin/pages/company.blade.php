@@ -3,6 +3,27 @@
     Company
 @endsection
 @section('content')
+<style>
+    .overflow-auto::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .overflow-auto {
+            max-height: 400px;
+        }
+</style>
     <!--begin::Header-->
     <style>
         .img-avatar {
@@ -207,7 +228,7 @@
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
         {{--All Datatable--}}
-        {{-- <div class="overflow-auto"> --}}
+        <div class="overflow-auto">
             <table name="companyTable" id="companyTable" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
 
                 {{-- <table id="companyTable" name="companyTable" class="ui celled table allTable" style="width:100%"> --}}
@@ -259,7 +280,7 @@
                 </tr>
                 </tfoot> --}}
             </table>
-        {{-- </div> --}}
+        </div>
     </div>
     <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">

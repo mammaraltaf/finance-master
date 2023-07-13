@@ -97,10 +97,26 @@
             padding: 6px 12px;
             font-size: 14px;
         }
-        @media (min-width: 350px) {
-            .flex-column {
+        /* @media (min-width: 350px) {
+            . {
                 flex-direction: column!important;
             }
+        } */
+       .overflow-auto::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
     </style>
 
@@ -163,7 +179,8 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="flex-column w-100">
+
+                            <div class=" w-100">
                                 <div class="form-group  px-2">
                                     <label for="department">Department</label><br>
                                     <select class="form-control select2" id="addDepartment" name="department" required>
@@ -183,7 +200,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-flex flex-column">
+                            <div class="flex-column">
                                 <div class="form-group w-100 px-2">
                                     <label for="expense-type">Type of Expense</label><br>
                                     <select class="form-control select2" id="expense_type" name="expense_type" required>
@@ -240,11 +257,6 @@
                                 </div>
                             </div>
                             <div class="form-group d-flex gx-5">
-{{--                                <div class='p-2'>--}}
-
-{{--                                    <button type="submit" value="{{App\Classes\Enums\StatusEnum::New}}" name="button"--}}
-{{--                                            class="btn btn-primary">{{App\Classes\Enums\StatusEnum::New}}</button>--}}
-{{--                                </div>--}}
                                 <div class='p-2'>
                                     <button  id="submitReviewBtn" type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
                                             name="button"
@@ -286,7 +298,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-flex flex-column align-items-center">
+                            <div class="">
                                 <div class="form-group w-100 px-2">
                                     <label for="department">Department</label>
                                     <select class="form-control department" id="department" name="department" required>
@@ -305,7 +317,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="d-flex flex-column align-items-center">
+                            <div class="">
                                 <div class="form-group w-100 px-2">
                                     <label for="expense-type">Type of Expense</label>
                                     <select class="form-control expense-type" id="expense-type" name="expense-type" required>
@@ -420,10 +432,7 @@
             </div>
         </div>
 
-        <div class="overflow-auto">
-
-            {{--All Datatable--}}
-            {{-- <div class="overflow-auto"> --}}
+        <div class="overflow-auto" style="max-height: 400px;">
             <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered  nowrap" style="width:100%">
                 <thead>
                     <tr class="text-nowrap text-center" >
