@@ -6,6 +6,27 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endsection
 @section('content')
+<style>
+    .overflow-auto::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .overflow-auto {
+            max-height: 400px;
+        }
+</style>
     <!--begin::Header-->
     <style>
         .acceptBtn, .rejectBtn {

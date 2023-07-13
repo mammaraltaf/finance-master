@@ -3,6 +3,27 @@
     Requests
 @endsection
 @section('styles')
+<style>
+    .overflow-auto::-webkit-scrollbar {
+            height: 12px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .overflow-auto::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        .overflow-auto {
+            max-height: 400px;
+        }
+</style>
     <style>
         .no-arrow::-webkit-outer-spin-button,
         .no-arrow::-webkit-inner-spin-button {
@@ -276,7 +297,7 @@
                         </div>
                     </div>
 
-                    <div class="d-flex">
+                    <div class="">
                         <div class="form-group w-100 px-2">
                             <label for="department">Department</label><br>
                             <select class="form-control select2" id="department_update" name="department" required>
@@ -294,7 +315,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="d-flex">
+                    <div class="">
                         <div class="form-group w-100 px-2">
                             <label for="expense-type">Type of Expense</label><br>
                             <select class="form-control select2" id="expense_type_update" name="expense-type" required>
