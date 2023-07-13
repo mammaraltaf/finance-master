@@ -230,7 +230,7 @@
                         <td class="cursor-pointer bg-primary"
                             style="color: #FFFFFF; font-weight: bold; padding: 8px; border-radius: 5px;" id="details-btn">{{$request->id  ?? ''}}</td>
                         <td>
-                            <a href="{{ route('accounting.print', $request->id) }}" target="_blank">Print</a>
+                            <a href="{{ route('accounting.printRequest', $request->id) }}" target="_blank">Print</a>
                         </td>
                         <!-- <td class="cursor-pointer">{{ $request->id }}</td> -->
 {{--                        <td>{{$request->status ?? ''}}</td>--}}

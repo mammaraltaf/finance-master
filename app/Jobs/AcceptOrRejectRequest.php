@@ -38,21 +38,12 @@ class AcceptOrRejectRequest implements ShouldQueue
      */
     public function handle()
     {
-////        $email = auth()->user()->email;
-//        $request_data = $this->request_data;
-//        $user_id = $request_data['user_id'];
-//        $email = User::whereId($user_id)->pluck('email')->first() ?? 'mammaraltaf@gmail.com';
-//        Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($email) {
-//            $m->from('finance@mail.com', config('app.name', 'APP Name'));
-//            $m->to($email)->subject('Review Request');
-//        });
-
         $request_data = $this->request_data;
         $user_id = $request_data['user_id'];
         $email = User::whereId($user_id)->pluck('email')->first();
         $current_status=$request_data['status'];
-        $subject = $request_data['id'] ?? 'Review Request';
-//dd($current_status);
+        $subject = 'Review Request '. $request_data['id'] ?? 'Review Request';
+
         switch ($current_status) {
             case StatusEnum::SubmittedForReview:
                 $next_role = UserTypesEnum::Manager;
@@ -74,12 +65,10 @@ class AcceptOrRejectRequest implements ShouldQueue
                 $next_role = UserTypesEnum::User;
         }
 
-        //dd($next_role);
        $all_users_in_company=CompanyUser::where('company_id',$request_data['company_id'])->pluck('user_id')->toArray();
        $next_person_email=User::whereIn('id',$all_users_in_company)
        ->where('user_type',$next_role)
        ->pluck('email')->first();
-     //  dd($next_person_email);
         // Validate the email address using filter_var() function
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             // Set a default email address if the retrieved email address is invalid
