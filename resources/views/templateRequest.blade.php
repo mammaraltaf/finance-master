@@ -76,7 +76,7 @@
 <p>Company: {{$request['company']['name']}}</p>
 <p>Department: {{$request['department']['name']}}</p>
 <p>Supplier: {{$request['supplier']['supplier_name']}}</p>
-<p>Type Of Expense: {{$request['typeOfExpense']['name']}}</p>
+<p>Type Of Expense: {{$request['type_of_expense']['name']}}</p>
 <p>Currency: {{$request['currency']}}</p>
 <p>Amount: {{$request['amount']}}</p>
 <p>Amount in gel: {{$request['amount_in_gel']}}</p>

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Classes\Enums\ActionEnum;
+use App\Classes\Enums\StatusEnum;
+use App\Classes\Enums\UserTypesEnum;
 use App\Models\Company;
 use App\Models\Department;
 use App\Models\LogAction;
@@ -86,10 +88,20 @@ class HomeController extends Controller
             $req_logs_ids = RequestFlow::where('company_id', $comp_id)->whereIn('department_id', $departmentIds)->pluck('id')->toArray();
             $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
 
-            $requests = LogAction::with('requestFlow', 'requestFlow.company', 'requestFlow.supplier', 'requestFlow.typeOfExpense')
-                ->whereIn('request_flow_id', $req_logs_ids)
-                ->orderBy('log_actions.created_at', 'desc')
-                ->get();
+            if ($user->user_type == UserTypesEnum::Accounting){
+                $requests = LogAction::with('requestFlow', 'requestFlow.company', 'requestFlow.supplier', 'requestFlow.typeOfExpense')
+                    ->whereIn('action',[ActionEnum::ACCOUNTING_ACCEPT, ActionEnum::ACCOUNTING_REJECT])
+                    ->where('user_id', $user->id)
+                    ->orderBy('log_actions.created_at', 'desc')
+                    ->get();
+            }
+            else{
+                $requests = LogAction::with('requestFlow', 'requestFlow.company', 'requestFlow.supplier', 'requestFlow.typeOfExpense')
+                    ->whereIn('request_flow_id', $req_logs_ids)
+                    ->orderBy('log_actions.created_at', 'desc')
+                    ->get();
+            }
+
 
             return view('logs.logging', compact('requests', 'companies_slug'));
         }
