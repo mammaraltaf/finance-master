@@ -116,7 +116,7 @@
                 <th>Print</th>
                 @endif
                 <th>Initiator</th>
-{{--                <th>Created At</th>--}}
+               <th class="">Created At</th>
 {{--                <th>Company</th>--}}
                 <th>Department</th>
                 <th>Type of Expense</th>
@@ -151,7 +151,7 @@
                  </td>
                 @endif
                 <td>{{$request->requestFlow->initiator ?? ''}}</td>
-{{--                <td>{{formatDate($request->created_at) ?? ''}}</td>--}}
+               <td class="">{{formatDate($request->created_at) ?? ''}}</td>
 {{--                <td>{{$request->requestFlow->company->name ?? ''}}</td>--}}
                 <td>{{$request->requestFlow->department->name ?? ''}}</td>
                 <td>{{$request->requestFlow->typeOfExpense->name ?? ''}}</td>
