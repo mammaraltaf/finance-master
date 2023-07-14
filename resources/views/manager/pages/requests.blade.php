@@ -205,6 +205,8 @@
             </div>
         </div>
     </div>
+    <input class="d-none" type="checkbox" id="scroll-check" checked>
+
  <!-- Rejection Modal -->
  <div class="modal fade" id="rejectConfirmationModal" tabindex="-1" aria-labelledby="rejectConfirmationModalLabel"
          aria-hidden="true">
@@ -295,6 +297,18 @@
             }
             });
         });
+        const scrollCheck = document.querySelector("#scroll-check");
+        document.addEventListener(
+            "wheel",
+            function (e) {
+                if (scrollCheck.checked && e.ctrlKey) {
+                e.preventDefault();
+                }
+            },
+            {
+                passive: false
+            }
+        );
 
         $(document).ready(function() {
         $('table#suppliertable tbody tr ').on('click', 'td:nth-child(2)', function() {

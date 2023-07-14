@@ -491,6 +491,7 @@
             </table>
             {{-- </div> --}}
         </div>
+        <input class="d-none" type="checkbox" id="scroll-check" checked>
     </div>
     {{-- Delete Modal --}}
     <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
@@ -594,6 +595,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
         this.disabled = true;
         form.submit();
     });
+    const scrollCheck = document.querySelector("#scroll-check");
+        document.addEventListener(
+            "wheel",
+            function (e) {
+                if (scrollCheck.checked && e.ctrlKey) {
+                e.preventDefault();
+                }
+            },
+            {
+                passive: false
+            }
+        );
 
     $(document).ready(function() {
         $('.department').select2();
