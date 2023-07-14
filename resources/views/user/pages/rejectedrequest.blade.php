@@ -267,6 +267,7 @@
             </div>
         </div>
     </div>
+    <input class="d-none" type="checkbox" id="scroll-check" checked>
 
 
     <!-- Update Request Modal -->
@@ -289,10 +290,11 @@
                         </div>
                         <div class="form-group w-100 px-2">
                             <label for="company">Company</label>
-                            <select class="form-control" id="company_update" name="company" required>
-                                @foreach($companies as $company)
-                                    <option value="{{$company->id}}">{{$company->name}}</option>
-                                @endforeach
+                            <select class="form-control" id="company" name="company" required>
+                                <?php foreach ($companies as $company){ ?>
+                                <option
+                                    value="{{$company->id}}" {{ $company->id == $user->id? 'selected' : '' }}>{{$company->name}}</option>
+                                <?php } ?>
                             </select>
                         </div>
                     </div>
@@ -334,41 +336,46 @@
                             </select>
                         </div>
                     </div>
-                    <div class="d-flex">
+                    <div class="d-flex align-items-center">
                         <div class="form-group w-100 px-2">
                             <label for="amount">Amount</label>
-                            <input type="number" step="any" class="form-control no-arrow" id="amount_update" name="amount" required>
+                            <input type="number" class="form-control" id="amount2" name="amount" required>
                         </div>
+
                         <div class="form-group w-100 px-2">
                             <label for="gel-amount">Amount in GEL:</label>
-                            <input type="text" class="form-control" name="amount_in_gel" id="gel-amount_update" readonly>
+                            <input type="text" class="form-control" id="gel-amount2" name="gel-amount2" readonly>
                         </div>
+
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea class="form-control" id="description_update" name="description" rows="3" required></textarea>
+                        <textarea class="form-control" id="description2" rows="3" name="description"
+                                  required></textarea>
                     </div>
                     <div class="form-group">
-                        <label for="gel-amount">Link:</label>
-                        <input type="text" class="form-control" name="request_link" id="request_links_update">
-                    </div>
+                            <label for="link">Link:</label>
+                            <input type="text" class="form-control" id="link" name="link" >
+                        </div>
                     <div class="form-group">
                         <label for="basis">Basis</label>
                         <input type="file" class="form-control" multiple id="basis2" name="basis[]">
-                                <input type="hidden" id="basis3" name="basis3">
-                                <div class="text-danger" id="fileList"></div>
-                                <div id="previousFiles">
-                                    <!-- Show previously uploaded files here -->
-                                </div>
+                        <input type="hidden" id="basis3" name="basis3">
+                        <div class="text-danger" id="fileList"></div>
+                        <div id="previousFiles">
+                            <!-- Show previously uploaded files here -->
+                        </div>
                     </div>
-                    <div class="d-flex">
+
+                    <div class="d-flex align-items-center">
                         <div class="form-group w-100 px-2">
                             <label for="due-date-payment">Due Date of Payment</label>
-                            <input type="date" class="form-control" id="due-date-payment_update" name="due-date-payment2" required>
+                            <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2" min='<?php echo date('Y-m-d');?>' required>
                         </div>
                         <div class="form-group w-100 px-2">
                             <label for="due-date" class="form-label">Due Date</label>
-                            <input type="date" class="form-control" id="due-date_update" name="due-date2" required>
+                            <input type="date" class="form-control" id="due-date2" name="due-date2"
+                                   min='<?php echo date('Y-m-d');?>' required>
                         </div>
                     </div>
                     <div class="form-group d-flex gx-5">
@@ -438,23 +445,39 @@
             var initialZoom = 100;
 
             function setTableZoom(zoomLevel) {
-                $('#suppliertable').css('zoom', zoomLevel + '%');
+            $('#suppliertable').css('zoom', zoomLevel + '%');
             }
 
 
             $('#suppliertable').on('wheel', function(event) {
-                if (event.ctrlKey) {
-                    event.preventDefault();
-                    var delta = event.originalEvent.deltaY;
-                    if (delta > 0) {
-                        initialZoom -= 10;
-                    } else {
-                        initialZoom += 10;
-                    }
-                    setTableZoom(initialZoom);
+            if (event.ctrlKey) {
+                event.preventDefault();
+                var delta = event.originalEvent.deltaY;
+                if (delta > 0) {
+                initialZoom -= 10;
+                } else {
+                initialZoom += 10;
                 }
+                setTableZoom(initialZoom);
+            }
             });
         });
+        const scrollCheck = document.querySelector("#scroll-check");
+        document.addEventListener(
+            "wheel",
+            function (e) {
+                if (scrollCheck.checked && e.ctrlKey) {
+                e.preventDefault();
+                }
+            },
+            {
+                passive: false
+            }
+        );
+
+
+
+
 
 
 
@@ -466,20 +489,20 @@
             $('table#suppliertable tbody tr td:first-child').on('click', function() {
                 var row = $(this).closest('tr');
                 // var status = row.find('td:nth-child(1)').text().trim();
-                var initiator = row.find('td:nth-child(2)').text().trim();
-                var createdAt = row.find('td:nth-child(3)').text().trim();
-                var company = row.find('td:nth-child(4)').text().trim();
-                var department = row.find('td:nth-child(5)').text().trim();
-                var supplier = row.find('td:nth-child(6)').text().trim();
-                var typeOfExpense = row.find('td:nth-child(7)').text().trim();
-                var currency = row.find('td:nth-child(8)').text().trim();
-                var amount = row.find('td:nth-child(9)').text().trim();
-                var amountInGel = row.find('td:nth-child(10)').text().trim();
-                var description = row.find('td:nth-child(11)').text().trim();
-                var link = row.find('td:nth-child(12)').text().trim();
-                var basis = row.find('td:nth-child(13)').text().trim();
-                var dueDatePayment = row.find('td:nth-child(14)').text().trim();
-                var dueDate = row.find('td:nth-child(15)').text().trim();
+                var initiator = row.find('td:nth-child(3)').text().trim();
+                var createdAt = row.find('td:nth-child(4)').text().trim();
+                var company = row.find('td:nth-child(5)').text().trim();
+                var department = row.find('td:nth-child(6)').text().trim();
+                var supplier = row.find('td:nth-child(7)').text().trim();
+                var typeOfExpense = row.find('td:nth-child(8)').text().trim();
+                var currency = row.find('td:nth-child(9)').text().trim();
+                var amount = row.find('td:nth-child(10)').text().trim();
+                var amountInGel = row.find('td:nth-child(11)').text().trim();
+                var description = row.find('td:nth-child(12)').text().trim();
+                var link = row.find('td:nth-child(13)').text().trim();
+                var basis = row.find('td:nth-child(14)').text().trim();
+                var dueDatePayment = row.find('td:nth-child(15)').text().trim();
+                var dueDate = row.find('td:nth-child(16)').text().trim();
 
 
                 $('#status').text('Status: ' + status);

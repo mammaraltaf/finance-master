@@ -192,6 +192,7 @@
             </div>
         </div>
     </div>
+    <input class="d-none" type="checkbox" id="scroll-check" checked>
 
 
 
@@ -230,6 +231,18 @@
             }
             });
         });
+        const scrollCheck = document.querySelector("#scroll-check");
+        document.addEventListener(
+            "wheel",
+            function (e) {
+                if (scrollCheck.checked && e.ctrlKey) {
+                e.preventDefault();
+                }
+            },
+            {
+                passive: false
+            }
+        );
 
         $('.delete_btn').click(function () {
             var a = $(this).data('id');

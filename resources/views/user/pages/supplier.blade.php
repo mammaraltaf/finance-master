@@ -250,6 +250,7 @@
 
             </table>
         </div>
+        <input class="d-none" type="checkbox" id="scroll-check" checked>
     </div>
     <div id="ModalEdit" class="modal fade">
         <div class="modal-dialog" role="document">
@@ -383,7 +384,19 @@
             }
             });
         });
-$(document).ready(function() {
+        const scrollCheck = document.querySelector("#scroll-check");
+        document.addEventListener(
+            "wheel",
+            function (e) {
+                if (scrollCheck.checked && e.ctrlKey) {
+                e.preventDefault();
+                }
+            },
+            {
+                passive: false
+            }
+        );
+        $(document).ready(function() {
         $('table#suppliertable tbody tr td:first-child').on('click', function() {
             var row = $(this).closest('tr');
             var idSoftware = row.find('td:nth-child(2)').text().trim();

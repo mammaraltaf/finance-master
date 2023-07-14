@@ -179,6 +179,7 @@
             </table>
         </div>
     </div>
+    <input class="d-none" type="checkbox" id="scroll-check" checked>
     <div class="modal fade modal1" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
         <div class="modal-dialog modal-sm" role="document">
             <div class="modal-content">
@@ -245,6 +246,18 @@
             }
             });
         });
+        const scrollCheck = document.querySelector("#scroll-check");
+        document.addEventListener(
+            "wheel",
+            function (e) {
+                if (scrollCheck.checked && e.ctrlKey) {
+                e.preventDefault();
+                }
+            },
+            {
+                passive: false
+            }
+        );
         $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);

@@ -232,6 +232,8 @@
             </div>
         </div>
     </div>
+    <input class="d-none" type="checkbox" id="scroll-check" checked>
+
 
 @endsection
 @section('script')
@@ -284,6 +286,18 @@
             }
             });
         });
+        const scrollCheck = document.querySelector("#scroll-check");
+        document.addEventListener(
+            "wheel",
+            function (e) {
+                if (scrollCheck.checked && e.ctrlKey) {
+                e.preventDefault();
+                }
+            },
+            {
+                passive: false
+            }
+        );
         $(document).ready(function () {
             $('table#suppliertable tbody tr ').on('click', 'td:nth-child(2)', function () {
                 var row = $(this).closest('tr');

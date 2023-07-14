@@ -162,6 +162,8 @@
           </tbody>
         </table>
       </div>
+    <input class="d-none" type="checkbox" id="scroll-check" checked>
+
 
 
 
@@ -209,6 +211,19 @@
             }
             });
         });
+
+        const scrollCheck = document.querySelector("#scroll-check");
+        document.addEventListener(
+            "wheel",
+            function (e) {
+                if (scrollCheck.checked && e.ctrlKey) {
+                e.preventDefault();
+                }
+            },
+            {
+                passive: false
+            }
+        );
       $(document).ready(function() {
         $('table#reviewDocument tbody tr td:first-child').on('click', function() {
           var row = $(this).closest('tr');
