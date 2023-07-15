@@ -320,7 +320,7 @@
                     <div class="">
                         <div class="form-group w-100 px-2">
                             <label for="expense-type">Type of Expense</label><br>
-                            <select class="form-control select2" id="expense_type_update" name="expense" required>
+                            <select class="form-control select2" id="expense_type_update" name="expense-type" required>
                                 <?php foreach ($expenses as $expense) { ?>
                                     <option value="{{ $expense->id }}">{{ $expense->name }}</option>
                                 <?php } ?>

@@ -13,7 +13,8 @@
         .no-arrow {
             -moz-appearance: textfield;
         }
-        .dropdown-menu.show{
+
+        .dropdown-menu.show {
             width: 100% !important;
             padding: 10px 0;
         }
@@ -27,35 +28,43 @@
         .dataTables_wrapper .dataTables_length {
             float: left;
         }
+
         .dataTables_length {
             margin-right: 10px;
         }
+
         .dataTables_wrapper {
             position: relative;
             clear: both;
         }
+
         .dataTables_wrapper .dataTables_filter {
             float: right;
             /* text-align: right; */
         }
+
         div.dataTables_wrapper div.dataTables_length select {
             width: auto;
             display: inline-block;
         }
+
         div.dataTables_wrapper div.dataTables_filter input {
             margin-left: 0.5em;
             display: inline-block;
             width: auto;
         }
+
         div.dt-buttons {
             margin-top: 10px;
         }
+
         .select2-container {
             z-index: 9999;
         }
+
         /* Adjust the width of the Select2 dropdown to match Bootstrap dropdown */
         .select2-container .select2-selection--single {
-             height: 38px;
+            height: 38px;
             /* width: 200px; */
             width: 300px;
             line-height: 36px;
@@ -97,12 +106,13 @@
             padding: 6px 12px;
             font-size: 14px;
         }
+
         /* @media (min-width: 350px) {
             . {
                 flex-direction: column!important;
             }
         } */
-       .overflow-auto::-webkit-scrollbar {
+        .overflow-auto::-webkit-scrollbar {
             height: 12px;
         }
 
@@ -131,14 +141,17 @@
 
     <div class="">
         <button id="all" class="btn btn-info active filter my-1">All</button>
-{{--        <button class="btn btn-info" data-filter="new">New</button>--}}
-        <button id="review" class="btn btn-info filter my-1" >Submitted for review</button>
-        <button id="finance" class="btn btn-info filter my-1" >Finance ok</button>
-        <button id="confirmed" class="btn btn-info filter my-1" >Confirmed</button>
-        <button id="{{\App\Classes\Enums\StatusEnum::ThresholdExceeded}}" class="btn btn-info filter my-1" >Threshold Exceeded</button>
-        <button id="paid" class="btn btn-info filter my-1" >Paid</button>
-        <a class="btn btn-danger my-1" style="float: right" href="{{ route('user.rejected-requests') }}"> Rejected Requests
-    </a>
+        {{--        <button class="btn btn-info" data-filter="new">New</button>--}}
+        <button id="review" class="btn btn-info filter my-1">Submitted for review</button>
+        <button id="finance" class="btn btn-info filter my-1">Finance ok</button>
+        <button id="confirmed" class="btn btn-info filter my-1">Confirmed</button>
+        <button id="{{\App\Classes\Enums\StatusEnum::ThresholdExceeded}}" class="btn btn-info filter my-1">Threshold
+            Exceeded
+        </button>
+        <button id="paid" class="btn btn-info filter my-1">Paid</button>
+        <a class="btn btn-danger my-1" style="float: right" href="{{ route('user.rejected-requests') }}"> Rejected
+            Requests
+        </a>
     </div>
 
 
@@ -192,7 +205,7 @@
                                 </div>
                                 <div class="form-group px-2">
                                     <label for="supplier">Supplier</label><br>
-                                    <select class="form-control select2" id="addSupplier"  name="supplier" required
+                                    <select class="form-control select2" id="addSupplier" name="supplier" required
                                             placeholder="select a supplier">
                                         <?php foreach ($suppliers as $supplier){ ?>
                                         <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
@@ -222,11 +235,13 @@
                             <div class="d-flex">
                                 <div class="form-group w-100 px-2">
                                     <label for="amount">Amount</label>
-                                    <input type="number" step="any" class="form-control no-arrow" id="amount" name="amount" required>
+                                    <input type="number" step="any" class="form-control no-arrow" id="amount"
+                                           name="amount" required>
                                 </div>
                                 <div class="form-group w-100 px-2">
                                     <label for="gel-amount">Amount in GEL:</label>
-                                    <input type="text" class="form-control" name="amount_in_gel" id="gel-amount" readonly>
+                                    <input type="text" class="form-control" name="amount_in_gel" id="gel-amount"
+                                           readonly>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -235,10 +250,10 @@
                                           required></textarea>
                             </div>
                             <div class="form-group">
-                                    <label for="gel-amount">Link:</label>
-                                    <input type="text" class="form-control" name="request_link" id="request_links" >
+                                <label for="gel-amount">Link:</label>
+                                <input type="text" class="form-control" name="request_link" id="request_links">
 
-                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
                                 <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
@@ -247,7 +262,8 @@
                             <div class="d-flex">
                                 <div class="form-group w-100 px-2">
                                     <label for="due-date-payment">Due Date of Payment</label>
-                                    <input type="date" class="form-control" id="due-date-payment" name="due-date-payment"
+                                    <input type="date" class="form-control" id="due-date-payment"
+                                           name="due-date-payment"
                                            min="<?php echo date('Y-m-d');?>" required>
                                 </div>
                                 <div class="form-group w-100 px-2">
@@ -258,7 +274,8 @@
                             </div>
                             <div class="form-group d-flex gx-5">
                                 <div class='p-2'>
-                                    <button  id="submitReviewBtn" type="submit" value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
+                                    <button id="submitReviewBtn" type="submit"
+                                            value="{{App\Classes\Enums\StatusEnum::SubmittedForReview}}"
                                             name="button"
                                             class="btn btn-success">{{App\Classes\Enums\StatusEnum::SubmittedForReview}}</button>
                                 </div>
@@ -320,7 +337,8 @@
                             <div class="">
                                 <div class="form-group w-100 px-2">
                                     <label for="expense-type">Type of Expense</label>
-                                    <select class="form-control expense-type" id="expense-type" name="expense-type" required>
+                                    <select class="form-control expense-type" id="expense-type" name="expense-type"
+                                            required>
 
                                         <?php foreach ($expenses as $expense){ ?>
                                         <option value="{{$expense->id}}">{{$expense->name}}</option>
@@ -329,7 +347,8 @@
                                 </div>
                                 <div class="form-group w-100 px-2">
                                     <label for="currency">Currency</label>
-                                    <select class="form-control edit-current" id="edit_currency" name="currency" required>
+                                    <select class="form-control edit-current" id="edit_currency" name="currency"
+                                            required>
                                         <option value="USD">USD</option>
                                         <option value="EUR">EUR</option>
                                         <option value="GEL">GEL</option>
@@ -344,7 +363,8 @@
 
                                 <div class="form-group w-100 px-2">
                                     <label for="gel-amount">Amount in GEL:</label>
-                                    <input type="text" class="form-control" id="gel-amount2" name="gel-amount2" readonly>
+                                    <input type="text" class="form-control" id="gel-amount2" name="gel-amount2"
+                                           readonly>
                                 </div>
 
                             </div>
@@ -354,9 +374,9 @@
                                           required></textarea>
                             </div>
                             <div class="form-group">
-                                    <label for="link">Link:</label>
-                                    <input type="text" class="form-control" id="link" name="link" >
-                                </div>
+                                <label for="link">Link:</label>
+                                <input type="text" class="form-control" id="link" name="link">
+                            </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
                                 <input type="file" class="form-control" multiple id="basis2" name="basis[]">
@@ -370,7 +390,8 @@
                             <div class="d-flex align-items-center">
                                 <div class="form-group w-100 px-2">
                                     <label for="due-date-payment">Due Date of Payment</label>
-                                    <input type="date" class="form-control" id="due-date-payment2" name="due-date-payment2" min='<?php echo date('Y-m-d');?>' required>
+                                    <input type="date" class="form-control" id="due-date-payment2"
+                                           name="due-date-payment2" min='<?php echo date('Y-m-d');?>' required>
                                 </div>
                                 <div class="form-group w-100 px-2">
                                     <label for="due-date" class="form-label">Due Date</label>
@@ -396,98 +417,102 @@
             </div><!-- /.modal-dialog -->
         </div>
 
-        <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel" aria-hidden="true">
+        <div class="modal fade" id="rowModal" tabindex="-1" role="dialog" aria-labelledby="rowModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="rowModalLabel">Row Information</h5>
-                  <button type="button" class="close close-pop-up" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body" id="details-modal-body">
-                  <!-- Display row data here -->
-                    {{-- <p id="status"></p> --}}
-                    <p id="rowInitiator"></p>
-                    <p id="rowCreatedAt"></p>
-                    <p id="rowCompany"></p>
-                    <p id="rowDepartment"></p>
-                    <p id="rowSupplier"></p>
-                    <p id="rowTypeOfExpense"></p>
-                    <p id="rowCurrency"></p>
-                    <p id="rowAmount"></p>
-                    <p id="rowAmountInGel"></p>
-                    <p id="rowDescription"></p>
-                    <p id="rowLink"></p>
-                    <p id="rowBasis"></p>
-                    <p id="rowDueDatePayment"></p>
-                    <p id="rowDueDate"></p>
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="rowModalLabel">Row Information</h5>
+                        <button type="button" class="close close-pop-up" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body" id="details-modal-body">
+                        <!-- Display row data here -->
+                        {{-- <p id="status"></p> --}}
+                        <p id="rowInitiator"></p>
+                        <p id="rowCreatedAt"></p>
+                        <p id="rowCompany"></p>
+                        <p id="rowDepartment"></p>
+                        <p id="rowSupplier"></p>
+                        <p id="rowTypeOfExpense"></p>
+                        <p id="rowCurrency"></p>
+                        <p id="rowAmount"></p>
+                        <p id="rowAmountInGel"></p>
+                        <p id="rowDescription"></p>
+                        <p id="rowLink"></p>
+                        <p id="rowBasis"></p>
+                        <p id="rowDueDatePayment"></p>
+                        <p id="rowDueDate"></p>
 
-                  <!-- Add more fields as needed -->
+                        <!-- Add more fields as needed -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary close-pop-up">Close</button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary close-pop-up" >Close</button>
-                </div>
-              </div>
             </div>
         </div>
 
         <div class="overflow-auto" style="max-height: 400px;">
-            <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered  nowrap" style="width:100%">
+            <table name="suppliertable" id="suppliertable" class="table table-striped table-bordered  nowrap"
+                   style="width:100%">
                 <thead>
-                    <tr class="text-nowrap text-center" >
+                <tr class="text-nowrap text-center">
 
-                        @hasanyrole('super-admin|accounting')
-                        <th>Actions</th>
-                        @endhasanyrole
-                        <th>ID</th>
-                        <th>Initiator</th>
-                        <th>Created At</td>
-                        <th>Company</th>
-                        <th>Department</th>
-                        <th>Supplier</th>
-                        <th>Type of Expense</th>
-                        <th>Currency</th>
-                        <th>Amount</th>
-                        <th>Amount In Gel</th>
-                        <th>Description</th>
-                        <th>Link</th>
-                        <th>Basis</th>
-                        <th>Due Date Payment</th>
-                        <th>Due Date</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($requests as $request)
-                        <tr class="text-nowrap text-center" >
-                            <td id="details-btn"  class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
-                            <td>{{$request->initiator}}</td>
-                            <td>{{formatDate($request->created_at)}}</td>
-                            <td>{{$request->company->name}}</td>
-                            <td>{{$request->department->name}}</td>
-                            <td>{{$request->supplier->supplier_name}}</td>
-                            <td>{{$request->typeOfExpense->name}}</td>
-                            <td>{{$request->currency ?? ''}}</td>
-                            <td>{{$request->amount}}</td>
-                            <td>{{$request->amount_in_gel ?? ''}}</td>
-                            <td>{{$request->description ?? ''}}</td>
-                            <td>
-                                {{--                                <a href="{{URL::to($request->request_link)}}" target="_blank">{{URL::to($request->request_link)}}</a>--}}
-                                {!! $request->request_link ? '<a href="' . URL::to($request->request_link) . '" target="_blank">' . URL::to($request->request_link) . '</a>' : '' !!}
-                            </td>
-                            <td><?php if(isset($request->basis)){
-                            $files=explode(',',$request->basis);
-                            foreach($files as $file){ ?>
+                    @hasanyrole('super-admin|accounting')
+                    <th>Actions</th>
+                    @endhasanyrole
+                    <th>ID</th>
+                    <th>Initiator</th>
+                    <th>Created At</td>
+                    <th>Company</th>
+                    <th>Department</th>
+                    <th>Supplier</th>
+                    <th>Type of Expense</th>
+                    <th>Currency</th>
+                    <th>Amount</th>
+                    <th>Amount In Gel</th>
+                    <th>Description</th>
+                    <th>Link</th>
+                    <th>Basis</th>
+                    <th>Due Date Payment</th>
+                    <th>Due Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($requests as $request)
+                    <tr class="text-nowrap text-center">
+                        <td id="details-btn" class="cursor-pointer bg-primary"
+                            style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
+                        <td>{{$request->initiator}}</td>
+                        <td>{{formatDate($request->created_at)}}</td>
+                        <td>{{$request->company->name}}</td>
+                        <td>{{$request->department->name}}</td>
+                        <td>{{$request->supplier->supplier_name}}</td>
+                        <td>{{$request->typeOfExpense->name}}</td>
+                        <td>{{$request->currency ?? ''}}</td>
+                        <td>{{$request->amount}}</td>
+                        <td>{{$request->amount_in_gel ?? ''}}</td>
+                        <td>{{$request->description ?? ''}}</td>
+                        <td>
+                            {{--                                <a href="{{URL::to($request->request_link)}}" target="_blank">{{URL::to($request->request_link)}}</a>--}}
+                            {!! $request->request_link ? '<a href="' . URL::to($request->request_link) . '" target="_blank">' . URL::to($request->request_link) . '</a>' : '' !!}
+                        </td>
+                        <td><?php if (isset($request->basis)){
+                                $files = explode(',', $request->basis);
+                            foreach ($files as $file){ ?>
                             <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>
-                                <?php  }   }else{
-                                    echo "No document available";
-                                }
+                            <?php }
+                            } else {
+                                echo "No document available";
+                            }
                                 ?></td>
-                            <td>{{formatDate($request->payment_date) ?? ''}}</td>
-                            <td>{{formatDate($request->submission_date) ?? ''}}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
+                        <td>{{formatDate($request->payment_date) ?? ''}}</td>
+                        <td>{{formatDate($request->submission_date) ?? ''}}</td>
+                    </tr>
+                @endforeach
+                </tbody>
             </table>
             {{-- </div> --}}
         </div>
@@ -520,87 +545,87 @@
     <!--end::Body-->
 @endsection
 @section('script')
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-{{--<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>--}}
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    {{--<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>--}}
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/responsive.bootstrap4.min.js"></script>
 
 
-<link rel="stylesheet" type="text/css"
-href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
-<script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="{{asset('admin/js/commonfunctions.js')}}"></script>
-<script
-src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
-/>
-{{-- row modal --}}
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css"/>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.bootstrap4.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+    <script src="//cdn.datatables.net/buttons/1.5.6/js/buttons.colVis.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="{{asset('admin/js/commonfunctions.js')}}"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/js/bootstrap-multiselect.js"></script>
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bootstrap-multiselect.css"
+    />
+    {{-- row modal --}}
 
-{{--
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
+    {{--
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.css"/>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.11.5/datatables.min.js"></script> --}}
 
     <script type="text/javascript">
-    //  $('#suppliertable').DataTable();
-    // $(document).ready(function() {
-    // $('#suppliertable').DataTable({
-    //     "order": [[1, "desc"]]
-    //     });
-    // });
-    // document.getElementById("submitReviewBtn").addEventListener("click", function() {
-    //     this.disabled = true;
-    // });
-     //zoom in and out
-     $(document).ready(function() {
+        //  $('#suppliertable').DataTable();
+        // $(document).ready(function() {
+        // $('#suppliertable').DataTable({
+        //     "order": [[1, "desc"]]
+        //     });
+        // });
+        // document.getElementById("submitReviewBtn").addEventListener("click", function() {
+        //     this.disabled = true;
+        // });
+        //zoom in and out
+        $(document).ready(function () {
             var initialZoom = 100;
 
             function setTableZoom(zoomLevel) {
-            $('#suppliertable').css('zoom', zoomLevel + '%');
+                $('#suppliertable').css('zoom', zoomLevel + '%');
             }
 
 
-            $('#suppliertable').on('wheel', function(event) {
-            if (event.ctrlKey) {
-                event.preventDefault();
-                var delta = event.originalEvent.deltaY;
-                if (delta > 0) {
-                initialZoom -= 10;
-                } else {
-                initialZoom += 10;
+            $('#suppliertable').on('wheel', function (event) {
+                if (event.ctrlKey) {
+                    event.preventDefault();
+                    var delta = event.originalEvent.deltaY;
+                    if (delta > 0) {
+                        initialZoom -= 10;
+                    } else {
+                        initialZoom += 10;
+                    }
+                    setTableZoom(initialZoom);
                 }
-                setTableZoom(initialZoom);
-            }
             });
         });
 
-    document.getElementById("submitReviewBtn").addEventListener("click", function(e) {
-        e.preventDefault();
-        var form = document.getElementById("categoryForm");
-        this.disabled = true;
-        form.submit();
-    });
-    const scrollCheck = document.querySelector("#scroll-check");
+        document.getElementById("submitReviewBtn").addEventListener("click", function (e) {
+            e.preventDefault();
+            var form = document.getElementById("categoryForm");
+            this.disabled = true;
+            form.submit();
+        });
+        const scrollCheck = document.querySelector("#scroll-check");
         document.addEventListener(
             "wheel",
             function (e) {
                 if (scrollCheck.checked && e.ctrlKey) {
-                e.preventDefault();
+                    e.preventDefault();
                 }
             },
             {
@@ -608,91 +633,123 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
             }
         );
 
-    $(document).ready(function() {
-        $('.department').select2();
-        $('.supplier').select2();
-        $('.expense-type').select2();
+        $(document).ready(function () {
+            // $('.department').select2();
+            // $('.supplier').select2();
+            // $('.expense-type').select2();
 
-        $('table#suppliertable tbody tr td:first-child').on('click', function() {
-            var row = $(this).closest('tr');
-            // var status = row.find('td:nth-child(1)').text().trim();
-            var initiator = row.find('td:nth-child(2)').text().trim();
-            var createdAt = row.find('td:nth-child(3)').text().trim();
-            var company = row.find('td:nth-child(4)').text().trim();
-            var department = row.find('td:nth-child(5)').text().trim();
-            var supplier = row.find('td:nth-child(6)').text().trim();
-            var typeOfExpense = row.find('td:nth-child(7)').text().trim();
-            var currency = row.find('td:nth-child(8)').text().trim();
-            var amount = row.find('td:nth-child(9)').text().trim();
-            var amountInGel = row.find('td:nth-child(10)').text().trim();
-            var description = row.find('td:nth-child(11)').text().trim();
-            var link = row.find('td:nth-child(12)').text().trim();
-            var basis = row.find('td:nth-child(13)').text().trim();
-            var dueDatePayment = row.find('td:nth-child(14)').text().trim();
-            var dueDate = row.find('td:nth-child(15)').text().trim();
+            $('table#suppliertable tbody tr td:first-child').on('click', function () {
+                var row = $(this).closest('tr');
+                // var status = row.find('td:nth-child(1)').text().trim();
+                var initiator = row.find('td:nth-child(2)').text().trim();
+                var createdAt = row.find('td:nth-child(3)').text().trim();
+                var company = row.find('td:nth-child(4)').text().trim();
+                var department = row.find('td:nth-child(5)').text().trim();
+                var supplier = row.find('td:nth-child(6)').text().trim();
+                var typeOfExpense = row.find('td:nth-child(7)').text().trim();
+                var currency = row.find('td:nth-child(8)').text().trim();
+                var amount = row.find('td:nth-child(9)').text().trim();
+                var amountInGel = row.find('td:nth-child(10)').text().trim();
+                var description = row.find('td:nth-child(11)').text().trim();
+                var link = row.find('td:nth-child(12)').text().trim();
+                var basis = row.find('td:nth-child(13)').text().trim();
+                var dueDatePayment = row.find('td:nth-child(14)').text().trim();
+                var dueDate = row.find('td:nth-child(15)').text().trim();
 
 
-            $('#status').text('Status: ' + status);
-            $('#rowInitiator').text('Initiator: ' + initiator);
-            $('#rowCreatedAt').text('Created At: ' + createdAt);
-            $('#rowCompany').text('Company: ' + company);
-            $('#rowDepartment').text('Department: ' + department);
-            $('#rowSupplier').text('Supplier: ' + supplier);
-            $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
-            $('#rowCurrency').text('Currency: ' + currency);
-            $('#rowAmount').text('Amount: ' + amount);
-            $('#rowAmountInGel').text('Amount In Gel: ' + amountInGel);
-            $('#rowDescription').text('Description: ' + description);
-            $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
-                        $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
-            $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
-            $('#rowDueDate').text('Due Date: ' + dueDate);
+                $('#status').text('Status: ' + status);
+                $('#rowInitiator').text('Initiator: ' + initiator);
+                $('#rowCreatedAt').text('Created At: ' + createdAt);
+                $('#rowCompany').text('Company: ' + company);
+                $('#rowDepartment').text('Department: ' + department);
+                $('#rowSupplier').text('Supplier: ' + supplier);
+                $('#rowTypeOfExpense').text('Type Of Expense: ' + typeOfExpense);
+                $('#rowCurrency').text('Currency: ' + currency);
+                $('#rowAmount').text('Amount: ' + amount);
+                $('#rowAmountInGel').text('Amount In Gel: ' + amountInGel);
+                $('#rowDescription').text('Description: ' + description);
+                $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
+                $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');
+                ;
+                $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
+                $('#rowDueDate').text('Due Date: ' + dueDate);
 
-            $('#rowModal').modal('show');
-            $('.close-pop-up').click(function () {
-                $('#rowModal').modal('hide');
+                $('#rowModal').modal('show');
+                $('.close-pop-up').click(function () {
+                    $('#rowModal').modal('hide');
+                });
             });
         });
-    });
 
         $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
         });
+        jQuery.extend(jQuery.fn.dataTableExt.oSort, {
+            "date-uk-pre": function (a) {
+                var ukDatea = a.split('/');
+                return (ukDatea[2] + ukDatea[1] + ukDatea[0]) * 1;
+            },
+
+            "date-uk-asc": function (a, b) {
+                return ((a < b) ? -1 : ((a > b) ? 1 : 0));
+            },
+
+            "date-uk-desc": function (a, b) {
+                return ((a < b) ? 1 : ((a > b) ? -1 : 0));
+            }
+        });
 
         $(document).ready(function () {
-        $('#suppliertable').DataTable({
-            "order": [[3, "desc"]],
-            dom: 'Blfrtip',
-            lengthChange: true,
-            buttons: [
+            $('#suppliertable').DataTable({
+                "aoColumns": [
+                    null,
+                    null,
+                    {"sType": "date-uk"},
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    {"sType": "date-uk"},
+                    {"sType": "date-uk"},
+                ],
+                "order": [[2, "desc"]],
+                dom: 'Blfrtip',
+                lengthChange: true,
+                buttons: [
 
-                {
-                    extend: 'copy',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'excel',
-                    orientation: 'landscape',
-                    pageSize: 'LEGAL',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                {
-                    extend: 'pdf',
-                    orientation: 'landscape',
-                    pageSize: 'LEGAL',
-                    exportOptions: {
-                        columns: ':visible'
-                    }
-                },
-                'colvis'
-            ]
+                    {
+                        extend: 'copy',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'excel',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    {
+                        extend: 'pdf',
+                        orientation: 'landscape',
+                        pageSize: 'LEGAL',
+                        exportOptions: {
+                            columns: ':visible'
+                        }
+                    },
+                    'colvis'
+                ]
+            });
         });
-    });
     </script>
 
     <script type="text/javascript">
@@ -704,29 +761,29 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
 
             var d = new Date();
 
-            var month = d.getMonth()+1;
+            var month = d.getMonth() + 1;
             var day = d.getDate();
 
             var currentDate = d.getFullYear() + '/' +
-                ((''+month).length<2 ? '0' : '') + month + '/' +
-                ((''+day).length<2 ? '0' : '') + day;
+                (('' + month).length < 2 ? '0' : '') + month + '/' +
+                (('' + day).length < 2 ? '0' : '') + day;
 
             $("#basis").change(function () {
                 $("#preview").empty(); // Clear the preview div
                 if (this.files && this.files.length > 0) {
                     for (let i = 0; i < this.files.length; i++) {
                         let file = this.files[i];
-                        let url=URL.createObjectURL(file);
+                        let url = URL.createObjectURL(file);
                         let reader = new FileReader();
                         reader.onload = function (e) {
                             let fileType = file.type.split('/')[0];
                             let previewItem = '';
                             if (fileType === 'image') {
-                                previewItem = '<div class="w-100"><a href="'+url+'" target="_blank"><img src="' + e.target.result + '" class="img-thumbnail" width="100%"></a></div>';
+                                previewItem = '<div class="w-100"><a href="' + url + '" target="_blank"><img src="' + e.target.result + '" class="img-thumbnail" width="100%"></a></div>';
                             } else if (fileType === 'application' && file.type === 'application/pdf') {
-                                previewItem = '<div class="mt-2">   <a href="'+url+'" target="_blank"> <i class="fa-solid fa-up-right-from-square"></i> </a> <embed src="' + e.target.result + '" type="application/pdf" width="100%"></div>';
+                                previewItem = '<div class="mt-2">   <a href="' + url + '" target="_blank"> <i class="fa-solid fa-up-right-from-square"></i> </a> <embed src="' + e.target.result + '" type="application/pdf" width="100%"></div>';
                             } else if (fileType === 'application' && file.type === 'application/msword') {
-                                previewItem = '<div> <a href="'+url+'" target="_blank"> <i class="fa-solid fa-up-right-from-square"></i> </a> <embed src="' + e.target.result + '" type="application/msword" width="100%"></div>';
+                                previewItem = '<div> <a href="' + url + '" target="_blank"> <i class="fa-solid fa-up-right-from-square"></i> </a> <embed src="' + e.target.result + '" type="application/msword" width="100%"></div>';
                             } else {
                                 previewItem = '<p>' + file.name + ' - ' + file.size + ' bytes</p>';
                             }
@@ -739,19 +796,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
 
             // Preview End
 
-            $("#currency").change(function() {
+            $("#currency").change(function () {
                 var currency = $(this).val();
                 var amount = $("#amount").val();
                 // console.log("currency", currency)
                 if (currency != "GEL" && amount != "") {
                     $.ajax({
-                        url: "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date="+currentDate,
+                        url: "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date=" + currentDate,
                         dataType: "json",
-                        success: function(data) {
-                            if(currency === "USD"){
+                        success: function (data) {
+                            if (currency === "USD") {
                                 var rate = data[0].currencies[40].rate;
                             }
-                            if(currency === "EUR"){
+                            if (currency === "EUR") {
                                 var rate = data[0].currencies[13].rate;
                             }
                             if (rate) {
@@ -766,19 +823,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
             });
 
             /*for edit*/
-            $("#edit_currency").change(function() {
+            $("#edit_currency").change(function () {
                 var currency = $(this).val();
                 var amount = $("#amount2").val();
                 // console.log("currency", amount, currency);
                 if (currency != "GEL" && amount != "") {
                     $.ajax({
-                        url: "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date="+currentDate,
+                        url: "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date=" + currentDate,
                         dataType: "json",
-                        success: function(data) {
-                            if(currency === "USD"){
+                        success: function (data) {
+                            if (currency === "USD") {
                                 var rate = data[0].currencies[40].rate;
                             }
-                            if(currency === "EUR"){
+                            if (currency === "EUR") {
                                 var rate = data[0].currencies[13].rate;
                             }
                             if (rate) {
@@ -792,21 +849,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                 }
             });
 
-            $("#amount").keyup(function() {
+            $("#amount").keyup(function () {
                 $("#currency").trigger("change");
             });
-            $("#amount2").keyup(function() {
+            $("#amount2").keyup(function () {
                 $("#edit_currency").trigger("change");
             });
         });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             var maxLength = 190;
             var description = $('#description');
             var counter = $('<span class="char-count">0/' + maxLength + ' Characters</span>').insertAfter(description);
             var submitBtn = $('button[name="button"]');
 
-            description.on('input', function() {
+            description.on('input', function () {
                 var length = description.val().length;
                 counter.text(length + '/' + maxLength + ' Characters');
 
@@ -833,17 +890,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                 type: "GET",
                 url: "{{url('/user/edit-request/')}}" + '/' + request_id,
                 success: function (response) {
-                // console.log("response", response);
-                $('#reqid').val(response.id);
-                $('#amount2').val(response.amount);
-                $('#description2').val(response.description);
-                $('#basis2').val(removedFiles);
-                $('#due-date-payment2').val(response.payment_date);
-                $('#due-date2').val(response.submission_date);
-                $('#gel-amount2').val(response.amount_in_gel);
+                    // console.log("response", response);
+                    $('#reqid').val(response.id);
+                    $('#amount2').val(response.amount);
+                    $('#description2').val(response.description);
+                    $('#basis2').val(removedFiles);
+                    $('#due-date-payment2').val(response.payment_date);
+                    $('#due-date2').val(response.submission_date);
+                    $('#gel-amount2').val(response.amount_in_gel);
 
 
-                $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+                    $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
                     // Show previously uploaded files
                     basisFiles2 = response.basis;
                     if (response.basis) {
@@ -851,10 +908,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
                         var files = response.basis.split(',');
                         var fileHtml = '';
                         for (var i = 0; i < files.length; i++) {
-                        var fileName = files[i];
-                        fileHtml += '<div><a href="{{asset('basis')}}' +'/'+ fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
-                        docs2.push(fileName);
-                    }
+                            var fileName = files[i];
+                            fileHtml += '<div><a href="{{asset('basis')}}' + '/' + fileName + '" target="_blank">' + fileName + '</a> <div  class="text-danger cursor-pointer remove-file" data-file="' + fileName + '">X</div></div>';
+                            docs2.push(fileName);
+                        }
                         $('#previousFiles').html(fileHtml);
                         $('#basis3').val(docs2);
                     }
@@ -911,10 +968,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
         //     });
         // });
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             $('.select2').select2();
             // listen for click events on all the buttons
-            $('.filter').click(function() {
+            $('.filter').click(function () {
                 // get the id of the clicked button
                 var buttonId = $(this).attr('id');
                 // log the button name to the console
@@ -926,13 +983,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.13/css/bo
             });
         });
 
-        $("body").on("click","#details-btn",(event)=>{
+        $("body").on("click", "#details-btn", (event) => {
             $("#details-modal-body").html('<h6 class="text-info">Loading...</h6>');
             console.log(event.target.innerText);
-            getRequestById(event.target.innerText).then((response)=>{
+            getRequestById(event.target.innerText).then((response) => {
                 $("#details-modal-body").html(response);
                 console.log(response);
-            }).catch((err)=>console.log(err));
+            }).catch((err) => console.log(err));
         })
 
     </script>
