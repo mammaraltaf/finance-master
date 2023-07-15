@@ -377,7 +377,7 @@ class UserController extends Controller
             $request->expense_type_id = $input['expense-type'];
             $request->currency = $input['currency'];
             $request->amount = $input['amount'];
-            $request->amount_in_gel = $input['amount_in_gel'];
+            $request->amount_in_gel = $input['gel-amount2'];
             $request->description = $input['description'];
             $request->payment_date = $input['due-date-payment2'];
             $request->submission_date = $input['due-date2'];

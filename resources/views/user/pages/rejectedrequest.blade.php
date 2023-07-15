@@ -355,7 +355,7 @@
                     </div>
                     <div class="form-group">
                             <label for="link">Link:</label>
-                            <input type="text" class="form-control" id="link" name="link" >
+                            <input type="text" class="form-control" id="link" name="request_link" >
                         </div>
                     <div class="form-group">
                         <label for="basis">Basis</label>
@@ -614,35 +614,8 @@
 
             $("#currency").change(function() {
                 var currency = $(this).val();
-                var amount = $("#amount").val();
-                // console.log("currency", currency)
-                if (currency != "GEL" && amount != "") {
-                    $.ajax({
-                        url: "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date="+currentDate,
-                        dataType: "json",
-                        success: function(data) {
-                            if(currency === "USD"){
-                                var rate = data[0].currencies[40].rate;
-                            }
-                            if(currency === "EUR"){
-                                var rate = data[0].currencies[13].rate;
-                            }
-                            if (rate) {
-                                var gelAmount = amount * rate;
-                                $("#gel-amount").val(gelAmount.toFixed(2));
-                            }
-                        }
-                    });
-                } else {
-                    $("#gel-amount").val(amount);
-                }
-            });
-
-            /*for edit*/
-            $("#edit_currency").change(function() {
-                var currency = $(this).val();
                 var amount = $("#amount2").val();
-                // console.log("currency", amount, currency);
+                console.log("currency", currency)
                 if (currency != "GEL" && amount != "") {
                     $.ajax({
                         url: "https://nbg.gov.ge/gw/api/ct/monetarypolicy/currencies/ka/json/?date="+currentDate,
@@ -661,15 +634,17 @@
                         }
                     });
                 } else {
-                    $("#gel-amount").val(amount);
+                    $("#gel-amount2").val(amount);
                 }
             });
 
-            $("#amount").keyup(function() {
-                $("#currency").trigger("change");
-            });
+            /*for edit*/
+
+            // $("#amount").keyup(function() {
+            //     $("#currency2").trigger("change");
+            // });
             $("#amount2").keyup(function() {
-                $("#edit_currency").trigger("change");
+                $("#currency2").trigger("change");
             });
         });
 
@@ -723,7 +698,7 @@
                     $('#gel-amount2').val(response.amount_in_gel);
 
 
-                    $('#requestFormEdit').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
+                    $('#updateForm').attr('action', "{{url('/user/edit-request/')}}" + '/' + request_id);
                     // Show previously uploaded files
                     basisFiles2 = response.basis;
                     if (response.basis) {
