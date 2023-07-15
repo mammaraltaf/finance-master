@@ -320,7 +320,7 @@
                     <div class="">
                         <div class="form-group w-100 px-2">
                             <label for="expense-type">Type of Expense</label><br>
-                            <select class="form-control select2" id="expense_type_update" name="expense-type" required>
+                            <select class="form-control select2" id="expense_type_update" name="expense" required>
                                 <?php foreach ($expenses as $expense) { ?>
                                     <option value="{{ $expense->id }}">{{ $expense->name }}</option>
                                 <?php } ?>
@@ -482,9 +482,9 @@
 
 
         $(document).ready(function() {
-            $('.department').select2();
-            $('.supplier').select2();
-            $('.expense-type').select2();
+            // $('.department').select2();
+            // $('.supplier').select2();
+            // $('.expense-type').select2();
 
             $('table#suppliertable tbody tr td:first-child').on('click', function() {
                 var row = $(this).closest('tr');
@@ -685,9 +685,9 @@
                     $('#reqid').val(response.id);
                     $('#initiator_update').val(response.initiator);
                     $('#company_update').prop('selectedIndex', response.company.id);
-                    $('#department_update').prop('selectedIndex', response.department_id);
-                    $('#supplier_update').prop('selectedIndex', response.supplier_id);
-                    $('#expense_type_update').prop('selectedIndex', response.expense_type_id);
+                    $('#department_update').val(response.department.id).trigger('change');
+                    $('#supplier_update').val(response.supplier.id).trigger('change');
+                    $('#expense_type_update').val(response.type_of_expense.id).trigger('change');
                     $('#currency').val(response.currency);
 
                     $('#amount2').val(response.amount);
