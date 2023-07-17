@@ -117,11 +117,10 @@
                 @endif
                 <th>Initiator</th>
                <th class="d-none">Created At</th>
-{{--                <th>Company</th>--}}
                 <th>Department</th>
                 <th>Type of Expense</th>
                 <th>Supplier</th>
-                <th>CCY</th> {{--currency--}}
+                <th>CCY</th> 
                 <th>Amount</th>
                 <th>Amount In Gel</th>
                 @if(auth()->user()->user_type == UserTypesEnum::Accounting)
@@ -131,17 +130,12 @@
                 <th>Basis</th>
                 <th>Created At</th>
                 @endif
-{{--                <th>Link</th>--}}
-{{--                <th>Due Date of Payment</th>--}}
-{{--                <th>Due Date</th>--}}
-
             </tr>
             </thead>
             <tbody>
 
             @foreach($requests as $request)
             <tr class="text-nowrap" data-status="{{$request->action}}">
-{{--                 <td class="cursor-pointer">{{$request['id']}}</td>--}}
                 <td class="cursor-pointer bg-primary"
                     style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;" id="details-btn" data-id="{{$request->id}}">{{$request->request_flow_id}}</td>
                 <td>{{$request->action ?? ''}}</td>
@@ -152,7 +146,6 @@
                 @endif
                 <td>{{$request->requestFlow->initiator ?? ''}}</td>
                <td class="d-none">{{formatDate($request->created_at) ?? ''}}</td>
-{{--                <td>{{$request->requestFlow->company->name ?? ''}}</td>--}}
                 <td>{{$request->requestFlow->department->name ?? ''}}</td>
                 <td>{{$request->requestFlow->typeOfExpense->name ?? ''}}</td>
                 <td>{{$request->requestFlow->supplier->supplier_name ?? ''}}</td>
@@ -175,23 +168,6 @@
                     </td>
                 <td>{{formatDate($request->requestFlow->created_at) ?? ''}}</td>
                 @endif
-{{--                <td> <a href="{{URL::to($request->requestFlow->request_link)}}" target="_blank">{{$request->requestFlow->request_link ?? ''}}</a> </td>--}}
-
-
-
-{{--                    <a href="{{asset('basis/'.$request->requestFlow->basis)}}" target="_blank">{{$request->requestFlow->basis}}</a></td>--}}
-{{--                    <?php if(isset($request['basis'])){--}}
-{{--                    $files=explode(',',$request->requestFlow->basis);--}}
-{{--                foreach($files as $file){ ?>--}}
-{{--                <a href="{{asset('basis/'.$file)}}" target="_blank">{{$file}}</a>--}}
-
-{{--                <?php  }   }else{--}}
-{{--                    echo "No document available";--}}
-{{--                }--}}
-{{--                    ?>--}}
-{{--                <td>{{formatDate($request->requestFlow->payment_date) ?? ''}}</td>--}}
-{{--                <td>{{formatDate($request->requestFlow->submission_date) ?? ''}}</td>--}}
-
             </tr>
             @endforeach
             </tbody>
@@ -322,25 +298,8 @@
             }
         });
         $(document).ready(function() {
-            $('#reviewDocument').DataTable({
-                "aoColumns": [
-                    null,
-                    null,
-                    {"sType": "date-uk"},
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    {"sType": "date-uk"},
-                    {"sType": "date-uk"},
-                ],
-                'order':[[3,'desc']],
+            $('#reviewDocument').DataTable({   
+                'order':[[5,'desc']],
                 dom: 'Blfrtip',
                 lengthChange: true,
                 buttons: [
