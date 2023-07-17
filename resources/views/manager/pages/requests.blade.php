@@ -351,7 +351,7 @@
                 $('#rowModal').modal('hide');
             });
         });
-  });
+    });
         $(document).ready(function () {
             $('.filter').click(function() {
                 var buttonId = $(this).attr('id');
