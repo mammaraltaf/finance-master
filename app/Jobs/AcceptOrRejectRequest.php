@@ -43,6 +43,8 @@ class AcceptOrRejectRequest implements ShouldQueue
         $email = User::whereId($user_id)->pluck('email')->first();
         $current_status=$request_data['status'];
         $subject = 'Review Request '. $request_data['id'] ?? 'Review Request';
+        $mail_from_address = env('MAIL_FROM_ADDRESS') ?? 'mammaraltaf@gmail.com';
+
 
         switch ($current_status) {
             case StatusEnum::SubmittedForReview:
@@ -66,22 +68,25 @@ class AcceptOrRejectRequest implements ShouldQueue
         }
 
        $all_users_in_company=CompanyUser::where('company_id',$request_data['company_id'])->pluck('user_id')->toArray();
-       $next_person_email=User::whereIn('id',$all_users_in_company)
-       ->where('user_type',$next_role)
-       ->pluck('email')->first();
+        $next_person_email = User::whereIn('id', $all_users_in_company)
+            ->where('user_type', $next_role)
+            ->value('email');
+
         // Validate the email address using filter_var() function
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             // Set a default email address if the retrieved email address is invalid
             $email = 'mammaraltaf@gmail.com';
         }
 
-        Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($email,$subject) {
-            $m->from(env('MAIL_FROM_ADDRESS'), config('app.name', 'APP Name'));
+//        dd($email,$next_person_email,$next_role,$request_data);
+
+        Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($email,$subject,$mail_from_address) {
+            $m->from($mail_from_address, config('app.name', 'APP Name'));
             $m->to($email)->subject($subject);
         });
         if($next_role != "user"){
-            Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($next_person_email,$subject) {
-                $m->from(env('MAIL_FROM_ADDRESS'), config('app.name', 'APP Name'));
+            Mail::send('emails.acceptOrReject', ['request_data' => $request_data], function ($m) use ($next_person_email,$subject,$mail_from_address) {
+                $m->from($mail_from_address, config('app.name', 'APP Name'));
                 $m->to($next_person_email)->subject($subject);
             });
         }

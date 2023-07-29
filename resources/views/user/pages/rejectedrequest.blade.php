@@ -210,7 +210,8 @@
                     <tbody>
                     @foreach($requests as $request)
                         <tr class="text-nowrap text-center" >
-                            <td class="cursor-pointer bg-primary" style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
+                            <td id="details-btn" class="cursor-pointer bg-primary"
+                                style="color: #FFFFFF; font-weight: bold; padding: 10px; border-radius: 5px;">{{$request->id}}</td>
                             <td>{{$request->status}}</td>
                             <td>{{$request->initiator}}</td>
                             <td>{{formatDate($request->created_at)}}</td>
@@ -481,28 +482,28 @@
 
 
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             // $('.department').select2();
             // $('.supplier').select2();
             // $('.expense-type').select2();
 
-            $('table#suppliertable tbody tr td:first-child').on('click', function() {
+            $('table#suppliertable tbody tr td:first-child').on('click', function () {
                 var row = $(this).closest('tr');
                 // var status = row.find('td:nth-child(1)').text().trim();
-                var initiator = row.find('td:nth-child(3)').text().trim();
-                var createdAt = row.find('td:nth-child(4)').text().trim();
-                var company = row.find('td:nth-child(5)').text().trim();
-                var department = row.find('td:nth-child(6)').text().trim();
-                var supplier = row.find('td:nth-child(7)').text().trim();
-                var typeOfExpense = row.find('td:nth-child(8)').text().trim();
-                var currency = row.find('td:nth-child(9)').text().trim();
-                var amount = row.find('td:nth-child(10)').text().trim();
-                var amountInGel = row.find('td:nth-child(11)').text().trim();
-                var description = row.find('td:nth-child(12)').text().trim();
-                var link = row.find('td:nth-child(13)').text().trim();
-                var basis = row.find('td:nth-child(14)').text().trim();
-                var dueDatePayment = row.find('td:nth-child(15)').text().trim();
-                var dueDate = row.find('td:nth-child(16)').text().trim();
+                var initiator = row.find('td:nth-child(2)').text().trim();
+                var createdAt = row.find('td:nth-child(3)').text().trim();
+                var company = row.find('td:nth-child(4)').text().trim();
+                var department = row.find('td:nth-child(5)').text().trim();
+                var supplier = row.find('td:nth-child(6)').text().trim();
+                var typeOfExpense = row.find('td:nth-child(7)').text().trim();
+                var currency = row.find('td:nth-child(8)').text().trim();
+                var amount = row.find('td:nth-child(9)').text().trim();
+                var amountInGel = row.find('td:nth-child(10)').text().trim();
+                var description = row.find('td:nth-child(11)').text().trim();
+                var link = row.find('td:nth-child(12)').text().trim();
+                var basis = row.find('td:nth-child(13)').text().trim();
+                var dueDatePayment = row.find('td:nth-child(14)').text().trim();
+                var dueDate = row.find('td:nth-child(15)').text().trim();
 
 
                 $('#status').text('Status: ' + status);
@@ -517,7 +518,8 @@
                 $('#rowAmountInGel').text('Amount In Gel: ' + amountInGel);
                 $('#rowDescription').text('Description: ' + description);
                 $('#rowLink').html('Link: <a href="' + link + '" target="_blank">' + link + '</a>');
-                $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');;
+                $('#rowBasis').html('Basis: <a href="' + window.location.origin + '/basis/' + basis + '" target="_blank">' + basis + '</a>');
+                ;
                 $('#rowDueDatePayment').text('Due Date Payment: ' + dueDatePayment);
                 $('#rowDueDate').text('Due Date: ' + dueDate);
 

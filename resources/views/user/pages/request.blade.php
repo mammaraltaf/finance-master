@@ -140,15 +140,15 @@
 
 
     <div class="">
-        <button id="all" class="btn btn-info active filter my-1">All</button>
+        <button id="all" class="btn btn-info active filter my-1" data-filter="all">All</button>
         {{--        <button class="btn btn-info" data-filter="new">New</button>--}}
-        <button id="review" class="btn btn-info filter my-1">Submitted for review</button>
-        <button id="finance" class="btn btn-info filter my-1">Finance ok</button>
-        <button id="confirmed" class="btn btn-info filter my-1">Confirmed</button>
-        <button id="{{\App\Classes\Enums\StatusEnum::ThresholdExceeded}}" class="btn btn-info filter my-1">Threshold
+        <button id="review" class="btn btn-info filter my-1" data-filter="{{\App\Classes\Enums\StatusEnum::SubmittedForReview}}">Submitted for review</button>
+        <button id="finance" class="btn btn-info filter my-1" data-filter="{{\App\Classes\Enums\StatusEnum::FinanceOk}}">Finance ok</button>
+        <button id="confirmed" class="btn btn-info filter my-1" data-filter="confirmed">Confirmed</button>
+        <button id="{{\App\Classes\Enums\StatusEnum::ThresholdExceeded}}" class="btn btn-info filter my-1" data-filter="{{\App\Classes\Enums\StatusEnum::ThresholdExceeded}}">Threshold
             Exceeded
         </button>
-        <button id="paid" class="btn btn-info filter my-1">Paid</button>
+        <button id="paid" class="btn btn-info filter my-1" data-filter="{{\App\Classes\Enums\StatusEnum::Paid}}">Paid</button>
         <a class="btn btn-danger my-1" style="float: right" href="{{ route('user.rejected-requests') }}"> Rejected
             Requests
         </a>
@@ -478,6 +478,7 @@
                     <th>Basis</th>
                     <th>Due Date Payment</th>
                     <th>Due Date</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -510,6 +511,7 @@
                                 ?></td>
                         <td>{{formatDate($request->payment_date) ?? ''}}</td>
                         <td>{{formatDate($request->submission_date) ?? ''}}</td>
+                        <td>{{$request->status ?? ''}}</td>
                     </tr>
                 @endforeach
                 </tbody>
@@ -632,7 +634,6 @@
                 passive: false
             }
         );
-
         $(document).ready(function () {
             // $('.department').select2();
             // $('.supplier').select2();
@@ -681,6 +682,7 @@
             });
         });
 
+
         $('.delete_btn').click(function () {
             var a = $(this).data('id');
             $('.user-delete').val(a);
@@ -718,6 +720,7 @@
                     null,
                     {"sType": "date-uk"},
                     {"sType": "date-uk"},
+                    null,
                 ],
                 "order": [[2, "desc"]],
                 dom: 'Blfrtip',
@@ -971,15 +974,30 @@
         $(document).ready(function () {
             $('.select2').select2();
             // listen for click events on all the buttons
-            $('.filter').click(function () {
-                // get the id of the clicked button
-                var buttonId = $(this).attr('id');
-                // log the button name to the console
-                // console.log(buttonId);
+            {{--$('.filter').click(function () {--}}
+            {{--    // get the id of the clicked button--}}
+            {{--    var buttonId = $(this).attr('id');--}}
+            {{--    // log the button name to the console--}}
+            {{--    // console.log(buttonId);--}}
 
-                var url = "{{ route('user.filter', ':id') }}";
-                url = url.replace(':id', buttonId);
-                location.href = url;
+            {{--    var url = "{{ route('user.filter', ':id') }}";--}}
+            {{--    url = url.replace(':id', buttonId);--}}
+            {{--    location.href = url;--}}
+            {{--});--}}
+            $(".filter").click(function () {
+                var filterValue = $(this).attr('data-filter');
+                console.log("filterValue", filterValue);
+
+                var table = $('#suppliertable').DataTable();
+
+                if (filterValue === "all") {
+                    table.search('').draw();
+                } else {
+                    table.search(filterValue).draw();
+                }
+
+                $(".btn-group button").removeClass("active");
+                $(this).addClass("active");
             });
         });
 

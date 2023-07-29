@@ -88,10 +88,11 @@ class HomeController extends Controller
             $req_logs_ids = RequestFlow::where('company_id', $comp_id)->whereIn('department_id', $departmentIds)->pluck('id')->toArray();
             $companies_slug = User::where('id', Auth::user()->id)->first()->companies;
 
+            /*If acctounting then we can only show accoutning accept and reject status*/
             if ($user->user_type == UserTypesEnum::Accounting){
                 $requests = LogAction::with('requestFlow', 'requestFlow.company', 'requestFlow.supplier', 'requestFlow.typeOfExpense')
                     ->whereIn('action',[ActionEnum::ACCOUNTING_ACCEPT, ActionEnum::ACCOUNTING_REJECT])
-                    ->where('user_id', $user->id)
+                    ->whereIn('request_flow_id',$req_logs_ids)
                     ->orderBy('log_actions.created_at', 'desc')
                     ->get();
             }
