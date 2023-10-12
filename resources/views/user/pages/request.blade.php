@@ -256,7 +256,8 @@
                             </div>
                             <div class="form-group">
                                 <label for="basis">Basis</label>
-                                <input type="file" class="form-control" id="basis" name="basis[]" multiple required>
+{{--                                <input type="file" class="form-control" id="basis" name="basis[]" multiple required>--}}
+                                <input type="file" class="form-control" id="basis" name="basis" required>
                                 <div class="d-flex justify-content-between align-items-center" id="preview"></div>
                             </div>
                             <div class="d-flex">

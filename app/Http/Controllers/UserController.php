@@ -214,8 +214,9 @@ class UserController extends Controller
                 'amount_in_gel' => 'required',
                 'amount' => 'required',
                 'description' => 'required',
-                'basis' => 'required|array|min:1',
-                'basis.*' => 'mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx,csv,xlsm,txt,rtf,msg',
+                'basis' => 'required|file|mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx,csv,xlsm,txt,rtf,msg',
+//                'basis' => 'required|array|min:1',
+//                'basis.*' => 'mimes:jpeg,jpg,png,pdf,doc,docx,xls,xlsx,csv,xlsm,txt,rtf,msg',
                 'due-date-payment' => 'required',
                 'due-date' => 'required'
             ]);
@@ -223,15 +224,26 @@ class UserController extends Controller
                 return redirect()->back()->withErrors($validator)->withInput();
             }
 
-            $files = [];
+            /*Code is for multiple attachments*/
+//            $files = [];
+//            if ($request->hasfile('basis')) {
+//                foreach ($request->file('basis') as $file) {
+//                    $name = time() . rand(1, 50) . '.' . $file->extension();
+//                    $file->move(public_path('basis'), $name);
+//                    $files[] = $name;
+//                }
+//            }
+//            $basis = implode(',', $files);
+
+            /*code for single attachment*/
             if ($request->hasfile('basis')) {
-                foreach ($request->file('basis') as $file) {
-                    $name = time() . rand(1, 50) . '.' . $file->extension();
-                    $file->move(public_path('basis'), $name);
-                    $files[] = $name;
-                }
+                $file = $request->file('basis');
+                $name = time() . rand(1, 50) . '.' . $file->extension();
+                $file->move(public_path('basis'), $name);
+                $basis = $name;
             }
-            $basis = implode(',', $files);
+
+
 //            if (isset($_POST['button'])) {
 //                $status = $_POST['button'];
 //            }

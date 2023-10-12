@@ -360,7 +360,8 @@
                         </div>
                     <div class="form-group">
                         <label for="basis">Basis</label>
-                        <input type="file" class="form-control" multiple id="basis2" name="basis[]">
+{{--                        <input type="file" class="form-control" multiple id="basis2" name="basis[]">--}}
+                        <input type="file" class="form-control" id="basis2" name="basis">
                         <input type="hidden" id="basis3" name="basis3">
                         <div class="text-danger" id="fileList"></div>
                         <div id="previousFiles">
